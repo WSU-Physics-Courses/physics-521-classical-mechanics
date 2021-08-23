@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = "Physics 581: Physics Inspired Computational Techniques"
+project = "Physics 521: Classical Mechanics I"
 copyright = "2021, Michael McNeil Forbes"
 author = "Michael McNeil Forbes"
 
@@ -102,8 +102,11 @@ html_theme = "sphinx_book_theme"  # Theme for JupyterBook
 html_logo = "_static/wsu-logo.svg"  # Needed for sidebars
 
 html_theme_options = {
-    "repository_url": "https://gitlab.com/wsu-courses/physics-581-physics-inspired-computation",
+    "repository_url": "https://gitlab.com/wsu-courses/physics-521-classical-mechanics",
 }
+
+# Override version number in title... not relevant for docs.
+html_title = project
 
 # html_sidebars = {}
 
@@ -132,18 +135,18 @@ napoleon_use_rtype = True
 
 ######################################################################
 # Variables with course information
-course_package = "phys_581_2021"
+course_package = "phys_521_2021"
 
 myst_substitutions = {
-    "instructor": "Michael McNeil Forbes <mailto:m.forbes+581@wsu.edu>",
+    "instructor": "Michael McNeil Forbes <mailto:m.forbes+521@wsu.edu>",
     "office": "947F Webster, (509) 335-6125",
     "office_hours": "By appointment",
     "class_name": project,
-    "class_homepage": "<https://schedules.wsu.edu/List/Pullman/20213/Phys/581/02>",
-    "class_number": "[Phys. 581.02 Fall 2021, Pullman, Class Number 20213]"
-    + "(https://www.catalog.wsu.edu/Pullman/Courses/ByList/PHYSICS/581)",
-    "class_time": "MWF, 12:12pm - 1pm",
-    "class_room": "Spark 223",
+    "class_homepage": "<https://schedules.wsu.edu/List/Pullman/01645/Phys/521/01>",
+    "class_number": "[Phys. 521.01 Fall 2021, Pullman, Class Number 01645]"
+    + "(https://www.catalog.wsu.edu/Pullman/Courses/ByList/PHYSICS/521)",
+    "class_time": "MWF, 10:10am - 11am",
+    "class_room": "Daggy 226",
     "course_package": course_package,
 }
 
@@ -155,4 +158,4 @@ myst_substitutions = {
 def setup(app):
     import subprocess
 
-    subprocess.check_call(["anaconda-project", "run", "init"])
+    # subprocess.check_call(["anaconda-project", "run", "init"])

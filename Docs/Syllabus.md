@@ -1,3 +1,28 @@
+---
+substitutions:
+  Fasano: |-
+    A. Fasano, S. Marmi, and B. Pelloni: "Analytical Mechanics : An
+    Introduction". Oxford Graduate Texts (2006).
+  Fetter: |-
+    Alexander L. Fetter and John Dirk Walecka: "Theoretical Mechanics
+    of Particles and Continua", Dover (2003).
+  FetterSupp: |-
+    Alexander L. Fetter and John Dirk Walecka: "Nonlinear Mechanics: A
+    Supplement to Theoretical Mechanics of Particles and Continua", Dover (2006).
+  Gregory: |-
+    R. Douglas Gregory: "Classical Mechanics". Cambridge University
+    Press (2006).
+  LL1: |-
+    L. D. Landau and E. M. Lifshitz: "Mechanics", Pergamon Press (1969).
+  SMC: CoCalc (<http://cocalc.com>)
+  Sussman: |-
+    G. J. Sussman and J. Wisdom: "Structure and Interpretation of
+    Classical Mechanics". MIT Press (2015). (Available online through Library.)
+  deLange: |-
+    O. L. deLange and J. Pierrus: "Solved Problems in Classical
+    Mechanics: Analytical and Numerical Solutions with
+    Comments". Oxford University Press (2010). (Available online through Library.)
+---
 # Syllabus
 
 ## Course Information
@@ -11,165 +36,131 @@
 - **Credits:** 3
 - **Meeting Time and Location:** {{ class_time }}, {{ class_room }},  Washington State University,
   Pullman, WA
+- **Prerequisites:** Undergraduate mechanics and calculus including calculus of
+  variations, Newton's laws, Kepler's laws, conservation of momentum, energy,
+  angular momentum, moment of inertia, torque, angular motion, friction, etc.
 
 
 ```{contents}
 ```
 
+## Required Textbooks
 
-## {ref}`sec:prerequisites`
+{{ Fetter }}<!-- This comment needed for definition list for some reason  -->
+: This textbook provides a concise and thorough introduction to classical mechanics,
+  including a discussion of fluids and elastic materials that is missing from many other
+  texts.  We will only cover roughly the first half of the text in this course, but it
+  is a worthwhile book to have.
+  ([Available from Amazon as a Dover Edition](
+      http://www.amazon.com/Theoretical-Mechanics-Particles-Continua-Physics/dp/0486432610).)
 
-```{toctree}
----
-maxdepth: 2
----
-Prerequisites
-Assignments
-```
+{{ FetterSupp }}
+: The supplement provides a complete derivation of the Lorenz equations - the first
+  example of a chaotic system - and presents a derivation of the KAM theorem,
+  demonstrating some modern results in classical mechanics.
+  ([Available from Amazon as a Dover Edition](
+      http://www.amazon.com/Nonlinear-Mechanics-Supplement-Theoretical-Particles/dp/0486450317/).)
 
-There are no formal prerequisites for the course, but I will expect you to be
-comfortable with the material discussed in the {ref}`sec:prerequisites` section, which
-contains links to additional resources should you need to refresh your knowledge.
-Please work with your classmates to try to share knowledge as needed.
-Generally, I will expect familiarity with the following:
+{{ LL1 }}
+: Classic textbook.  Very concise introduction to the key concepts in classical
+  mechanics, including some topics omitted from other work such as parametric resonances
+  and the adiabatic theorem.
+  
+Additional required readings will be made on {{ Perusall }} with a forum for discussion.
 
-Domain Specific Preparation: 
-: The most important prerequisite is the ability to communicate about and formulate
-  complex problems in your field of study that would benefit from the techniques covered
-  in this course.  Students will expected to actively engage with the techniques taught
-  in this course, apply them to relevant problems in their domain of expertise, and to
-  communicate about the efficacy to the class.
+## Supplementary Material
 
-Linear Algebra
-: Properties of Linear Operators (Self-Adjoint, Hermitian, Unitary,
-  etc.), Matrix Factorization including the Singular Value Decomposition, Bases and
-  Orthogonalization via
-  [Gram-Schmidt](https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process).
+{{ Gregory }}<!-- This comment needed for definition list for some reason  -->
+:  Undergraduate textbook.  Not very insightful, but provides a good review and contains
+   quite a few problems. 
+   ([Available online through the WSU Library.](
+       https://ntserver1.wsulibs.wsu.edu:2171/lib/wsu/detail.action?docID=422398).)
 
-Real and Complex Analysis
-: Topology (notions of continuity), Calculus, [Banach
-  spaces](https://en.wikipedia.org/wiki/Banach_space) (e.g. conditions for the existence
-  of extrema), Fourier Analysis, Contour Integration, Conformal Maps.
+{{ Fasano }}
+: Texbook at a comparable level to Fetter and Walecka with many problems.  For me, the
+  presentation seems a little formal, and the problems seem to interfere with the flow,
+  so I am not sure it is the best book to learn from.  It is great, however, for finding
+  problems to test ones understanding.
+   ([Available online through the WSU Library.](
+    https://ntserver1.wsulibs.wsu.edu:2171/lib/wsu/detail.action?docID=422398).)
 
-Differential Equations
-: Formulation of differential equations, existence of solutions and boundary value
-  requirements, [Sturm-Liouville
-  Theory](https://en.wikipedia.org/wiki/Sturm%E2%80%93Liouville_theory). 
+{{ deLange }}
+: Large collection of problems and solutions including numerical problems.  The
+  numerical problems are particularly interest since they go beyond what is typically
+  seen in purely analytic texts.
+  ([Available online through the WSU Library.](
+      https://ntserver1.wsulibs.wsu.edu:2171/lib/wsu/detail.action?docID=584565).)
 
-Programming Skills
-: There are some specific skills you will need for this course, including basic
-  programming skills, distributed version control, how to connect remotely to computers
-  etc. with [SSH].  We will use the [CoCalc] platform so you do not need to install any
-  of the software on your computer.  See the {ref}`sec:prerequisites` section for details
-  and learning resources.
+{{ Sussman }}
+: Quite a different presentation of the core results from a more formal perspective with
+  many interesting numerical examples.  The notation may not be completely familiar -
+  the authors use functional notation and the Scheme programming language.  For example,
+  the usual Euler Lagrange equations
 
+  $$
+    \providecommand{\diff}[2]{\frac{\mathrm{d}{#1}}{\mathrm{d}{#2}}} \providecommand{\pdiff}[2]{\frac{\partial{#1}}{\partial{#2}}} \diff{}{t} \pdiff{L}{\dot{q}^i} - \pdiff{L}{q^i}
+  $$
 
-## Textbooks
+  becomes
 
-There is no formal textbook, but the following (available electronically from the WSU
-Library) will be useful: 
+  $$
+    D(\partial_2 L\circ \Gamma[q]) - \partial_1L \circ \Gamma[q] = 0 \\ \Gamma[q] = (t, q(t), Dq(t), \dots).
+  $$
 
-* [A. Gezerlis: "Numerical Methods in Physics with Python" (2020)](https://ntserver1.wsulibs.wsu.edu:2532/core/books/numerical-methods-in-physics-with-python/563DF013576DCC535668A100B8F7D2F9)
+  The ability to be able to recognize and understand results in a slightly different
+  "language" can be extremely valuable for checking one's understanding and cementing
+  concepts.  Thus, while I do not recommend learning from this text, I highly recommend
+  reading it to check that you really understand the concepts.
+  ([Available online through the WSU Library.](
+      https://ntserver1.wsulibs.wsu.edu:2171/lib/wsu/detail.action?docID=3339940).)
 
-This covers many useful algorithms with a focus on implementing them from scratch rather than using them as black-box routines.  Another resource more focused on data science is by Jake VanderPlas:
+Canvas
+: The course material is hosted on the WSU {{ Canvas }} system
+  <https://canvas.wsu.edu>. Check the webpage there for changes to the schedule.
 
-* [J. VanderPlas: "Python Data Science Handbook"](https://ntserver1.wsulibs.wsu.edu:2171/lib/wsu/detail.action?docID=4746657&pq-origsite=primo):
-
-Readings will be assigned as needed.  See {ref}`sec:References` for details and
-additional resources.
+Computation Platform: {{ SMC }}
+: This will be used for assignment distribution and for numerical work.
 
 ## Grading
 
-Grading will be largely automated: you are expected to maintain a project on [GitLab]
-where you keep the code in a [Git] clone of the [Official Course Repository].  Your
-projects should contain all of the code you develop for this course, including solutions
-to the assignments.  This code should be well-documented, and well-tested using
-[GitLab]'s continuous integration (CI) tools.
+During the course you will receive points `P` by completing various activities.
+Your grade at the end of the course will be determined by the following table
+where $P$ is the number of points you obtain by the end of the term.
 
-Each assignment (see {ref}`sec:assignments` for details) will be distributed as a set of
-files made available through the `main` branch of the [Official Course Repository]: you
-will be instructed when to pull and merge these with your project.  These assignments
-will contain skeleton code and tests.  You will be expected to complete the skeleton
-code so that the tests pass.
+| Points $P$     | Grade     |
+| -------------- | --------- |
+| 85 \<= P       | A-, A     |
+| 70 \<= P \< 85 | B-, B, B+ |
+| 55 \<= P \< 70 | C-, C, C+ |
+| 40 \<= P \< 55 | D, D+     |
+| P \< 40        | F         |
 
-These will include python code with skeleton functions, class, etc. which you are
-expected to complete, along with automated tests (which you must not modify) for the
-assignment, and CI instructions such that these tests can be run on [GitLab], producing
-a badge for that assignment.
+The following table shows how many point you may earn at most from each component of the
+course:
 
-Your numeric grade for the course will be the percentage of passing assignment test
-badges for your code.  Thus, if there are 10 assignments in the course and
-you have passing tests for 8 of those, you will have a grade of 80% to be converted to a
-letter grade according to the following table:
+- 50: Homework (or 25 Homework + 25 Project)
+- 25: Midterm Exams:
+- 25: Final Exam
 
-| Percent P        | Grade     |
-| ---------------- | --------- |
-| 85% \<= P        | A-, A     |
-| 70% \<= P \< 85% | B-, B, B+ |
-| 55% \<= P \< 70% | C-, C, C+ |
-| 40% \<= P \< 55% | D, D+     |
-| P \< 40%         | F         |
+### Optional Project
 
-As discussed in section {ref}`assignments`, there will be two stages of testing for each
-assignment.  Completion of the first stage tests will allow you to get up to a grade of
-A-.  Successful completion of sufficient second stages will be required for an overall A
-in the course.  *Currently there is no other mechanism for partial credit, but I will
-attempt to implement this during the course.*
+There will be an optional project in this course which may be used for 25 of the
+homework points.  Further details will be discussed later: you may choose the topic, but
+must run your proposal by the instructor.
 
-As a fail-safe, you will get a minimum grade of a B+ if you meet the following
-requirements:
+### Exams
 
-* You make a reasonable attempt to solve the assignments by writing functioning code in
-  your project.  This code should be well documented, appropriately commented, and
-  should follow best coding practices.
-* You write comprehensive automated tests for your code which pass when run using the
-  [GitLab] CI, resulting in at least 85% code coverage.
-* You participate in at least one formal code review of either code pertaining to a
-  project in your domain of focus, or a randomly selected assignment, where we go
-  over your code as a class, looking for potential bugs, places for optimizing
-  performance, etc.
+The exams will be administered in two parts, similar to how the department qualifying
+exams are administered.  First you will submit a written portion.  You will then
+schedule an oral exam with instructor during which you will be asked questions about
+your written work, and given an opportunity to explain your reasoning.  If you do not
+feel that the instructor has arrived at an accurate assessment of your exam performance
+after the oral portion, you may opt to have your written exam graded in detail and will
+receive that as your grade (with the exception being if it is discovered during the oral
+portion that your written portion is not your work).  However, our experience is that
+the oral portion generally improves ones grade.
 
-The `main` branch of the [Official Course Repository] will meet these requirements, and
-will provide a skeleton of all the code needed to make and run the tests.  Thus, you should be
-able to easily maintain this standard as you develop code, obtaining a minimum
-grade of B+ with modest effort.  I expect some of the assignments will be challenging,
-so to obtain a grade of A will require some commitment and skill.
-
-There will be no exams in this course.
-
-## Topics
-Exact topics and techniques will be chosen to match the interests and needs of the participants (who are expected to communicate these needs to the instructor in advance of the course), but may include:
-
-* Case-studies: Part of the course will explore real-world examples of how physics has inspired solutions to hard problems in other fields of study.
-  * [Renormalization Group Theory to understand traffic flow](https://discourse.iscimath.org/t/mar-17-renormalization-group-theory-the-systems-engineering-perspective/491).
-* Root-finding and Optimization
-  * Finding ground states and excited states in quantum mechanics.
-  * Density Functional Theory (DFT)
-  * Machine learning *(Probably not in the first year...)*
-* Reaction/Diffusion networks:
-  * Heat flow.
-  * Hair follicle morphogenesis ([Turing's problem](https://en.wikipedia.org/wiki/The_Chemical_Basis_of_Morphogenesis)).
-* Ordinary Differential equations and Boundary Value Problems:
-  * Classical Mechanics
-  * Classical Chaos
-  * Time-dependent Schrödinger equation.
-* Partial Differential Equations
-  * Time-dependent Schrödinger equation/Time-dependent DFT (TDDFT)
-  * Fluid dynamics *(Continuing from Matt's course)*.
-    * Simple parallization: what to do when your data does not fit on a single node.  *(@m.duez)*
-  * Numerical Relativity *(Probably not in the first year...)*
-  * Finite element techniques + Green's Functions for wave dynamics *(Talk to Phil)*.
-* Monte Carlo
-  * Simulation of thermodynamic systems 
-  * Numerical experiments with Renormalization Group
-  * Quantum Monte Carlo (QMC)  *(Probably not in the first year...)*
-* Bayesian Analysis
-  * Linear and Non-linear model fitting which properly characterized errors.
-  * Manifold reduction techniques.
-* Data Analysis
-  * How to access, store, and analyze data.
-  * Clustering and searching in high dimensions. *(@gworthey)*
-
+The final exam is scheduled for Thursday 16 December at 10:00am.
 
 ## Other Information
 
@@ -244,106 +235,199 @@ portal][the wsu safety portal].
 
 ## Learning Outcomes
 
-The main objective of this course is for students to be able to effectively use
-numerical techniques to solve complex problems following principles of good software
-engineering and reproducible computing.
+The main objective of this course is to enable students to explain physical
+phenomena within the realm of classical mechanics, making appropriate
+simplifying approximations to formulate and solve for the behavior of
+mechanical systems using mathematical models, and communicating these results
+to peers.
 
-1. **Reproducible Computing:** Write and communicate computational results in a way that
-   allows one to reproduce these results in the future, possibly on different computing
-   platforms.
-2. **Problem Assessment:** Be able to assess complex problems to determine if computational
-   techniques will contribute to their solutions.
-3. **Choice of Algorithm/Technique:** Be able to identify which algorithms are appropriate for
-   solving the computational problems.
-4. **Implementation:** Be able to implement the chosen algorithm.
-5. **Convergence and Performance Analysis:** Be able to quantify and understand the
-   convergence and performance of the algorithm being used.
-6. **Solution Assessment:** Be able to assess the validity of the solution.  For
-   example, to quantify the uncertainties associated with the results, accounting for
-   the accumulation of round-off, truncation, and discretization errors, with an
-   understanding of the conditioning of both the problem and the algorithm.
-7. **Communicate and Defend the Solution:** Communicate the results with peers,
+By the end of this course, the students should be able to take a particular
+physical system of interest and:
+
+1. **Understand the Physics:** Identify the appropriate quantities required to
+   describe the system, making simplifying assumptions where appropriate with a
+   quantitative understanding as to the magnitude of the errors incurred by
+   making these assumptions.
+2. **Define the Problem:** Formulate a well-defined model describing the
+   dynamics of the system, with confidence that the model is solvable.  At this
+   point, one should be able to describe a brute force solution to the problem
+   that would work given sufficient computing resources and precision.
+3. **Formulate the Problem:** Simplify the mathematical formulation of the
+   problem as much as possible using appropriate theoretical frameworks such as
+   the Lagrangian or Hamiltonian frameworks.
+4. **Solve the Problem:** Use analytic and numerical techniques to solve the
+   problem at hand.
+5. **Assess the Solution:** Assess the validity of the solutions by applying
+   physical principles such as conservation laws and dimensional analysis, use
+   physical intuition to make sure quantities are of a reasonable magnitude and sign,
+   and use various limiting cases to check the validity of the obtained
+   solutions.
+6. **Communicate and Defend the Solution:** Communicate the results with peers,
    defending the approximations made, the accuracy of the techniques used, and
    the assessment of the solutions.  Demonstrate insight into the nature of the
    solutions, making appropriate generalizations, and providing intuitive
    descriptions of the quantitative behavior found from solving the problem.
 
-These learning outcomes will be assessed through the assignments as follows:
+A further outcome relates to the department requirement for students to
+demonstrate this proficiency through a series of general examinations, and a
+more general requirement for the students to interact face-to-face with other
+physicists.
 
-* By maintaining a code repository subject to automated testing, students will have to
-    master all skills needed for reproducible computing (1).
-* Through the successful completion of their assignments, students will demonstrate the
-    ability to choose a technique (3) and implement it (4).
-* Class assignments will test both accuracy and performance of the code.  Passing the
-    associated tests will require that students have understood the convergence and
-    performance properties of there code (5).
-* Code coverage will ensure that students implement tests for their code, assessing
-    their solutions (6).
-* Through code reviews and documentation, students will be required to communicate and
-  defend their solutions (7).
+7. **Proficiency**: Be able to demonstrate proficiency with these skills.  In
+   particular, be able to rapidly formulate and analyze many classical
+   mechanics problems without external references.
+
+These learning outcomes will be assessed as follows:
+
+**Assignments:**
+
+: Throughout the course, students will be expected to demonstrate outcomes 1-6
+  applied to well-formulated problems demonstrating the techniques currently
+  being taught (see the following [Course Outline]).  Successful completion
+  of the assignments will assess the student's ability with these skills while
+  they have access to external resources such as the textbook, and without
+  stringent time constraints.  A peer-grading component of the course will
+  help ensure that written solutions effectively communicate the results as
+  per outcome 6.
+
+**Exams:**
+
+: The proficiency of the students to rapidly apply these skills without
+  external resources (outcome 7) will be assessed through time-limited midterm
+  and final examinations.
+
+**Forums:**
+
+: Students will be expected to participate in online discussion forums,
+  assessing their ability to communicate about classical mechanics.
+
+**Final Project:**
+
+: The ability of the students to analysis an unstructured mechanics problem in
+  an open-ended context will be assessed through their completion and defense
+  of a final class project in an area of their choosing.  This will give the
+  students a chance to exercise their skills in a context much closer to that
+  in which they will encounter while performing physics research.
 
 ## Expectations of the Student
 
 Students are expected to:
 
-1. Stay up to date with reading assignments.
-2. Participate in online forums, both asking questions and addressing peers questions.
+1. Stay up to date with reading assignments as outlined in the [Reading
+   Schedule][reading schedule].
+
+2. Participate in the online forums, both asking questions and addressing peers
+   questions.
+
 3. Identify areas of weakness, work with peers to understand difficult
    concepts, then present remaining areas of difficulty to the instructor for
    personal attention or for discussion in class.
-4. Complete assignments on time, providing well crafted solutions to the posed problems
-   that demonstrate mastery of the material through the [Learning Outcomes][learning
-   outcomes] 1-7. 
-   
-   Student's are encouraged to discuss their intended approach with peers and with the
-   instructor, but must ultimately write their own code.
+
+4. Complete assignments on time, providing well crafted solutions to the posed
+   problems that demonstrate mastery of the material through the [Learning
+   Outcomes][learning outcomes] 1-6.  Final solutions much be written using proper English,
+   including **complete sentences** with a clear logical progression through
+   all steps of the solution.  Excessive verbosity is not required, but the
+   progression through the solution must be clear to the reader, along with a
+   justification of all assumptions and approximations made.
+
+   Submitted solutions should not contain incomplete or random attempts at
+   solving a problem: they should contain a streamline approach proceeding
+   directly and logically from the formulation of the problem to the solution.
+   (Student's are encouraged to discuss their intended approach with peers and
+   with the instructor **well before the deadline** in order to obtain the
+   feedback required to formulate a proper solution for submission).
+
+5. Find or formulate exam problems at a level appropriate for completion of the
+   physics department comprehensive examinations, and practice solving these
+   under exam conditions, seeking help from the instructor as required to
+   develop the required proficiency of the material.
+
+6. Choose a topic for the final project, and obtain approval from the
+   instructor by **November 1**.
+
+7. Complete the final project, and present at the end of semester (typically
+   one evening during the last week of classes, but the final date will chosen
+   by polling everyone's schedules.
+
+8. Successfully complete both the midterm and final examinations.
 
 For each hour of lecture equivalent, students should expect to have a minimum
 of two hours of work outside class.
 
 ## Reading Schedule
 
-The following details the content of the course.  It essentially
-follows the main textbook.  Content from the supplement will be
-inserted as appropriate throughout. Details and further resources will
-be included on the lecture pages on the [Blackboard] server.
+The following details the content of the course.  It essentially follows the main
+textbook.  Content from the supplement will be inserted as appropriate
+throughout. Details and further resources will be included on the lecture pages on the
+[Canvas] server.
 
 ### Course Outline
-<!-- 16 Weeks -->
 
-1. Introduction and Basic Principles *(~2-3 week)*
-    - Structure of the course.
-    - Establish accounts and appropriate projects on [CoCalc] and [GitLab]
-    - Numerical Evaluation of functions: Round-off error etc. (Assignment 0).
-    - The Monty Hall Problem: Simple Monte Carlo Analysis (Assignment 1).
-2. Basic Techniques *(~2-3 weeks)*
-    - Differentiation and Integration.
-    - Optimization and Root Finding.
-    - Interpolation: Splines, Polynomials, Radial Basis Functions (RBF), Gaussian
-      Processes.
-    - Loops, Arrays, etc.
-    - Bases.
-3. Curve Fitting/Cycle Finding *(~2 week)*
-   - Finding cycles in data.
-   - Least squares fitting.
-   - Fourier analysis.
-   - Other techniques.
-   - Bayesian techniques.
-4. Ordinary Differential Equations (ODEs) *(~1-2 week)*
-   - Orbiting Planets.
-   - Falling Objects.
-   - Agent-Based Modeling.
-5. Partial Differential Equations (PDFs) *(~2 weeks)*
-   - Schrodinger Equation
-   - Fluid Dynamics
-   - Diffusion
-6. Other Topics/Domain Specific Problems *(~4-6 weeks)*
-   - Renormalization Group, Effective Theories
-   - Cellular Automata
-   - Domain specific problems designed to address challenging problems in the fields of
-       study represented by participants in the class.
-   - Visualization techniques.
-   - Profiling and Optimization.
+1. Introduction and Basic Principles  (~1 week)
+
+    - Why study classical mechanics?
+    - Newtonian mechanics.
+    - Symmetry and Conservation.
+    - Central Forces
+    - Kepler
+    - Scattering
+
+2. Accelerated Coordinate Systems (~1 week)
+
+    - Change of coordinates
+    - Centripetal acceleration
+    - Coriolis effect
+
+3. Lagrangian Dynamics (~2 weeks)
+
+    - Why another formulation?
+    - Constraints
+    - Euler-Lagrange Equations
+    - Calculus of Variations
+    - Hamilton's Principle
+    - Generalized momenta
+    - The Path Integral approach to Quantum Mechanics
+
+4. Small Oscillations (~1 week)
+
+    - Normal modes
+    - Linear Equations
+    - Stability
+
+5. Rigid Bodies (~1 week)
+
+    - Moment of Inertia
+    - Euler's Equations
+
+6. Hamilton Dynamics (~2 weeks)
+
+    - Canonical Transformations
+    - Hamilton-Jacobi Theory
+    - Action-Angle Variables
+    - The Canonical Quantization approach to Quantum Mechanics
+
+7. Strings, Waves, and Drums (~1 week)
+
+    - Lagrangian for continuous systems
+    - Boundary conditions
+    - Numerical solutions of the wave equation
+
+10. Non-linear Mechanics (SIII: Discrete Dynamical Systems) (~2 weeks)
+
+    These topics will be introduced as we progress through the course,
+    inserted into the appropriate locations.
+
+11. Special topics and review.
+
+    - How these topics will be covered depends on interest.  One option
+      is to discuss superfluidity with some numerical examples
+      demonstrating vortices, vortex dynamics, and related phenomena.
+    - Duffing Oscillator
+    - Stability Analysis
+    - Chaos
+    - Fluids
+    - Special Relativity
 
 [communitystandards.wsu.edu]: https://communitystandards.wsu.edu/
 [definitions of cheating]: https://apps.leg.wa.gov/WAC/default.aspx?cite=504-26-010

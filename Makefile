@@ -2,7 +2,7 @@
 # https://github.com/simoninireland/introduction-to-epidemics/blob/master/Makefile
 SHELL := /bin/bash
 
-RESOURCES = git@gitlab.com:wsu-courses/physics-581-physics-inspired-computation_resources.git
+RESOURCES = git@gitlab.com:wsu-courses/physics-521-classical-mechanics_resources.git
 
 # ------- Tools -------
 ifdef ANACONDA2020
@@ -14,7 +14,7 @@ else
 	ANACONDA_PROJECT := anaconda-project
 endif
 
-ENV := phys-581-2021
+ENV := phys-521-2021
 ENV_PATH := $(abspath envs/$(ENV))
 ACTIVATE_PROJECT := $(ACTIVATE) $(ENV_PATH)
 
@@ -110,7 +110,7 @@ Variables:
    ENV: (= "$(ENV)")
                      Name of the conda environment user by the project.
                      (Customizations have not been tested.)
-                     Defaults to `phys-581-2021`.
+                     Defaults to `phys-521-2021`.
    ENV_PATH: (= "$(ENV_PATH)")
                      Path to the conda environment user by the project.
                      (Customizations have not been tested.)
