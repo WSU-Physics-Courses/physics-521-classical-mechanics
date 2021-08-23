@@ -1,7 +1,7 @@
 Physics 521: Classical Mechanics I
 ==================================
 
-[![Documentation Status](https://readthedocs.org/projects/physics-521-classical-mechanics/badge/?version=latest)](https://physics-521-classical-mechanics.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/physics-521-classical-mechanics-i/badge/?version=latest)](https://physics-521-classical-mechanics-i.readthedocs.io/en/latest/?badge=latest)
 
 Main project for the [WSU Physics] course **Physics 521: Classical Mechanics I**.
 

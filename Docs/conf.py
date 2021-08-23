@@ -142,12 +142,16 @@ myst_substitutions = {
     "office": "947F Webster, (509) 335-6125",
     "office_hours": "By appointment",
     "class_name": project,
-    "class_homepage": "<https://schedules.wsu.edu/List/Pullman/01645/Phys/521/01>",
+    "class_homepage": "<http://schedules.wsu.edu/List/Pullman/20213/Phys/521/01>",
     "class_number": "[Phys. 521.01 Fall 2021, Pullman, Class Number 01645]"
     + "(https://www.catalog.wsu.edu/Pullman/Courses/ByList/PHYSICS/521)",
     "class_time": "MWF, 10:10am - 11am",
     "class_room": "Daggy 226",
     "course_package": course_package,
+    "Perusall": "[Perusall](https://app.perusall.com/courses/2021-fall-physics-521-pullm-1-01-01645-classical-mechanics-i)",
+    "zoom_info": "Zoom Meeting: [921 9100 6124](https://wsu.zoom.us/j/92191006124). "
+    + "(Please use the Canvas link or as the instructor for the password.)",
+    "Canvas": "[Canvas](https://wsu.instructure.com/courses/1488534)",
 }
 
 
@@ -158,4 +162,4 @@ myst_substitutions = {
 def setup(app):
     import subprocess
 
-    # subprocess.check_call(["anaconda-project", "run", "init"])
+    subprocess.check_call(["anaconda-project", "run", "init"])

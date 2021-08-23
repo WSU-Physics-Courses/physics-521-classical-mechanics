@@ -35,7 +35,8 @@ substitutions:
 - **Title:** "{{ class_name }}"
 - **Credits:** 3
 - **Meeting Time and Location:** {{ class_time }}, {{ class_room }},  Washington State University,
-  Pullman, WA
+  Pullman, WA.  Classes will also be streamed via Zoom for those who cannot attend, or
+  if we need to revert to hybrid or online instruction: {{ zoom_info }}.
 - **Prerequisites:** Undergraduate mechanics and calculus including calculus of
   variations, Newton's laws, Kepler's laws, conservation of momentum, energy,
   angular momentum, moment of inertia, torque, angular motion, friction, etc.
@@ -360,7 +361,7 @@ of two hours of work outside class.
 The following details the content of the course.  It essentially follows the main
 textbook.  Content from the supplement will be inserted as appropriate
 throughout. Details and further resources will be included on the lecture pages on the
-[Canvas] server.
+{{ Canvas }} server.
 
 ### Course Outline
 
