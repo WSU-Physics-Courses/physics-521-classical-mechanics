@@ -13,4 +13,5 @@ envs/
 .ipynb_checkpoints/
 *.ipynb
 *.sage-jupyter2
+*.tgz
 commit_log.md

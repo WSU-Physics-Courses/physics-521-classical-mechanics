@@ -295,7 +295,7 @@ to use GitHub features like their CI, Notebook viewer etc.
 
 
 [WSU Courses CoCalc project]: <https://cocalc.com/projects/c31d20a3-b0af-4bf7-a951-aa93a64395f6>
-[Shared CoCalc Project]: (https://cocalc.com/projects/74852aba-2484-4210-9cf0-e7902e5838f4/) "581-2021 Shared CoCalc Project"
+[Shared CoCalc Project]: <https://cocalc.com/projects/74852aba-2484-4210-9cf0-e7902e5838f4/> "581-2021 Shared CoCalc Project"
 [GitHub]: <https://github.com> "GitHub"
 [`pytest`]: <https://docs.pytest.org> "pytest: helps you write better programs"
 [Read the Docs]: <https://readthedocs.org> "Read the Docs homepage"
