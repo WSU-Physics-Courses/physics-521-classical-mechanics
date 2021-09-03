@@ -100,15 +100,18 @@ dependencies:
 - conda-forge::sphinx-book-theme
 - conda-forge::sphinx-autobuild
 - anaconda-project>=0.10.1
-- pip:
-  - sphinxcontrib-zopeext
-  - sphinxcontrib-bibtex
-  - mmf-setup
 
 - pytest-cov
 - pytest-flake8
 - pytest-xdist
 - black
+
+- pip
+- pip:
+  - sphinxcontrib-zopeext
+  - sphinxcontrib-bibtex
+  - mmf-setup
+
 
 channels: []
 

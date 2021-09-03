@@ -19,6 +19,9 @@ ENV_PATH := $(abspath envs/$(ENV))
 ACTIVATE_PROJECT := $(ACTIVATE) $(ENV_PATH)
 
 # ------- Top-level targets  -------
+521-Docs.tgz: Docs/*
+	cd Docs && make html
+	tar -s "|Docs/_build/html|521-Docs|g" -zcvf $@ Docs/_build/html
 
 # Default prints a help message
 help:

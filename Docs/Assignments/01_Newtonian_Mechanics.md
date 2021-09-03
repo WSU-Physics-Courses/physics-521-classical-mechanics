@@ -13,9 +13,8 @@ kernelspec:
 ---
 
 ```{code-cell} ipython3
----
-tags: [hide-input]
----
+:tags: [hide-input]
+
 import mmf_setup;mmf_setup.nbinit(quiet=True)
 ```
 
