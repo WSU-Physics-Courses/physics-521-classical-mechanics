@@ -100,7 +100,7 @@ Do problem 1.17 from the {cite:p}`Fetter:2003`.
 >
 > $$
     \diff{\sigma}{\Omega} = \frac{n^2 a^2}{4\cos(\tfrac{1}{2}\theta)}
-    \frac{\bigl[n\cos(\tfrac{1}{2}\theta) - 1\bigr](m-\cos\tfrac{1}{2}\theta)}
+    \frac{\bigl[n\cos(\tfrac{1}{2}\theta) - 1\bigr](n-\cos\tfrac{1}{2}\theta)}
          {(1+n^2 - 2n + \cos\tfrac{1}{2}\theta)^2}
   $$
 >
