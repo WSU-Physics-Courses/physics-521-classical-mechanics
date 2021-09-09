@@ -90,7 +90,7 @@ Do problem 1.17 from the {cite:p}`Fetter:2003`.
 > $$
     V(r) = \begin{cases}
       -V_0 & r < a\\
-      0 & r < a
+      0 & r \geq a
     \end{cases}
   $$
 > 
