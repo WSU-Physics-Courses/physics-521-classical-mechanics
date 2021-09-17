@@ -1,6 +1,6 @@
 # Modelled after
 # https://github.com/simoninireland/introduction-to-epidemics/blob/master/Makefile
-SHELL := /bin/bash
+SHELL = /bin/bash
 
 RESOURCES = git@gitlab.com:wsu-courses/physics-521-classical-mechanics_resources.git
 
@@ -156,6 +156,9 @@ Maintenance:
    make clean        Call conda clean --all: saves disk space.
    make reallyclean  delete the environments and kernel as well.
 
+Documentation:
+   make doc-server   Build the html documentation server on http://localhost:8000
+                     Uses Sphinx autobuild
 endef
 export HELP_MESSAGE
 

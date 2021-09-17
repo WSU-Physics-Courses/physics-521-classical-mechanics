@@ -82,7 +82,7 @@ Throughout the course we will visit the problem of a Harmonic Oscillator: i.e. t
 
 ## Scattering
 
-Do problem 1.17 from the {cite:p}`Fetter:2003`.
+Do problem 1.17 from {cite:p}`Fetter:2003`.
 
 > A uniform beam of particles with energy $E$ is scattered by an attractive (top-hat or
 > spherical square-well) central potential:

@@ -111,7 +111,8 @@ html_theme = "sphinx_book_theme"  # Theme for JupyterBook
 html_logo = "_static/wsu-logo.svg"  # Needed for sidebars
 
 html_theme_options = {
-    "repository_url": "https://gitlab.com/wsu-courses/physics-521-classical-mechanics",
+    "repository_url": "https://gitlab.com/wsu-courses/physics-581-physics-inspired-computation",
+    "use_repository_button": True,
 }
 
 # Override version number in title... not relevant for docs.
