@@ -32,7 +32,7 @@ commands:
   export:
     unix: conda env export
     env_spec: phys-521-2021
-    
+
   # Needs to be explicitly called until we can run scripts on prepare
   # https://github.com/Anaconda-Platform/anaconda-project/issues/239
   init:
@@ -95,6 +95,7 @@ dependencies:
 - matplotlib
 - sphinx
 - pandas
+- sympy
 - conda-forge::myst-nb
 - conda-forge::uncertainties
 - conda-forge::sphinx-panels
@@ -143,10 +144,12 @@ env_specs:
   phys-521-2021:
     description: Default course environment spec.
     packages:
-      - notebook
+    - notebook
     channels: []
 
 # Silence warnings about about notebooks without run commands
 # See https://github.com/Anaconda-Platform/anaconda-project/issues/263#issuecomment-870004641
 skip_imports:
   notebooks: true
+packages:
+- sympy

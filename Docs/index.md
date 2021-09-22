@@ -11,7 +11,7 @@
 maxdepth: 2
 titlesonly:
 ---
-
+Syllabus
 Reading
 Assignments
 References

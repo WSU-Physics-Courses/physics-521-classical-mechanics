@@ -7,7 +7,7 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.11.1
 kernelspec:
-  display_name: Python [phys-521-2021]
+  display_name: Python 3 (phys-521-2021)
   language: python
   name: phys-521-2021
 ---
@@ -16,13 +16,14 @@ kernelspec:
 :tags: [hide-input]
 
 import mmf_setup;mmf_setup.nbinit(quiet=True)
+import logging;logging.getLogger('matplotlib').setLevel(logging.CRITICAL)
 ```
 
 # Assignment 2: Accelerated Frames
 
 +++
 
-Due: 11:59pm Friday 24 September 2021
+**Due: 11:59pm Friday 24 September 2021**
 
 +++
 
