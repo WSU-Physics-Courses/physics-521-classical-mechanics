@@ -111,7 +111,7 @@ html_theme = "sphinx_book_theme"  # Theme for JupyterBook
 html_logo = "_static/wsu-logo.svg"  # Needed for sidebars
 
 html_theme_options = {
-    "repository_url": "https://gitlab.com/wsu-courses/physics-581-physics-inspired-computation",
+    "repository_url": "https://gitlab.com/wsu-courses/physics-521-classical-mechanics",
     "use_repository_button": True,
 }
 
@@ -165,7 +165,38 @@ myst_substitutions = {
 }
 
 html_context = {
-    "mathjax_defines": r'<script id="MathJax-Element-48" type="math/tex">\\newcommand{\\vect}[1]{\\mathbf{#1}}\n\\newcommand{\\uvect}[1]{\\hat{#1}}\n\\newcommand{\\abs}[1]{\\lvert#1\\rvert}\n\\newcommand{\\norm}[1]{\\lVert#1\\rVert}\n\\newcommand{\\I}{\\mathrm{i}}\n\\newcommand{\\ket}[1]{\\left|#1\\right\\rangle}\n\\newcommand{\\bra}[1]{\\left\\langle#1\\right|}\n\\newcommand{\\braket}[1]{\\langle#1\\rangle}\n\\newcommand{\\Braket}[1]{\\left\\langle#1\\right\\rangle}\n\\newcommand{\\op}[1]{\\mathbf{#1}}\n\\newcommand{\\mat}[1]{\\mathbf{#1}}\n\\newcommand{\\d}{\\mathrm{d}}\n\\newcommand{\\D}[1]{\\mathcal{D}[#1]\\;}\n\\newcommand{\\pdiff}[3][]{\\frac{\\partial^{#1} #2}{\\partial {#3}^{#1}}}\n\\newcommand{\\diff}[3][]{\\frac{\\d^{#1} #2}{\\d {#3}^{#1}}}\n\\newcommand{\\ddiff}[3][]{\\frac{\\delta^{#1} #2}{\\delta {#3}^{#1}}}\n\\newcommand{\\floor}[1]{\\left\\lfloor#1\\right\\rfloor}\n\\newcommand{\\ceil}[1]{\\left\\lceil#1\\right\\rceil}\n\\DeclareMathOperator{\\Tr}{Tr}\n\\DeclareMathOperator{\\erf}{erf}\n\\DeclareMathOperator{\\erfi}{erfi}\n\\DeclareMathOperator{\\sech}{sech}\n\\DeclareMathOperator{\\sn}{sn}\n\\DeclareMathOperator{\\cn}{cn}\n\\DeclareMathOperator{\\dn}{dn}\n\\DeclareMathOperator{\\sgn}{sgn}\n\\DeclareMathOperator{\\order}{O}\n\\DeclareMathOperator{\\diag}{diag}\n\n\\newcommand{\\mylabel}[1]{\\label{#1}\\tag{#1}}\n\\newcommand{\\degree}{\\circ}</script>',
+    "mathjax_defines": r"""
+        \newcommand{\vect}[1]{\mathbf{#1}}
+        \newcommand{\uvect}[1]{\hat{#1}}
+        \newcommand{\abs}[1]{\lvert#1\rvert}
+        \newcommand{\norm}[1]{\lVert#1\rVert}
+        \newcommand{\I}{\mathrm{i}}
+        \newcommand{\ket}[1]{\left|#1\right\rangle}
+        \newcommand{\bra}[1]{\left\langle#1\right|}
+        \newcommand{\braket}[1]{\langle#1\rangle}
+        \newcommand{\Braket}[1]{\left\langle#1\right\rangle}
+        \newcommand{\op}[1]{\mathbf{#1}}
+        \newcommand{\mat}[1]{\mathbf{#1}}
+        \newcommand{\d}{\mathrm{d}}
+        \newcommand{\D}[1]{\mathcal{D}[#1]\;}
+        \newcommand{\pdiff}[3][]{\frac{\partial^{#1}#2}{\partial{#3}^{#1}}}
+        \newcommand{\diff}[3][]{\frac{\d^{#1} #2}{\d{#3}^{#1}}}
+        \newcommand{\ddiff}[3][]{\frac{\delta^{#1} #2}{\delta{#3}^{#1}}}
+        \newcommand{\floor}[1]{\left\lfloor#1\right\rfloor}
+        \newcommand{\ceil}[1]{\left\lceil#1\right\rceil}
+        \DeclareMathOperator{\Tr}{Tr}
+        \DeclareMathOperator{\erf}{erf}
+        \DeclareMathOperator{\erfi}{erfi}
+        \DeclareMathOperator{\sech}{sech}
+        \DeclareMathOperator{\sn}{sn}
+        \DeclareMathOperator{\cn}{cn}
+        \DeclareMathOperator{\dn}{dn}
+        \DeclareMathOperator{\sgn}{sgn}
+        \DeclareMathOperator{\order}{O}
+        \DeclareMathOperator{\diag}{diag}
+        \newcommand{\mylabel}[1]{\label{#1}\tag{#1}}
+        \newcommand{\degree}{\circ}
+   """
 }
 
 

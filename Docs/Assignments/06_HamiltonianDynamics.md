@@ -15,12 +15,8 @@ kernelspec:
 ```{code-cell} ipython3
 :tags: [hide-input]
 
-import mmf_setup
-
-mmf_setup.nbinit(quiet=True)
-import logging
-
-logging.getLogger("matplotlib").setLevel(logging.CRITICAL)
+import mmf_setup; mmf_setup.nbinit(quiet=True)
+import logging;logging.getLogger("matplotlib").setLevel(logging.CRITICAL)
 ```
 
 # Assignment 6: Hamiltonian Dynamics

@@ -7,9 +7,9 @@
     <a href="{{pathto('modindex.html', 1)}}">Module Index</a>
   {% endblock %}
 
-  {% block extrahead %}
-    <!-- begin mathjax_defines: empty for now... {{ instructor }} -->
-    {{ mathjax_defines }}
+  {% block content %}
+    <!-- begin mathjax_defines -->
+    <div hidden>\[{{ mathjax_defines }}\]</div>
     <!-- end mathjax_defines -->
+    {{ super() }}
   {% endblock %}
-    
