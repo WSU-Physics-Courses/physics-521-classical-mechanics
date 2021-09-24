@@ -66,6 +66,8 @@ substitutions:
 : Classic textbook.  Very concise introduction to the key concepts in classical
   mechanics, including some topics omitted from other work such as parametric resonances
   and the adiabatic theorem.
+  ([Available online through the WSU Library.](
+      https://ntserver1.wsulibs.wsu.edu:2061/book/9780750628969/mechanics))
   
 Additional required readings will be made on {{ Perusall }} with a forum for discussion.
 
