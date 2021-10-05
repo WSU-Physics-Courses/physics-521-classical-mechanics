@@ -5,7 +5,7 @@ substitutions:
     Introduction". Oxford Graduate Texts (2006).
   Fetter: |-
     Alexander L. Fetter and John Dirk Walecka: "Theoretical Mechanics
-    of Particles and Continua", Dover (2003).
+    of Particles and Continua", Dover (2003). {cite:p}`Fetter:2003`.
   FetterSupp: |-
     Alexander L. Fetter and John Dirk Walecka: "Nonlinear Mechanics: A
     Supplement to Theoretical Mechanics of Particles and Continua", Dover (2006).
@@ -22,6 +22,11 @@ substitutions:
     O. L. deLange and J. Pierrus: "Solved Problems in Classical
     Mechanics: Analytical and Numerical Solutions with
     Comments". Oxford University Press (2010). (Available online through Library.)
+  Arnold: |-
+    Vladimir I. Arnol'd: "Mathematical Methods of Classical Mechanics".
+    Springer-Verlag, New York, 1989, translated by K. Vogtmann and A. Weinstein.
+    {cite:p}`Arnold:1989`
+
 ---
 
 Readings
@@ -80,13 +85,7 @@ Additional required readings will be made on {{ Perusall }} with a forum for dis
 : Quite a different presentation of the core results from a more formal perspective with
   many interesting numerical examples.  The notation may not be completely familiar -
   the authors use functional notation and the Scheme programming language.  For example,
-  the usual Euler Lagrange equations
-
-  $$
-    \providecommand{\diff}[2]{\frac{\mathrm{d}{#1}}{\mathrm{d}{#2}}} \providecommand{\pdiff}[2]{\frac{\partial{#1}}{\partial{#2}}} \diff{}{t} \pdiff{L}{\dot{q}^i} - \pdiff{L}{q^i}
-  $$
-
-  becomes
+  the usual Euler Lagrange equations become
 
   $$
     D(\partial_2 L\circ \Gamma[q]) - \partial_1L \circ \Gamma[q] = 0 \\ \Gamma[q] = (t, q(t), Dq(t), \dots).
@@ -98,3 +97,13 @@ Additional required readings will be made on {{ Perusall }} with a forum for dis
   reading it to check that you really understand the concepts.
   ([Available online through the WSU Library.](
       https://ntserver1.wsulibs.wsu.edu:2171/lib/wsu/detail.action?docID=3339940).)
+
+{{ Arnold }}
+: Mathematical formulation of classical mechanics with a heavy emphasis on differential
+  geometry (differential forms etc.).  A fun book to read *after* you understand the basics.
+  
+[John Baez: Classical Mechanics](https://math.ucr.edu/home//baez/classical/)
+: Lecture notes with a more mathematical flavor (similar to {cite:p}`Arnold:1989`) but
+  still quite accessible.  The lecture notes move from classical mechanics to gauge
+  theories and relativity.
+

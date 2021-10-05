@@ -15,4 +15,5 @@ Syllabus
 Reading
 Assignments
 References
+ClassNotes
 ```

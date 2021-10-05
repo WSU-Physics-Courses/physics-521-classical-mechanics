@@ -10,7 +10,8 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
+import os.path
+
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
@@ -164,47 +165,36 @@ myst_substitutions = {
     "Canvas": "[Canvas](https://wsu.instructure.com/courses/1488534)",
 }
 
+math_defs_filename = "_static/math_defs.tex"
+
 html_context = {
-    "mathjax_defines": r"""
-        \newcommand{\vect}[1]{\mathbf{#1}}
-        \newcommand{\uvect}[1]{\hat{#1}}
-        \newcommand{\abs}[1]{\lvert#1\rvert}
-        \newcommand{\norm}[1]{\lVert#1\rVert}
-        \newcommand{\I}{\mathrm{i}}
-        \newcommand{\ket}[1]{\left|#1\right\rangle}
-        \newcommand{\bra}[1]{\left\langle#1\right|}
-        \newcommand{\braket}[1]{\langle#1\rangle}
-        \newcommand{\Braket}[1]{\left\langle#1\right\rangle}
-        \newcommand{\op}[1]{\mathbf{#1}}
-        \newcommand{\mat}[1]{\mathbf{#1}}
-        \newcommand{\d}{\mathrm{d}}
-        \newcommand{\D}[1]{\mathcal{D}[#1]\;}
-        \newcommand{\pdiff}[3][]{\frac{\partial^{#1}#2}{\partial{#3}^{#1}}}
-        \newcommand{\diff}[3][]{\frac{\d^{#1} #2}{\d{#3}^{#1}}}
-        \newcommand{\ddiff}[3][]{\frac{\delta^{#1} #2}{\delta{#3}^{#1}}}
-        \newcommand{\floor}[1]{\left\lfloor#1\right\rfloor}
-        \newcommand{\ceil}[1]{\left\lceil#1\right\rceil}
-        \DeclareMathOperator{\Tr}{Tr}
-        \DeclareMathOperator{\erf}{erf}
-        \DeclareMathOperator{\erfi}{erfi}
-        \DeclareMathOperator{\sech}{sech}
-        \DeclareMathOperator{\sn}{sn}
-        \DeclareMathOperator{\cn}{cn}
-        \DeclareMathOperator{\dn}{dn}
-        \DeclareMathOperator{\sgn}{sgn}
-        \DeclareMathOperator{\order}{O}
-        \DeclareMathOperator{\diag}{diag}
-        \newcommand{\mylabel}[1]{\label{#1}\tag{#1}}
-        \newcommand{\degree}{\circ}
-   """
+    "mathjax_defines": "",
 }
+
+
+def config_inited_handler(app, config):
+    """Insert contents of `math_defs_filename` into html_context['mathjax_defines']"""
+    global math_defs_filename
+    filename = os.path.join(
+        "" if os.path.isabs(math_defs_filename) else app.confdir, math_defs_filename
+    )
+
+    defines = config.html_context.get("mathjax_defines", "").splitlines()
+    try:
+        with open(filename, "r") as _f:
+            defines.extend(_f.readlines())
+    except IOError:
+        pass
+
+    config.html_context["mathjax_defines"] = "\n".join(defines)
 
 
 # Allows us to perform initialization before building the docs.  We use this to install
 # the named kernel so we can keep the name in the notebooks.
-
-
 def setup(app):
+    app.connect("config-inited", config_inited_handler)
     import subprocess
 
     subprocess.check_call(["anaconda-project", "run", "init"])
+    # Ignore .ipynb files
+    app.registry.source_suffix.pop(".ipynb", None)

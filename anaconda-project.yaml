@@ -26,7 +26,7 @@ description: 'Physics 521: Classical Mechanics I.'
 #
 commands:
   shell:
-    unix: bash
+    unix: bash --init-file /dev/null  # Suppress startup files which might activate another env
     env_spec: phys-521-2021
 
   export:
@@ -78,51 +78,53 @@ downloads: {}
 #
 # See https://github.com/Anaconda-Platform/anaconda-project/issues/265
 
-# packages: 
+# packages:
 dependencies:
-- python=3.9
+  - python=3.9
+  - anaconda-project>=0.10.1
 
-#
-# In the channels section, list any Conda channel URLs to be searched
-# for packages.
-#
-# For example,
-#
-# channels:
-#    - mychannel
-#
-- scipy
-- matplotlib
-- sphinx
-- pandas
-- sympy
-- conda-forge::myst-nb
-- conda-forge::uncertainties
-- conda-forge::sphinx-panels
-- conda-forge::sphinx-book-theme
-- conda-forge::sphinx-autobuild
-- anaconda-project>=0.10.1
-- jupytext
+  # To deal with error in XXXX setup command: use_2to3 is invalid when false
+  # https://github.com/pypa/setuptools/issues/2775
+  # See ClassLog.md
+  - setuptools<58.0.2|>59
 
-# To deal with error in XXXX setup command: use_2to3 is invalid when false
-# https://github.com/pypa/setuptools/issues/2775
-# See ClassLog.md
-- setuptools<58.0.2|>59
+  # Core
+  - conda-forge::uncertainties
+  - scipy
+  - sympy
 
-- pytest-cov
-- pytest-flake8
-- pytest-html
-- pytest-xdist
-- black
+  # Data analysis
+  - pandas
 
-- pip
-- pip:
-  - sphinxcontrib-zopeext
-  - sphinxcontrib-bibtex
-  - mmf-setup
+  # Plotting and visualization tools
+  - matplotlib
+  - ipyvolume
+
+  # Testing
+  - pytest-cov
+  - pytest-flake8
+  - pytest-html
+  - pytest-xdist
+  - black
+
+  # Documentation
+  - sphinx
+  - jupytext
+  - conda-forge::myst-nb
+  - conda-forge::sphinx-panels
+  - conda-forge::sphinx-book-theme
+  - conda-forge::sphinx-autobuild
+
+  # Pip-only dependencies
+  - pip
+  - pip:
+    - sphinxcontrib-zopeext
+    - sphinxcontrib-bibtex>=2.4.0
+    - mmf-setup
+    - genbadge[all]
 
 channels:
-- defaults
+  - defaults
 
 #
 # In the platforms section, list platforms the project should work on
@@ -151,5 +153,3 @@ env_specs:
 # See https://github.com/Anaconda-Platform/anaconda-project/issues/263#issuecomment-870004641
 skip_imports:
   notebooks: true
-packages:
-- sympy
