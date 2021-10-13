@@ -34,11 +34,13 @@ import logging;logging.getLogger('matplotlib').setLevel(logging.CRITICAL)
 
 Consider a bead of mass $m$ sliding down a wire from the point $\vect{P} = (x_0, y_0)$.
 
-1. Write and expression for the total time $T$ it takes for the bead to slide from $\vect{P}$ to the origin as a functional of the path of the wire $y(x)$.
+1. Write and expression for the total time $T$ it takes for the bead to slide from
+   $\vect{P}$ to the origin as a functional of the path of the wire $y(x)$.
 
 2. Write the Euler-Lagrange equations for the solution.
 
-3. Show that the solution is a a [cycloid](https://en.wikipedia.org/wiki/Cycloid) (or solve the problem directly).
+3. Show that the solution is a a [cycloid](https://en.wikipedia.org/wiki/Cycloid) (or
+   solve the problem directly).
 
 +++
 
@@ -46,7 +48,8 @@ Consider a bead of mass $m$ sliding down a wire from the point $\vect{P} = (x_0,
 
 +++
 
-Find the maximum of the function $f(x,y) = -x^2-y^2$ subject to the constraint that $(x-x_0)^2 + y^2 = R^2$ using the method of Lagrange multipliers.
+Find the maximum of the function $f(x,y) = -x^2-y^2$ subject to the constraint that
+$(x-x_0)^2 + y^2 = R^2$ using the method of Lagrange multipliers.
 
 ```{code-cell} ipython3
 x0 = 5
