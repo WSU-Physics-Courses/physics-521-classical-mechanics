@@ -131,41 +131,49 @@ Numerically we will implement these equations in terms of $\vect{y} = (\theta,
 from scipy.integrate import solve_ivp
 
 m = g = r = 1.0
-w0 = np.sqrt(g/r)
+w0 = np.sqrt(g / r)
+
 
 def h(t, h0, w, d=0):
-   """Return the `d`'th derivative of `h(t)`."""
-   if d == 0:
-       return h0 * np.cos(w*t)
-   elif d == 1:
-       return w * h0 * np.sin(w*t)
-   else:
-       return -w**2 * h(t, h0=h0, w=w, d=d-2)
+    """Return the `d`'th derivative of `h(t)`."""
+    if d == 0:
+        return h0 * np.cos(w * t)
+    elif d == 1:
+        return w * h0 * np.sin(w * t)
+    else:
+        return -w**2 * h(t, h0=h0, w=w, d=d - 2)
+
 
 def compute_dy_dt(t, y, h0, w):
     theta, dtheta = y
-    ddtheta = (g + h(t, h0=h0, w=w, d=2))/2 * np.sin(theta)
+    ddtheta = (g + h(t, h0=h0, w=w, d=2)) / r * np.sin(theta)
     return (dtheta, ddtheta)
 
 
-hws = [1, 2, 3, 4]
+hw2s = [1, 2, 2, 3, 4]
 
 h0 = 0.1
 y0 = (0.5, 0)
-T = 2*np.pi / w0
-t_span = (0, 5*T)   # 5 oscillations
+T = 2 * np.pi / w0
+t_span = (0, 5 * T)  # 5 oscillations
+
 
 def fun(t, y):
     return compute_dy_dt(t=t, y=y, **args)
 
+
 fig, ax = plt.subplots()
 
-for hw in hws:
-    args = dict(h0=h0, w=hw/h0)
+for hw2 in hw2s:
+    hw = np.sqrt(hw2)
+    args = dict(h0=h0, w=hw / h0)
     res = solve_ivp(fun, t_span=t_span, y0=y0, atol=1e-6, rtol=1e-6)
     ts = res.t
     thetas, dthetas = res.y
-    ax.plot(ts/T, thetas, label=fr'$h\omega/r\omega_0 = {hw}$')
-ax.set(xlabel=r'$t/T$', ylabel=r'$\theta$', ylim=(-y0[0], 2*y0[0]))
+    ax.plot(ts / T, thetas, label=fr'$h\omega/r\omega_0 = \sqrt{{{hw2}}}$')
+ax.set(xlabel=r'$t/T$', ylabel=r'$\theta$', ylim=(-y0[0], 2 * y0[0]))
 ax.legend()
 ```
+
+This seems to be different from the Kapitza result which says the threshold should be at
+$2$ not $\sqrt{2}$.  More analysis is needed. Stay tuned.
