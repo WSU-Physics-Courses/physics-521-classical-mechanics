@@ -101,6 +101,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # Cache notebook output to speed generation.
 # https://myst-nb.readthedocs.io/en/latest/use/execute.html
 jupyter_execute_notebooks = "cache"
+execution_allow_errors = True
 
 # -- Options for HTML output -------------------------------------------------
 
