@@ -17,6 +17,9 @@ import subprocess
 # sys.path.insert(0, os.path.abspath('.'))
 
 
+# This is True if we are building on Read the Docs in case we need to customize.
+on_rtd = os.environ.get("READTHEDOCS") == "True"
+
 # -- Project information -----------------------------------------------------
 
 project = "Physics 521: Classical Mechanics I"
@@ -200,8 +203,34 @@ def config_inited_handler(app, config):
 
 # Allows us to perform initialization before building the docs.  We use this to install
 # the named kernel so we can keep the name in the notebooks.
+def my_init():
+    """Run `anaconda-project run init`, or the equivalent if on RtD.
+
+    We must customize this for RtD because we trick RTD into installing everything from
+    `anaconda-project.yaml` as a conda environment.  If we then run `anaconda-project
+    run init` as normal, this will create a **whole new conda environment** and install
+    the kernel from there.
+    """
+    if on_rtd:
+        subprocess.check_call(
+            [
+                "python3",
+                "-m",
+                "ipykernel",
+                "install",
+                "--user",
+                "--name",
+                "phys-521-2021",
+                "--display-name",
+                "Python 3 (phys-521-2021)",
+            ]
+        )
+    else:
+        subprocess.check_call(["anaconda-project", "run", "init"])
+
+
 def setup(app):
     app.connect("config-inited", config_inited_handler)
-    subprocess.check_call(["anaconda-project", "run", "init"])
     # Ignore .ipynb files
     app.registry.source_suffix.pop(".ipynb", None)
+    my_init()
