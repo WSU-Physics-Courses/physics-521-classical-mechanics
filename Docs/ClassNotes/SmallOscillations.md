@@ -21,12 +21,6 @@ Small Oscillations
 ```
 
 ```{code-cell} ipython3
-import sys
-print(sys.executable)
-print(sys.environ)
-```
-
-```{code-cell} ipython3
 :tags: [hide-cell]
 
 import mmf_setup;mmf_setup.nbinit()
