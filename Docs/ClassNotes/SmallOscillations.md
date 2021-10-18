@@ -1,9 +1,6 @@
 ---
 jupytext:
-  extension: .md
-  format_name: myst
-  format_version: 0.13
-  jupytext_version: 1.11.1
+  formats: ipynb,md:myst
   text_representation:
     extension: .md
     format_name: myst
@@ -24,8 +21,10 @@ Small Oscillations
 ```
 
 ```{code-cell} ipython3
-:cell_style: center
-:hide_input: false
+import sys; print(sys.executable)
+```
+```{code-cell} ipython3
+:tags: [hide-cell]
 
 import mmf_setup;mmf_setup.nbinit()
 import logging;logging.getLogger('matplotlib').setLevel(logging.CRITICAL)

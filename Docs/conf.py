@@ -11,6 +11,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os.path
+import subprocess
 
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
@@ -129,8 +130,10 @@ html_static_path = ["_static"]
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
-    "https://docs.python.org/": None,
-    "matplotlib": ("https://matplotlib.org/stable/", None),
+    "Python 3": ("https://docs.python.org/3", None),
+    "matplotlib [stable]": ("https://matplotlib.org/stable/", None),
+    "numpy [stable]": ("https://numpy.org/doc/stable/", None),
+    "scipy [latest]": ("https://docs.scipy.org/doc/scipy/", None),
 }
 
 # Napoleon settings
@@ -172,6 +175,11 @@ html_context = {
     "mathjax_defines": "",
 }
 
+mathjax3_config = {
+    "loader": {"load": ["[tex]/mathtools"]},
+    "tex": {"packages": {"[+]": ["mathtools"]}},
+}
+
 
 def config_inited_handler(app, config):
     """Insert contents of `math_defs_filename` into html_context['mathjax_defines']"""
@@ -194,8 +202,6 @@ def config_inited_handler(app, config):
 # the named kernel so we can keep the name in the notebooks.
 def setup(app):
     app.connect("config-inited", config_inited_handler)
-    import subprocess
-
     subprocess.check_call(["anaconda-project", "run", "init"])
     # Ignore .ipynb files
     app.registry.source_suffix.pop(".ipynb", None)

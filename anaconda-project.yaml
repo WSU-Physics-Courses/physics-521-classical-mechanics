@@ -99,6 +99,8 @@ dependencies:
   # Plotting and visualization tools
   - matplotlib
   - ipyvolume
+  - pycairo   # Needed by manim
+  - pango     # Needed by manim
 
   # Testing
   - pytest-cov
@@ -110,10 +112,12 @@ dependencies:
   # Documentation
   - sphinx
   - jupytext
+  - notebook
   - conda-forge::myst-nb
   - conda-forge::sphinx-panels
   - conda-forge::sphinx-book-theme
   - conda-forge::sphinx-autobuild
+  - conda-forge::jupyter_nbextensions_configurator
 
   # Pip-only dependencies
   - pip
@@ -121,6 +125,7 @@ dependencies:
     - sphinxcontrib-zopeext
     - sphinxcontrib-bibtex>=2.4.0
     - mmf-setup
+    - manim
     - genbadge[all]
 
 channels:
@@ -145,8 +150,6 @@ platforms:
 env_specs:
   phys-521-2021:
     description: Default course environment spec.
-    packages:
-    - notebook
     channels: []
 
 # Silence warnings about about notebooks without run commands
