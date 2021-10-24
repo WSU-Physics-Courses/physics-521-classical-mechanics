@@ -5,14 +5,14 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.11.1
+    jupytext_version: 1.13.0
 kernelspec:
   display_name: Python 3 (phys-521-2021)
   language: python
   name: phys-521-2021
 ---
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 import mmf_setup;mmf_setup.nbinit(quiet=True)
@@ -40,11 +40,18 @@ Consider an equiliateral triangle of three equal masses $m$ and springs with spr
 
 +++
 
-## Masses and Springs 2 (bonus)
+## Masses and Springs 2
 
 +++
 
-Repeat the process for a tetrahedron with four equal masses and four 6 equal springs.  Check your results with the code on CoLaboratory.
+Repeat the process for a tetrahedron with four equal masses and four 6 equal springs.
+You may want to check your results with the code on CoCalc.
+
++++
+
+## 2 Masses
+
+Completely
 
 +++
 
@@ -54,7 +61,7 @@ Repeat the process for a tetrahedron with four equal masses and four 6 equal spr
 
 Consider a double pendulum as shown below:
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 import sympy
@@ -165,4 +172,3 @@ provides a great opportunity for exploring and learning about
 [chaos](https://en.wikipedia.org/wiki/Chaos_theory), [Poincaré
 sections](https://en.wikipedia.org/wiki/Poincar%C3%A9_map), [Lyapunov
 exponents](https://en.wikipedia.org/wiki/Lyapunov_exponent), etc.:*
-

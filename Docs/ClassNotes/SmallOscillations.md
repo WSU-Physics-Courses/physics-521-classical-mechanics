@@ -5,7 +5,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.11.1
+    jupytext_version: 1.13.0
 kernelspec:
   display_name: Python 3 (phys-521-2021)
   language: python
@@ -20,7 +20,7 @@ Small Oscillations
 :depth: 3
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-cell]
 
 import mmf_setup;mmf_setup.nbinit()
@@ -101,7 +101,7 @@ this limit to have the form:
   = m\omega_0^2 \cos\theta + \frac{mh_0^2 \omega^2}{4r^2}\sin^2\theta.
 \end{gather*}
 
-```{code-cell} ipython3
+```{code-cell}
 th = np.linspace(-2*np.pi, 2*np.pi, 100)
 g = r = 1
 w0 = np.sqrt(g/r)
@@ -131,7 +131,7 @@ derived by expanding the effective potential to order $\theta^2$ and are quite a
 for small initial $\theta_0$, but start to show deviations for $\theta_0\gtrapprox 0.2$.
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 from scipy.integrate import solve_ivp
 
 m = g = r = 1.0
@@ -200,7 +200,7 @@ results though.  To write these checks, it takes a bit of interactive playing to
 correct value of `rtol` since the finite difference operation has intrinsic errors.
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 ts = np.linspace(1, 2)
 for d in [0, 1, 2]:
     assert np.allclose(
@@ -228,5 +228,3 @@ Thus, we expect an oscillation frequency of:
 \end{gather*}
 
 We include this prediction in our plots above.
-
-

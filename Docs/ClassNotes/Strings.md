@@ -20,7 +20,7 @@ Strings
 :depth: 3
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-cell]
 
 import mmf_setup;mmf_setup.nbinit()
@@ -69,7 +69,7 @@ ddx[1:-1] = k * (x[2:] - 2 * x[1:-1] + x[:-2]) / m
 
 which makes use of the fixed ghost points `x[0]`$=x_0$ and `x[N+1]`$=x_{N+1}$.
 
-```{code-cell} ipython3
+```{code-cell}
 :cell_style: center
 
 from scipy.integrate import solve_ivp
@@ -99,7 +99,7 @@ class String:
         return res        
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 %%manim -v WARNING -qm String1
@@ -461,8 +461,7 @@ vanish in the continuum limit, describe the effects of the lattice.  Once can lo
 these effects as deviations in high-energy physics, and provide Constraints on the
 universe as a numerical simulation {cite:p}`Beane:2014`, for example.
 
-
-```{code-cell} ipython3
+```{code-cell}
 import numpy as np, matplotlib.pyplot as plt
 
 L = 10.0

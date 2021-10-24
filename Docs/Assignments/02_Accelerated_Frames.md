@@ -5,14 +5,14 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.11.1
+    jupytext_version: 1.13.0
 kernelspec:
   display_name: Python 3 (phys-521-2021)
   language: python
   name: phys-521-2021
 ---
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 import mmf_setup;mmf_setup.nbinit(quiet=True)

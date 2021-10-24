@@ -5,14 +5,14 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.11.1
+    jupytext_version: 1.13.0
 kernelspec:
   display_name: Python 3 (phys-521-2021)
   language: python
   name: phys-521-2021
 ---
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 import mmf_setup;mmf_setup.nbinit(quiet=True)
@@ -51,7 +51,7 @@ Consider a bead of mass $m$ sliding down a wire from the point $\vect{P} = (x_0,
 Find the maximum of the function $f(x,y) = -x^2-y^2$ subject to the constraint that
 $(x-x_0)^2 + y^2 = R^2$ using the method of Lagrange multipliers.
 
-```{code-cell} ipython3
+```{code-cell}
 x0 = 5
 R = 1
 x = np.linspace(-10,10,100)[:, None]
