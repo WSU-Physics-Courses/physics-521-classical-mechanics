@@ -17,7 +17,7 @@ ifdef ANACONDA2020
     CONDA_EXE = $$ANACONDA2020/bin/mamba
     ACTIVATE ?= source $$ANACONDA2020/bin/activate
   else
-    # New approach - use our on miniconda
+    # New approach - use our own miniconda
     MINICONDA = ~/.miniconda3
     CONDA_EXE = $(MINICONDA)/bin/conda
     ACTIVATE ?= source $(MINICONDA)/bin/activate
@@ -49,12 +49,19 @@ usage:
 	@echo "$$HELP_MESSAGE"
 
 
-init: _ext/Resources $(ENV_PATH)
-	$(ANACONDA_PROJECT) prepare
-	$(ANACONDA_PROJECT) run init	# Custom command: see anaconda-project.yaml
-ifdef ANACONDA2020
-	@make cocalc-init
-endif
+MINICONDA_SH = https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+MINICONDA_HASH = 1ea2f885b4dbc3098662845560bc64271eb17085387a70c2ba3f29fff6f8d52f
+
+$(MINICONDA):
+	wget  $(MINICONDA_SH) -qO /tmp/_miniconda.sh
+	echo "$(MINICONDA_HASH)  /tmp/_miniconda.sh" > /tmp/_miniconda.shasum
+	shasum -a 256 -c /tmp/_miniconda.shasum && bash /tmp/_miniconda.sh -b -p $@
+	rm /tmp/_miniconda.sh*
+	$@/bin/conda update -y conda
+	$@/bin/conda install -y anaconda-project
+	# Dropping defaults allows this to work with < 1GB
+	$@/bin/conda install --override-channels --channel conda-forge -y mamba
+	$@/bin/conda clean -y --all
 
 # Special target on CoCalc to prevent re-installing mmf_setup.
 ~/.local/bin/mmf_setup:
@@ -89,6 +96,7 @@ Docs/environment.yaml: anaconda-project.yaml Makefile
 	$(ANACONDA_PROJECT) run export 1> $@
 
 
+# Jupytext
 sync:
 	find . -name ".ipynb_checkpoints" -prune -o \
 	       -name "_ext" -prune -o \
