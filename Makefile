@@ -118,7 +118,7 @@ reallyclean:
 
 
 doc-server:
-	$(ANACONDA_PROJECT) run sphinx-autobuild --ignore '*/Docs/_build/*' Docs Docs/_build/html
+	$(ANACONDA_PROJECT) run sphinx-autobuild --ignore '*/Docs/_build/*' --ignore '*/media/*' Docs Docs/_build/html
 
 
 .PHONY: clean realclean init cocalc-init sync doc-server help

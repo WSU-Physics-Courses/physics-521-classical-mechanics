@@ -13,10 +13,11 @@ kernelspec:
 ---
 
 ```{code-cell}
-:tags: [hide-input]
+:tags: [hide-cell]
 
-import mmf_setup;mmf_setup.nbinit(quiet=True)
+import mmf_setup;mmf_setup.nbinit()
 import logging;logging.getLogger('matplotlib').setLevel(logging.CRITICAL)
+%pylab inline --no-import-all
 ```
 
 # Assignment 4: Small Oscillations
@@ -31,7 +32,9 @@ import logging;logging.getLogger('matplotlib').setLevel(logging.CRITICAL)
 
 +++
 
-Consider an equiliateral triangle of three equal masses $m$ and springs with spring constant $k$ and equilibrium length $l$ as discussed in class.  Consider this free to move in three dimensions (i.e. on the International Space Station).
+Consider an equiliateral triangle of three equal masses $m$ and springs with spring
+constant $k$ and equilibrium length $l$ as discussed in class.  Consider this free to
+move in three dimensions (i.e. on the International Space Station).
 
 1. How many normal modes do you expect for this system?
 2. How many different frequencies do you expect?
@@ -51,11 +54,88 @@ You may want to check your results with the code on CoCalc.
 
 ## 2 Masses
 
-Completely
+Provide a complete solution describing the motion of two coupled oscillators as shown
+below that move in 1D (left-right) without friction etc.
+
+![Two masses and springs](figSprings2m.png)
+
+Be sure to check various limiting cases to make sure your answer is
+correct, such as equal masses and spring constants, setting some spring constants to
+zero, etc.
+
+:::{margin}
+Hint: Your final answer will probably be simpler if your replace your masses and spring
+constants with the frequencies
+
+\begin{align*}
+  \omega_{j}^2 &= \frac{k_{j}}{m_{j}}, \\
+  \omega_{12}^2 &= \frac{k_{12}}{\sqrt{m_1m_2}}.
+\end{align*}
+
+:::
+
+Use your answer to characterize how energy is transferred between two harmonic
+oscillators.  I.e. consider the case where the middle spring has a very small spring
+constant $k_{12} \ll k_{1, 2}$.  This corresponds to two weakly coupled harmonic
+oscillators.  Suppose you excite the left oscillator with angular frequency $\omega_1
+\approx \sqrt{k_1/m_1}$: what conditions must be true in order that a significant
+portion of the energy can be transferred to the second oscillator with angular frequency
+$\omega_2 \approx \sqrt{k_2/m_2}$?
+
+Be sure to apply the checklist described at the start of the course when you consider
+the completeness of your solution: 
+
+1. Is the problem well defined and well formulated?  (Does it have a definite answer?
+   Could you tell a computer how to solve this problem?)
+2. How will you describe the solution?  (What variables will you use?  What parameters
+   are required?)  Note: the solution will often appear much simpler if you describe the
+   solution with appropriate variables.
+3. What is your intuition for the problem? What do you think the system will do? Record
+   your predictions before you start solving the equations.
+4. Formulate the equations that will distinguish the physical solution from all other
+   possible behaviors admitted by your description.  What physics do you include?  What
+   effects do you ignore?  Justify briefly.  (If you were to setup an experiment to test
+   your results, would you need to consider the effect of Jupiter's gravitational field?
+   Why or why not?)
+5. Solve the equations to get the solution.  Consider different strategies here as some
+   approaches will be much cleaner and more efficient than others.  I tend to start
+   working quickly to see how things progress, then once I see my way through to a
+   portion of the solution, I often start over again using a more streamlined approach
+   that will ensure I make fewer mistakes with my algebra etc. Some suggestions:
+   1. Identify all dimensionless parameters.  The qualitative behavior of the system will
+      depend (only) on these.
+   2. Are there any simplifying limits where you can quickly solve the problem?  If you
+      get stuck, these might help you find the more general solution.
+   3. If finding an analytic solution is challenging, maybe try quickly implementing a
+      numerical solution so you can build a better intuition for what should happen.
+      *This introduces the added complication of making sure your numerical
+      implementation is correct, however, I find I often learn most about a problem
+      while trying to making the numerical implementation agree with my analytic
+      calculations, so this extra effort is usually not wasted.*
+
+6. Check your solution:
+   1. Does it agree with your intuition?  If not, you need to either find your mistake,
+      or possibly change your mental model of how this system works (once you verify
+      that your solution is indeed correct).
+   2. Is it dimensionally correct? 
+   3. Are there limiting case you can check easily? 
+   4. Can you compare with a colleague who independently solved the problem?
+   5. Can you solve it a different way to compare? (Maybe with different variables or in
+      a different coordinate system?)
+   6. Can you do an experiment or relate this to a physical system where you know what
+      happens?
+
+7. Generalize: Sometimes once you have solved a problem, you can generalize your
+   solution.  In this case, do you see how you could solve a generalized problem with 3,
+   4, or more masses? Does your method generalize to the cased of different masses or
+   different spring constants?  Even if you do not actually solve the generalized
+   problem, thinking about this can help you find more efficient techniques for solve
+   similar problems in the future.
+
 
 +++
 
-## Double Pendulum
+## (Optional) Double Pendulum
 
 +++
 

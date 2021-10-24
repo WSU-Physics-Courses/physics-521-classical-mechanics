@@ -86,7 +86,7 @@ with SSH as described above:
    make init
    ```
    
-   This does the following (see [`Makefile`](Makefile) for the exact details.)
+   This does the following (see the `Makefile` for the exact details.)
 
    * Try to clone the private class [Resources project] into `_ext/Resources`.  If you
      do not have access to this project, then a warning will be displayed, but the
@@ -146,9 +146,7 @@ with SSH as described above:
  
  You should now be able to use the `phys-521-2021` kernel in notebooks.
 
-[WSU Courses CoCalc project]: <https://cocalc.com/projects/c31d20a3-b0af-4bf7-a951-aa93a64395f6>
-[Shared CoCalc Project]: (https://cocalc.com/projects/31c120c9-2956-4420-9d6f-374a6ee32df3) "581-2021 Shared CoCalc Project"
-
+[Shared CoCalc Project]: <https://cocalc.com/projects/31c120c9-2956-4420-9d6f-374a6ee32df3> "581-2021 Shared CoCalc Project"
 [CoCalc]: <https://cocalc.com> "CoCalc: Collaborative Calculation and Data Science"
 [WSU Physics]: <https://physics.wsu.edu> "WSU Physics Department"
 [GitLab]: <https://gitlab.com> "GitLab"
