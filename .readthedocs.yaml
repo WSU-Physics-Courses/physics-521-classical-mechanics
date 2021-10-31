@@ -23,6 +23,11 @@ python:
 # https://github.com/readthedocs/readthedocs.org/issues/7554
 build:
   image: testing
+  apt_packages:
+    - libcairo2-dev
+    - libpango1.0-dev
+    - ffmpeg
   
 conda:
+  #environment: environment.yml
   environment: anaconda-project.yaml

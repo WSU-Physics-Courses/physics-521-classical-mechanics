@@ -99,8 +99,9 @@ dependencies:
   # Plotting and visualization tools
   - matplotlib
   - ipyvolume
-  - pycairo   # Needed by manim
-  - pango     # Needed by manim
+  - pycairo  # Needed by manim
+  - pango    # Needed by manim
+  #- ffmpeg    # Needed by manim
 
   # Testing
   - pytest-cov
@@ -125,8 +126,8 @@ dependencies:
     - sphinxcontrib-zopeext
     - sphinxcontrib-bibtex>=2.4.0
     - mmf-setup
-    - manim
-    - genbadge[all]
+    - manim>=0.11.0
+    #- genbadge[all]
 
 channels:
   - defaults
@@ -139,7 +140,7 @@ channels:
 platforms:
 - linux-64
 - osx-64
-- win-64
+#- win-64
 
 #
 # You can define multiple, named environment specs.

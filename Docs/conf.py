@@ -49,6 +49,7 @@ extensions = [
     "sphinxcontrib.zopeext.autointerface",
     "matplotlib.sphinxext.plot_directive",
     "sphinxcontrib.bibtex",
+    # "phys_521_2021.manim_directive",
     # From jupyterbook
     # "jupyter_book",
     # "sphinx_thebe",
@@ -212,6 +213,7 @@ def my_init():
     the kernel from there.
     """
     if on_rtd:
+        print("On RTD!")
         subprocess.check_call(
             [
                 "python3",
@@ -225,7 +227,9 @@ def my_init():
                 "Python 3 (phys-521-2021)",
             ]
         )
+        print("Hello there!")
     else:
+        print("Not On RTD!")
         subprocess.check_call(["anaconda-project", "run", "init"])
 
 
