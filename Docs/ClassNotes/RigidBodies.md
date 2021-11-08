@@ -34,6 +34,7 @@ import manim.utils.ipython_magic
 !manim --version
 ```
 
+(phantom-torque)=
 ## Phantom Torque
 
 Here I would like to try to clarify a point mentioned in class about what Turner and
