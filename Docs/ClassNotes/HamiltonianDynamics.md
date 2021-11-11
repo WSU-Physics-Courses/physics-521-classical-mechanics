@@ -150,6 +150,7 @@ equilibrium position:
 plt.rcParams['figure.dpi'] = 300
 from scipy.integrate import solve_ivp
 
+alpha = 0.0
 m = r = g = 1.0
 w = g/r
 T = 2*np.pi / w   # Period of small oscillations.
@@ -159,13 +160,14 @@ def f(t, y):
     # We will simultaneously evolve N points.
     N = len(y)//2
     theta, p_theta = np.reshape(y, (2, N))
-    dy = np.array([p_theta/m/r**2, -m*g*r*np.sin(theta)])
+    dy = np.array([p_theta/m/r**2*np.exp(-alpha*t),
+                   -m*g*r*np.sin(theta)*np.exp(alpha*t)])
     return dy.ravel()
 
 
 # Start with a circle of points in phase space centered here
-def plot_set(y, dy=0.1, T=T, N=10, Nt=5, c='C0', 
-             Ncirc=1000, max_step=0.01, alpha=0.7, 
+def plot_set(y, dy=0.1, T=T, phase_space=True, N=10, Nt=5, c='C0', 
+             Ncirc=1000, max_step=0.01, _alpha=0.7, 
              fig=None, ax=None):
     """Plot the phase flow of a circle centered about y0.
     
@@ -177,6 +179,9 @@ def plot_set(y, dy=0.1, T=T, N=10, Nt=5, c='C0',
         Radius of initial circle.
     T : float
         Time to evolve to.
+    phase_space : bool
+        If `True`, plot in phase space $(q, p)$, otherwise plot in
+        the "physical" phase space $(q, P)$ where $P = pe^{-\alpha t}$.
     N : int
         Number of points to show on circle and along path.
     Nt : int
@@ -190,6 +195,7 @@ def plot_set(y, dy=0.1, T=T, N=10, Nt=5, c='C0',
     Ncirc : int
         Minimum number of points in circle.
     """
+    global alpha
     skip = int(np.ceil(Ncirc // N))
     N_ = N * skip
     th = np.linspace(0, 2*np.pi, N_ + 1)[:-1]
@@ -202,6 +208,10 @@ def plot_set(y, dy=0.1, T=T, N=10, Nt=5, c='C0',
     res = solve_ivp(f, t_span=(0, T), y0=y0, t_eval=t_eval)
     assert Nt_ == len(res.t)
     thetas, p_thetas = res.y.reshape(2, N_, Nt_)
+    ylabel = r"$p_{\theta}$"
+    if phase_space:
+        ylabel = r"$P_{\theta}=p_{\theta}e^{-\alpha t}$"
+        p_thetas *= np.exp(-alpha * res.t)
     
     if ax is None:
         fig, ax = plt.subplots()
@@ -210,8 +220,8 @@ def plot_set(y, dy=0.1, T=T, N=10, Nt=5, c='C0',
     for n in range(Nt+1):
         tind = n*skip_t
         ax.plot(thetas[::skip, tind], p_thetas[::skip, tind], '.', ms=0.5, c=c)
-        ax.fill(thetas[:, tind], p_thetas[:, tind], c=c, alpha=alpha)
-    ax.set(xlabel=r"$\theta$", ylabel=r"$p_{\theta}$", aspect=1)
+        ax.fill(thetas[:, tind], p_thetas[:, tind], c=c, alpha=_alpha)
+    ax.set(xlabel=r"$\theta$", ylabel=ylabel, aspect=1)
     return fig, ax
 
 
@@ -290,9 +300,100 @@ divergence of $\vect{f}$ is zero follows from the equality of mixed partial deri
 
 ::::
 
+## A Hamiltonian with Damping
+
+:::{margin}
+Note that although the coordinate $q$ describes damped motion, the momentum $p$ is not
+the usual momentum.  More conventionally we would have:
+
+\begin{align*}
+  \dot{P} &= -V'(Q) - m \alpha \dot{Q}\\
+  \dot{Q} &= \frac{P}{m}.
+\end{align*}
+
+This comes from the transformation $Q = q$, $P = pe^{-\alpha t}$, which is **not
+canonical**:
+
+\begin{gather*}
+  \{Q, P\}_{qp} = e^{-\alpha t} \neq 1.
+\end{gather*}
+
+In particular, Liouville's theorem holds for $\vect{y} = (q, p)$, but not for $\vect{Y}
+= (Q, P)$.  In the later case, phase-space volumes shrink as the particles lose energy.
+
+:::
+A common misconception is that damping or dissipation cannot be included in a
+Hamiltonian or Lagrangian framework.  Consider the following:
+
+\begin{gather*}
+  H(q, p) = \frac{p^2}{2m}e^{-\alpha t} + V(q)e^{\alpha t}\\
+  \dot{p} = - V'(q) e^{\alpha t}, \qquad
+  \dot{q} = \frac{p}{m}e^{-\alpha t}, \qquad
+  p = m\dot{q} e^{\alpha t},\\
+  \begin{aligned}
+  m\ddot{q} &= \dot{p}e^{-\alpha t} - m\alpha \dot{q}
+           = - V'(q) e^{\alpha t}e^{-\alpha t} - m\alpha \dot{q}\\
+           &= - V'(q) - m\alpha \dot{q}.\end{aligned}
+\end{gather*}
+
+This is just Newtonian dynamics for a particle of mass $m$ in a potential $V(q)$ with a
+drag term $-m\alpha v$ such as might be seen for a particle falling through the
+atmosphere.
+
+It is instructive to consider this in the Lagrangian framework:
+
+\begin{gather*}
+  L(q, \dot{q}, t) = p\dot{q} - H  = \overbrace{\left(\frac{m \dot{q}^2}{2} -
+  V(q)\right)}^{L_{0}(q, \dot{q})}e^{\alpha t}.
+\end{gather*}
+
+Here we see that the factor $\lambda(t) = e^{\alpha t}$ simplify multiplies the
+Lagrangian.  In the action, this can be interpreted as a rescaling of time $\tau =
+e^{\alpha t}\d{t}$:
+
+\begin{gather*}
+  S[q] = \int L_0(q, \dot{q}) \underbrace{e^{\alpha t} \d{t}}_{\d{\tau}}.
+\end{gather*}
+
+This is presents an analogy of cosmology where the universe is decelerating as it
+expands, leading to an effective cooling from the dissipative term introduced by the
+scaling of time.
 
 
+:::{margin}
+This plot shows the phase-flow for the time-dependent Hamiltionian for the pendulum with
+damping.  The upper plot shows the flow in the original phase space $\vect{y} = (q, p)$
+whereas the bottom figure shows the flow in the "physical" phase space $\vect{Y} = (q,
+P)$.  The flow in the upper plot obey's Liouville's theorem, preserving areas, but is
+time dependent.  This is why the trajectories intersect.
 
+The bottom pane is independent of time, but does not follow from Hamilton's equations,
+and hence, does not obey Liouville.  In the bottom figure, we see the expected
+contraction of areas as the trajectories coalesce to the equilibrium points with $\theta
+= 2\pi n$.
+
+Note that the plots share the same abscissa $q=\theta$, but that the vertical axis is not just
+a simple rescaling.  In the upper plot, the momenta are scaled differently at different
+times.
+
+We have evolved slightly longer than before ($1.3$ small-oscillation periods) to better
+demonstrate the structure of the flow. 
+:::
+```{code-cell} ipython3
+:tags: [hide-input]
+
+fig, axs = plt.subplots(2, 1, figsize=(10, 6), sharex=True, 
+                        gridspec_kw=dict(height_ratios=(3.5, 1)))
+
+alpha = 0.3
+
+for n, y in enumerate(np.linspace(0.25, 1.75, 6)):
+    plot_set(y=(y, y), c=f"C{n}", ax=axs[0], T=1.3*T, phase_space=False)
+    plot_set(y=(y, y), c=f"C{n}", ax=axs[1], T=1.3*T)
+
+axs[0].set(ylim=(-6, 7))
+axs[0].set(title=fr"$\alpha = {alpha}$, $T=1.3\times 2\pi \sqrt{{r/g}}$");
+```
 
 
 
