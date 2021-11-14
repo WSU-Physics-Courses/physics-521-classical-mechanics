@@ -172,7 +172,7 @@ class RollingHoop(Scene):
 ```
 
 Here we have half of a hoop of radius $R$ and mass $m$, with center of mass at $C$ which
-is distance $a=2R/m$ from the center of the hoop $O$.  The external torque is provided
+is distance $a=2R/\pi$ from the center of the hoop $O$.  The external torque is provided
 by the downward acceleration due to gravity $g>0$.  The hoop rolls without slipping
 along the floor with point of contact $P$.
 

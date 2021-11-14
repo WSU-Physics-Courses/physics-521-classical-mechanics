@@ -154,7 +154,7 @@ equations of motion for $\theta(t)$.
 
 1. Compute the moments of inertia $I_{O}$, $I_{C}$, and $I_{P}(\theta)$ and relate these
    to each other using the parallel axis theorem.  Express your answer in terms of $m$,
-   $R$, $a$, and $\theta$.  *(For this problem, show that $a=2R/m$, but express
+   $R$, $a$, and $\theta$.  *(For this problem, show that $a=2R/\pi$, but express
    everything in terms of $a$.  This allows you to generalize to symmetric but unequal
    mass distributions.)* 
 2. Solve for the equations of motion using the Lagrangian framework about the two points
