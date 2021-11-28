@@ -25,13 +25,26 @@ import logging;logging.getLogger("matplotlib").setLevel(logging.CRITICAL)
 
 **Due: 11:59pm Friday 3 December 2021**
 
-## Negative Mass Dynamics
+## Arbitrary Dispersion: Negative Mass and Special Relativity
 
-Consider a particle moving in 1D with kinetic energy $E(p)$ moving under a constant
+Consider a particle moving in 1D with  kinetic energy $E(p)$ moving under a constant
 force $F$.  Use Hamilton's equations to find the general solution for the position
-$q(t)$ of the particle.  Check your answer with the familiar solution for $E(p) =
+$x(t)$ of the particle.  Check your answer with the familiar solution for $E(p) =
 p^2/2m$.  Discuss the physical meaning of $E'(p)$ and $E''(p)$ in terms of Newton's law
 and the particle motion.
+
+:::{note}
+  This approach also works for $E(p) = \sqrt{p^2c^2 + m^2c^4}$ where $c$ is the speed of
+  light. This gives the motion of a particle under constant force in special relativity
+  The corresponding coordinate transformation into a co-moving constantly accelerating
+  frame gives rise to [Rindler
+  coordinates](https://en.wikipedia.org/wiki/Rindler_coordinates), which are applicable
+  close to the surface of the earth.  These have interesting properties associated with
+  general relativity, including time-dilation at different heights, and an event horizon
+  at a distance $d=mc^2/F$ below the observer.  For the earth, this distance is about
+  $d\approx0.3$[pc](https://en.wikipedia.org/wiki/Parsec), well past the limit where the
+  approximation of a constant gravitational field breaks down. 
+:::
 
 
 ## Hamilton Jacobi Equation
