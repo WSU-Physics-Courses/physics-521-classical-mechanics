@@ -68,7 +68,7 @@ Hint: Your final answer will probably be simpler if your replace your masses and
 constants with the frequencies
 
 \begin{align*}
-  \omega_{j}^2 &= \frac{k_{j}}{m_{j}}, \\
+  \omega_{j}^2 &= \frac{k_{j} + k_{12}}{m_{j}}, \\
   \omega_{12}^2 &= \frac{k_{12}}{\sqrt{m_1m_2}}.
 \end{align*}
 

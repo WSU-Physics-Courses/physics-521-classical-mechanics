@@ -23,21 +23,26 @@ import logging;logging.getLogger("matplotlib").setLevel(logging.CRITICAL)
 
 +++
 
-**Due: 11:59pm Friday 19 November 2021**
+**Due: 11:59pm Friday 3 December 2021**
 
-+++
+## Negative Mass Dynamics
 
-Your assignment is to analyze the motion of a simple pendulum using the Hamiltonian formalism.  Please follow the outline given below for analyzing a free particle and complete the same type of analysis for the pendulum.
+Consider a particle moving in 1D with kinetic energy $E(p)$ moving under a constant
+force $F$.  Use Hamilton's equations to find the general solution for the position
+$q(t)$ of the particle.  Check your answer with the familiar solution for $E(p) =
+p^2/2m$.  Discuss the physical meaning of $E'(p)$ and $E''(p)$ in terms of Newton's law
+and the particle motion.
 
-+++
 
-## Free Particle (Sample Analysis)
+## Hamilton Jacobi Equation
 
-+++
+Your assignment is to analyze the motion of a simple pendulum using the Hamiltonian
+formalism.  Please follow the outline given below for analyzing a free particle and
+complete the same type of analysis for the pendulum.
 
-### Lagrangian Analysis
+### Free Particle (Sample Analysis)
 
-+++
+#### Lagrangian Analysis
 
 *Analyze the problem using the Lagrangian formalism.*
 
@@ -68,7 +73,7 @@ Your assignment is to analyze the motion of a simple pendulum using the Hamilton
 
 +++
 
-### Hamiltonian Analysis
+#### Hamiltonian Analysis
 
 +++
 
@@ -293,7 +298,7 @@ Your assignment is to analyze the motion of a simple pendulum using the Hamilton
 
 +++
 
-## Harmonic Oscillator
+### Harmonic Oscillator
 
 +++
 
@@ -301,7 +306,7 @@ Your assignment is to repeat a similar analysis with the harmonic oscillator.
 
 +++
 
-### Lagrangian Analysis
+#### Lagrangian Analysis
 
 +++
 
@@ -333,7 +338,7 @@ Your assignment is to repeat a similar analysis with the harmonic oscillator.
 
 +++
 
-### Hamiltonian Analysis
+#### Hamiltonian Analysis
 
 +++
 
