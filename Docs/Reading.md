@@ -107,3 +107,10 @@ Additional required readings will be made on {{ Perusall }} with a forum for dis
   still quite accessible.  The lecture notes move from classical mechanics to gauge
   theories and relativity.
 
+[A. J. Chorin and J. E. Marsden: A Mathematical Introduction to Fluid Mechanics {cite:p}`Chorin:2000`](https://link.springer.com/book/10.1007/978-1-4612-0883-9)
+: A concise introduction to fluid mechanics.  Available through the WSU Library as [2nd
+  Edition](https://ntserver1.wsulibs.wsu.edu:2171/lib/wsu/detail.action?pq-origsite=primo&docID=3083385) and
+  [3rd
+  Edition](https://ntserver1.wsulibs.wsu.edu:2171/lib/wsu/detail.action?pq-origsite=primo&docID=6745409)s.
+  (The 3rd edition is preferred, but may have a limited number of slots for readers to
+  access, so if it is checked out, the second edition is good too.)
