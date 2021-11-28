@@ -19,6 +19,159 @@ import mmf_setup; mmf_setup.nbinit(quiet=True)
 import logging;logging.getLogger("matplotlib").setLevel(logging.CRITICAL)
 ```
 
+### Harmonic Oscillator
+
++++
+
+Your assignment is to repeat a similar analysis with the harmonic oscillator.
+
++++
+
+#### Lagrangian Analysis
+
++++
+
+*Analyze the problem using the Lagrangian formalism.*
+
+1. Use the generalized coordinate $q = x$ and velocity $\dot{q} = v$ so that the Lagrangian is:
+
+   $$
+     \mathcal{L}(q, \dot{q}, t) = \frac{m}{2}\dot{q}^2 - \frac{k}{2}q^2.
+   $$
+
+2. Find the the canonical momentum?
+
+   $$
+     p = ?
+   $$
+
+3. Write the Euler-Lagrange equation:
+
+   $$
+     \dot{p} = ?
+   $$
+
+4. Write down the general solution:
+
+   $$
+      q(t) = ?
+   $$
+
++++
+
+#### Hamiltonian Analysis
+
++++
+
+*Analyze the problem using the Hamiltonian formalism*.
+
+1. Use the Legendre transform to write the Hamiltonian:
+
+   $$
+     H(q, p, t) = ?
+   $$
+
+2. Now we can express the problem in terms of Hamilton's equation of motion:
+
+   $$
+     \begin{pmatrix}
+       \dot{q}\\
+       \dot{p}
+     \end{pmatrix}
+     = ?
+     = \mat{A}\cdot
+    \begin{pmatrix}
+       q\\
+       p
+     \end{pmatrix}.
+   $$
+   
+3. The solution can be expressed as:
+
+   $$
+    \begin{pmatrix}
+       q\\
+       p
+     \end{pmatrix}
+     =
+     e^{\mat{A}t}
+    \cdot
+    \begin{pmatrix}
+       q_0\\
+       p_0
+     \end{pmatrix}                                 
+     = ?
+   $$
+   
+   where you have used the properties of the matrix $\mat{A}^n$ to explicitly compute the matrix exponential.
+
+4. Write the Hamilton-Jacobi equation is:
+
+   $$
+     H\left(q, \pdiff{S}{q}, t\right) + \pdiff{S}{t}  = ? = 0.
+   $$
+   
+5. This equation is separable, and we may place the $q$'s on one side, and the $t$'s on the other.  Connect the two equations with the constant $E$ and integrate each side to obtain both the *abbreviated action $W(q)$ and the generating function $S(q,t)$:
+
+   $$
+      W(Q) = ?, \\
+      S(q, t) = W(q) - Et = ?.
+   $$
+   
+   *Note: to complete the integrals here you will probably want to make a trignometric substitution $m\omega q = p\sin\theta$.*
+   
+6. You are free to choose any new coordinate $Q$ as long as the invertability requirement still holds.  Compute this a choose a reasonable coordinate $Q$:
+
+   $$
+     \left(\frac{\partial^2 S}{\partial q \partial Q}\right) = ? \neq 0.
+   $$
+   
+7. Now express the *generating function* $S(q,Q,t)$ for the canonical transformation in terms of your chosen coordinate:
+
+   $$
+     S(q, Q, t) = ?.
+   $$   
+     
+   Use this to determine the canonical momenta:
+   
+   $$
+     P = ?\\
+     q(Q, P, t) = ?\\
+     p(Q, P, t) = ?.
+   $$
+
+8. Invert these to get the explicit canonical transformation:
+
+   $$
+     Q(q, p, t) = ?\\
+     P(q, p, t) = ?.
+   $$
+   
+   Explicitly check that the Poisson bracket (I am using the convention of Landau and Lifshitz here) satisfies the canonical commutation reationships:
+   
+   $$
+     [P, Q] = ? = 1.
+   $$
+
+9. Armed with the generating function designed so that $H'(Q, P, t) = 0$, argue that $Q$ and $P$ are constant, and hence use your result from step 7. to write down the complete solution and compare with your previous results.
+
+   $$
+     q(t) = ?\\
+     p(t) = ?.
+   $$
+
+10. Since this problem is both separable and periodic, we can express the solution in terms of *action-angle variables*.  Using this formalism, compute the fundamental frequency of the system.
+
+11. *(Bonus)* Use the same action-angle formalism to compute the fundamental frequencies for the simple pendulum of mass $m$ on a massless rod of length $l$, which has the following Hamiltonian expressed in terms of the angle $q=\theta$ from the vertical:
+
+  $$
+    H(q,p) = \frac{l^2p^2}{2m} + mgl(1 - \cos q).
+  $$
+  
+  Hints:
+  1. Don't try to analytically evaluate the integrals – just get the answer expressed in terms of definite integrals.  
+  2. Remember that there are two types of periodic orbits here: *librations* (if $1 - \cos q < 1$ always) and *rotations* where $q$ takes on all values.  These will have different endpoints in your integrals.
+
 # Assignment 6: Hamiltonian Dynamics
 
 +++
@@ -98,12 +251,12 @@ complete the same type of analysis for the pendulum.
 
 2. Now we can express the problem in terms of Hamilton's equation of motion:
 
-   $$
+   \begin{align*}
      \begin{pmatrix}
        \dot{q}\\
        \dot{p}
      \end{pmatrix}
-     =
+     &=
      \begin{pmatrix}
        0 & 1\\
        -1 & 0
@@ -122,8 +275,8 @@ complete the same type of analysis for the pendulum.
      \begin{pmatrix}
        0\\
        p/m
-     \end{pmatrix}
-     =
+     \end{pmatrix}\\
+     &=
      \frac{1}{m}
      \begin{pmatrix}
        0 & 1\\
@@ -134,16 +287,16 @@ complete the same type of analysis for the pendulum.
        q\\
        p
      \end{pmatrix}.
-   $$
+   \end{align*}
 
 3. The solution can be expressed as:
 
-   $$
+   \begin{align*}
     \begin{pmatrix}
        q\\
        p
      \end{pmatrix}
-     =
+     &=
      e^{\left(\begin{smallmatrix} 0 & 1\\ 
                                   0 & 0\end{smallmatrix}\right)\frac{t}{m}}
     \cdot
@@ -163,7 +316,7 @@ complete the same type of analysis for the pendulum.
     \begin{pmatrix}
        q_0\\
        p_0
-     \end{pmatrix}                                 
+     \end{pmatrix}
      =
      \begin{pmatrix} 
        1 & \frac{t}{m}\\ 
@@ -173,15 +326,17 @@ complete the same type of analysis for the pendulum.
     \begin{pmatrix}
        q_0\\
        p_0
-     \end{pmatrix}                                 
-     =
+     \end{pmatrix}\\
+     &=
     \begin{pmatrix}
        q_0 + p_0t/m\\
        p_0
      \end{pmatrix}                                 
-   $$
+   \end{align*}
    
-   where we have used the fact that $\mat{A}^n = \mat{0}$ for $n>1$ where $\mat{A}=\bigl(\begin{smallmatrix} 0 & 1\\ 0 & 0\end{smallmatrix}\bigr)$.
+   where we have used the fact that $\mat{A}^n = \mat{0}$ for $n>1$ where
+   $\mat{A}=\bigl(\begin{smallmatrix} 0 & 1\\ 0 & 0\end{smallmatrix}\bigr)$.
+   
    
 4. The Hamilton-Jacobi equation is:
 
