@@ -50,9 +50,9 @@ and the particle motion.
 
 ## Hamilton Jacobi Equation
 
-Your assignment is to analyze the motion of a simple pendulum using the Hamiltonian
+Your assignment is to analyze the motion of a harmonic oscillator using the Hamiltonian
 formalism.  Please follow the outline given below for analyzing a free particle and
-complete the same type of analysis for the pendulum.
+complete the same type of analysis for the harmonic oscillator.
 
 ### Free Particle (Sample Analysis)
 
