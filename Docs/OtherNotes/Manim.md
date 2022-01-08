@@ -22,7 +22,7 @@ kernelspec:
 
 ## Examples
 
-Here are some examples from the [First Steps with Manim](https://hub.gke2.mybinder.org/user/manimcommunity-jupyter_examples-heewn38p/notebooks/First%20Steps%20with%20Manim.ipynb) notebook.
+Here are some examples from the [First Steps with Manim] notebook.
 
 ```{code-cell} ipython3
 from manim import *
@@ -53,7 +53,8 @@ Unfortunately, the videos generated above will not work with JupyterBook output.
 ### What Works
 
 Static Images
-: This works out of the box, just use `--format=gif` or `--format=png`.  Don't try to do animations though (animated gifs).
+: This works out of the box, just use `--format=gif` or `--format=png`.  Don't try to do
+  animations though (animated gifs).
 
 Embeded Movies
 : If you can find where the rendered movie is stored, then you can import it with
@@ -61,20 +62,36 @@ Embeded Movies
 
 Movies in `_static`
 : If you are careful to put your movies in the `_static/` directory that Sphinx copies
-  (see {std:confval}`html_static_path`), then you can embed them with the `<video>` tag:
+  (see [`html_static_path`]), then you can embed them with the `<video>` tag:
 
   ```html
   <video autoplay loop width='420' 
-         src='/_static/CircleToSquare.mp4' type='video/mp4'/>
+         src='../_static/CircleToSquare.mp4' type='video/mp4'/>
   ```
   
   gives
   
-  <video autoplay loop width='420' src='/_static/CircleToSquare.mp4' type='video/mp4'/>
+  <video autoplay loop width='420' src='../_static/CircleToSquare.mp4' type='video/mp4'>
+  </video>
   
-  Note: This does not work if you run the notebook with Jupyter because of the initial
-  `/`.  Once can trick this with symbolic links, but I have not found a reliable way to
-  do this yet. 
+  **Caveats:**
+  * You need to know where you are.  The relative path `../_static` above is used
+    because this document is nested one level down.  This makes your document somewhat
+    brittle and you cannot move it to a different level.
+    
+    I played with using an absolute path `/_static`, but this breaks [RTD] for example
+    which translates to
+    
+    * `https://...readthedocs.io/_static/CircleToSquare.mp4`
+    
+    but should be
+
+    * `https://...readthedocs.io/en/latest/_static/CircleToSquare.mp4`
+    
+    
+  * This may work if you run the notebook with Jupyter, but can fail.  For example, if
+    you run jupyter in the same directory as this notebook, then `../` will be above the
+    `tree` and it will fail.
 
 The `manim` Sphinx directive
 : You can include the {mod}`manim.utils.docbuild.manim_directive` directive in your
@@ -226,7 +243,6 @@ class BannerExample(Scene):
         self.play(banner_large.expand())
 ```
 
-
 #### Manim Sphinx Directive
 
 The {mod}`manim.utils.docbuild.manim_directive` directive works:
@@ -296,4 +312,5 @@ class MyScene(Scene):
 [`eval-rst` directive]: <https://myst-parser.readthedocs.io/en/latest/syntax/syntax.html#syntax-directives-parsing>
 [Manim]: <https://www.manim.community/>
 [3Blue1Brown]: <https://www.3blue1brown.com/>
-
+[`html_static_path`]: <https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-html_static_path>
+[First Steps with Manim]: <https://hub.gke2.mybinder.org/user/manimcommunity-jupyter_examples-heewn38p/notebooks/First%20Steps%20with%20Manim.ipynb>
