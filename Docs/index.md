@@ -16,5 +16,6 @@ Reading
 Assignments
 References
 ClassNotes
+OtherNotes
 ```
 

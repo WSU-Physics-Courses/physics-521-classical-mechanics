@@ -248,7 +248,8 @@ complete the same type of analysis for the harmonic oscillator.
      P(q, p, t) = t - \sqrt{\frac{m}{2E}}q = t - \frac{mq}{p}.
    $$
    
-   We can now explicitly check that the Poisson bracket (I am using the convention of Landau and Lifshitz here) satisfies the canonical commutation reationships:
+   We can now explicitly check that the Poisson bracket (I am using the convention of
+   Landau and Lifshitz here) satisfies the canonical commutation relationships:
    
    $$
      [P, Q] = \pdiff{P}{p}\pdiff{Q}{q} - \pdiff{P}{q}\pdiff{Q}{p}
@@ -256,7 +257,10 @@ complete the same type of analysis for the harmonic oscillator.
             = 1.
    $$
 
-9. *(This analysis is a little harder to do for the oscillator, so do not feel you have to do it.)* Armed with the solutions, we may construct the action function for the path connecting $(q_0, t_0)$ to $(q_1, t_1)$:
+9. *(This analysis is a little harder to do for the oscillator, so do not feel you have
+   to do it.)* Armed with the solutions, we may construct the action function for the
+   path connecting $(q_0, t_0)$ to $(q_1, t_1)$:
+   
 
    $$
      q(t) = q_0 + \frac{q_1 - q_0}{t_1 - t_0}(t-t_0), \qquad
@@ -271,7 +275,8 @@ complete the same type of analysis for the harmonic oscillator.
      = \frac{m}{2}\frac{(q_1 - q_0)^2}{t - t_0}.
    $$
    
-   This allows us to construct the general solution to any initial-value problem for the Hamilton-Jacobi equation:
+   This allows us to construct the general solution to any initial-value problem for the
+   Hamilton-Jacobi equation:
    
    $$
      H(q, S_{,q}(q, t), t) + S_{,t}(q,t) = 0, \qquad S(q, t_0) = S_0(q)
@@ -283,7 +288,9 @@ complete the same type of analysis for the harmonic oscillator.
      S(q, t) = S_0(q_0) + \int_{t_0}^{t} L(q(t), \dot{q}(t), t)\;\d{t}
    $$
    
-   where the action is computed over the trajectory starting from $q(t_0) = q_0$ with initial momentum $p_0 = S_0'(q_0)$ and ending at $q(t) = q$ at time $t$.  For this problem $p_0 = mv_0$ so we have
+   where the action is computed over the trajectory starting from $q(t_0) = q_0$ with
+   initial momentum $p_0 = S_0'(q_0)$ and ending at $q(t) = q$ at time $t$.  For this
+   problem $p_0 = mv_0$ so we have 
    
    $$
      q(t) = q_0 + v_0(t - t_0) = q_0 + \frac{S'_0(q_0)}{m}(t - t_0)

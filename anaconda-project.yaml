@@ -91,7 +91,10 @@ dependencies:
   # Core
   - conda-forge::uncertainties
   - scipy
+
+  # Performance and math
   - sympy
+  - conda-forge::jax # Automatic differentiation
 
   # Data analysis
   - pandas

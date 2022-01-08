@@ -49,6 +49,7 @@ extensions = [
     "sphinxcontrib.zopeext.autointerface",
     "matplotlib.sphinxext.plot_directive",
     "sphinxcontrib.bibtex",
+    "manim.utils.docbuild.manim_directive",
     # "phys_521_2021.manim_directive",
     # From jupyterbook
     # "jupyter_book",
@@ -56,7 +57,6 @@ extensions = [
     # "sphinx_comments",
     # "sphinx_external_toc",
     "sphinx_panels",
-    "sphinx_book_theme",
     # "recommonmark",
 ]
 
@@ -115,7 +115,7 @@ execution_allow_errors = True
 #
 html_theme = "alabaster"  # Default Sphinx theme
 html_theme = "sphinx_book_theme"  # Theme for JupyterBook
-html_logo = "_static/wsu-logo.svg"  # Needed for sidebars
+html_logo = "_static/wsu-logo.svg"
 
 html_theme_options = {
     "repository_url": "https://gitlab.com/wsu-courses/physics-521-classical-mechanics",
@@ -138,6 +138,8 @@ intersphinx_mapping = {
     "matplotlib [stable]": ("https://matplotlib.org/stable/", None),
     "numpy [stable]": ("https://numpy.org/doc/stable/", None),
     "scipy [latest]": ("https://docs.scipy.org/doc/scipy/", None),
+    "manim [stable]": ("https://docs.manim.community/en/stable/", None),
+    "IPython [stable]": ("https://ipython.readthedocs.io/en/stable/", None),
 }
 
 # Napoleon settings

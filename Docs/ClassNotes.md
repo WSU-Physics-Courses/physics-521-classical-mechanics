@@ -10,4 +10,5 @@ titlesonly:
 glob:
 ---
 ClassNotes/*
+ClassNotes/Arnold/*
 ```
