@@ -164,10 +164,10 @@ If you know where you are, you can put the movie in the appropriate `_static` fo
 
 ```html
 <video autoplay loop width='420' 
-       src='/_static/CircleToSquare.mp4' type='video/mp4'>
+       src='../_static/CircleToSquare.mp4' type='video/mp4'>
 </video>
 ```
-<video autoplay loop width='420' src='/_static/CircleToSquare.mp4' type='video/mp4'>
+<video autoplay loop width='420' src='../_static/CircleToSquare.mp4' type='video/mp4'>
 </video>
 
 ```{code-cell} ipython3
@@ -188,7 +188,7 @@ This can be displayed in python:
 
 ```{code-cell} ipython3
 from IPython.display import Video
-Video('_static/CircleToSquare.mp4', 
+Video('../_static/CircleToSquare.mp4', 
       width=500, 
       embed=False,
       mimetype="video/mp4",
