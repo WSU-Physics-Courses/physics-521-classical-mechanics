@@ -12,10 +12,13 @@
 #
 import os.path
 import subprocess
+import manim
 
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
+# Embed all manim videos.  Needs https://github.com/mforbes/manim/tree/issue_2441
+manim.config.embed = True
 
 # This is True if we are building on Read the Docs in case we need to customize.
 on_rtd = os.environ.get("READTHEDOCS") == "True"
@@ -229,7 +232,6 @@ def my_init():
                 "Python 3 (phys-521-2021)",
             ]
         )
-        print("Hello there!")
     else:
         print("Not On RTD!")
         subprocess.check_call(["anaconda-project", "run", "init"])

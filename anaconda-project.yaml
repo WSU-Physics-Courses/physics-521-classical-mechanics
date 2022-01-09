@@ -129,7 +129,9 @@ dependencies:
     - sphinxcontrib-zopeext
     - sphinxcontrib-bibtex>=2.4.0
     - mmf-setup
-    - manim>=0.11.0
+    #- manim>=0.11.0
+    - git+https://github.com/mforbes/manim.git@issue_2441#egg=manim
+
     #- genbadge[all]
 
 channels:
