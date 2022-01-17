@@ -5,7 +5,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.13.0
+    jupytext_version: 1.13.5
 kernelspec:
   display_name: Python 3 (phys-521-2021)
   language: python
@@ -42,25 +42,25 @@ modulus* or *eccentricity* $k$.  Check your numerical libraries carefully to see
 meaning of the parameter.  Scipy's {py:data}`scipy.special.ellipj` function expects
 $m=k^2$ but uses the notation $\cn(u|m) = \cn(u,k)$.
 ```
-The [Jacobi elliptic functions] are generalizations of $\sin \varphi$ and $\cos \varphi$
-obtained by replacing the angle $\varphi$ with the parameter $u$ which is the incomplete
+The [Jacobi elliptic functions] are generalizations of $\sin \phi$ and $\cos \phi$
+obtained by replacing the angle $\phi$ with the parameter $u$ which is the incomplete
 [elliptic integral] of the first kind:
 
 \begin{gather*}
-  u = F(\varphi, k) 
-    = \int_0^{\varphi}\frac{\d\theta}{\sqrt{1-k^2\sin^2\theta}},\\
+  u = F(\phi, k) 
+    = \int_0^{\phi}\frac{\d\theta}{\sqrt{1-k^2\sin^2\theta}},\\
   \begin{aligned}
-    \cn u \equiv \cn(u, k) &= \cos\varphi, \\
-    \sn u \equiv \sn(u, k) &= \sin\varphi, \qquad  (\text{hence } \cn^2 u + \sn^2 u = 1)\\
-    \dn u \equiv \dn(u, k) &= \sqrt{1 - \smash{k^2\sin^2 \varphi}} 
+    \cn u \equiv \cn(u, k) &= \cos\phi, \\
+    \sn u \equiv \sn(u, k) &= \sin\phi, \qquad  (\text{hence } \cn^2 u + \sn^2 u = 1)\\
+    \dn u \equiv \dn(u, k) &= \sqrt{1 - \smash{k^2\sin^2 \phi}} 
                             = \sqrt{1 - \smash{k^2\sn^2 u}},\\
-    \varphi(u, k) &= \sin^{-1}(\sn u)\\
+    \phi(u, k) &= \sin^{-1}(\sn u)\\
     %\dn^2 u &= 1 - k^2\sn^2 u = (1 - k^2) + k^2\cn^2 u,\\
-    %\tan\varphi & =\frac{\sn u}{\cn u},\\
+    %\tan\phi & =\frac{\sn u}{\cn u},\\
   \end{aligned}
 \end{gather*}
 
-If $k=0$, then $u = \varphi$, and these reduce to the standard trigonometric
+If $k=0$, then $u = \phi$, and these reduce to the standard trigonometric
 functions $\cn(u,0) = \cos(u)$, $\sn(u,0) = \sin(u)$, and $\dn(u,0) = 1$.  Note that
 $\sn$, $\cn$, and $\dn$ are periodic, but that the period is in general not $2\pi$, but
 instead given by the [complete elliptic integral of the first kind] $K(u) =
@@ -106,15 +106,15 @@ glue("period_fig", fig, display=False)
 ### $k$ Inversion Formulae
 
 In this formulation, $k^2 \in [0, 1]$, but one can consider $k^2 > 1$ as long as
-$\abs{\varphi} < \sin^{-1}(k^{-1})$.  To evaluate these for $k > 1$, we can use the
+$\abs{\phi} < \sin^{-1}(k^{-1})$.  To evaluate these for $k > 1$, we can use the
 following inversion relationships which 
 
 \begin{align*}
   \sn(u, k) &= k^{-1}\sn(ku, k^{-1}), \\
   \cn(u, k) &= \dn(ku, k^{-1}), \\
   \dn(u, k) &= \cn(ku, k^{-1}), \\
-  \varphi(u, k) &= \sin^{-1}\bigl(k^{-1}\sin\varphi(ku, k^{-1})\bigr),\\
-  F(\varphi, k) &= kF\bigl(\sin^{-1}(k\sin\varphi), k^{-1}\bigr).
+  \phi(u, k) &= \sin^{-1}\bigl(k^{-1}\sin\phi(ku, k^{-1})\bigr),\\
+  F(\phi, k) &= kF\bigl(\sin^{-1}(k\sin\phi), k^{-1}\bigr).
 \end{align*}
 
 ```{admonition} Proof of $k$ Inversion Formulae
@@ -124,20 +124,20 @@ Let $t = \sin \theta$, $\d{t} = \cos \theta\; \d\theta$ to obtain an alternate
 representation:
 
 \begin{gather*}
-  u = F(\varphi, k)
-    = \int_0^{\sin \varphi} \frac{\d{t}}{\cos\theta\sqrt{1 - k^2\sin^2\theta}}
-    = \int_0^{\sin \varphi} \frac{\d{t}}{\sqrt{1-t^2}\sqrt{1-k^2t^2}}.
+  u = F(\phi, k)
+    = \int_0^{\sin \phi} \frac{\d{t}}{\cos\theta\sqrt{1 - k^2\sin^2\theta}}
+    = \int_0^{\sin \phi} \frac{\d{t}}{\sqrt{1-t^2}\sqrt{1-k^2t^2}}.
 \end{gather*}
 
 Now multiply through by $k$ and change integration variables to $\tilde{t} = kt$, with
 $\tilde{u} = ku$ and $\tilde{k} = k^{-1}$:
 
 \begin{align*}
-  \tilde{u} &= ku = kF(\varphi, k)\\
-    &= \int_0^{k\sin \varphi} 
+  \tilde{u} &= ku = kF(\phi, k)\\
+    &= \int_0^{k\sin \phi} 
            \frac{\d{(kt)}}
                 {\sqrt{1-\frac{(kt)^2}{k^2}}\sqrt{1-(kt)^2}},\\
-    &= \int_0^{\overbrace{\sin \tilde{\varphi}}^{k\sin \varphi}}
+    &= \int_0^{\overbrace{\sin \tilde{\phi}}^{k\sin \phi}}
           \frac{\d{\tilde{t}}}
                {\sqrt{1-\tilde{k}^2\tilde{t}^2}\sqrt{1-\tilde{t}^2}}.
 \end{align*}
@@ -145,14 +145,14 @@ $\tilde{u} = ku$ and $\tilde{k} = k^{-1}$:
 Now, by analogy,
 
 \begin{align*}
-  u = F(\varphi, k) 
-    &\implies \sn(u, k) = \sin \varphi,\\
-  ku = \tilde{u} = F(\tilde{\varphi}, \tilde{k}) 
+  u = F(\phi, k) 
+    &\implies \sn(u, k) = \sin \phi,\\
+  ku = \tilde{u} = F(\tilde{\phi}, \tilde{k}) 
     &\implies 
-    \sn(\tilde{u}, \tilde{k}) = \sin\tilde{\varphi} = \sn(\tilde{u}, \tilde{k}),\\
+    \sn(\tilde{u}, \tilde{k}) = \sin\tilde{\phi} = \sn(\tilde{u}, \tilde{k}),\\
     &\implies 
     \underbrace{\sn(ku, k^{-1})}_{\sn(\tilde{u}, \tilde{k})} 
-     = \underbrace{k \sn(u, k)}_{\sin\tilde{\varphi}},
+     = \underbrace{k \sn(u, k)}_{\sin\tilde{\phi}},
 \end{align*}
 
 The other relationships follow simply from the original relationships:
@@ -172,7 +172,7 @@ where we obtain the last relationship by letting $k \rightarrow k^{-1}$ and $u \
 The derivatives satisfy the following:
 
 \begin{gather*}
-  \diff{\varphi}{u} = \dn u, \\
+  \diff{\phi}{u} = \dn u, \\
   \begin{aligned}
   \sn' u &= \cn u\dn u, \\
   \cn' u &= -\sn u\dn u, \\
@@ -183,6 +183,176 @@ The derivatives satisfy the following:
   \end{aligned}
 \end{gather*}
 
+
+### Unit Ellipse
+
+The [Jacobi elliptic functions] are related to a unit [ellipse] in the same way that the
+trigonometric functions are related to the unit circle, with $k$ being the
+[eccentricity] of the [ellipse]:
+
+\begin{gather*}
+    x^2 + (1-k^2)y^2 = 1, \qquad
+    (x, y) = (r\cos\phi, r\sin\phi).
+\end{gather*}
+
+Unlike with a circle, the radius cannot have a constant magnitude:
+
+\begin{gather*}
+  x^2+(1-k^2)y^2 = r^2\overbrace{(1-k^2\sin^2\phi)}^{\dn^2(u,k)} = 1, \\
+  r(\phi) = \frac{1}{1-k^2\sin^2\phi} = \frac{1}{\dn(u,k)},\\
+  x = \frac{\cn(u, k)}{\dn(u, k)} = \frac{\cos\phi}{\sqrt{1-k^2\sin^2\phi}},\\
+  y = \frac{\sn(u, k)}{\dn(u, k)} = \frac{\sin\phi}{\sqrt{1-k^2\sin^2\phi}}.
+\end{gather*}
+
+Thus, we have the familiar relationship:
+
+\begin{gather*}
+  \cn(u, k) = \frac{x}{r}, \qquad
+  \sn(u, k) = \frac{y}{r}, \qquad
+  \dn(u, k) = \frac{1}{r}, \\
+  r = \frac{1}{\sqrt{1-k^2\sin^2\phi}}.
+\end{gather*}
+
+
+
+
+
+The arc-length of the ellipse is
+
+\begin{gather*}
+  \d{x} = \\
+  \d{y} = \\
+  \d c/d  = s/d(k^2 c^2/d^2 - 1) \d{\phi}
+  \d s/d  = c/d(k^2 s^2/d^2 - 1)
+\end{gather*}
+
+
+\begin{gather*}
+  \int \sqrt{\d{x}^2 + \d{y}^2} = 
+  \int_0^{\phi} \sqrt{\d{x}^2 + \d{y}^2}\d\phi = 
+\end{gather*}
+
+```{code-cell} ipython3
+from scipy.special import ellipj, ellipkinc
+
+def get_scd(phi, k):
+    m = k**2
+    u = ellipkinc(phi, m)
+    s, c, d, phi_ = ellipj(u, m)
+    return s, c, d
+
+phi = np.linspace(0, 2*np.pi)
+k = 0.8
+s, c, d = get_scd(phi, k)
+
+fig, axs = plt.subplots(1, 2, figsize=(10,3))
+ax = axs[1]
+ax.plot(phi, s, phi, c, phi, d)
+
+ax = fig.add_subplot(axs[0].get_subplotspec(), projection="polar")
+axs[0].remove()
+ax.plot(phi, 1/d)
+```
+
+```{code-cell} ipython3
+:tags: [hide-input]
+
+%%manim --embed -v WARNING --progress_bar None -qm JacobiEllipse
+from scipy.special import ellipj, ellipkinc
+from manim import *
+
+my_tex_template = TexTemplate()
+with open("../_static/math_defs.tex") as f:
+    my_tex_template.add_to_preamble(f.read())
+
+def get_scd(phi, k):
+    m = k**2
+    u = ellipkinc(phi, m)
+    s, c, d, phi_ = ellipj(u, m)
+    return s, c, d
+
+def get_xyr(phi, k):
+    s, c, d = get_scd(phi, k)
+    r = 1/d
+    x, y = r*c, r*s
+    return x, y, r
+
+class JacobiEllipse(Scene):
+    def construct(self):
+        config["tex_template"] = my_tex_template
+        config["media_width"] = "100%"
+        class colors:
+            ellipse = YELLOW
+            x = BLUE
+            y = GREEN
+            r = RED
+            
+        phi = ValueTracker(0.01)
+        k = 0.8
+        axes = Axes(x_range=[0, 2*np.pi, 1], 
+                    y_range=[-2, 2, 1],
+                    x_length=6, 
+                    y_length=4,
+                    axis_config=dict(include_tip=False),
+                    x_axis_config=dict(numbers_to_exclude=[0]),
+                   ).add_coordinates()
+        
+        
+        plane = PolarPlane(radius_max=2).add_coordinates()
+
+        x = lambda phi: get_xyr(phi, k)[0]
+        y = lambda phi: get_xyr(phi, k)[1]
+        r = lambda phi: get_xyr(phi, k)[2]
+        
+        g_ellipse = plane.plot_polar_graph(r, [0, 2*np.pi], color=colors.ellipse)
+        
+        points_colors = [(x, colors.x), (y, colors.y), (r, colors.r)]
+        x_graph, y_graph, r_graph = [axes.plot(_x, color=_c) for _x, _c in points_colors]
+        graphs = VGroup(x_graph, y_graph, r_graph)
+        
+        dot = always_redraw(lambda:
+            Dot(plane.polar_to_point(r(phi.get_value()), phi.get_value()), 
+                fill_color=colors.ellipse, 
+                fill_opacity=0.8))
+
+        @always_redraw
+        def lines():
+            c2p = plane.coords_to_point
+            phi_ = phi.get_value()
+            x_, y_ = x(phi_), y(phi_)
+            return VGroup(
+                Line(c2p(0, 0), c2p(x_, 0), color=colors.x),
+                Line(c2p(0, y_), c2p(x_, y_), color=colors.x),
+                Line(c2p(0, 0), c2p(0, y_), color=colors.y),
+                Line(c2p(x_, 0), c2p(x_, y_), color=colors.y),
+                Line(axes.c2p(phi_, y_), c2p(x_, y_), color=colors.y),
+                Line(c2p(0, 0), c2p(x_, y_), color=colors.r),
+            ).set_opacity(0.8)
+
+        dots = always_redraw(lambda:
+            VGroup(*(Dot(axes.c2p(phi.get_value(), _x(phi.get_value())), fill_color=_c, fill_opacity=1)
+                     for _x, _c in points_colors)))
+
+        a_group = VGroup(axes, dots, graphs)
+        p_group = VGroup(plane, g_ellipse, dot, lines)
+        a_group.shift(RIGHT*2)
+        p_group.shift(LEFT*4)
+    
+        labels = VGroup(
+            axes.get_graph_label(
+                x_graph, label=r"x=\cn(u, k)", color=colors.x,
+                x_val=2.5, direction=DOWN).shift(0.2*LEFT),
+            axes.get_graph_label(
+                y_graph, label=r"y=\sn(u, k)", color=colors.y,
+                x_val=4.5, direction=DR),
+            axes.get_graph_label(
+                r_graph, label=r"r=1/\dn(u, k)", color=colors.r,
+                x_val=2, direction=UR),
+        )
+        #labels.next_to(a_group, RIGHT)
+        self.add(p_group, a_group, labels)
+        self.play(phi.animate.set_value(2*np.pi), run_time=5, rate_func=linear)
+```
 
 ## Anharmonic Oscillator
 
@@ -346,8 +516,8 @@ integral] of the first kind.  This can be done with the half-angle identity $1-\
     k = \tau\omega = \sqrt{\frac{2mgl}{E}}
 \end{gather*}
 
-Hence, we have $\varphi = q/2$ and $u = (t-t_0)/\tau$, so the solution can be expressed
-as $\cn u = \cos \varphi$ or $\sn u = \sin \varphi$:
+Hence, we have $\phi = q/2$ and $u = (t-t_0)/\tau$, so the solution can be expressed
+as $\cn u = \cos \phi$ or $\sn u = \sin \phi$:
 
 \begin{gather*}
   q(t) = 2 \cos^{-1}\left(\cn\Bigl(\frac{t - t_0}{\tau}, k=\tau\omega \Bigr)\right)
@@ -368,9 +538,7 @@ compute these, we use the $k^{-1}$ relationships above to obtain:
   \right).
 \end{gather*}
 
-
 ```{code-cell} ipython3
-
 #:tags: [hide-cell]
 
 from scipy.special import ellipj, ellipk
@@ -413,7 +581,6 @@ ax.legend()
 #glue("period_fig", fig, display=False)
 ```
 
-
 ## References
 
 * {cite:p}`Baker:2012`: Full solution to the rotating bead on a circular wire problem.
@@ -425,3 +592,5 @@ ax.legend()
 [complete elliptic integral of the first kind]: <https://en.wikipedia.org/wiki/Elliptic_integral#Complete_elliptic_integral_of_the_first_kind>
 [Jacobi elliptic functions]: <https://en.wikipedia.org/wiki/Jacobi_elliptic_functions>
 [libration]: <https://en.wikipedia.org/wiki/Libration_(molecule)>
+[eccentricity]: <https://en.wikipedia.org/wiki/Eccentricity_(mathematics)>
+[ellipse]: <https://en.wikipedia.org/wiki/Ellipse>

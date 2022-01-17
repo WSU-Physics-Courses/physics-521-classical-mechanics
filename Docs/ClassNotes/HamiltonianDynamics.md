@@ -395,7 +395,91 @@ axs[0].set(ylim=(-6, 7))
 axs[0].set(title=fr"$\alpha = {alpha}$, $T=1.3\times 2\pi \sqrt{{r/g}}$");
 ```
 
+# Falling Particle
 
+As another example, let's consider a particle falling in a gravitational field:
+
+\begin{gather*}
+  \newcommand{\t}{\tau}
+  H(p, q) = \frac{p^2}{2m} + mgq, \qquad \t = (t-t_0),\\
+  \dot{p} = -\pdiff{H}{q} = -mg \quad \implies \quad
+  p = p_0 - mg\t,\\
+  \dot{q} = \pdiff{H}{p} = \frac{p}{m} = \frac{p_0}{m} - g\t \quad \implies \quad
+  q = q_0 + \frac{p_0}{m}\t - \frac{g}{2}\t^2.
+\end{gather*}
+
+From this solution, we can construct the action $S(q_0, p_0, \t=t-t_0)$:
+
+\begin{gather*}
+  L = p\dot{q} - H = \frac{p^2}{2m} - mgq 
+  = \frac{p_0^2}{2m} - mgq_0 - 2gp_0\t + mg^2\t^2,\\
+  S(q_0, p_0, \t) = \left(\frac{p_0^2}{2m} - mgq_0\right)\t - gp_0\t^2 + \frac{mg^2}{3}\t^3.
+\end{gather*}
+
+For geometric optics, it is more useful to express this in terms of a different set of
+variables:
+
+| Independent Variables | Replacement           | Name                 |
+|-----------------------|-----------------------|----------------------|
+| $(q, t;q_0, t_0)$     | $p_0(q, t, q_0, t_0)$ | position-to-position |
+| $(q, t;p_0, t_0)$     | $q_0(q, t, p_0, t_0)$ | momentum-to-position |
+
+This requires inverting the equations to solve for $p_0$ or $q_0$ respectively using
+energy conservation $H(p_0, q_0) = H(p, q)$:
+
+\begin{align*}
+  p_0(q, t, q_0, t_0) &= m\left(\frac{q-q_0}{\t} + \frac{g\t}{2}\right),\\
+  q_0(q, t, p_0, t_0) &= q + \frac{g\t^2}{2} - \frac{p_0\t}{m},\\
+  S(q,t;q_0,t_0) &= m\left(\frac{(q-q_0)^2}{2\t} - \frac{g(q+q_0)\t}{2} - \frac{g^2\t^3}{24} \right),\\
+  S(q,t;p_0,t_0) &= \left(\frac{p_0^2}{2m} - mgq\right)\t - \frac{mg^2\t^3}{6}.
+\end{align*}
+
+\begin{gather*}
+  p(q, t, q_0, t_0) = m\left(\frac{q-q_0}{\t} - \frac{g\t}{2}\right),\\
+  \begin{aligned}
+    H = H_0 &= m\left(\frac{(q-q_0)^2}{2\t^2} + \frac{g^2\t^2}{8} + \frac{g(q+q_0)}{2}\right)\\
+      &= \frac{p_0^2}{2m} + mgq - gp_0\t + \frac{mg^2\t^2}{2}.
+  \end{aligned}
+\end{gather*}
+
+
+From these we can test various relationships.  First with respect to the variables $(q, t;q_0, t_0)$:
+
+\begin{align*}
+  \pdiff{S}{q} &= p = m\left(\frac{q-q_0}{\t} - \frac{g\t}{2}\right),\\
+  \pdiff{S}{q_0} &= -p_0 = -m\left(\frac{q-q_0}{2\t} + \frac{g\t}{2}\right),\\
+  \pdiff{S}{t} &= -H = -m\left(\frac{(q-q_0)^2}{2\t^2} + \frac{g(q+q_0)}{2} + \frac{g^2\t^2}{8}\right),\\
+  \pdiff{S}{t_0} &= H_0 = m\left(\frac{(q-q_0)^2}{2\t^2} + \frac{g(q+q_0)}{2} + \frac{g^2\t^3}{8} \right).
+\end{align*}
+
+```{margin}
+The partials on the rhs are wrt $(q, t;q_0, t_0)$:
+
+\begin{align*}
+  \pdiff{p_0}{q} &= - \pdiff{p_0}{q_0} = \frac{m}{\t}\\
+  \pdiff{p_0}{t_0} &= -\pdiff{p_0}{t} = \\
+  =&\frac{p_0}{\t}-mg\\
+  =&\frac{m(q-q_0)}{\t^2} - \frac{mg}{2},\\
+\end{align*}
+```
+Next, with respect to the variables $(q, t;p_0, t_0)$:
+
+\begin{align*}
+  \pdiff{S}{q} &= p 
+    + p_0 \overbrace{\frac{\partial p_0/\partial q}{\partial p_0/\partial q_0}}
+                    ^{-1}
+    = -mg\t,\\
+  \pdiff{S}{t} &= -H 
+    + p_0 \overbrace{\frac{\partial p_0/\partial t}{\partial p_0/\partial q_0}}
+                    ^{p_0/m-g\t}
+    = \frac{p_0^2}{2m} - mgq - \frac{mg^2\t^2}{2} ,\\
+  \pdiff{S}{t_0} &= H_0 
+    + p_0 \overbrace{\frac{\partial p_0/\partial t_0}{\partial p_0/\partial q_0}}
+                    ^{-p_0/m + g\t}
+     =-\frac{p_0^2}{2m} + mgq + \frac{mg^2\t^2}{2},\\
+  \pdiff{S}{p_0} &= -p_0\frac{1}{\underbrace{\partial p_0/\partial q_0}_{-m/\t}} 
+                  =\frac{p_0}{m}\t.
+\end{align*}
 
 
 
