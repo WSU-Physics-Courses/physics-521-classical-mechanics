@@ -395,9 +395,183 @@ axs[0].set(ylim=(-6, 7))
 axs[0].set(title=fr"$\alpha = {alpha}$, $T=1.3\times 2\pi \sqrt{{r/g}}$");
 ```
 
-# Falling Particle
+# WKB Approximation
 
-As another example, let's consider a particle falling in a gravitational field:
+In quantum mechanics, one can use the Feynman path-integral approach to construct the
+propagator (here expressed in terms of position-to-position transitions):
+
+```{margin}
+See {cite:p}`Cartier:2006` for extensive details and rigorous definitions of what the
+path integral means.
+```
+\begin{gather*}
+  U(q, t; q_0, t_0) = \int \mathcal{D}[q]\; \exp\left\{\frac{\I}{\hbar} S[q]\right\},
+\end{gather*}
+
+where the integral is over all paths that start at $q(t_0) = q_0$ and end at $q(t) =
+q$, and $S[q]$ is the classical action
+
+\begin{gather*}
+  S[q] = \int_{t_0}^{t}\d{t}\; L(q, \dot{q}, t).  
+\end{gather*}
+
+Given an initial wavefunction $\psi(q_0, t_0)$, the wavefunction at time $t$ is:
+
+\begin{gather*}
+  \psi(q, t) = \int \d{q_0}\; U(q, t;q_0, t_0)\psi(q_0, t_0).
+\end{gather*}
+
+the [WKB approximation] relies on the idea that classical trajectories where
+$S'[q_{\mathrm{cl}}] = 0$ -- the famous principle of extremal action -- dominate the
+propagator, and use the expansion of the action
+
+\begin{gather*}
+  S[q+\xi] = S[q] + S'[q]\cdot \xi + \frac{1}{2!}S''[q]\cdot\xi\xi 
+  + \frac{1}{3!}S'''[q]\cdot\xi\xi\xi  + \cdots.
+\end{gather*}
+
+```{margin}
+The path integral over $\xi$ here can be computed analytically as it is simply a
+[gaussian integral].  This result is just the multi-dimensional generalization of the
+elementary result that
+
+\begin{gather*}
+  \int \d^n{\vect{x}} e^{-\tfrac{1}{2}\vect{x}^T\mat{A}\vect{x}} =\\
+  = \sqrt{\det(2\pi \mat{A}^{-1})}.
+\end{gather*}
+```
+The [WKB approximation] amount to considering all classical trajectories with
+appropriate boundary conditions, performing the path integral over $\xi$, and dropping
+terms of order $\order(\xi^3)$ and higher to obtain:
+
+\begin{gather*}
+  U_{WKB}(q, t; q_0, t_0) = \int \mathcal{D}[\xi]\; \exp\left\{\frac{\I}{\hbar}\left(
+  S[q_{\mathrm{cl}}] + \frac{1}{2}S''[q_{\mathrm{cl}}]\cdot\xi\xi\right)\right\} =\\
+  = \sqrt{\frac{\partial^2 S}{\partial q_{\mathrm{cl}}(t)\partial q_{\mathrm{cl}}(t_0)}}
+    \exp\left\{\frac{\I}{\hbar}S(q_{\mathrm{cl}}(t),t;q_{\mathrm{cl}}(t_0);t_0]\right\}.
+\end{gather*}
+
+*(Note: if there are multiple trajectories that satisfy the boundary conditions, then
+they should be added, giving rise to quantum interference patterns.)*
+
+Similar results can be obtained from the momentum-to-position transitions if the initial
+state is expressed in terms of momentum:
+
+\begin{gather*}
+  U_{WKB}(q, t; p_0, t_0) 
+  = \sqrt{\frac{\partial^2 S}{\partial q_{\mathrm{cl}}(t)\partial p_{\mathrm{cl}}(t_0)}}
+    \exp\left\{\frac{\I}{\hbar}S(q_{\mathrm{cl}}(t),t;p_{\mathrm{cl}}(t_0);t_0]\right\}.
+\end{gather*}
+
+Once the path integrals over $\xi$ have been done, everything is expressed in terms of
+the classical trajectory $q_{\mathrm{cl}}(t)$ and we shall drop the $\mathcal{cl}$
+subscript in what follows.
+
+## Maxwell Relations
+
+To work with these expressions, we must compute the classical action for a particle
+which follows the classical trajectory, for example $S(q,t;q_0,t_0)$ for the
+position-to-position transitions, or $S(q,t;p_0,t_0)$ for the momentum-to-position
+transitions.  We also need the various partial derivatives for the normalization factor
+and for additional analysis.  Relating the partials of $S(q,t;q_0,t_0)$ to the partials
+of $S(q,t;p_0,t_0)$ follows the same process of deriving thermodynamic relationships
+such as the [Maxwell relations].
+
+```{admonition} Warm-up Exercise
+Consider a function $f(q, q_0)$ and another variable $p_0(q, q_0)$.  Show that the following
+hold:
+
+\begin{align*}
+  \newcommand{\mypd}[3]{\left.\pdiff{#1}{#2}\right|_{#3}}
+  \mypd{f(q, p_0)}{p_0}{q} &= \frac{\mypd{f(q,q_0)}{q_0}{q}}{\mypd{p_0(q,q_0)}{q_0}{q}},\\
+  \mypd{f(q, p_0)}{q}{p_0} &= 
+  \mypd{f(q,q_0)}{q}{q_0} - \mypd{f(q,q_0)}{q_0}{q}\frac{\mypd{p_0(q,q_0)}{q}{q_0}}{\mypd{p_0(q,q_0)}{q_0}{q}}.
+\end{align*}
+
+Check this by providing explicit forms for $f(q, q_0)$ and $p_0(q, q_0)$, then
+explicitly changing variables and differentiating.
+```
+
+```{margin}
+Some further relationships with this notation are:
+
+\begin{align*}
+  S_{,t} &= \mypd{\!S(q,\!t;q_0,\!t_0)}{t}{q,q_0,t_0}\\
+  S^{P}_{,p_0} &= \mypd{\!S^{P}(q,\!t;p_0,\!t_0)}{p_0}{q,t,t_0}\\
+  S^{G}_{,p_0} &= \mypd{\!S^{G}(q,\!t;q_0,\!p_0)}{p_0}{q,t,q_0}\\
+  {p_0}_{,t} &= \mypd{\!p_0(q,\!t;q_0,\!t_0)}{t}{q,q_0,t_0}
+\end{align*}
+```
+Here we consider three different sets of variables $S(q,t;q_0,t_0)$, $S^{P}(q,t;p_0,t_0)$, and
+$S^{G}(q,t;q_0,p_0)$.  To simplify the equations, we use the following notation for
+partials:
+
+\begin{gather*}
+  S_{,q} = \mypd{S(q,t;q_0,t_0)}{q}{t,q_0,t_0}, \qquad
+  S^{P}_{,q} = \mypd{S^{P}(q,t;p_0,t_0)}{q}{t,p_0,t_0}, \\
+  S^{G}_{,q} = \mypd{S^{G}(q,t;q_0,p_0)}{t}{q,q_0,p_0}, \qquad
+  p_{0,q} = \mypd{p_0(q,t;q_0,t_0)}{t}{t,q_0,t_0}, \qquad \text{etc.}
+\end{gather*}
+
+I.e., the superscript denotes which set of variables is held fixed, and the subscript
+denotes which variable we differentiate.  If there is no subscript  Prove the following:
+
+\begin{align*}
+  S^{P}_{,p_0} &= \frac{S_{,q_0}}{p_{0,q_0}}, &
+  S^{G}_{,p_0} &= \frac{S_{,t_0}}{p_{0,t_0}},
+  \\
+  S^{P}_{,q} &= S_{,q} - S_{,q_0}\frac{p_{0,q}}{p_{0,q_0}}, &
+  S^{G}_{,q} &= S_{,q} - S_{,t_0}\frac{p_{0,q}}{p_{0,t_0}},
+  \\
+  S^{P}_{,t} &= S_{,q} - S_{,q_0}\frac{p_{0,t}}{p_{0,q_0}}, &
+  S^{G}_{,t} &= S_{,q} - S_{,t_0}\frac{p_{0,t}}{p_{0,t_0}},
+  \\
+  S^{P}_{,t_0} &= S_{,q} - S_{,q_0}\frac{p_{0,t_0}}{p_{0,q_0}}, &
+  S^{G}_{,q_0} &= S_{,q} - S_{,t_0}\frac{p_{0,q_0}}{p_{0,t_0}}.
+\end{align*}
+  
+To simplify these further, we need some mechanics.  We shall work with $S(q,t;q_0,t_0)$
+explicitly:
+
+```{admonition} Exercise
+Show that:
+\begin{align*}
+  S_{,q} &= p &
+  S_{,t} &= -H &
+  S_{,q_0} &= -p_0 &
+  S_{,t_0} &= H_0.
+\end{align*}
+
+Use the explicit form for the action, and then integrate by parts using the equations of
+motion to obtain simpler results.  For some details, see {cite:p}`Houchmandzadeh:2020`.
+```
+
+These relationships allow us to derive formula similar to the [Maxwell relations] in
+thermodynamics.  For example, using the fact that $p_0 = -S_{,q_0}$, $H_0 = S_{,t_0}$,
+and $\dot{p}_0 = -\partial H_0/\partial q_0$ from the Hamilton equations of motion, we have:
+
+\begin{align*}
+  p_{0,t_0} &= -\frac{\partial^2 S}{\partial q_0\partial t_0}
+             = -\frac{\partial^2 S}{\partial t_0\partial q_0}
+             = -\frac{\partial H_0}{\partial q_0}
+             = \dot{p}_0.
+\end{align*}
+
+```{margin}
+We can use the Hamilton equations to simplify $H_{,q_0}$ since $H$ is the Hamiltonian at
+time $t$, while $q_0$ is the coordinate at time $t_0$.
+```
+Likewise, though less useful:
+
+\begin{align*}
+  p_{0,q} &= - p_{,q_0}, &
+  p_{0,t} &= - H_{,q_0}, &
+  p_{0,q_0} &= S_{,q_0,q_0}.
+\end{align*}
+
+## Falling Particle
+
+To check these relationships, we consider a particle falling in a gravitational field:
 
 \begin{gather*}
   \newcommand{\t}{\tau}
@@ -416,23 +590,65 @@ From this solution, we can construct the action $S(q_0, p_0, \t=t-t_0)$:
   S(q_0, p_0, \t) = \left(\frac{p_0^2}{2m} - mgq_0\right)\t - gp_0\t^2 + \frac{mg^2}{3}\t^3.
 \end{gather*}
 
-For geometric optics, it is more useful to express this in terms of a different set of
-variables:
+As a function of $S^{0}(t;p_0,q_0,t_0)$, this is not in any of the forms we considered
+above.  To obtain those, we must eliminate one of the variables:
 
 | Independent Variables | Replacement           | Name                 |
 |-----------------------|-----------------------|----------------------|
-| $(q, t;q_0, t_0)$     | $p_0(q, t, q_0, t_0)$ | position-to-position |
-| $(q, t;p_0, t_0)$     | $q_0(q, t, p_0, t_0)$ | momentum-to-position |
+| $(q, t;q_0, t_0)$     | $p_0(q, t;q_0, t_0)$ | position-to-position |
+| $(q, t;p_0, t_0)$     | $q_0(q, t; p_0, t_0)$ | momentum-to-position |
+| $(q, t;q_0, p_0)$     | $t_0(q, t; p_0, q_0)$ | geometric optics     |
 
-This requires inverting the equations to solve for $p_0$ or $q_0$ respectively using
-energy conservation $H(p_0, q_0) = H(p, q)$:
+This requires inverting the equations to solve for $p_0$, $q_0$, or $t_0$ respectively.
+For the first two, we make use of the fact that the Hamiltonian (energy) is conserved
+$H(p_0, q_0) = H(p, q)$:
+
+\begin{gather*}
+  \frac{p^2}{2m} + mgq = \frac{p_0^2}{2m} mgq_0.
+\end{gather*}
+
+For the last one, we need to solve the solution $q(\tau)$ for $\tau$.  These give the
+following transformations:
 
 \begin{align*}
   p_0(q, t, q_0, t_0) &= m\left(\frac{q-q_0}{\t} + \frac{g\t}{2}\right),\\
   q_0(q, t, p_0, t_0) &= q + \frac{g\t^2}{2} - \frac{p_0\t}{m},\\
-  S(q,t;q_0,t_0) &= m\left(\frac{(q-q_0)^2}{2\t} - \frac{g(q+q_0)\t}{2} - \frac{g^2\t^3}{24} \right),\\
-  S(q,t;p_0,t_0) &= \left(\frac{p_0^2}{2m} - mgq\right)\t - \frac{mg^2\t^3}{6}.
+  t_0(q, t, p_0, q_0) &= t - \frac{p_0}{mg} \mp \sqrt{\frac{p_0^2}{m^2g^2} -2 \frac{q - q_0}{g}}
 \end{align*}
+
+In the last case, the appropriate branch must be chosen to meet the physcal boundary
+conditions.  Using these, we can express the action as:
+
+\begin{align*}
+  S(q,t;q_0,t_0) &= m\left(\frac{(q-q_0)^2}{2\t} - \frac{g(q+q_0)\t}{2} - \frac{g^2\t^3}{24} \right),\\
+  S^{P}(q,t;p_0,t_0) &= \left(\frac{p_0^2}{2m} - mgq\right)\t - \frac{mg^2\t^3}{6},\\
+  S^{G}(q,t;p_0,q_0) &= \frac{-p_0^3}{6m^2g} - p_0q_0 \mp \frac{\frac{p_0^2}{2m} + mg(2q+q_0)}{3}\sqrt{\frac{p_0^2}{m^2g^2} -2 \frac{q - q_0}{g}},\\
+                     &= \frac{2p_0(q-q_0) \mp \left(\frac{p_0^2}{2m} + mg(2q+q_0)\right)\t}{3}.
+\end{align*}
+
+The expression for $S^{G}(q;p_0,q_0)$ is a bit messy, but notably does not depend on
+$t_0$ due to the time-invariance of the problem.  However, to simplify expressions
+later, we present it in the second form where $\t$ should be replaced by
+\begin{gather*}
+  \t(q;p_0,q_0) = \frac{p_0}{mg} \pm \sqrt{\frac{p_0^2}{m^2g^2} -2 \frac{q - q_0}{g}}.
+\end{gather*}
+
+
+```{margin}
+The partials on the rhs are wrt $(q, t;q_0, t_0)$:
+
+\begin{align*}
+  p_{0,q} &= -p_{0,q_0} = \frac{m}{\t}\\
+  p_{0,t_0} &= -p_{0,t}\\
+  &=\frac{p_0}{\t}-mg\\
+  &=\frac{m(q-q_0)}{\t^2} - \frac{mg}{2}
+\end{align*}
+```
+
+````{admonition} Exercise
+
+Check the relationships between the various partial derivatives of the actions.  The
+following may be helpful:
 
 \begin{gather*}
   p(q, t, q_0, t_0) = m\left(\frac{q-q_0}{\t} - \frac{g\t}{2}\right),\\
@@ -442,8 +658,7 @@ energy conservation $H(p_0, q_0) = H(p, q)$:
   \end{aligned}
 \end{gather*}
 
-
-From these we can test various relationships.  First with respect to the variables $(q, t;q_0, t_0)$:
+First with respect to the variables $(q, t;q_0, t_0)$:
 
 \begin{align*}
   \pdiff{S}{q} &= p = m\left(\frac{q-q_0}{\t} - \frac{g\t}{2}\right),\\
@@ -452,37 +667,35 @@ From these we can test various relationships.  First with respect to the variabl
   \pdiff{S}{t_0} &= H_0 = m\left(\frac{(q-q_0)^2}{2\t^2} + \frac{g(q+q_0)}{2} + \frac{g^2\t^3}{8} \right).
 \end{align*}
 
-```{margin}
-The partials on the rhs are wrt $(q, t;q_0, t_0)$:
-
-\begin{align*}
-  \pdiff{p_0}{q} &= - \pdiff{p_0}{q_0} = \frac{m}{\t}\\
-  \pdiff{p_0}{t_0} &= -\pdiff{p_0}{t} = \\
-  =&\frac{p_0}{\t}-mg\\
-  =&\frac{m(q-q_0)}{\t^2} - \frac{mg}{2},\\
-\end{align*}
-```
 Next, with respect to the variables $(q, t;p_0, t_0)$:
 
 \begin{align*}
-  \pdiff{S}{q} &= p 
-    + p_0 \overbrace{\frac{\partial p_0/\partial q}{\partial p_0/\partial q_0}}
-                    ^{-1}
-    = -mg\t,\\
-  \pdiff{S}{t} &= -H 
-    + p_0 \overbrace{\frac{\partial p_0/\partial t}{\partial p_0/\partial q_0}}
-                    ^{p_0/m-g\t}
+  \pdiff{S^{P}}{q} &= p - p_0 = -mg\t,\\
+  \pdiff{S^{P}}{t} &= -H + p_0\left(\frac{p_0}{m} -g\t\right)
     = \frac{p_0^2}{2m} - mgq - \frac{mg^2\t^2}{2} ,\\
-  \pdiff{S}{t_0} &= H_0 
-    + p_0 \overbrace{\frac{\partial p_0/\partial t_0}{\partial p_0/\partial q_0}}
-                    ^{-p_0/m + g\t}
+  \pdiff{S^{P}}{t_0} &= H_0 - p_0\left(\frac{p_0}{m} -g\t\right)
      =-\frac{p_0^2}{2m} + mgq + \frac{mg^2\t^2}{2},\\
-  \pdiff{S}{p_0} &= -p_0\frac{1}{\underbrace{\partial p_0/\partial q_0}_{-m/\t}} 
-                  =\frac{p_0}{m}\t.
+  \pdiff{S^{P}}{p_0} &= p_0\frac{\t}{m}
+                      =\frac{p_0}{m}\t.
 \end{align*}
 
+Finally, with respect to the variables $(q, t;p_0, q_0)$:
+
+\begin{align*}
+  \pdiff{S^{G}}{q} &= p - \frac{H_0}{\frac{p_0}{m} - g\t}
+                    = ???,\\
+  \pdiff{S^{G}}{t} &= -H + H_0 = 0,\\
+  \pdiff{S^{G}}{q_0} &= -p_0 + \frac{H_0}{\frac{p_0}{m} - g\t}
+                      =???,\\
+  \pdiff{S^{G}}{p_0} &= H_0\left(\frac{p_0}{\t} - mg\right) 
+                      = ???.
+\end{align*}
+````
 
 
 [Lagrangian mechanics]: <https://en.wikipedia.org/wiki/Legendre_transformation>
 [Hamiltonian mechanics]: <https://en.wikipedia.org/wiki/Hamiltonian_mechanics>
 [Legendre transformation]: <https://en.wikipedia.org/wiki/Legendre_transformation>
+[WKB approximation]: <https://en.wikipedia.org/wiki/WKB_approximation>
+[gaussian integral]: <https://en.wikipedia.org/wiki/Gaussian_integral>
+[Maxwell relations]: <https://en.wikipedia.org/wiki/Maxwell_relations>
