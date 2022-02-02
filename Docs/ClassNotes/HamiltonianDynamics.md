@@ -523,11 +523,11 @@ denotes which variable we differentiate.  If there is no subscript  Prove the fo
   S^{P}_{,q} &= S_{,q} - S_{,q_0}\frac{p_{0,q}}{p_{0,q_0}}, &
   S^{G}_{,q} &= S_{,q} - S_{,t_0}\frac{p_{0,q}}{p_{0,t_0}},
   \\
-  S^{P}_{,t} &= S_{,q} - S_{,q_0}\frac{p_{0,t}}{p_{0,q_0}}, &
-  S^{G}_{,t} &= S_{,q} - S_{,t_0}\frac{p_{0,t}}{p_{0,t_0}},
+  S^{P}_{,t} &= S_{,t} - S_{,q_0}\frac{p_{0,t}}{p_{0,q_0}}, &
+  S^{G}_{,t} &= S_{,t} - S_{,t_0}\frac{p_{0,t}}{p_{0,t_0}},
   \\
-  S^{P}_{,t_0} &= S_{,q} - S_{,q_0}\frac{p_{0,t_0}}{p_{0,q_0}}, &
-  S^{G}_{,q_0} &= S_{,q} - S_{,t_0}\frac{p_{0,q_0}}{p_{0,t_0}}.
+  S^{P}_{,t_0} &= S_{,t_0} - S_{,q_0}\frac{p_{0,t_0}}{p_{0,q_0}}, &
+  S^{G}_{,q_0} &= S_{,p_0} - S_{,t_0}\frac{p_{0,q_0}}{p_{0,t_0}}.
 \end{align*}
   
 To simplify these further, we need some mechanics.  We shall work with $S(q,t;q_0,t_0)$
@@ -616,13 +616,14 @@ following transformations:
   t_0(q, t, p_0, q_0) &= t - \frac{p_0}{mg} \mp \sqrt{\frac{p_0^2}{m^2g^2} -2 \frac{q - q_0}{g}}
 \end{align*}
 
-In the last case, the appropriate branch must be chosen to meet the physcal boundary
+In the last case, the appropriate branch must be chosen to meet the physical boundary
 conditions.  Using these, we can express the action as:
 
 \begin{align*}
   S(q,t;q_0,t_0) &= m\left(\frac{(q-q_0)^2}{2\t} - \frac{g(q+q_0)\t}{2} - \frac{g^2\t^3}{24} \right),\\
   S^{P}(q,t;p_0,t_0) &= \left(\frac{p_0^2}{2m} - mgq\right)\t - \frac{mg^2\t^3}{6},\\
-  S^{G}(q,t;p_0,q_0) &= \frac{-p_0^3}{6m^2g} - p_0q_0 \mp \frac{\frac{p_0^2}{2m} + mg(2q+q_0)}{3}\sqrt{\frac{p_0^2}{m^2g^2} -2 \frac{q - q_0}{g}},\\
+  S^{G}(q,t;p_0,q_0) &= \frac{-p_0^3}{6m^2g} - p_0q_0 \mp \frac{\frac{p_0^2}{2m} +
+  mg(2q+q_0)}{3g\sqrt{m/2}}\sqrt{\frac{p_0^2}{2m} - mg(q - q_0)},\\
                      &= \frac{2p_0(q-q_0) \mp \left(\frac{p_0^2}{2m} + mg(2q+q_0)\right)\t}{3}.
 \end{align*}
 
@@ -691,6 +692,195 @@ Finally, with respect to the variables $(q, t;p_0, q_0)$:
                       = ???.
 \end{align*}
 ````
+
+### Interference 1
+
+Now consider two streams of particles continuously injected at $z = 0$.  The first steam
+falls without any external potential other than gravity, while the second experiences an additional
+potential $\lambda V(z)$.  We choose our reference frame so that $H_0 = H = 0$.  Then, for the
+first set of particles, we have:
+
+\begin{gather*}
+  z(t) = -g \frac{t^2}{2}, \qquad
+  \dot{z} = -gt = -g\sqrt{\frac{-2z}{g}}, \qquad
+  t = \sqrt{\frac{-2z}{g}},\\
+  S = -mgzt - \frac{mg^2t^3}{6} = \frac{mg^2t^3}{3}
+    = \frac{mg^2}{3}\left(\frac{-2z}{g}\right)^{3/2}.
+\end{gather*}
+
+If the potential $\lambda V(z)$ for the second species is small, we may use the Born
+approximation, under which the leading order correction to the action is:
+
+\begin{gather*}
+  S_a - S = - \lambda \int_{t_0}^{t}V\bigl(z(t)\bigr)\d{t} + \order(\lambda^2)
+          = - \lambda \int_{0}^{z}\frac{V(z)}{\dot{z}}\d{z} + \order(\lambda^2)\\
+          = - \frac{\lambda}{\sqrt{2g}}\int_{0}^{z}\frac{V(z)}{\sqrt{-z}}\d{z} + \order(\lambda^2)
+\end{gather*}
+
+
+```{code-cell} ipython3
+from scipy.integrate import cumtrapz
+micron = 1.0
+mm = 1000*micron
+meter = 1000*mm
+sec = 1.0
+amu = 1e-3
+V0 = 85340
+
+m = 87.0 * amu
+g1 = 9.81 * meter/sec**2
+g2 = 9.80 * meter/sec**2
+
+x = np.linspace(-200, 200, 500)[:, None]
+z = np.linspace(-400, 0, 502)[None, :]
+z0 = -100
+
+sigma = 20.0
+
+def V(x, z):
+    return V0 * np.exp(-((z-z0)**2+x**2)/2/sigma**2)
+    
+V1 = m * g1 * z + 0*x
+V2 = m * g2 * z + 10*V(x, z)
+
+dS1_dz = -np.sqrt(abs(-2*m*V1))
+dS2_dz = -np.sqrt(abs(-2*m*V2))
+
+S = cumtrapz((dS2_dz - dS1_dz)[:, ::-1], axis=1, initial=0)[:, ::-1]
+
+```
+
+### Interference 2
+
+```{margin}
+We assume here that the particles continually fall: $z<0$ and $p<0$.
+```
+Now we consider a slightly different interference phenomenon, again with two streams
+injected with $p=0$ at $z=0$.  The first falls in the potential $V(z)$ for all time,
+while the second experiences a different potential $V(z) + \Delta(z)$ for a short time
+interval between $t_1$ and $t_2 = t_1 + \delta_t$.
+
+For the first particle, we have the usual:
+
+$$
+  t_i - t_0^{a} = \int_0^{z_i} \frac{-m}{\sqrt{-2mV(Z)}}\d{Z}.
+$$
+
+For the second particle, we must consider the three different time intervals:
+
+\begin{gather*}
+  t_i - t_0^{b} = 
+  \overbrace{
+    \int_0^{z_1} \frac{-m}{\sqrt{-2mV(Z)}}\d{Z}
+  }^{t_1 - t_0^b}\\
+  +
+  \overbrace{
+    \int_{z_1}^{z_2} \frac{-m}{\sqrt{-2m\Bigl(V(Z) + \Delta(Z) - \Delta(z_1)\Bigr)}}\d{Z}
+  }^{t_2 - t_1}\\
+  +
+  \overbrace{
+    \int_{z_2}^{z_i} \frac{-m}{\sqrt{-2m\Bigl(V(Z) - \Delta(z_1) + \Delta(z_2)\Bigr)}}\d{Z}
+  }^{t_i - t_2}.
+\end{gather*}
+
+If we assume that the motion is monotonic $p<0$, then we can use the geometric optics
+picture to re-express this in terms of view both particles falling through a
+conservative potential:
+
+\begin{align*}
+  V^a(z) &= V(z),\\
+  V^b(z) &= \begin{cases}
+    V(z) & z_1 < z\\
+    V(z) + \Delta(z) - \Delta(z_1) & z_2 < z < z_1\\
+    V(z) + \Delta(z_2) - \Delta(z_1)  & z < z_2.
+  \end{cases}
+\end{align*}
+
+```{margin}
+The simplification here comes from
+
+\begin{gather*}
+  L = K-V \\
+    = H-2V
+\end{gather*}
+
+where $H = p^2/2m + V$ is
+conserved, hence 
+
+\begin{gather*}
+  L\d{t} = (-2V/v) \d{z} \\
+         = -2mV/p \d{z} = p\d{z}.
+\end{gather*}
+```
+Here we have exchanged $t_1$ and $t_2$ for $z_1$ and $z_2$.  Of course, this must be
+done for each trajectory, but for a given trajectory, we can solve for the final
+momentum and action geometrically:
+
+\begin{gather*}
+  p^{a,b}(z) = -\sqrt{-2mV^{a,b}(z)},\qquad
+  S^{a,b}(z) = \int_{0}^{z}p^{a,b}(z) \d{z}.
+\end{gather*}
+
+The impulse approximation considers the limit $z_2 \rightarrow z_1$ so that
+
+<!--
+\begin{align*}
+  V^b(z) &= V^a(z) + \delta_z \Delta'(z_1) \Theta(z_1 - z) + \order(\delta_z^2)\\
+  p^b(z) &= p^{a}(z) + \delta_z \Delta'(z_1) \Theta(z_1 - z) \frac{m}{\sqrt{-2mV(z)}} 
+  + \order(\delta_z^2)\\
+  S^b(z) &= S^{a}(z) 
+  +
+  \delta_z \Delta'(z_1)\Theta(z_1 - z)
+  \int_{z_1}^{z}\frac{m}{\sqrt{-2mV(Z)}}\d{Z} 
+  +\order(\delta_z^2).
+\end{align*}
+-->
+
+**Something is wrong with $S$ here... should have an integral so $\Delta(z_1)$ not $\Delta'(z_1)$.**
+\begin{align*}
+  V^b(z) &= V^a(z) + \delta_z \Delta'(z_1) \Theta(z_1 - z) + \order(\delta_z^2)\\
+  p^b(z) &= p^{a}(z) - \delta_z \Delta'(z_1) \Theta(z_1 - z) \frac{m}{p^{a}(z)} 
+  + \order(\delta_z^2)\\
+  S^b(z) &= S^{a}(z) 
+  -
+  \delta_z \Delta'(z_1)\Theta(z_1 - z)
+  \int_{z_1}^{z}\frac{m}{p^{a}(z)}\d{Z} 
+  +\order(\delta_z^2).
+\end{align*}
+
+The only task now is to relate $z_1$ to 
+
+\begin{gather*}
+  \delta_t = \delta_z\frac{m}{p^{a}(z_1)} + \order(\delta_z^2)\\
+  t_i - t_1 = \int_{z_1}^{z_i} \frac{m}{p^b(z)}\d{Z}\\
+  =
+  \int_{z_1}^{z_i} \frac{m}{p^a(z)}\left(
+    1 + \delta_z \Delta'(z_1)\frac{m}{[p^{a}(Z)]^2} 
+  \right)\d{Z}+\order(\delta_z^2).
+\end{gather*}
+
+To leading order, we can just solve for the reference particle to determine $z_1$:
+
+\begin{gather*}
+  t_i - t_1 = \int_{z_1}^{z_i} \frac{m}{p^a(Z)}\d{Z}.
+\end{gather*}
+
+Then, the phase shift at $z_i$ will be:
+
+\begin{gather*}
+  S^b(z_i) - S^{a}(z_i) = -(t_i-t_1)\delta_z \Delta'(z_1)\Theta(z_1 - z)
+  +\order(\delta_z^2).
+\end{gather*}
+
+Hence, the phase shift directly maps the gradient of the potential at the position $z_1$.
+
+# The Ned
+. 
+
+.From a geometric perspective, the motion of the second particle can be through of as
+described by a spatially dependent potential 
+
+
 
 
 [Lagrangian mechanics]: <https://en.wikipedia.org/wiki/Legendre_transformation>
