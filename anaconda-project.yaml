@@ -26,7 +26,7 @@ description: 'Physics 521: Classical Mechanics I.'
 #
 commands:
   shell:
-    unix: bash --init-file /dev/null  # Suppress startup files which might activate another env
+    unix: bash --init-file .init-file.bash
     env_spec: phys-521-2021
 
   export:

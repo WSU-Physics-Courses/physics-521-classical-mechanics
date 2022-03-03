@@ -398,14 +398,19 @@ axs[0].set(title=fr"$\alpha = {alpha}$, $T=1.3\times 2\pi \sqrt{{r/g}}$");
 # WKB Approximation
 
 In quantum mechanics, one can use the Feynman path-integral approach to construct the
-propagator (here expressed in terms of position-to-position transitions):
+propagator (here expressed in terms of position-to-position
+transitions):
 
 ```{margin}
-See {cite:p}`Cartier:2006` for extensive details and rigorous definitions of what the
-path integral means.
+See {cite:p}`DeWitt-Morette:1976` and {cite:p}`Cartier:2006` for extensive details and
+rigorous definitions of what the path integral means.  *Note: the expressions in
+{cite:p}`Cartier:2006` are missing factors of $2\pi \I$ -- see
+{cite:p}`DeWitt-Morette:1976` for the correct expressions.*
 ```
 \begin{gather*}
-  U(q, t; q_0, t_0) = \int \mathcal{D}[q]\; \exp\left\{\frac{\I}{\hbar} S[q]\right\},
+  \newcommand{\S}{\mathcal{S}}
+  U(q, t; q_0, t_0) = \int \mathcal{D}[q]\; \exp\left\{\frac{\I}{\hbar}S[q]\right\},\\
+  \psi(q, t) = \int U(q, t;q_0, t_0)\psi(q_0, t_0)\d{q_0}.
 \end{gather*}
 
 where the integral is over all paths that start at $q(t_0) = q_0$ and end at $q(t) =
@@ -447,25 +452,226 @@ terms of order $\order(\xi^3)$ and higher to obtain:
 \begin{gather*}
   U_{WKB}(q, t; q_0, t_0) = \int \mathcal{D}[\xi]\; \exp\left\{\frac{\I}{\hbar}\left(
   S[q_{\mathrm{cl}}] + \frac{1}{2}S''[q_{\mathrm{cl}}]\cdot\xi\xi\right)\right\} =\\
-  = \sqrt{\frac{\partial^2 S}{\partial q_{\mathrm{cl}}(t)\partial q_{\mathrm{cl}}(t_0)}}
-    \exp\left\{\frac{\I}{\hbar}S(q_{\mathrm{cl}}(t),t;q_{\mathrm{cl}}(t_0);t_0]\right\}.
+  = \sqrt{\frac{-\partial^2 S / (2\pi \I \hbar)}
+          {\partial q_{\mathrm{cl}}(t)\partial q_{\mathrm{cl}}(t_0)}}
+    \exp\left\{\frac{\I}{\hbar}\S(q_{\mathrm{cl}}(t),t;q_{\mathrm{cl}}(t_0),t_0)\right\},
 \end{gather*}
 
-*(Note: if there are multiple trajectories that satisfy the boundary conditions, then
-they should be added, giving rise to quantum interference patterns.)*
-
-Similar results can be obtained from the momentum-to-position transitions if the initial
-state is expressed in terms of momentum:
-
-\begin{gather*}
-  U_{WKB}(q, t; p_0, t_0) 
-  = \sqrt{\frac{\partial^2 S}{\partial q_{\mathrm{cl}}(t)\partial p_{\mathrm{cl}}(t_0)}}
-    \exp\left\{\frac{\I}{\hbar}S(q_{\mathrm{cl}}(t),t;p_{\mathrm{cl}}(t_0);t_0]\right\}.
-\end{gather*}
+where $\S = \S(q,t;q_0,t_0)$ is the classical action with $q=q_{\mathrm{cl}}(t)$ and $q_0
+= q_{\mathrm{cl}}(t_0)$ being the final and initial points of the classical trajectory.
+The key point here is that all of the information about the propagator in this
+approximation is contained in the classical action $\S(q,t;q_0,t_0)$, sometimes called
+[Hamilton's principal function].
 
 Once the path integrals over $\xi$ have been done, everything is expressed in terms of
 the classical trajectory $q_{\mathrm{cl}}(t)$ and we shall drop the $\mathcal{cl}$
 subscript in what follows.
+
+*(Note: if there are multiple trajectories that satisfy the boundary conditions, then
+they should be added, giving rise to quantum interference patterns.)*
+
+
+````{admonition} Example: Free Particle
+As an example, consider a free particle with Hamiltonian $H = p^2/2m$.  This has
+the following solution $x(t)$ and [Hamilton's principal function] $\S$:
+
+\begin{gather*}
+  x(t) = x_0 + \frac{p_0}{m}(t-t_0), \qquad
+  p_0 = m\frac{x-x_0}{t-t_0},\\
+  \S(x,t;x_0,t_0) = \frac{p_0^2}{2m}(t-t_0) = \frac{m(x-x_0)^2}{2(t-t_0)},\\
+  \frac{\partial^2 \S}{\partial x\partial x_0} = -\frac{m}{(t-t_0)}.
+\end{gather*}
+
+Hence, the WKB propagator is:
+
+\begin{gather*}
+  U_{WKB}(x,t;x_0,t_0) = \sqrt{\frac{m}{2\pi \I \hbar (t-t_0)}}\exp\left\{
+    \frac{i}{\hbar}\frac{m(x-x_0)^2}{2(t-t_0)}
+  \right\}.
+\end{gather*}
+
+A quick check shows that this is exact:
+
+\begin{gather*}
+  U(x,t;x_0,t_0) = \braket{x|e^{\op{H}(t-t_0)/\I\hbar}|x_0}
+  = \int \frac{\d{k}}{2\pi}\braket{x|k}e^{\hbar^2k^2(t-t_0)/(2m\I\hbar)}\braket{k|x_0}\\
+  = \int \frac{\d{k}}{2\pi}e^{\hbar^2k^2(t-t_0)/(2m\I\hbar) + \I k (x-x_0)}\\
+  = \sqrt{\frac{m}{2\pi \I\hbar (t-t_0)}}\exp\left\{
+    \frac{\I m(x-x_0)^2}{2\hbar (t-t_0)}
+  \right\}.
+\end{gather*}
+
+Extending this to higher dimensions, we have:
+
+\begin{gather*}
+  \vect{x}(t) = \vect{x}_0 + \frac{\vect{p}_0}{m}(t-t_0), \qquad
+  \vect{p}_0 = m\frac{\vect{x}-\vect{x}_0}{t-t_0},\\
+  \S(\vect{x},t;\vect{x}_0,t_0) = \frac{m\norm{\vect{x}-\vect{x}_0}^2}{2(t-t_0)},\\
+  \frac{\partial^2 \S}{\partial x_{i}\partial [x_0]_{j}} = -\frac{m\delta_{ij}}{(t-t_0)}.
+\end{gather*}
+
+````
+
+Similar results can be obtained from the momentum-to-position transitions if the initial
+state is expressed in terms of momentum, however, in this case, since the boundary
+conditions are no longer the same, we must use a different form of $\S(x,t;p_0,t_0)$:
+
+\begin{gather*}
+  \S(q,t;p_0,t_0) = p_0q_0(q,t;p_0,t_0) + \S\Bigl(q,t;q_0(q,t;p_0,t_0),t_0\Bigr),\\
+  U_{WKB}(q, t; p_0, t_0) 
+  = \sqrt{\frac{\partial^2 \S}{\partial q_{\mathrm{cl}}(t)\partial p_{\mathrm{cl}}(t_0)}}
+    \exp\left\{\frac{\I}{\hbar}\S(q_{\mathrm{cl}}(t),t;p_{\mathrm{cl}}(t_0);t_0)\right\}.
+\end{gather*}
+
+````{admonition} Example: Free Particle continued
+Changing variables, we now have:
+
+\begin{gather*}
+  \S(x,t;p_0,t_0) = p_0\left(x - \frac{p_0}{m}(t-t_0)\right) 
+                    + \overbrace{\frac{p_0^2}{2m}(t-t_0)}^{S}\\
+                  = p_0 x - \frac{p_0^2}{2m}(t-t_0), \qquad
+  \frac{\partial^2 \S}{\partial x\partial p_0} = 1
+\end{gather*}.
+
+Hence, the WKB propagator is:
+
+\begin{gather*}
+  U_{WKB}(x,t;p_0,t_0) = \exp\left\{
+    \frac{i}{\hbar}\left(xp_0 - \frac{p_0^2 (t-t_0)}{2m}\right)\right\}.
+\end{gather*}
+
+A quick check shows that this is also exact, and confirms the need for the extra piece
+$q_0 p_0$ in $\S$:
+
+\begin{gather*}
+  U(x,t;p_0,t_0) = \braket{x|e^{\op{H}(t-t_0)/\I\hbar}|p_0}
+  = \braket{x|p_0}e^{p_0^2(t-t_0)/(2m\I\hbar)}\\
+  = e^{\tfrac{\I}{\hbar} x p_0}e^{p_0^2(t-t_0)/(2m\I\hbar)}\\
+  = \exp\left\{\frac{\I}{\hbar}\left(
+      x p_0 - \frac{p_0^2}{2m}(t-t_0)
+    \right)\right\}.
+\end{gather*}
+````
+
+### Eq: Falling Particle
+
+````{admonition} Example: Falling Particle
+
+As a second example, consider a particle in free-fall with Hamiltonian $H = p^2/2m +
+mgz$.  The classical problem is most easily solved with conservation of energy $E$:
+
+\begin{align*}
+  E &= \frac{p^2}{2m} + mgz = \frac{p_{0}^2}{2m} + mgz_0, \\
+  p &= \pm\sqrt{2mE - 2m^2gz},\\ 
+    &= \pm\sqrt{p_{0}^2 - 2m^2g(z-z_0)},\\
+  L(z) &= E - 2mgz.
+\end{align*}
+
+<!-- For simplicity, we assume that $z<z_0$ and that the particle is falling throughout the -->
+<!-- region of interest so that $p \leq 0$. -->
+Since our Hamiltonian is time-independent, the results will depend only on $t-t_0$ and
+we can choose $t_0=0$ without loss of generality.  This has the following solution
+$z(t)$ and [Hamilton's principal function] $\S$:
+
+\begin{align*}
+  \newcommand{\t}{t}
+  z(t) &= z_0 + \frac{p_0}{m}\t - \frac{g}{2}\t^2,\\
+  \S(z,\t;z_0,t_0=0) &= \int_{0}^{\t}\left(E - 2mgz_0 - 2gp_0\t + mg^2\t^2\right)\d{\t},\\
+                     &= E(z,\t;z_0)\t - 2mgz_0\t - gp_0(z,\t;z_0)\t^2 + \frac{mg^2\t^3}{3}.
+\end{align*}
+
+The appropriate functional dependence can be deduced by solving for $p_0(z,\t;z_0)$ and
+$E(z,\t;z_0)$:
+
+\begin{align*}
+  p_0(z,\t;z_0) &= m\frac{z-z_0}{\t} + \frac{mg\t}{2}, &
+  \pdiff{p_0}{z_0} &= -\frac{m}{\t}, \\
+  E(z,\t;z_0) &= \frac{p_0^2(z,\t;z_0)}{2m} + mgz_0, &
+  \pdiff{E}{z_0} &= -\frac{p_0}{\t} + mg.
+\end{align*}
+
+From these, we can compute the action and various partials:
+
+\begin{gather*}
+\S(z,\t;z_0,t_0=0) = m\left(
+  \frac{(z-z_0)^2}{2\t} - \frac{g}{2}(z+z_0)\t - \frac{g^2\t^3}{24}\right),\\
+  \frac{\partial\S(z,\t;z_0,t_0=0)}{\partial z} = p = p_0(z, \t;z_0) - mg\t,\\
+  \frac{\partial\S(z,\t;z_0,t_0=0)}{\partial z_0} = -p_0\\
+  \frac{\partial^2\S(z,\t;z_0,t_0=0)}{\partial z\partial z_0} = -\frac{m}{\t}.
+\end{gather*}
+
+Hence, the WKB propagator is:
+
+\begin{gather*}
+  U_{WKB}(z,t;z_0,t_0) = \sqrt{\frac{m}{2\pi \I \hbar (t-t_0)}}\\
+  \exp\left\{
+    \frac{\I m}{\hbar}\left(
+  \frac{(z-z_0)^2}{2(t-t_0)} - \frac{g}{2}(z+z_0)(t-t_0) - \frac{g^2(t-t_0)^3}{24}
+  \right)
+  \right\}.
+\end{gather*}
+````
+
+````{admonition} Example: Falling Particle
+
+As a second example, consider a particle in free-fall with Hamiltonian $H = (p_x^2 +
+p_z^2)/2m + mgz$.  The classical problem is most easily solved with conservation of
+energy $E$ and momentum $p_x$:
+
+\begin{gather*}
+  E = \frac{p_x^2+p_z^2}{2m} + mgz = \frac{p_{x0}^2 + p_{z0}^2}{2m} + mgz_0, \\
+  p_z = \pm\sqrt{2mE - 2m^2gz - p_x^2} 
+      = \pm\sqrt{p_{z0}^2 - 2m^2g(z-z_0)},\\
+  L(\vect{r},t) = E - 2mgz
+\end{gather*}
+
+
+
+
+
+This has the following solution $\vect{r}(t)$ and [Hamilton's
+principal function] $\S$:
+
+\begin{gather*}
+  \vect{r}(t) = \vect{r}_0 + \frac{\vect{p}_0}{m}(t - t_0) - \frac{g}{2}(t-t_0)^2\uvect{z},\\
+  p_0 = m\frac{x-x_0}{t-t_0},\\
+  \S(\vect{r},t;\vect{r}_0,t_0) = \frac{p_0^2}{2m}(t-t_0) = \frac{m(x-x_0)^2}{2(t-t_0)},\\
+  \frac{\partial^2 \S}{\partial x\partial x_0} = -\frac{m}{(t-t_0)}.
+\end{gather*}
+
+Hence, the WKB propagator is:
+
+\begin{gather*}
+  U_{WKB}(x,t;x_0,t_0) = \sqrt{\frac{m}{2\pi \I \hbar (t-t_0)}}\exp\left\{
+    \frac{i}{\hbar}\frac{m(x-x_0)^2}{2(t-t_0)}
+  \right\}.
+\end{gather*}
+Changing variables, we now have:
+
+\begin{gather*}
+  \S(x,t;p_0,t_0) = xp_0 - \frac{p_0^2}{2m}(t-t_0),\qquad
+  \frac{\partial^2 \S}{\partial x\partial p_0} = 1
+\end{gather*}.
+
+Hence, the WKB propagator is:
+
+\begin{gather*}
+  U_{WKB}(x,t;p_0,t_0) = \exp\left\{
+    \frac{i}{\hbar}\left(xp_0 - \frac{p_0^2 (t-t_0)}{2m}\right)\right\}.
+\end{gather*}
+
+A quick check shows that this is also exact, and confirms the need for the extra piece
+$q p_0$ in $\S$:
+
+\begin{gather*}
+  U(x,t;p_0,t_0) = \braket{x|e^{\op{H}(t-t_0)/\I\hbar}|p_0}
+  = \braket{x|p_0}e^{p_0^2(t-t_0)/(2m\I\hbar)}\\
+  = e^{\tfrac{\I}{\hbar} x p_0}e^{p_0^2(t-t_0)/(2m\I\hbar)}\\
+  = \exp\left\{\frac{\I}{\hbar}\left(
+      x p_0 - \frac{p_0^2}{2m}(t-t_0)
+    \right)\right\}.
+\end{gather*}
+````
 
 ## Maxwell Relations
 
@@ -693,6 +899,100 @@ Finally, with respect to the variables $(q, t;p_0, q_0)$:
 \end{align*}
 ````
 
+### Atom Laser
+
+\begin{gather*}
+  \I\hbar\dot{\psi}(z, t) = \frac{-\hbar^2}{2m}\psi''(z, t) 
+                            + \Bigl(mgz + \alpha\I \delta(z)\Bigr)\psi(z, t)\\
+  \dot{N} = \frac{\alpha}{\hbar} \abs{\psi(0, t)}^2
+\end{gather*}
+
+\begin{gather*}
+  \frac{-\hbar^2}{2m}\psi''(z, t) + \Bigl(mgz + \alpha\I \delta(z)\Bigr)\psi(z, t)
+\end{gather*}
+
+
+
+
+### Falling Gaussian
+
+Consider an initial state $\psi_0(z)$.  The WKB approximation for the time evolution is:
+
+\begin{gather*}
+  \psi(z, t) = \int \d{z_0} I(z, z_0;t)\psi_0(z), \qquad
+  I(z, z_0; t) = \sqrt{S_{,z,z_0}}e^{\tfrac{i}{\hbar}S(z, z_0;t)},
+\end{gather*}
+
+where the action $S(q,t;q_0,t_0)$ is computed over classical trajectories $q(0) = z_0$
+and $q(t) = z$ -- the first case above.  We immediately have
+
+\begin{gather*}
+  S = m\left(\frac{(z-z_0)^2}{2 t} - \frac{g(z+z_0)t}{2} - \frac{g^2t^3}{24}\right),\\
+  S_{,z,z_0} = -\frac{m}{t}, \\
+  I(z, z_0; t) = \sqrt{-\frac{m}{t}}e^{\tfrac{i}{\hbar}S(z, z_0;t)},\\
+  \psi(z, t) = \int \d{z_0} I(z, z_0;t)\psi_0(z), \qquad
+\end{gather*}
+
+
+\begin{gather*}
+  S_{,z,z_0} = -\frac{m}{t}, \\
+  S^P_{,z,p_0} = 0, \\
+  S^{G}_{,z,z_0} = -\frac{m}{t}, \\  
+\end{gather*}
+
+$$
+  \mp \frac{1}{\sqrt{2m}} S^{G}_{,z} = 
+    \frac{\frac{p_0^2}{2m} - mg(2q - q_0)}{2\sqrt{\frac{p_0^2}{2m} - mg(q - q_0)}},\\
+  \mp \frac{1}{mg\sqrt{2m}} S^{G}_{,z,z_0} = 
+    \frac{\frac{p_0^2}{2m} + mgq_0}{4\sqrt{\frac{p_0^2}{2m} - mg(q - q_0)}^3}\\
+  S^{G}_{,z,z_0} = \mp \frac{m^2E V'(q)}{p^3}
+$$
+
+p^2 = 2m(E-V(q))
+
+```{code-cell} ipython3
+:tags: [hide-input]
+
+plt.rcParams['figure.dpi'] = 300
+from scipy.integrate import solve_ivp
+
+z = np.linspace(-10, 3, 300)[:, None]
+z0 = np.linspace(-3, 3, 200)[None, :]
+dz0 = np.diff(z0.ravel()).mean()
+m = 1.0
+hbar = 1.0
+sigma = 1.0
+g = 10.0
+t = 1.0
+
+psi0 = np.exp(-(z0.ravel()/sigma)**2/2)
+n0 = abs(psi0**2)
+N = np.trapz(n0, z0.ravel())
+psi0 /= np.sqrt(N)
+n0 = abs(psi0**2)
+
+fig, ax = plt.subplots()
+ax.plot(z0.ravel(), n0, label=r"$\psi_0$")
+
+zcs = np.array([-2, -4, -6, -8])
+for zc in zcs:
+    t = np.sqrt(-2*zc/g)
+    S = m * ((z-z0)**2/2/t - g*(z+z0)*t/2 - g**2*t**3/24)
+    I = np.sqrt(m/t)*np.exp(1j/hbar*S)
+    psi = I.dot(psi0) * dz0
+    n = abs(psi.ravel())**2
+    N = np.trapz(n, z.ravel())
+    print(N/2/np.pi)   ### Where does this 2\pi come from?
+    l, = ax.plot(z.ravel(), n/N, label=fr"$z_c(t)={zc}$")
+    ax.axvline([zc], ls=":", c=l.get_c(), alpha=0.5)
+
+ax.legend()
+ax.set(xlabel="$z$", ylabel="$n$");
+
+```
+
+
+
 ### Interference 1
 
 Now consider two streams of particles continuously injected at $z = 0$.  The first steam
@@ -874,13 +1174,8 @@ Then, the phase shift at $z_i$ will be:
 
 Hence, the phase shift directly maps the gradient of the potential at the position $z_1$.
 
-# The Ned
-. 
-
-.From a geometric perspective, the motion of the second particle can be through of as
-described by a spatially dependent potential 
-
-
+From a geometric perspective, the motion of the second particle can be through of as
+described by a spatially dependent potential.
 
 
 [Lagrangian mechanics]: <https://en.wikipedia.org/wiki/Legendre_transformation>
@@ -889,3 +1184,4 @@ described by a spatially dependent potential
 [WKB approximation]: <https://en.wikipedia.org/wiki/WKB_approximation>
 [gaussian integral]: <https://en.wikipedia.org/wiki/Gaussian_integral>
 [Maxwell relations]: <https://en.wikipedia.org/wiki/Maxwell_relations>
+[Hamilton's principal function]: <https://en.wikipedia.org/wiki/Hamilton%E2%80%93Jacobi_equation#Hamilton's_principal_function>
