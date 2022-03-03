@@ -673,6 +673,76 @@ $q p_0$ in $\S$:
 \end{gather*}
 ````
 
+````{admonition} Example: Harmonic Oscillator
+
+The harmonic oscillator has the following solution:
+
+\begin{gather*}
+  \newcommand{\t}{\tau}
+  H(x, p) = \frac{p^2}{2m} + \frac{m\omega^2 x^2}{2}, \qquad 
+  \t= t-t_0\\
+  S(x, t; x_0, t_0) = \frac{\omega(xp - x_0p_0)}{2}\\
+  = \frac{m\omega}{2\sin\omega\t}\Bigl(
+  (x^2+x_0^2)\cos\omega\t - 2xx_0\Bigr),\\
+  S_{,xx_0} = -\frac{m\omega}{\sin\omega\tau},\\
+  A = \sqrt{\frac{m\omega}{\sin\omega\tau}}\\
+  S' = \frac{m\omega}{\sin\omega\t}\Bigl(x\cos\omega\t - x_0\Bigr),\\
+  S'' = m\omega\cot\omega\t,\\
+  \frac{S''}{2m} + \frac{\dot{A}}{A} + \frac{A'S'}{mA} = 
+  \frac{\omega}{2}\cot\omega\t - \frac{\omega}{2}\cot\omega\t + 0 = 0.
+\end{gather*}
+
+````
+
+### Traditional WKB
+
+The more traditional approach is to express the wavefunction as follows, then insert it
+into the Schrödinger equation:
+
+\begin{gather*}
+  \psi(x, t) = \exp\left\{\frac{i}{\hbar}W(x,t)\right\},\\
+  \left(\frac{(S')^2}{2m} - \frac{\I\hbar}{2m}W'' + V + \dot{W}\right)\psi = 0.
+\end{gather*}
+
+Expanding $W$ in powers of $\hbar$, we have the following lowest two orders:
+
+\begin{align*}
+  &W(x,t) = S(x,t) - \I\hbar \log A + \order(\hbar^2),\\
+  \text{Order $\hbar^0$:}\quad &\frac{(S')^2}{2m} + V(x,t) + \dot{S} 
+  = H(x, S', t) + \dot{S} = 0\\
+  \text{Order $\hbar^1$:}\quad &\frac{S''}{2m} + \frac{A'S'}{mA} + \frac{\dot{A}}{A} = 0\\
+  &\psi_{WKB}(x, t) = A(x,t)\exp\left\{\frac{i}{\hbar}S(x,t)\right\}.
+\end{align*}
+
+The order $\hbar^0$ equation is the well-known Hamilton-Jacobi equation, which is
+satisfied by the classical action as a function of initial and final states:
+
+\begin{gather*}
+  S(x, t) = S(x,t;x_0,t_0) = \int_{t_0}^{t} L\Bigl(x(t), \dot{x}(t), t\Bigr) \d{t}
+\end{gather*}
+
+where $x(t)$ is a solution to the classical equations of motion with boundary conditions
+$x(t_0) = x_0$ and $x(t) = x$, as discussed above.
+
+```{admonition} Exercise
+
+Show that the order $\hbar^1$ equation is satisfied by
+
+\begin{gather*}
+  A(z, t) = \sqrt{-\frac{\partial^2 S(x, t; x_0, t_0) / (2\pi \I\hbar)}
+                        {\partial x\partial x_0}}
+\end{gather*}
+
+as given by the path integral formulation.
+
+*I am not sure exactly when this is true.  It holds for the examples given above, but
+does it always hold?  I assume that a proof will rely on various properties of the
+action, such as $S' = p(t)$, $\dot{S} = -H(t)$, $\partial S/\partial x_0 =
+-p_0=-p(t_0)$, etc. but have ot found the proof yet.*
+```
+
+
+
 ## Maxwell Relations
 
 To work with these expressions, we must compute the classical action for a particle
