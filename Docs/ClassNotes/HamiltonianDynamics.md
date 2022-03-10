@@ -699,6 +699,14 @@ The harmonic oscillator has the following solution:
 The more traditional approach is to express the wavefunction as follows, then insert it
 into the Schrödinger equation:
 
+```{margin}
+To simplify the notation here, we use:
+\begin{gather*}
+  S' = \pdiff{S(x, t)}{x},\\
+  \dot{S} = \pdiff{S(x,t)}{t}.
+\end{gather*}
+```
+
 \begin{gather*}
   \psi(x, t) = \exp\left\{\frac{i}{\hbar}W(x,t)\right\},\\
   \left(\frac{(S')^2}{2m} - \frac{\I\hbar}{2m}W'' + V + \dot{W}\right)\psi = 0.
@@ -714,16 +722,57 @@ Expanding $W$ in powers of $\hbar$, we have the following lowest two orders:
   &\psi_{WKB}(x, t) = A(x,t)\exp\left\{\frac{i}{\hbar}S(x,t)\right\}.
 \end{align*}
 
+#### $\order(\hbar^0)$: Hamilton-Jacobi Equation
+
 The order $\hbar^0$ equation is the well-known Hamilton-Jacobi equation, which is
-satisfied by the classical action as a function of initial and final states:
+satisfied by the classical action as a function of initial and final states.
+
+```{admonition} Exercise
+Prove that the classical action $S(x, t)$ satisfies the Hamilton-Jacobi equation:
 
 \begin{gather*}
-  S(x, t) = S(x,t;x_0,t_0) = \int_{t_0}^{t} L\Bigl(x(t), \dot{x}(t), t\Bigr) \d{t}
+  S(x, t) = S(x,t;x_0,t_0) = \int_{t_0}^{t} L\Bigl(x(t), \dot{x}(t), t\Bigr) \d{t},  
 \end{gather*}
 
 where $x(t)$ is a solution to the classical equations of motion with boundary conditions
-$x(t_0) = x_0$ and $x(t) = x$, as discussed above.
+$x(t_0) = x_0$ and $x(t) = x$, as discussed above.  I.e. show that
 
+\begin{gather*}
+  \pdiff{S(x, t;x_0, t_0)}{t} = -H(x, S', t).
+\end{gather*}
+```
+
+#### $\order(\hbar^1)$: Continuity Equation
+
+The order $\hbar^1$ equation is the well-known continuity equation, expressing the
+conservation of particle number or probability.  To see this, multiply through by
+$2A^2$:
+
+\begin{gather*}
+  \frac{A^2 S'' + 2S'A'A}{m} + 2\dot{A}A = 0\\
+  \left(\frac{S'}{m}A^2\right)' + \pdiff{A^2}{t} = 0.
+\end{gather*}
+
+This is the 1-dimensional form of the familiar continuity equation, once we identify
+$S'$ as the momentum, and $A^2$ as the probability density:
+
+\begin{gather*}
+  \vect{\nabla}\cdot\vect{j} + \dot{n} = 0,\\
+  n \equiv A^2 = \abs{\psi}^2, \qquad
+  \vect{v} \equiv \frac{\vect{p}}{m} = \frac{\vect{\nabla} S}{m}, \qquad
+  \vect{j} = n\vect{v}.
+\end{gather*}
+
+````{margin}
+Hint: Use the form above with $A^2 = \partial S'/\partial x_0$ (the constants do not
+matter), and the properties $S' = p$, $\dot{S} = -H$ to express the result as:
+
+\begin{gather*}
+  \pdiff{}{x_0}Q(x) = 0.
+\end{gather*}
+
+where you can argue that the quantity $Q(x)$ is independet of $x_0$.
+````
 ```{admonition} Exercise
 
 Show that the order $\hbar^1$ equation is satisfied by
@@ -734,11 +783,26 @@ Show that the order $\hbar^1$ equation is satisfied by
 \end{gather*}
 
 as given by the path integral formulation.
+```
+```{admonition} Solution
+:class: dropdown
 
-*I am not sure exactly when this is true.  It holds for the examples given above, but
-does it always hold?  I assume that a proof will rely on various properties of the
-action, such as $S' = p(t)$, $\dot{S} = -H(t)$, $\partial S/\partial x_0 =
--p_0=-p(t_0)$, etc. but have ot found the proof yet.*
+Following the hint, we express $A^2 = \partial S'/\partial x_0 \equiv S'_{,x_0}$ (using
+Einstein's notation).  We are trying to show that:
+
+\begin{gather*}
+  \left(\frac{S' S'_{,x_0}}{m}\right)' + \pdiff{S'{,x_0}}{t} = 0.
+\end{gather*}
+
+We proceed using the linearity of the derivatives to rearrange this as:
+
+\begin{gather*}
+  \left(\pdiff{}{x_0}\frac{(S')^2}{2m} + \pdiff{\dot{S}}{x_0}\right)'
+  = \pdiff{}{x_0}\left(\frac{(S')^2}{2m} - H\right)'\\
+  = -\pdiff{V'(x, t)}{x_0} = 0
+\end{gather*}
+
+because the potential does not depend on the initial position $x_0$.
 ```
 
 

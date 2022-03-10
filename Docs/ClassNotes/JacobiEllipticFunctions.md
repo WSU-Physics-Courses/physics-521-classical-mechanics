@@ -23,7 +23,8 @@ mmf_setup.nbinit()
 import logging
 
 logging.getLogger("matplotlib").setLevel(logging.CRITICAL)
-%pylab inline --no-import-all
+%matplotlib inline
+import numpy as np, matplotlib.pyplot as plt
 import manim.utils.ipython_magic
 !manim --version
 ```
@@ -257,9 +258,12 @@ ax.plot(phi, 1/d)
 ```{code-cell} ipython3
 :tags: [hide-input]
 
-%%manim --embed -v WARNING --progress_bar None -qm JacobiEllipse
+%%manim -v WARNING --progress_bar None -qm JacobiEllipse
 from scipy.special import ellipj, ellipkinc
 from manim import *
+
+config.media_width = "100%"
+config.media_embed = True
 
 my_tex_template = TexTemplate()
 with open("../_static/math_defs.tex") as f:
@@ -354,9 +358,10 @@ class JacobiEllipse(Scene):
         self.play(phi.animate.set_value(2*np.pi), run_time=5, rate_func=linear)
 ```
 
+
 ## Anharmonic Oscillator
 
- ```{sidebar} Proof
+```{sidebar} Proof
 
 Let $u = \Omega (t - t_0)$ so that $\dot{u} = \Omega$ and $q(t) = q_0\cn u$:
 

@@ -128,9 +128,10 @@ dependencies:
   - pip:
     - sphinxcontrib-zopeext
     - sphinxcontrib-bibtex>=2.4.0
+    - sphinx-mathjax-offline
     - mmf-setup
-    #- manim>=0.11.0
-    - git+https://github.com/mforbes/manim.git@issue_2441#egg=manim
+    - manim>=0.15.0
+    #- git+https://github.com/mforbes/manim.git@issue_2441#egg=manim
 
     #- genbadge[all]
 

@@ -13,12 +13,15 @@
 import os.path
 import subprocess
 import manim
+from sphinx.util.fileutil import copy_asset
+
 
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
-# Embed all manim videos.  Needs https://github.com/mforbes/manim/tree/issue_2441
-manim.config.embed = True
+# Embed all manim videos.  Needs manim>=0.15.0
+# See also https://github.com/mforbes/manim/tree/issue_2441
+manim.config.media_embed = True
 
 # This is True if we are building on Read the Docs in case we need to customize.
 on_rtd = os.environ.get("READTHEDOCS") == "True"
@@ -45,6 +48,9 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.coverage",
     "sphinx.ext.mathjax",
+    # "sphinx-mathjax-offline",  # Does not work?
+    #    <script async="async" src="../_static/mathjax/tex-chtml.js"></script>
+    #    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     "sphinx.ext.ifconfig",
     "sphinx.ext.viewcode",
     "sphinx.ext.napoleon",
@@ -209,7 +215,7 @@ def config_inited_handler(app, config):
 
 # Allows us to perform initialization before building the docs.  We use this to install
 # the named kernel so we can keep the name in the notebooks.
-def my_init():
+def my_init(app):
     """Run `anaconda-project run init`, or the equivalent if on RtD.
 
     We must customize this for RtD because we trick RTD into installing everything from
@@ -236,9 +242,25 @@ def my_init():
         print("Not On RTD!")
         subprocess.check_call(["anaconda-project", "run", "init"])
 
+    mathjax_offline = True
+    if mathjax_offline:
+        # Copied from the following to put static mathjax files in place if offline:
+        # https://gitlab.com/thomaswucher/sphinx-mathjax-offline/-/blob/master/sphinx-mathjax-offline/__init__.py
+
+        ext_dir = os.path.dirname(os.path.abspath(__file__))
+        mathjax_dir = ext_dir + "_static/mathjax"
+        copy_asset(mathjax_dir, os.path.join(app.outdir, "_static", "mathjax"))
+        app.config.mathjax_path = "mathjax/tex-chtml.js"
+        app.config.mathjax_path = "mathjax/tex-svg.js"
+        app.config.mathjax_path = "mathjax/tex-chtml.js?config=TeX-AMS-MML_HTMLorMML"
+
+        # I don't know why this is needed, but if it is not turned off, then
+        # "mathjax_ignore" is added to the top-level class, preventing local rendering.
+        app.config.myst_update_mathjax = False
+
 
 def setup(app):
     app.connect("config-inited", config_inited_handler)
     # Ignore .ipynb files
     app.registry.source_suffix.pop(".ipynb", None)
-    my_init()
+    my_init(app)
