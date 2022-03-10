@@ -11,5 +11,6 @@ titlesonly:
 glob:
 ---
 OtherNotes/*
-Quantum
+Quantum/*
 ```
+

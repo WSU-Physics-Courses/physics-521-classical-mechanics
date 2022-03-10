@@ -111,6 +111,10 @@ In the region $z < 0$ the solution will have the form:
 from ipywidgets import interact
 from scipy.special import airy
 
+hbar = 1
+m = 0.5
+g = 2.0
+
 z = np.linspace(-10, 2, 500)
 Ai0, dAi0, Bi0, dBi0 = airy(0)
 Aiz, dAiz, Biz, dBiz = airy(z)
@@ -149,7 +153,3 @@ $$
 +++
 
 From this it is clear that $a \propto \sqrt{3} - \I \propto e^{-\I\pi/6}$ is required for a smooth solution (no oscillations).  Why, and why is this natural for an atom laser?
-
-```{code-cell} ipython3
-
-```
