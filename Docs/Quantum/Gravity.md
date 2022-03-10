@@ -144,6 +144,8 @@ $$
   n(z) \propto \frac{1}{p(z)} = \frac{1}{m\sqrt{2gz}}.
 $$
 
-From this it is clear that $a \propto \sqrt{3} - \I \propto e^{-\I\pi/6}$ is required
-for a smooth solution (no oscillations).  Why, and why is this natural for an atom
+From this it is clear that $a \propto -\sqrt{3} + \I \propto e^{5\I\pi/6}$ is required
+for a smooth solution (no oscillations).  I.e. in addition to the source term, we need
+an attractive $\delta(z)$ potential to ensure that the phase remains coherent without
+any interference effects.  Why is this natural for an atom
 laser?
