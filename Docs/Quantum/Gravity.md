@@ -21,8 +21,6 @@ import numpy as np, matplotlib.pyplot as plt
 
 # Falling Particle
 
-+++
-
 Here we consider the quantum mechanics of a particle falling in a gravitational field:
 
 \begin{gather*}
@@ -62,8 +60,6 @@ where the solution is expressed in terms of the Airy functions $y=\Ai(x)$ and $y
   y'' = xy.
 \end{gather*}
 
-+++
-
 We can also find the Green function {cite:p}`Vallee:2010`:
 
 \begin{gather*}
@@ -74,9 +70,9 @@ We can also find the Green function {cite:p}`Vallee:2010`:
   \left(\pdiff[2]{}{z} - z\right)G(z, z') = \delta(z-z')
 \end{gather*}
 
-+++
-
-This gives, for example, the steady state solution $G(z,0)$ for a continuous atom laser with particles continually being injected at $z'=0$.  Note that we can add to $G(z, z')$ any solution of the homogeneous equation, so we can write:
+This gives, for example, the steady state solution $G(z,0)$ for a continuous atom laser
+with particles continually being injected at $z'=0$.  Note that we can add to $G(z, z')$
+any solution of the homogeneous equation, so we can write:
 
 :::{margin}
 We only add $\Ai(z)$ to keep the boundary condition $n\rightarrow 0$ for $z \rightarrow \infty$.
@@ -95,8 +91,6 @@ This is the steady state solution with $E=0$ to the time-independent Schrödinge
   a^{-1} = \psi(0) = -\pi\Bigl(\sqrt{3} + \I\Bigr)\Ai^2(0) + \alpha \Ai(0),\\
   \alpha = \frac{1}{a\Ai(0)} + \pi\Bigl(\sqrt{3} + \I\Bigr)\Ai(0).
 \end{gather*}
-
-+++
 
 In the region $z < 0$ the solution will have the form:
 
@@ -150,6 +144,6 @@ $$
   n(z) \propto \frac{1}{p(z)} = \frac{1}{m\sqrt{2gz}}.
 $$
 
-+++
-
-From this it is clear that $a \propto \sqrt{3} - \I \propto e^{-\I\pi/6}$ is required for a smooth solution (no oscillations).  Why, and why is this natural for an atom laser?
+From this it is clear that $a \propto \sqrt{3} - \I \propto e^{-\I\pi/6}$ is required
+for a smooth solution (no oscillations).  Why, and why is this natural for an atom
+laser?

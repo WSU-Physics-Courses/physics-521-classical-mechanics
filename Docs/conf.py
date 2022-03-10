@@ -242,7 +242,7 @@ def my_init(app):
         print("Not On RTD!")
         subprocess.check_call(["anaconda-project", "run", "init"])
 
-    mathjax_offline = True
+    mathjax_offline = False
     if mathjax_offline:
         # Copied from the following to put static mathjax files in place if offline:
         # https://gitlab.com/thomaswucher/sphinx-mathjax-offline/-/blob/master/sphinx-mathjax-offline/__init__.py
