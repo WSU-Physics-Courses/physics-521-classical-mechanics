@@ -48,6 +48,7 @@ sphinxcontrib-bibtex = {version = "^2.3.0", optional = true}
 sphinx-mathjax-offline = "^0.0.1"
 myst-nb = {version = "^0.12.3", optional = true}
 #uncertainties = {version = "^3.1.5", optional = true}
+colour-science = "^0.4.1"
 
 [tool.poetry.dev-dependencies]
 black = "^21.4b2"

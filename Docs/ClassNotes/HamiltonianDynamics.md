@@ -553,7 +553,7 @@ $q_0 p_0$ in $\S$:
 \end{gather*}
 ````
 
-### Eq: Falling Particle
+## Examples
 
 ````{admonition} Example: Falling Particle
 
@@ -708,7 +708,7 @@ To simplify the notation here, we use:
 ```
 
 \begin{gather*}
-  \psi(x, t) = \exp\left\{\frac{i}{\hbar}W(x,t)\right\},\\
+  \psi(x, t) = \exp\left\{\frac{i}{\hbar}W(x,t)\right\}\psi_0(x),\\
   \left(\frac{(S')^2}{2m} - \frac{\I\hbar}{2m}W'' + V + \dot{W}\right)\psi = 0.
 \end{gather*}
 
@@ -719,7 +719,7 @@ Expanding $W$ in powers of $\hbar$, we have the following lowest two orders:
   \text{Order $\hbar^0$:}\quad &\frac{(S')^2}{2m} + V(x,t) + \dot{S} 
   = H(x, S', t) + \dot{S} = 0\\
   \text{Order $\hbar^1$:}\quad &\frac{S''}{2m} + \frac{A'S'}{mA} + \frac{\dot{A}}{A} = 0\\
-  &\psi_{WKB}(x, t) = A(x,t)\exp\left\{\frac{i}{\hbar}S(x,t)\right\}.
+  &\psi_{WKB}(x, t) = A(x,t)\exp\left\{\frac{i}{\hbar}S(x,t)\right\}\psi_0(x).
 \end{align*}
 
 #### $\order(\hbar^0)$: Hamilton-Jacobi Equation
@@ -791,15 +791,19 @@ Following the hint, we express $A^2 = \partial S'/\partial x_0 \equiv S'_{,x_0}$
 Einstein's notation).  We are trying to show that:
 
 \begin{gather*}
-  \left(\frac{S' S'_{,x_0}}{m}\right)' + \pdiff{S'{,x_0}}{t} = 0.
+  \left(\frac{S' S'_{,x_0}}{m}\right)' + \pdiff{S'_{,x_0}}{t} = 0.
 \end{gather*}
 
-We proceed using the linearity of the derivatives to rearrange this as:
+We proceed using the linearity of the derivatives to rearrange the left-hand-side as:
 
 \begin{gather*}
-  \left(\pdiff{}{x_0}\frac{(S')^2}{2m} + \pdiff{\dot{S}}{x_0}\right)'
-  = \pdiff{}{x_0}\left(\frac{(S')^2}{2m} - H\right)'\\
-  = -\pdiff{V'(x, t)}{x_0} = 0
+  \frac{1}{m}\pdiff{}{x}\Bigl(
+    \overbrace{\pdiff{S}{x}\frac{\partial^2 S}{\partial x\partial x_0}}
+             ^{\tfrac{1}{2}\partial (S')^2/\partial x_0}
+  \Bigr)
+  + \frac{\partial^2 \overbrace{\dot{S}}^{-H}}{\partial x\partial x_0} = \\
+  \frac{\partial^2}{\partial x_0 \partial x}\left(
+    \frac{(S')^2}{2m} - H\right) = -\pdiff{V'(x, t)}{x_0} = 0,
 \end{gather*}
 
 because the potential does not depend on the initial position $x_0$.

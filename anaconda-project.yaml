@@ -129,7 +129,11 @@ dependencies:
     - sphinxcontrib-zopeext
     - sphinxcontrib-bibtex>=2.4.0
     - sphinx-mathjax-offline
+    # Wait until https://github.com/colour-science/colour/issues/958 is resolved
+    # - colour-science
+    - hsluv
     - mmf-setup
+    - mmfutils
     - manim>=0.15.0
     #- git+https://github.com/mforbes/manim.git@issue_2441#egg=manim
 
