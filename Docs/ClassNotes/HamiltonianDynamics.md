@@ -735,10 +735,11 @@ Prove that the classical action $S(x, t)$ satisfies the Hamilton-Jacobi equation
 \end{gather*}
 
 where $x(t)$ is a solution to the classical equations of motion with boundary conditions
-$x(t_0) = x_0$ and $x(t) = x$, as discussed above.  I.e. show that
+$x(t_0) = x_0$ and $x(t) = x$, as discussed above.  I.e., show that
 
 \begin{gather*}
-  \pdiff{S(x, t;x_0, t_0)}{t} = -H(x, S', t).
+  S' \equiv \pdiff{S(x, t; x_0, t_0}{x} = p, \qquad
+  \dot{S} = \pdiff{S(x, t;x_0, t_0)}{t} = -H(x, S', t).
 \end{gather*}
 ```
 
@@ -1037,22 +1038,286 @@ Finally, with respect to the variables $(q, t;p_0, q_0)$:
 \end{align*}
 ````
 
-### Atom Laser
+# Atom Laser
+
+This section contains some notes about a continuous atom laser related to a research
+project I am working on.  It might not make much sense if you are not familiar with the
+project.  (Feel free to ask.)
+
+## Experimental Setup
+
+A continuous atom laser is formed by resonantly out-coupling atoms in a trapped BEC to a
+state that is not trapped, which falls under the influence of gravity and some
+additional potentials.  (For more details, see {ref}`sec:atom-laser`.)
+
+:::{margin}
+The out-coupled atoms are at a sufficiently low density that the non-linear interaction
+can be neglected.  If the out-coupling $\Omega$ is weak, then the depletion of the
+condensate $\ket{\psi_0}$ can be neglected, leading to this formulation.
+:::
+The system can be modeled quite well by the following Schrödinger equation:
 
 \begin{gather*}
-  \I\hbar\dot{\psi}(z, t) = \frac{-\hbar^2}{2m}\psi''(z, t) 
-                            + \Bigl(mgz + \alpha\I \delta(z)\Bigr)\psi(z, t)\\
-  \dot{N} = \frac{\alpha}{\hbar} \abs{\psi(0, t)}^2
+  \I\hbar \partial_t \ket{\psi_a(t)} 
+  = \left(\frac{\op{p}_z^2}{2m} + V_a(\op{z}) - E_0\right)\ket{\psi_a(t)}
+  + \Omega\ket{\psi_0}
 \end{gather*}
+
+where $\ket{\psi_0}$ is the condensate wavefunction, and $E_0 = \mu - \hbar\omega$ is the
+chemical-potential of the condensate minus an energy shift due the frequency of the
+out-coupling, which can be used to shift where the atoms out-couple.  (As discussed in
+{ref}`sec:atom-laser`, efficient out-coupling happens within a small region around where
+$V_a(z) = E_0$.)
+
+The out-coupled atoms fall under the influence of potential $V_a(z) \approx mgz$ where
+deviations occure due to small effects related to magnetic field gradients and optical
+"poky" potentials.  As part of the experimental procedure, the atoms are subjected to
+$\pi$ or $\pi/2$ pulses, which create mixtures with another state $b$ which experiences
+a slightly different potential $V_b(z) = V_a(z) + \delta V(z) \approx V_a(z)$.  These
+transitions occur about an unknown axis which we take to be $\hat{y}$ and have the
+following form:
 
 \begin{gather*}
-  \frac{-\hbar^2}{2m}\psi''(z, t) + \Bigl(mgz + \alpha\I \delta(z)\Bigr)\psi(z, t)
+  \op{U}_{\theta} = e^{\I \theta \mat{\sigma}_y/2} 
+  = \cos\frac{\theta}{2}\mat{1} + \I\sin\frac{\theta}{2}\mat{\sigma}_y
+  =
+  \begin{pmatrix}
+    \cos\frac{\theta}{2} & \sin\frac{\theta}{2}\\
+    -\sin\frac{\theta}{2} & \cos\frac{\theta}{2}
+  \end{pmatrix}, \\
+  \op{U}_{\pi/2}
+  =
+  \frac{1}{\sqrt{2}}
+  \begin{pmatrix}
+    1 & 1\\
+    -1 & 1
+  \end{pmatrix}, \qquad
+  \op{U}_{\pi} = 
+  \begin{pmatrix}
+    0 & 1\\
+    -1 & 0
+  \end{pmatrix}.
 \end{gather*}
 
+Two procedures are used.  Both start with a well-established atom laser in the
+quasi-stationary state $\ket{\psi_a}$ which we can, by shifting coordinates, take to satisfy:
+
+\begin{gather*}
+  \left(\frac{\op{p}_z^2}{2m} + V_a(\op{z})\right)\ket{\psi_a} =
+  - \Omega e^{\I z_0 \op{p}_z/\hbar}\ket{\psi_0}
+\end{gather*}
+
+1. The first interferometer applies a $\op{U}_{\pi/2}$ pulse at time $t_1$, then a second
+   $\op{U}_{\pi/2}$ pulse at time $t_2 = t_1 + t_{\mathrm{wait}}$.
+2. The second "spin-echo" interferometer first applies a $\op{U}_{\pi/2}$ pulse at time
+   $t_1$, then a $\op{U}_{\pi}$ pulse at time $t_2$, and finally a $\op{U}_{\pi/2}$
+   pulse at time $t_3  = t_1 + t_{\mathrm{wait}}$.
+
+### Simplified WKB Analysis
+
+:::{margin}
+This assumes that we can use a single trajectory for both states, which is approximately
+correct, but in the code, we properly compute the full action, using only the
+approximation that the $\theta$-pulses are instantaneous at some point in the appropriate interval.
+:::
+Heuristically, the two procedures give rise to the following propagation:
+
+\begin{gather*}
+  \mat{U}_{t_f, t_2}
+  \underbrace{
+    \frac{1}{\sqrt{2}}
+    \begin{pmatrix}
+      1 & 1\\
+      -1 & 1\\
+    \end{pmatrix}
+  }_{\mat{U}_{\pi/2}}
+  \mat{U}_{t_2, t_1}
+  \underbrace{
+    \frac{1}{\sqrt{2}}
+    \begin{pmatrix}
+      1 & 1\\
+      -1 & 1\\
+    \end{pmatrix}
+  }_{\mat{U}_{\pi/2}}
+  \mat{U}_{t_1, t_0}
+  \begin{pmatrix}
+    1\\
+    0
+  \end{pmatrix}\\
+  \mat{U}_{t_f, t_3}
+  \underbrace{
+    \frac{1}{\sqrt{2}}
+    \begin{pmatrix}
+      1 & 1\\
+      -1 & 1\\
+    \end{pmatrix}
+  }_{\mat{U}_{\pi/2}}
+  \mat{U}_{t_3, t_2}
+  \underbrace{
+    \begin{pmatrix}
+     0 & 1\\
+     -1 & 0\\
+    \end{pmatrix}
+  }_{\mat{U}_{\pi}}
+  \mat{U}_{t_2, t_1}
+  \underbrace{
+    \frac{1}{\sqrt{2}}
+    \begin{pmatrix}
+      1 & 1\\
+      -1 & 1\\
+    \end{pmatrix}
+  }_{\mat{U}_{\pi/2}}
+  \mat{U}_{t_1, t_0}
+  \begin{pmatrix}
+    1\\
+    0
+  \end{pmatrix},\\
+  \mat{U}_{t_2, t_1}
+   = 
+   \begin{pmatrix}
+      e^{\I S^{a}_{12}/\hbar}\\
+      & e^{\I S^{b}_{12}/\hbar}
+    \end{pmatrix}.
+\end{gather*}
+
+Using the notation $A_{ij} = \exp(\I S^{a}_{ij}/\hbar)$ and $B_{ij} = \exp(\I
+S^{b}_{ij}/\hbar)$, we have:
+
+* Simple interferometer:
+
+  \begin{align*}
+    \Psi(t_f)
+    &\approx 
+    \frac{1}{2}
+    \begin{pmatrix}
+      A_{01}A_{12}A_{2f} - A_{01}B_{12}A_{2f}\\
+      -A_{01}A_{12}B_{2f} - A_{01}B_{12}B_{2f}
+    \end{pmatrix}, \\
+    \begin{pmatrix}
+      n_a(t_f)\\
+      n_b(t_f)
+    \end{pmatrix} 
+    &\propto
+    \begin{pmatrix}
+      \abs{A_{12} - B_{12}}^2\\
+      \abs{A_{12} + B_{12}}^2
+    \end{pmatrix}.
+  \end{align*}
+
+* Spin-echo interferometer:
+
+  \begin{align*}
+    \Psi(t_f) 
+    &\approx 
+    \frac{1}{2}
+    \begin{pmatrix}
+      -A_{01}B_{12}A_{23}A_{3f} - A_{01}A_{12}B_{23}A_{3f}\\
+      A_{01}B_{12}A_{23}B_{3f} - A_{01}A_{12}B_{23}B_{3f}
+    \end{pmatrix},\\
+    \begin{pmatrix}
+      n_a(t_f)\\
+      n_b(t_f)
+    \end{pmatrix} 
+    &\propto
+    \begin{pmatrix}
+      \abs{B_{12}A_{23} + A_{12}B_{23}}^2\\
+      \abs{B_{12}A_{23} - A_{12}B_{23}}^2
+    \end{pmatrix}.
+  \end{align*}
+
+To obtain an estimate for what we see, we now make some additional approximations:
+
+:::{margin}
+The essential complication is that the action $\mat{S}$ must now be regarded as a
+matrix, and since this generally will not commute at different times, expanding the
+wavefunction does not yield a simple Hamilton-Jacobi equation.
+:::
+1. We assume that the dominant contribution to the potentials $V_a(z) \approx
+   V_b(z) \approx mgz$ is gravity, and that, consequently, the motion can be simply
+   describe by free-fall.  Under this approximation, we may view the particle as a
+   two-component $SU(2)$-valued particle, whose components evolve on the Bloch sphere as
+   the particle falls.  To go beyond this, we must use some sort of multi-component WKB
+   formalism which is quite complicated.
+2. We assume that the pulses $\op{U}_{\theta}$ are essentially instantaneous.
+3. To obtain simple expressions, we shall also consider the limit where
+   $t_{\mathrm{wait}} \rightarrow 0$, which we call the "impulse approximation".
+
+With these assumptions, we may consider a single particle falling from $z=0$ at some
+initial time $t_0$.  The position and momentum are approximately:
+
+\begin{gather*}
+  q(t) \approx -\frac{g(t-t_0)^2}{2}, \qquad
+  p(t) \approx -mg(t-t_0) = -m\sqrt{-2gq(t)}.
+\end{gather*}
+
+The phase accumulates through the integral of the action
+
+\begin{gather*}
+  \delta S(z_1, z_2) = 
+  \int_{t_1}^{t_2}\mathcal{L}\d{t} = \int_{z_1}^{z_2}\frac{\mathcal{mL}}{p}\d{z},\qquad
+  \mathcal{L} = E - 2 V(z),\\
+  V(z) = V_0(z)\mat{1} + \delta V(z) \mat{\sigma}_z = \begin{pmatrix}
+    V_a(z)\\
+    & V_b(z)
+  \end{pmatrix}.
+\end{gather*}
+
+Under our approximations, we can take $E\approx 0$, so that
+
+\begin{gather*}
+  A_{ij}, B_{ij} \approx \exp\left(
+    \frac{\I}{\hbar}
+    \int_{z_i}^{z_j} \frac{2V_{a,b}(z)}{\sqrt{-2gz}}
+  \right).
+\end{gather*}
+
+### Impulse approximation
+
+If the intervals $\delta t_{ij} = t_i - t_j$, then we can take the integrand to be
+constant over this interval, and use $z_j \approx z_i + \delta t_{ij} p_i/m$, which
+cancels the denominator:
+
+\begin{gather*}
+  A_{ij}, B_{ij} \approx \exp\left(
+    \frac{\I}{\hbar}
+    (z_i - z_j)\frac{2V_{a,b}(z_{ij})}{\sqrt{-2gz_{ij}}}
+  \right)
+  \approx
+  \exp\left(
+    -\frac{\I}{\hbar}\delta t_{ij}2V_{a,b}(z_{ij})
+  \right)
+\end{gather*}
+
+Looking at the densities $n_{a,b}$ above, the simple interferometer measures the phase
+difference between $A_{12}$ and $B_{12}$, while the spin-echo interferometer measures
+the phase difference between $B_{12}A_{23}$ and $A_{12}B_{23}$:
+
+* Simple interferometer -- measures contours of $\delta V(z)$:
+
+  \begin{gather*}
+    \hbar\delta\phi \approx  2\delta t_{12}\bigl(V_{a}(z_{12})-V_{b}(z_{12})\bigr)\\
+    = 2 t_{w}\bigl(V_{a}(z_{12})-V_{b}(z_{12})\bigr)
+  \end{gather*}
+
+* Spin-echo interferometer -- measures contours of $\delta V'(z)$:
+
+  \begin{gather*}
+    \hbar\delta\phi \approx  2\Bigl(
+      \delta t_{12}\bigl(V_{b}(z_{12}) - V_{a}(z_{12})\bigr)
+      -
+      \delta t_{23}\bigl(V_{b}(z_{23}) - V_{a}(z_{23})\bigr)
+      \Bigr),\\
+    \approx
+    \frac{2t_{w}^2 p_{13}}{m} \Bigl(V_{a}'(z_{13}) - V_{b}'(z_{13})\Bigr)
+  \end{gather*}
+  
+In the second expressions, we have taken $\delta t_{12} = \delta t_{23} = t_{w}$ and
+$z_{23} \approx z_{12} + t_w p_{13}/m$.  This
 
 
 
-### Falling Gaussian
+
+## Falling Gaussian
 
 Consider an initial state $\psi_0(z)$.  The WKB approximation for the time evolution is:
 

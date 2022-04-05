@@ -20,7 +20,7 @@ import logging; logging.getLogger("matplotlib").setLevel(logging.CRITICAL)
 %matplotlib inline
 import numpy as np, matplotlib.pyplot as plt
 ```
-
+(sec:atom-laser)=
 # Falling Particle
 
 Here we consider the quantum mechanics of a particle falling in a gravitational field:
