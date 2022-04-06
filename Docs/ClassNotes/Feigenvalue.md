@@ -523,6 +523,15 @@ ax.set(xlabel="$x$", title=f"$r_*={rr:.6f}$");
 ```
 
 
+\begin{gather*}
+  g(x) = -\alpha g\Bigl(g(\tfrac{x}{\alpha})\Bigr)\\
+  g(x) = -\alpha g\Bigl(g(\tfrac{x}{\alpha})\Bigr)
+  g(1) = -\alpha g\Bigl(g(\tfrac{1}{\alpha})\Bigr)
+\end{gather*}
+
+
+
+
 
 (see [Weisstein, Eric W. "Logistic Map"]).
 
