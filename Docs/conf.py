@@ -12,24 +12,24 @@
 #
 import os.path
 import subprocess
-import manim
 from sphinx.util.fileutil import copy_asset
 
+import mmf_setup
+
+mmf_setup.set_path()
 
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
-# Embed all manim videos.  Needs manim>=0.15.0
-# See also https://github.com/mforbes/manim/tree/issue_2441
-manim.config.media_embed = True
 
 # This is True if we are building on Read the Docs in case we need to customize.
 on_rtd = os.environ.get("READTHEDOCS") == "True"
+on_cocalc = "ANACONDA2020" in os.environ
 
 # -- Project information -----------------------------------------------------
 
-project = "Physics 521: Classical Mechanics I"
-copyright = "2021, Michael McNeil Forbes"
+project = "Phys 521 - Classical Mechanics"
+copyright = "2022, Michael McNeil Forbes"
 author = "Michael McNeil Forbes"
 
 # The full version, including alpha/beta/rc tags
@@ -44,35 +44,34 @@ release = "0.1"
 extensions = [
     "myst_nb",
     "sphinx.ext.autodoc",
-    "sphinx.ext.doctest",
-    "sphinx.ext.intersphinx",
+    "sphinx.ext.autosummary",
     "sphinx.ext.coverage",
-    "sphinx.ext.mathjax",
-    # "sphinx-mathjax-offline",  # Does not work?
-    #    <script async="async" src="../_static/mathjax/tex-chtml.js"></script>
-    #    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    "sphinx.ext.doctest",
     "sphinx.ext.ifconfig",
-    "sphinx.ext.viewcode",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
     "sphinx.ext.todo",
+    "sphinx.ext.viewcode",
+    "sphinxcontrib.bibtex",
     "sphinxcontrib.zopeext.autointerface",
     "matplotlib.sphinxext.plot_directive",
-    "sphinxcontrib.bibtex",
-    "manim.utils.docbuild.manim_directive",
-    # "phys_521_2021.manim_directive",
     # From jupyterbook
     # "jupyter_book",
     # "sphinx_thebe",
-    # "sphinx_comments",
     # "sphinx_external_toc",
+    "sphinx_comments",  # Hypothes.is comments and annotations
     "sphinx_panels",
     # "recommonmark",
 ]
 
-source_suffix = {
-    # '.ipynb': 'myst-nb',  # Ignore notebooks.
+# Make sure that .rst comes first or autosummary will fail.  See
+# https://github.com/sphinx-doc/sphinx/issues/9891
+source_suffix = {  # As of 3.7, dicts are ordered.
+    ".rst": "restructuredtext",  # Make sure this is first!
     ".myst": "myst-nb",
     ".md": "myst-nb",
+    # '.ipynb': 'myst-nb',  # Ignore notebooks.  Does not work.  See below.
 }
 
 # https://myst-parser.readthedocs.io/en/latest/using/syntax-optional.html
@@ -94,15 +93,17 @@ myst_enable_extensions = [
 # https://github.com/mcmtroffaes/sphinxcontrib-bibtex
 # BibTeX files
 bibtex_bibfiles = [
-    # For now, macros.bib must be included in local.bib.  See:
-    # https://github.com/mcmtroffaes/sphinxcontrib-bibtex/issues/261
-    # Separate files can now be used for sphinxcontrib-bibtex>=2.4.0a0 but we will wait
-    # for release before doing this here.
     "macros.bib",
-    "local.bib",
+    "references.bib",
 ]
 
 bibtex_reference_style = "author_year"
+
+# autosummary settings
+autosummary_generate = True
+autosummary_generate_overwrite = False
+autosummary_imported_members = False
+add_module_names = False
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -114,8 +115,10 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # Cache notebook output to speed generation.
 # https://myst-nb.readthedocs.io/en/latest/use/execute.html
-jupyter_execute_notebooks = "cache"
-execution_allow_errors = True
+nb_execution_mode = "cache"
+nb_execution_allow_errors = True
+nb_execution_timeout = 300
+nbsphinx_timeout = 300  # Time in seconds; use -1 for no timeout
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -127,8 +130,15 @@ html_theme = "sphinx_book_theme"  # Theme for JupyterBook
 html_logo = "_static/wsu-logo.svg"
 
 html_theme_options = {
+# 
     "repository_url": "https://gitlab.com/wsu-courses/physics-521-classical-mechanics",
     "use_repository_button": True,
+# 
+    "launch_buttons": {
+        'notebook_interface': 'classic',
+        'binderhub_url': 'https://mybinder.org',
+        'thebe': True
+    },
 }
 
 # Override version number in title... not relevant for docs.
@@ -146,9 +156,8 @@ intersphinx_mapping = {
     "Python 3": ("https://docs.python.org/3", None),
     "matplotlib [stable]": ("https://matplotlib.org/stable/", None),
     "numpy [stable]": ("https://numpy.org/doc/stable/", None),
-    "scipy [latest]": ("https://docs.scipy.org/doc/scipy/", None),
-    "manim [stable]": ("https://docs.manim.community/en/stable/", None),
-    "IPython [stable]": ("https://ipython.readthedocs.io/en/stable/", None),
+    "scipy": ("https://docs.scipy.org/doc/scipy/", None),
+    "sphinx": ("https://www.sphinx-doc.org/", None),
 }
 
 # Napoleon settings
@@ -162,27 +171,12 @@ napoleon_use_admonition_for_references = False
 napoleon_use_ivar = False
 napoleon_use_param = True
 napoleon_use_rtype = True
-
 ######################################################################
 # Variables with course information
-course_package = "phys_521_2021"
+course_package = "phys_521_2022"
 
-myst_substitutions = {
-    "instructor": "Michael McNeil Forbes [`m.forbes+521@wsu.edu`](mailto:m.forbes+521@wsu.edu)",
-    "office": "947F Webster, (509) 335-6125",
-    "office_hours": "By appointment",
-    "class_name": project,
-    "class_homepage": "<http://schedules.wsu.edu/List/Pullman/20213/Phys/521/01>",
-    "class_number": "[Phys. 521.01 Fall 2021, Pullman, Class Number 01645]"
-    + "(https://www.catalog.wsu.edu/Pullman/Courses/ByList/PHYSICS/521)",
-    "class_time": "MWF, 10:10am - 11am",
-    "class_room": "Daggy 226",
-    "course_package": course_package,
-    "Perusall": "[Perusall](https://app.perusall.com/courses/2021-fall-physics-521-pullm-1-01-01645-classical-mechanics-i)",
-    "zoom_info": "Zoom Meeting: [921 9100 6124](https://wsu.zoom.us/j/92191006124). "
-    + "(Please use the Canvas link or as the instructor for the password.)",
-    "Canvas": "[Canvas](https://wsu.instructure.com/courses/1488534)",
-}
+
+######################################################################
 
 math_defs_filename = "_static/math_defs.tex"
 
@@ -194,6 +188,9 @@ mathjax3_config = {
     "loader": {"load": ["[tex]/mathtools"]},
     "tex": {"packages": {"[+]": ["mathtools"]}},
 }
+
+# Hypothes.is comments and annotations
+comments_config = {"hypothesis": True}
 
 
 def config_inited_handler(app, config):
@@ -224,7 +221,6 @@ def my_init(app):
     the kernel from there.
     """
     if on_rtd:
-        print("On RTD!")
         subprocess.check_call(
             [
                 "python3",
@@ -233,9 +229,9 @@ def my_init(app):
                 "install",
                 "--user",
                 "--name",
-                "phys-521-2021",
+                "phys-521-2022",
                 "--display-name",
-                "Python 3 (phys-521-2021)",
+                "Python 3 (phys-521-2022)",
             ]
         )
     else:
@@ -244,6 +240,26 @@ def my_init(app):
 
     mathjax_offline = False
     if mathjax_offline:
+        # For this to work, you need to put mathjax js files in Docs/_static/mathjax
+        # Docs/_static/
+        # |-- math_defs.tex
+        # |-- mathjax
+        #     |-- a11y
+        #     |-- adaptors
+        #     |-- core.js
+        #     |-- input
+        #      ...
+        #     |-- sre
+        #      ...
+        #     |-- startup.js
+        #     |-- tex-chtml-full.js
+        #     |-- tex-chtml.js
+        #     |-- tex-mml-chtml.js
+        #     |-- tex-mml-svg.js
+        #     |-- tex-svg-full.js
+        #     |-- tex-svg.js
+        #     `-- ui
+        #
         # Copied from the following to put static mathjax files in place if offline:
         # https://gitlab.com/thomaswucher/sphinx-mathjax-offline/-/blob/master/sphinx-mathjax-offline/__init__.py
 
@@ -263,4 +279,6 @@ def setup(app):
     app.connect("config-inited", config_inited_handler)
     # Ignore .ipynb files
     app.registry.source_suffix.pop(".ipynb", None)
+    app.add_config_value("on_rtd", on_rtd, "env")
+    app.add_config_value("on_cocalc", on_cocalc, "env")
     my_init(app)

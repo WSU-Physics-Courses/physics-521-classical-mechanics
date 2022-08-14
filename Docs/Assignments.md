@@ -2,9 +2,9 @@
 
 ```{toctree}
 ---
-maxdepth: 1
-titlesonly:
+maxdepth: 3
+caption: "Contents:"
 glob:
 ---
-Assignments/*
+Assignments/Assignment-*
 ```

@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "phys_581_2021"
-version = "0.1.0"
-description = "Physics 581: Physics Inspired Computational Techniques."
-authors = ["Michael McNeil Forbes <m.forbes+phys_581_2021@wsu.edu>"]
+name = "phys-521-classical-mechanics"
+version = "0.1"
+description = "WSU Course Physics 521: Classical Mechanics I taught Fall 2022"
+authors = ["Michael McNeil Forbes <m.forbes+521@wsu.edu>"]
 license = "BSD-3"
-readme = "README.rst"
-repository = "https://gitlab.com/wsu-courses/physics-581-physics-inspired-computation"
-documentation = "http://phys_581_2021.readthedocs.org"
+readme = "README.md"
+repository = "https://gitlab.com/wsu-courses/physics-521-classical-mechanics"
+documentation = "https://physics-521-classical-mechanics-i.readthedocs.io/en/latest/"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -42,13 +42,11 @@ Sphinx = {version = ">=2,<4", optional = true}
 pytest = {version = "^6.2.3", optional = true}
 pytest-cov = {version = "^2.11.1", optional = true}
 sphinx-panels = {version = "^0.6.0", optional = true}
-sphinx-book-theme = {version = "^0.1.2", optional = true}
+sphinx-book-theme = {version = "^0.1.9", optional = true}
 sphinxcontrib-zopeext = {version = "^0.2.4", optional = true}
 sphinxcontrib-bibtex = {version = "^2.3.0", optional = true}
-sphinx-mathjax-offline = "^0.0.1"
 myst-nb = {version = "^0.12.3", optional = true}
 #uncertainties = {version = "^3.1.5", optional = true}
-colour-science = "^0.4.1"
 
 [tool.poetry.dev-dependencies]
 black = "^21.4b2"
@@ -61,6 +59,7 @@ test = [
     "pytest",
     "pytest-cov",
     "pytest-flake8",
+    "pytest-html",
     "pytest-xdist",
     "ipyparallel",
     "persist",
@@ -86,18 +85,29 @@ doc = [
 ]
 
 [tool.poetry.urls]
-"Issues" = "https://alum.mit.edu/www/mforbes/hg/forbes-group/mmfutils/issues"
-"Git Mirror" = "https://github.com/forbes-group/mmfutils"
-
-[build-system]
+"Issues" = "https://gitlab.com/wsu-courses/physics-521-classical-mechanics/issues"
+"GitLab" = "https://gitlab.com/wsu-courses/physics-521-classical-mechanics"
+  "GitHub Mirror" = "https://github.com/WSU-Physics-Courses/physics-521-classical-mechanics"
+  [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+######################################################################
+# MMF-Setup
+# The following allows you to add this ROOT directory to your path so you
+# can import packages with the following:
+#
+#     import mmf_setup
+#     mmf_setup.set_path()
+
+[tool.mmf_setup]
+ROOT = 'src'
 
 ######################################################################
 # PyTest
 [tool.pytest.ini_options]
 testpaths = [
-    "phys_581_2021",
+    "src/phys_521_2022",
     "tests",
 ]
 markers = [
@@ -112,8 +122,11 @@ addopts = [
     "--doctest-modules",
     "--cov",
     "--cov-report=html",
+    "--cov-report=xml",
     "--cov-fail-under=85",
     "--no-cov-on-fail",
+    "--html=_artifacts/pytest_report.html",
+    "--junitxml=_artifacts/junit.xml",
     #"-x",
     #"--pdb",
     #"--flake8",  # Disable until https://github.com/tholo/pytest-flake8/issues/8

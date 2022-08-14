@@ -1,7 +1,11 @@
 [run]
 source=
-   phys_581_2021
+   phys_521_2022
 omit=
    */tests/*
+
+[xml]
+output = _artifacts/coverage.xml
+
 [html]
-directory = _htmlcov
+directory = _artifacts/htmlcov

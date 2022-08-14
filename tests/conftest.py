@@ -19,8 +19,3 @@ import mmf_setup
 # it is better not to do this, to ensure that only installed tests get executed.
 mmf_setup.set_path()
 
-
-@pytest.fixture
-def tmpdir(scope="function"):
-    with tempfile.TemporaryDirectory() as tmpdir:
-        yield tmpdir
