@@ -29,7 +29,7 @@ default_context:
   # The following should get the resources and place them in _ext/Resources
   get_resources: "git clone git@gitlab.com:wsu-courses/physics-521-classical-mechanics_resources.git _ext/Resources"
 
-  rtd_url: "https://physics-521-classical-mechanics-i.readthedocs.io/en/latest/"
+  rtd: "physics-521-classical-mechanics-i"
 
   # This is the WSU Courses project... it usually does not change.
   cocalc_course_project: "c31d20a3-b0af-4bf7-a951-aa93a64395f6"

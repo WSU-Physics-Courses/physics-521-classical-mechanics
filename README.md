@@ -1,5 +1,6 @@
 Phys 521 - Classical Mechanics
 ==============================
+[![Documentation Status](https://readthedocs.org/projects/physics-521-classical-mechanics-i/badge/?version=latest)](https://physics-521-classical-mechanics-i.io/en/latest/?badge=latest)
 [![gitlab pipeline status](https://gitlab.com/wsu-courses/physics-521-classical-mechanics/badges/main/pipeline.svg)](https://gitlab.com/wsu-courses/physics-521-classical-mechanics/-/commits/main)
 [![gitlab coverage report](https://gitlab.com/wsu-courses/physics-521-classical-mechanics/badges/main/coverage.svg)](https://gitlab.com/wsu-courses/physics-521-classical-mechanics/-/commits/main)
 
