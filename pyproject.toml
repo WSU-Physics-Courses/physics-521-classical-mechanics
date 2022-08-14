@@ -6,7 +6,7 @@ authors = ["Michael McNeil Forbes <m.forbes+521@wsu.edu>"]
 license = "BSD-3"
 readme = "README.md"
 repository = "https://gitlab.com/wsu-courses/physics-521-classical-mechanics"
-documentation = "https://physics-521-classical-mechanics-i.readthedocs.io/en/latest/"
+documentation = "https://physics-521-classical-mechanics-i.io/en/latest"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
