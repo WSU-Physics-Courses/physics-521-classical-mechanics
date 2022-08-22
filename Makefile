@@ -43,6 +43,11 @@ ENV_PATH ?= $(abspath envs/$(ENV))
 ACTIVATE_PROJECT ?= $(ACTIVATE) $(ENV_PATH)
 JUPYTEXT ?= $(ANACONDA_PROJECT) run jupytext
 
+# Manim is not ready for ARM yet, so we use an intel build and rosetta
+ifeq ($(shell uname -p),arm)
+  AP_PRE += CONDA_SUBDIR=osx-64
+endif
+
 # ------- Top-level targets  -------
 # Default prints a help message
 help:

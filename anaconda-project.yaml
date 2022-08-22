@@ -151,6 +151,15 @@ env_specs:
   phys-521-2022:
     description: Default course environment spec.
     channels: []
+  phys-521-2022-x86:
+    description: Default course environment spec.
+    dependencies:
+      - pip:
+          - ruamel-yaml
+    variables:
+      CONDA_SUBDIR: osx-64
+
+    channels: []
 
 # Silence warnings about about notebooks without run commands
 # See https://github.com/Anaconda-Platform/anaconda-project/issues/263#issuecomment-870004641
