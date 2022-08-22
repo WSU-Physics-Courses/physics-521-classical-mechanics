@@ -126,13 +126,13 @@ with SSH as described above:
      ```
 
      This installs all of the dependencies listed in `anaconda-project.yaml` into an
-     environment in `envs/phys-521-2021`, and then creates a Jupyter kernel called
-     `phys-521-2021` that the [CoCalc] notebooks can find.  The latter step is roughly
+     environment in `envs/phys-521-2022`, and then creates a Jupyter kernel called
+     `phys-521-2022` that the [CoCalc] notebooks can find.  The latter step is roughly
      equivalent to running the following with the appropriate python installed in
-     `envs/phys-521-2021`:
+     `envs/phys-521-2022`:
 
      ```bash
-     python3 -m ipykernel install --user --name "phys-521-2021" --display-name "Python 3 (phys-521-2021)"
+     python3 -m ipykernel install --user --name "phys-521-2022" --display-name "Python 3 (phys-521-2022)"
      ```
 
    * Finally, a line is added to the end of `~/.bash_aliases` to activate the
@@ -141,10 +141,10 @@ with SSH as described above:
 
      ```bash
      $ ssh cc521shared
-     (phys-521-2021) ~$ 
+     (phys-521-2022) ~$ 
      ```
  
- You should now be able to use the `phys-521-2021` kernel in notebooks.
+ You should now be able to use the `phys-521-2022` kernel in notebooks.
 
 [Shared CoCalc Project]: <https://cocalc.com/projects/31c120c9-2956-4420-9d6f-374a6ee32df3> "581-2021 Shared CoCalc Project"
 [CoCalc]: <https://cocalc.com> "CoCalc: Collaborative Calculation and Data Science"

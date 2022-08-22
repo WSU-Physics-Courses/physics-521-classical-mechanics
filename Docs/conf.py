@@ -130,14 +130,14 @@ html_theme = "sphinx_book_theme"  # Theme for JupyterBook
 html_logo = "_static/wsu-logo.svg"
 
 html_theme_options = {
-# 
+    #
     "repository_url": "https://gitlab.com/wsu-courses/physics-521-classical-mechanics",
     "use_repository_button": True,
-# 
+    #
     "launch_buttons": {
-        'notebook_interface': 'classic',
-        'binderhub_url': 'https://mybinder.org',
-        'thebe': True
+        "notebook_interface": "classic",
+        "binderhub_url": "https://mybinder.org",
+        #'thebe': True
     },
 }
 

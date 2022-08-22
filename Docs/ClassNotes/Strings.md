@@ -7,9 +7,9 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.13.0
 kernelspec:
-  display_name: Python 3 (phys-521-2021)
+  display_name: Python 3 (phys-521-2022)
   language: python
-  name: phys-521-2021
+  name: phys-521-2022
 ---
 
 Strings
