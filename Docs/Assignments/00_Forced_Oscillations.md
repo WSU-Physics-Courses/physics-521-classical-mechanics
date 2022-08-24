@@ -16,6 +16,8 @@ kernelspec:
 :tags: [hide-input]
 
 import mmf_setup;mmf_setup.nbinit(quiet=True)
+%matplotlib inline
+import numpy as np, matplotlib.pyplot as plt
 ```
 
 # Assignment 0: Forced Oscillations
@@ -27,11 +29,30 @@ the **Homework** section on a page named **Assignment 0: Forced Oscillations**.
 
 This assignment is meant to complement the reading assignment from {cite:p}`LL1:1976`
 §26 "Forced oscillations under friction".  Your goal is to find the complete solution to
-the problem of a mass on a spring with a linear damping force and a drive:
+the problem of a mass on a spring with a linear damping force and a cosine driving
+force.
+
+:::{note}
+I recommend the following approach:
+
+1. Quickly skim through the reading so you know what the topic is.  Look at some of the
+   equations and figures to see if they make sense.  Once you get a rough idea, put the
+   reading aside and see if you can derive the results on your own.  You have likely
+   seen some of this material before.
+2. If you get stuck, go back to the material and see what they do.  Does this provide
+   any insight that helps you?  Come back to your own work as soon as you have some
+   insight.
+3. After you have a good idea of what is going on, start reading the material in detail
+   to see if there are any finer points you have missed.
+4. I find it very helpful to work through the equations numerically to make sure I
+   understand what they mean.  Feel free to use the numerical solution provided on
+   [CoCalc] to do this.  For example, I while checking my numerical solution, I realized
+   that equation (26.2) was not what I thought it was originally.
+:::
 
 \begin{gather*}
   m \ddot{x}  = \underbrace{-kx}_{\text{spring}} 
-                -\underbrace{\alpha\dot{x}}_{\text{damping}}
+                \overbrace{-\alpha\dot{x}}^{\text{damping}}
                 + F(t), \qquad
   F(t) = f\cos(\gamma t)
 \end{gather*}
@@ -48,8 +69,8 @@ where $F(t)$ is a driving force which we will take to be a pure cosine wave as s
    Express these parameters in terms of the physical parameters above.  From now on,
    work with these so we can compare with results from the book.
 3. Perform a dimensional analysis of the problem.  Make sure you express the dimensions
-   of all the parameters, separate out those parameters that are intrinsic to the system, and
-   those parameters that are part of the initial state.
+   of all the parameters, separate out those parameters that are **intrinsic** to the
+   system, and those parameters that are connected to the **initial state**.
 
    How many dimensionless parameters are there upon which the qualitative behavior of
    the system might depend?
@@ -84,90 +105,48 @@ where $F(t)$ is a driving force which we will take to be a pure cosine wave as s
    other days by appointment.  You may stop by these sessions to discuss any issues you
    have.  I am also available for appointment by Zoom.
    :::
+6. Derive and explain the meaning of the resonance curve in Fig. 31 (shown below).
+   Discuss all the qualitatively different behavior as characterized by the intrinsic
+   dimensionless parameters you found above.  Explain why the initial state is
+   irrelevant.  Try to explain in terms of simple intuitive arguments why the phase
+   shift $\delta$ has the value it does at resonance.
+
+   Feel free to use or modify the following code (also in your CoCalc assignment) to
+   help, but be sure to explain what it is doing.
    
-   
-   
-   
-(Eq. (26.1) in the text).
+```{code-cell}
 
+%matplotlib inline
+import numpy as np, matplotlib.pyplot as plt
 
+f_m = 1.2
+lam = 0.5
+w0 = 1.5
 
+gammas = np.linspace(0, 3*w0, 1000)[1:]
 
+# Explain where these come from!
+B = f_m / (w0**2 - gammas**2 + 2j*lam*gammas)
+delta = np.angle(B)
+B0 = f_m / (2j*lam*gammas)
+I = abs(B**2)
+I0 = abs(B0)**2
 
-
-Consider a rocket of mass $m(t)$ which ejects fuel at a rate of $\dot{m}(t) \leq 0$.  Assume that all of the fuel is ejected with speed $v_e$ directed in the $-x$ direction relative to the rocket.
-
-1. Carefully justify the Tsiolkovsky rocket equation derived in class for a rocket moving in one dimension without gravity (or air resistance):
-
-   $$
-     v(t) = v(0) + v_e\log\frac{m(0)}{m(t)}.
-   $$
-   
-2. This formula is independent of the rate $\dot{m}(t)$ at which fuel is expelled.  Explain how this result is consistent with the simple formula for the velocity of the rocket if all of the fuel were to be immediately eject as one blob with speed $v_e$:
-   
-   $$
-     v(t>0) = v_i + v_e\frac{m(0) - m(t)}{m(t)}.
-   $$
-   
-3. Derive the equation of motion for the rocket moving vertically in a gravitational field.
-4. Solve these equations for a rocket moving vertically in a constant gravitational field.  Assume that $\dot{m}(t) = \dot{m}$ is constant and find the height $z(t)$.
-5. **Bonus**: Briefly estimate how much energy is required to place a payload of $1$kg into a geosynchronous orbit.  How does this depend on the overall mass of the rocket (i.e. is it more efficient to send several small rockets or a single large rocket?
-
-+++ {"tags": ["remove-cell"]}
-
-## Tides
-
-Give a plausible physical argument as to why the distance between the Earth and the Moon is slowly increasing.
-
-+++
-
-## Elliptical Orbits
-
-As Kepler showed†, a particle orbiting in gravitational potential $V(r) = \alpha/r$ will
-move along an ellipse.  Will the center of mass of an extended object also move in a
-perfect ellipse?  Provide a **concise** and convincing argument that this will be the
-case, or provide a simple counter example.
-
-† *I do not require you to show it here, but I also expect **you** to be able to derive
-and explain all of Kepler's laws from Newton's law, reducing the 6 degrees of freedom of
-the original 2-body problem to a single effective equation for the relative coordinate
-$r$ in terms of the reduced mass, etc.  I will likely ask you about this during one of
-your exams.*
-
-+++
-
-## Central Potentials
-
-Throughout the course we will visit the problem of a Harmonic Oscillator: i.e. the motion of a particle of mass $m$ in a potential $V(r) = \tfrac{1}{2}kr^2$ which might represent a ball connected to an anchored spring with spring constant $k$.  We shall revisit this problem in all formalisms and use it as a basis for understanding chaotic dynamics.
-
-1. Use the effective potential to show that all orbits are bound and that $E$ must exceed $E_{\text{min}} = \sqrt{kl^2/m}$ where $l$ is the angular momentum of the system.
-2. Verify that the orbit is a closed ellipse with the origin at the center of the potential.  (Compare your result with the formulas in the book for problem 1.10 (b).)
-3. Prove that the period is independent of the energy and angular momentum.  Could you have anticipated this from simple arguments? Discuss the significance of this result.
-
-+++
-
-## Scattering
-
-Do problem 1.17 from {cite:p}`Fetter:2003`.
-
-> A uniform beam of particles with energy $E$ is scattered by an attractive (top-hat or
-> spherical square-well) central potential:
->
-> $$
-    V(r) = \begin{cases}
-      -V_0 & r < a\\
-      0 & r \geq a
-    \end{cases}
-  $$
-> 
-> Show that the orbit of a particle is identical to a light ray refracted by a sphere of
-> radius $a$ with a particular index of refraction $n$ (see the book). Compute the
-> differential cross-section and show that it is
->
-> $$
-    \diff{\sigma}{\Omega} = \frac{n^2 a^2}{4\cos(\tfrac{1}{2}\theta)}
-    \frac{\bigl[n\cos(\tfrac{1}{2}\theta) - 1\bigr](n-\cos\tfrac{1}{2}\theta)}
-         {(1 + n^2 - 2n \cos\tfrac{1}{2}\theta)^2}
-  $$
->
-> Compute the total cross-section $\sigma$.
+fig, ax = plt.subplots()
+lines = []
+lines.extend(ax.plot(gammas/w0, I/I0, 'C0-', 
+                     label=r"$I/I_0$"))
+axr = ax.twinx()
+lines.extend(axr.plot(gammas/w0, delta, 'C1--', 
+                      label=r"Phase shift $\delta$"))
+ax.set(xlabel="$\gamma/\omega_0$", ylabel=r"$I/I_0$",
+       title=f"$\lambda={lam}$, $f/m={f_m}$, $\omega_0={w0}$")
+axr.set(ylabel=r"$\delta$", ylim=(-np.pi, 0),
+        yticks=[-np.pi, -np.pi/2, 0], 
+        yticklabels=["$-\pi$", "$-\pi/2$", "0"]) 
+labels = [_l.get_label() for _l in lines]
+ax.grid("on", c="C0")
+axr.grid("on", c="C1", ls="--")
+ax.legend(loc="lower left");
+axr.legend(loc="lower right");
+```
