@@ -18,16 +18,82 @@ kernelspec:
 import mmf_setup;mmf_setup.nbinit(quiet=True)
 ```
 
-# Assignment 1: Newtonian Mechanics
+# Assignment 0: Forced Oscillations
 
-+++
+Due: **Friday 2 September**.  Please insert your solutions into your OneNote Class in
+the **Homework** section on a page named **Assignment 0: Forced Oscillations**.
 
-Due: **Friday 10 September**.  Please insert your solutions into your OneNote Class in
-the **Homework** section on a page named **Assignment 1: Newtonian Mechanics**.
+## Forced Damped Oscillations
 
-+++
+This assignment is meant to complement the reading assignment from {cite:p}`LL1:1976`
+§26 "Forced oscillations under friction".  Your goal is to find the complete solution to
+the problem of a mass on a spring with a linear damping force and a drive:
 
-## Rockets
+\begin{gather*}
+  m \ddot{x}  = \underbrace{-kx}_{\text{spring}} 
+                -\underbrace{\alpha\dot{x}}_{\text{damping}}
+                + F(t), \qquad
+  F(t) = f\cos(\gamma t)
+\end{gather*}
+
+where $F(t)$ is a driving force which we will take to be a pure cosine wave as shown.
+
+1. Sketch the setup and suggest some plausible mechanisms for the various terms.
+2. Write this equation in the form of (26.1):
+
+   \begin{gather*}
+     \ddot{x} + 2\lambda \dot{x} + \omega_0^2 x = \frac{f}{m}\cos(\gamma t).
+   \end{gather*}
+   
+   Express these parameters in terms of the physical parameters above.  From now on,
+   work with these so we can compare with results from the book.
+3. Perform a dimensional analysis of the problem.  Make sure you express the dimensions
+   of all the parameters, separate out those parameters that are intrinsic to the system, and
+   those parameters that are part of the initial state.
+
+   How many dimensionless parameters are there upon which the qualitative behavior of
+   the system might depend?
+4. Discuss how you expect the qualitative behavior to depend on these dimensionless
+   parameters.  Include a discussion about "transient" behavior and long-term
+   "steady-state" behavior.  Arrange your dimensionless parameters so that you can
+   identify the parameters which will affect the steady-state behavior.
+5. Find the general solution to the problem $x(t)$ in terms of the initial position
+   $x_0$ and the initial velocity $\dot{x}_0$.  Enter your solution into CoCalc and make
+   sure that your solution agrees with the numerical solution given there.  Include this
+   comparison with your final solution.
+   
+   :::{important}
+   In as many assignments as possible, I will provide numerical solutions against which
+   you can check your formula on CoCalc.  In order for me to grade your homework, I
+   expect:
+   
+   1. Either you get the correct result and your solution matches the numerics.
+   2. You make an appointment with me **before the assignment is due** to discuss what
+      might be going wrong.
+      
+   If you hand in an assignment with an incorrect solution, and have not contacted me
+   before-hand to discuss what might be going wrong, then you may get **zero** on the
+   assignment.
+   
+   If you have difficulty, please first speak with your classmates.  If you cannot
+   resolve the issue, then at this point it will be productive for a group to make an
+   appointment with me to discuss.
+   
+   In Fall 2022, we plan to hold open iSciMath lab/office hours in Spark 235 from 4:30pm
+   to 7pm most days of the week: Monday and Wednesday for sure (after Physics 555) and
+   other days by appointment.  You may stop by these sessions to discuss any issues you
+   have.  I am also available for appointment by Zoom.
+   :::
+   
+   
+   
+   
+(Eq. (26.1) in the text).
+
+
+
+
+
 
 Consider a rocket of mass $m(t)$ which ejects fuel at a rate of $\dot{m}(t) \leq 0$.  Assume that all of the fuel is ejected with speed $v_e$ directed in the $-x$ direction relative to the rocket.
 

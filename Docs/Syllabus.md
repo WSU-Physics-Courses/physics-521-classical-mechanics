@@ -252,11 +252,36 @@ The learning outcomes will be assessed as follows:
   help ensure that written solutions effectively communicate the results as
   per outcome 6.
   
+   :::{important}
+   In as many assignments as possible, I will provide numerical solutions against which
+   you can check your formula on CoCalc.  In order for me to grade your homework, I
+   expect:
+   
+   1. Either you get the correct result and your solution matches the numerics.
+   2. You make an appointment with me **before the assignment is due** to discuss what
+      might be going wrong.
+      
+   If you hand in an assignment with an incorrect solution, and have not contacted me
+   before-hand to discuss what might be going wrong, then you may get **zero** on the
+   assignment.
+   
+   If you have difficulty, please first speak with your classmates.  If you cannot
+   resolve the issue, then at this point it will be productive for a group to make an
+   appointment with me to discuss.
+   
+   In Fall 2022, we plan to hold open iSciMath lab/office hours in Spark 235 from 4:30pm
+   to 7pm most days of the week: Monday and Wednesday for sure (after Physics 555) and
+   other days by appointment.  You may stop by these sessions to discuss any issues you
+   have.  I am also available for appointment by Zoom.
+   :::
+  
 **Exams:**
 
 : The proficiency of the students to rapidly apply these skills without
   external resources (outcome 7) will be assessed through time-limited midterm
-  and final examinations.
+  and final examinations.  Time-permitting, exams will contain both written and oral
+  portions to simulate our comprehensive exam procedure.  The oral portion will help
+  assess the student's communication skills (outcome 6).
 
 **Readings:**
 

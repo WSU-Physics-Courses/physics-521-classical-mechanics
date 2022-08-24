@@ -122,13 +122,13 @@ with SSH as described above:
      ```
 
      This installs all of the dependencies listed in `anaconda-project.yaml` into an
-     environment in `envs/phys-521-2022`, and then creates a Jupyter kernel called
-     `phys-521-2022` that the [CoCalc] notebooks can find.  The latter step is roughly
+     environment in `envs/phys-521`, and then creates a Jupyter kernel called
+     `phys-521` that the [CoCalc] notebooks can find.  The latter step is roughly
      equivalent to running the following with the appropriate python installed in
-     `envs/phys-521-2022`:
+     `envs/phys-521`:
 
      ```bash
-     python3 -m ipykernel install --user --name "phys-521-2022" --display-name "Python 3 (phys-521-2022)"
+     python3 -m ipykernel install --user --name "phys-521" --display-name "Python 3 (phys-521)"
      ```
 
    * Finally, a line is added to the end of `~/.bash_aliases` to activate the
@@ -137,10 +137,10 @@ with SSH as described above:
 
      ```bash
      $ ssh cc521shared
-     (phys-521-2022) ~$ 
+     (phys-521) ~$ 
      ```
  
- You should now be able to use the `phys-521-2022` kernel in notebooks.
+ You should now be able to use the `phys-521` kernel in notebooks.
 
 This will run [`sphinx-autobuild`](https://github.com/executablebooks/sphinx-autobuild)
 which will launch a webserver on http://127.0.0.1:8000 and rebuild the docs whenever you
