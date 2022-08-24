@@ -10,7 +10,7 @@ import numpy as np
 
 import pytest
 
-from phys_521_2022 import assignment_0
+from phys_521 import assignment_0
 
 
 @pytest.fixture(

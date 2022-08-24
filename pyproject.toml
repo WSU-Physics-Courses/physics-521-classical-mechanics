@@ -107,7 +107,7 @@ ROOT = 'src'
 # PyTest
 [tool.pytest.ini_options]
 testpaths = [
-    "src/phys_521_2022",
+    "src/phys_521",
     "tests",
 ]
 markers = [

@@ -38,12 +38,13 @@ else
   ANACONDA_PROJECT ?= anaconda-project
 endif
 
+
 # Manim is not ready for ARM yet, so we use an intel build and rosetta
 ifeq ($(shell uname -p),arm)
   AP_PRE += CONDA_SUBDIR=osx-64
-endif
+endif    
 
-ENV ?= phys-521-2022
+ENV ?= phys-521
 ENV_PATH ?= $(abspath envs/$(ENV))
 ACTIVATE_PROJECT ?= $(ACTIVATE) $(ENV_PATH)
 JUPYTEXT ?= $(ANACONDA_PROJECT) run jupytext
@@ -201,7 +202,7 @@ Variables:
    ENV: (= "$(ENV)")
                      Name of the conda environment user by the project.
                      (Customizations have not been tested.)
-                     Defaults to `phys-521-2022`.
+                     Defaults to `phys-521`.
    ENV_PATH: (= "$(ENV_PATH)")
                      Path to the conda environment user by the project.
                      (Customizations have not been tested.)

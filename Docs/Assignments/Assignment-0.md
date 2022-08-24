@@ -7,9 +7,9 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.13.6
 kernelspec:
-  display_name: Python 3 (phys-521-2022)
+  display_name: Python 3 (phys-521)
   language: python
-  name: phys-521-2022
+  name: phys-521
 ---
 
 ```{code-cell} ipython3
@@ -170,7 +170,7 @@ The function $w = W_k(x)$ is the [Lambert W function](https://en.wikipedia.org/w
 
 +++
 
-Write a function {func}`phys_521_2022.assignment_0.quadratic_equation` which returns the roots of the equation
+Write a function {func}`phys_521.assignment_0.quadratic_equation` which returns the roots of the equation
 
 $$
   ax^2 + bx + c = 0.
@@ -185,7 +185,7 @@ $$
 so we expect
 
 ```{code-cell} ipython3
-from phys_521_2022.assignment_0 import quadratic_equation
+from phys_521.assignment_0 import quadratic_equation
 np.allclose(quadratic_equation(a=1, b=-3, c=2), [1, 2])
 ```
 

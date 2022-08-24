@@ -8,7 +8,7 @@
 #
 # Set the 'name' key to name your project
 #
-name: phys-521-2022
+name: phys-521
 
 #
 # Set the 'icon' key to give your project an icon
@@ -27,22 +27,34 @@ description: 'WSU Course Physics 521: Classical Mechanics I taught Fall 2022'
 commands:
   shell:
     unix: bash --init-file .init-file.bash
-    env_spec: phys-521-2022
+    env_spec: phys-521
 
   export:
     unix: conda env export
-    env_spec: phys-521-2022
+    env_spec: phys-521
 
   # Needs to be explicitly called until we can run scripts on prepare
   # https://github.com/Anaconda-Platform/anaconda-project/issues/239
   init:
-    unix: python3 -m ipykernel install --user --name "phys-521-2022" --display-name
-      "Python 3 (phys-521-2022)"
-    env_spec: phys-521-2022
+    unix: python3 -m ipykernel install --user --name "phys-521" --display-name
+      "Python 3 (phys-521)"
+    env_spec: phys-521
 
   clean:
-    unix: jupyter kernelspec uninstall -f "phys-521-2022"
-    env_spec: phys-521-2022
+    unix: jupyter kernelspec uninstall -f "phys-521"
+    env_spec: phys-521
+
+  test:
+    unix: |
+      pytest
+      genbadge tests -i _artifacts/junit.xml -o _artifacts/test-badge.svg
+      genbadge coverage -i _artifacts/coverage.xml -o _artifacts/coverage-badge.svg
+    env_spec: phys-521
+  test-0:
+    unix: |
+      pytest -k test_official_assignment_0 --no-cov
+      genbadge tests -i _artifacts/junit.xml -o _artifacts/test-0-badge.svg
+    env_spec: phys-521
   
 #
 # In the variables section, list any environment variables your code depends on.
@@ -126,6 +138,7 @@ dependencies:
     - sphinxcontrib-bibtex>=2.4.0
     - sphobjinv  # Helps looking up intersphinx references
     - mmf-setup
+    - ruamel-yaml
     - manim>=0.15.0
     - genbadge[all]
     - ruamel-yaml
@@ -149,7 +162,7 @@ platforms:
 # Use `anaconda-project add-env-spec` to add environment specs.
 #
 env_specs:
-  phys-521-2022:
+  phys-521:
     description: Default course environment spec.
     channels: []
   phys-521-2022-x86:
