@@ -128,6 +128,7 @@ dependencies:
     - mmf-setup
     - manim>=0.15.0
     - genbadge[all]
+    - ruamel-yaml
 channels:
   - defaults
 

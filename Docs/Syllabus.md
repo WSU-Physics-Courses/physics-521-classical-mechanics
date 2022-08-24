@@ -251,17 +251,20 @@ The learning outcomes will be assessed as follows:
   stringent time constraints.  A peer-grading component of the course will
   help ensure that written solutions effectively communicate the results as
   per outcome 6.
-
+  
 **Exams:**
 
 : The proficiency of the students to rapidly apply these skills without
   external resources (outcome 7) will be assessed through time-limited midterm
   and final examinations.
 
-**Forums:**
+**Readings:**
 
-: Students will be expected to participate in online discussion forums,
-  assessing their ability to communicate about classical mechanics.
+: Students will be expected to keep up with the reading assignments.  This will be
+  assesed by students participating in the class Perusall discussions, with at least 2
+  annotations per reading assignment, or with a submission in the form of a summary of
+  the reading, the student's own derivation of a key result, etc.  This will assess
+  their ability to communicate about classical mechanics.
 
 **Final Project:**
 
@@ -290,7 +293,8 @@ The final grade will be converted to a letter grade using the following scale:
 The following table shows how many point you may earn at most from each component of the
 course:
 
-- 50: Homework (or 25 Homework + 25 Project)
+- 10: Reading Assignments
+- 40: Homework (or 20 Homework + 20 Project)
 - 25: Midterm Exams:
 - 25: Final Exam
 
