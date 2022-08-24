@@ -27,23 +27,6 @@ substitutions:
 (sec:sylabus)=
 # Syllabus
 
-::::{admonition} Instructor Notes
-This syllabus contains sample content from the WSU course **Physics 455/555: Quantum
-Technologies and Computation** as offered Fall 2022.  These sections need to be replaced
-with appropriate material for your course.  Material that needs to be customized
-appears in a "Customize" admonition: 
-
-    :::{admonition} Customize for Course
-    Example of material that instructors need to replace.
-    :::
-
-:::{admonition} Customize for Course
-Example of material that instructors need to replace.
-:::
-
-Once the material is suitably customize, just remove the admonition.
-::::
-
 ## Course Information
 
 - **Instructor(s):** Michael McNeil Forbes [`m.forbes+521@wsu.edu`](mailto:m.forbes+521@wsu.edu)
@@ -254,7 +237,7 @@ The learning outcomes will be assessed as follows:
   
    :::{important}
    In as many assignments as possible, I will provide numerical solutions against which
-   you can check your formula on CoCalc.  In order for me to grade your homework, I
+   you can check your formula on [CoCalc].  In order for me to grade your homework, I 
    expect:
    
    1. Either you get the correct result and your solution matches the numerics.
