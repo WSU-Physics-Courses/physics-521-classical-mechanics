@@ -173,7 +173,7 @@ napoleon_use_param = True
 napoleon_use_rtype = True
 ######################################################################
 # Variables with course information
-course_package = "phys_521_2022"
+course_package = "phys_521"
 
 
 ######################################################################
@@ -229,9 +229,9 @@ def my_init(app):
                 "install",
                 "--user",
                 "--name",
-                "phys-521-2022",
+                "phys-521",
                 "--display-name",
-                "Python 3 (phys-521-2022)",
+                "Python 3 (phys-521)",
             ]
         )
     else:

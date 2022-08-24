@@ -1,6 +1,6 @@
 [run]
 source=
-   phys_521_2022
+   phys_521
 omit=
    */tests/*
 

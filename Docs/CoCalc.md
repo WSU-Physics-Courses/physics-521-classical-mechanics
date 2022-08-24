@@ -199,12 +199,12 @@ are not familiar with the associated concepts (i.e. setting up SSH keys).
    1. Clone the [GitLab private resources repo] into `_ext/Resources`.  Note: this is
       private and requires that your instructor grant you access.
    2. Run `anaconda-project prepare` which uses `conda` or `mamba` to create an
-      environment in `envs/phys-521-2022` as specified in the `anaconda-project.yaml`
+      environment in `envs/phys-521` as specified in the `anaconda-project.yaml`
       file. *(This may take some time when you first run it, and consumes about 2GB of
       disk space.  You can clean up some space after by running `make clean`.)*
    3. Installs this environment as an [IPython
       kernel](https://ipython.readthedocs.io/en/stable/install/kernel_install.html)
-      called `phys-521-2022` for use with [Jupyter].  This is done by running
+      called `phys-521` for use with [Jupyter].  This is done by running
       `anaconda-project run init` which runs [`ipykernel
       install`](https://ipython.readthedocs.io/en/stable/install/kernel_install.html):
       see the `init` target in `anaconda-project.yaml` for details.

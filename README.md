@@ -80,8 +80,8 @@ To use this repository:
    make init
    ```
    
-   This will create a [Conda] environment you can activate `conda activate envs/phys-521-2022`,
-   and a Jupyter kernel called `phys-521-2022` that you can select from notebooks.
+   This will create a [Conda] environment you can activate `conda activate envs/phys-521`,
+   and a Jupyter kernel called `phys-521` that you can select from notebooks.
    
 3. *(Optional)* 
    * Add your [GitLab] repo as a remote, and push.
@@ -428,11 +428,11 @@ hg add local.bib _static/ _templates/
   cd phys-521-classical-mechanics
   anaconda2021
   anaconda-project prepare
-  conda activate envs/phys-521-2022
-  python -m ipykernel install --user --name "phys-521-2022" --display-name "Python 3 (phys-521-2022)"
+  conda activate envs/phys-521
+  python -m ipykernel install --user --name "phys-521" --display-name "Python 3 (phys-521)"
   ```
 
-  This will create a Conda environment as specified in `anaconda-project.yml` in `envs/phys-521-2022`.
+  This will create a Conda environment as specified in `anaconda-project.yml` in `envs/phys-521`.
 
 
 

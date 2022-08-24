@@ -5,7 +5,7 @@ import mmf_setup
 
 mmf_setup.set_path()
 
-from phys_521_2022 import example
+from phys_521 import example
 
 import pytest
 
