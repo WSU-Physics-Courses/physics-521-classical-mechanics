@@ -5,7 +5,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.13.0
+    jupytext_version: 1.13.8
 kernelspec:
   display_name: Python 3 (phys-521-2022)
   language: python
@@ -31,7 +31,7 @@ analysis, and check your solution by considering various limits.
 
 ## Rolling Hoop (Phantom Torques)
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-cell]
 
 import manim.utils.ipython_magic
@@ -40,8 +40,7 @@ import manim.utils.ipython_magic
 Solve for the equations of motion for a rolling half-circle as discussed in the class
 notes {ref}`phantom-torque` and shown below:
 
-
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 %%manim -v WARNING -qm RollingHoop

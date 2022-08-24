@@ -5,7 +5,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.13.0
+    jupytext_version: 1.13.8
 kernelspec:
   display_name: Python 3 (phys-521-2022)
   language: python
@@ -20,7 +20,7 @@ Rigid Bodies
 :depth: 3
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-cell]
 
 import mmf_setup
@@ -66,7 +66,7 @@ The example raised in {cite:p}`Turner:2010a` is that of a half-hoop rolling with
 slipping along a flat surface with the motion described by the angle $\theta$ such that
 $\dot{\theta}$ is the angular velocity.
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 %%manim -v WARNING -qm RollingHoop

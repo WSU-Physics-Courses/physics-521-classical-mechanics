@@ -5,14 +5,14 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.13.0
+    jupytext_version: 1.13.8
 kernelspec:
   display_name: Python 3 (phys-521-2022)
   language: python
   name: phys-521-2022
 ---
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-cell]
 
 import mmf_setup; mmf_setup.nbinit()
@@ -60,6 +60,7 @@ def f(x, r, d=0):
     else:
        return 0
 ```
+
 ```{code-cell}
 :tags: [hide-input]
 
@@ -343,7 +344,6 @@ period 2, and two new solutions of which only one is positive:
   r_{\pm} = \frac{1-x \pm \sqrt{(1-x)(1+3x)}}{2x(1-x)}
 \end{gather*}
 
-
 ```{code-cell}
 :tags: [hide-cell]
 
@@ -352,7 +352,7 @@ r2 = sympy.lambdify([x], r2s[0], 'numpy')
 r2s
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 xs = np.linspace(0, 1.0, 100)[1:-1]
@@ -447,6 +447,7 @@ as $f^{(2)}_{r_1+\epsilon}(x)$ for a slightly larger $r = r_1 + \epsilon$:
 
 ```{code-cell}
 :tags: [hide-input]
+
 x = np.linspace(0, 1)
 r_1 = 3.0
 epsilon = 0.2
@@ -486,6 +487,7 @@ behaviour about both of the new fixed points:
 
 ```{code-cell}
 :tags: [hide-input]
+
 x = np.linspace(0, 1, 300)
 r_2 = 1+np.sqrt(6)
 def f2(x, r=r_2):
@@ -521,7 +523,6 @@ ax.plot(x, fn(x, 1024), 'C0', label="$f^{(1024)}_{r_*}(x)$")
 ax.legend()
 ax.set(xlabel="$x$", title=f"$r_*={rr:.6f}$");
 ```
-
 
 \begin{gather*}
   g(x) = -\alpha g\Bigl(g(\tfrac{x}{\alpha})\Bigr)\\

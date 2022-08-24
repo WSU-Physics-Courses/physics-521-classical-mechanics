@@ -5,7 +5,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.13.0
+    jupytext_version: 1.13.8
 kernelspec:
   display_name: Python 3 (phys-521-2022)
   language: python
@@ -25,7 +25,7 @@ refer to the second print edition of {cite:p}`Arnold:1989`.
 :depth: 3
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-cell]
 
 import mmf_setup
@@ -60,13 +60,11 @@ conserved.  They need not form closed loops.
 
 Here we plot some
 
-```{code-cell} ipython3
-
+```{code-cell}
 def v(x, y, z):
     """Return a 3D vector field."""
     return (y, z, x)
     
     
-
 
 ```

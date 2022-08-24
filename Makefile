@@ -38,15 +38,18 @@ else
   ANACONDA_PROJECT ?= anaconda-project
 endif
 
+# Manim is not ready for ARM yet, so we use an intel build and rosetta
+ifeq ($(shell uname -p),arm)
+  AP_PRE += CONDA_SUBDIR=osx-64
+endif
+
 ENV ?= phys-521-2022
 ENV_PATH ?= $(abspath envs/$(ENV))
 ACTIVATE_PROJECT ?= $(ACTIVATE) $(ENV_PATH)
 JUPYTEXT ?= $(ANACONDA_PROJECT) run jupytext
 
-# Manim is not ready for ARM yet, so we use an intel build and rosetta
-ifeq ($(shell uname -p),arm)
-  AP_PRE += CONDA_SUBDIR=osx-64
-endif
+MMF_SETUP_VENV ?= ~/.venvs/mmf_setup
+ACTIVE_MMF_SETUP ?= source $(MMF_SETUP_VENV)/bin/activate
 
 # ------- Top-level targets  -------
 # Default prints a help message
@@ -144,11 +147,17 @@ $(MINICONDA):
 	$@/bin/conda clean -y --all
 
 
-# Special target on CoCalc to prevent re-installing mmf_setup.
-~/.local/bin/mmf_setup:
+# Special targets on CoCalc to prevent re-installing mmf_setup.
+#~/.local/bin/mmf_setup:
+#	python3 -m pip install --user --upgrade mmf-setup
+#	mmf_setup cocalc
+
 ifdef ANACONDA2020
-	python3 -m pip install --user --upgrade mmf-setup
-	mmf_setup cocalc
+$(MMF_SETUP_VENV):
+	python3 -m venv $@
+	if ! grep -Fq '$(ACTIVATE_MMF_SETUP)' ~/.bash_aliases; then \
+	  echo '$(ACTIVATE_MMF_SETUP)' >> ~/.bash_aliases; \
+	fi
 endif
 
 

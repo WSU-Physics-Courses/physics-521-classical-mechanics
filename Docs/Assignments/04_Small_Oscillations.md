@@ -5,7 +5,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.13.0
+    jupytext_version: 1.13.8
 kernelspec:
   display_name: Python 3 (phys-521-2022)
   language: python
@@ -131,7 +131,6 @@ the completeness of your solution:
    different spring constants?  Even if you do not actually solve the generalized
    problem, thinking about this can help you find more efficient techniques for solve
    similar problems in the future.
-
 
 +++
 

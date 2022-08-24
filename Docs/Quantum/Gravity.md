@@ -5,7 +5,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.13.5
+    jupytext_version: 1.13.8
 kernelspec:
   display_name: Python 3 (phys-521-2022)
   language: python
@@ -20,6 +20,7 @@ import logging; logging.getLogger("matplotlib").setLevel(logging.CRITICAL)
 %matplotlib inline
 import numpy as np, matplotlib.pyplot as plt
 ```
+
 (sec:atom-laser)=
 # Falling Particle
 
@@ -41,7 +42,7 @@ so we can choose units $\hbar = 2m = g/2 = 1$ so that
 
 \begin{gather*}
   1 = \underbrace{2m}_{\text{mass}}
-    = \underbrace{\left(\frac{\hbar^2}{2m^2g}\right)^{1/3}}_{\text{length}}
+    = \overbrace{\underbrace{\left(\frac{\hbar^2}{2m^2g}\right)^{1/3}}_{\text{length}}}^{\xi}
     = \underbrace{\left(\frac{2\hbar}{mg^2}\right)^{1/3}}_{\text{time}}
     = \underbrace{\left(\frac{\hbar^2 mg^2}{2}\right)^{1/3}}_{\text{energy}}
     = \underbrace{\left(\hbar 2m^2g\right)^{1/3}}_{\text{momentum}}.
@@ -74,6 +75,65 @@ We can also find the Green function {cite:p}`Vallee:2010`:
 
 This gives, for example, the steady state solution $G(z,0)$ for a continuous atom laser
 with particles continually being injected at $z'=0$.
+
+:::{margin}
+Here we have used the natural length scale:
+\begin{gather*}
+  \xi = \sqrt[3]{\frac{\hbar^2}{2m^2g}}.
+\end{gather*}
+:::
+For $z<0$, the qualitative form can be deduced from the WKB approximation:
+
+\begin{gather*}
+  \psi_{\mathrm{WKB}}(z) \propto \frac{1}{\sqrt{p(z)}}e^{S(z)/\I\hbar}, \\
+  z(t) = - \frac{gt^2}{2}, \qquad
+  p(z) = -mgt = -m\sqrt{-2gz}\\
+  S(z) = \int_0^{t}\left(\frac{p^2}{2m} - mgz(t)\right)\d{t}
+       = \frac{-mg^2t^3}{3} 
+       = -\hbar \frac{2}{3}\sqrt{\frac{-z^3}{\xi^3}},\\
+  \psi_{\mathrm{WKB}}(z) \propto \frac{1}{\abs{z}^{1/4}}
+  \exp\left(\frac{2\I}{3}\sqrt{\frac{-z^3}{\xi^3}}\right)
+\end{gather*}
+
+```{code-cell} ipython3
+:tags: [hide-input]
+
+from scipy.special import airy
+
+z = np.linspace(-10, 4, 500)
+
+Ai0, dAi0, Bi0, dBi0 = airy(0)
+Aiz, dAiz, Biz, dBiz = airy(z)
+
+def G(x, y=0):
+    Aix, dAix, Bix, dBix = airy(x)
+    Aiy, dAiy, Biy, dBiy = airy(y)
+    return (
+        - np.pi * np.where(x < y, Aiy * (Bix + 1j * Aix), Aix * (Biy + 1j * Aiy))
+    )
+
+Gz = G(z)
+Gz_WKB = np.where(z<0, np.exp(2j/3*abs(z)**(3/2)), np.nan) / abs(z)**(1/4)
+Gz_WKB *= Gz[0]/Gz_WKB[0]
+fig, ax = plt.subplots()
+ax.plot(z, abs(Gz), '-C0', label=r'$|G(z, 0)|$')
+ax.plot(z, Gz.real, '--C0', label='Real part')
+ax.plot(z, Gz.imag, ':C0', label='Imaginary part')
+ylim = ax.get_ylim()
+ax.plot(z, abs(Gz_WKB), '-C1', label=r'$|G_{\rm WKB}(z, 0)|$')
+ax.plot(z, Gz_WKB.real, '--C1', alpha=0.5)
+ax.plot(z, Gz_WKB.imag, ':C1', alpha=0.5)
+ax.legend()
+ax.set(xlabel="$z$", ylabel="$G(z, 0)$", ylim=ylim);
+```
+
+:::{margin}
+Of course, one should use the matching conditions at the turning point, but this uses
+the Airy functions, and so would give the exact result.
+:::
+Once properly normalized, this gives a very good approximation except very close to the
+injection site which is a classical turning point and the WKB approximation breaks
+down.
 
 :::{admonition} Atom Laser
 :class: dropdown
@@ -127,13 +187,14 @@ switching to our natural units, we have:
     = \Omega\int\d{z'}\;\psi_b(z'-z_0)\delta(z-z').
 \end{gather*}
 
-Hence, our solution can be expressed in terms of the Greens function:
+Hence, our solution can be expressed in terms of the Green's function:
 
 \begin{gather*}
-  \psi_a(z-z_0) = \Omega \int\d{z'}\; G(z,z') \psi_b(z' - z_0).
+  \psi_a(z-z_0) = \Omega \int\d{z'}\; G(z,z') \psi_b(z' - z_0)\\
+  \psi_a(z) = \Omega \int\d{z'}\; G(z+z_0,z'+z_0)\psi_b(z').
 \end{gather*}
 
-The Greens function is quite sharply peaked about $\abs{z-z'} \lesssim 2$, so the laser
+The Green's function is quite sharply peaked about $\abs{z-z'} \lesssim 2$, so the laser
 out-couples atoms from a fairly narrow region about
 
 \begin{gather*}
@@ -142,6 +203,81 @@ out-couples atoms from a fairly narrow region about
 
 the location of which can be tuned by adjust the drive frequency $\omega$.
 :::
+
+```{code-cell} ipython3
+from ipywidgets import interact
+from scipy.special import airy
+
+hbar = 1
+m = 0.5
+g = 2.0
+Omega = 0.1
+
+sigma = 1.0
+
+z = np.linspace(-100, 2, 500)
+Ai0, dAi0, Bi0, dBi0 = airy(0)
+Aiz, dAiz, Biz, dBiz = airy(z)
+
+def G(x, xx=0):
+    Aix, dAix, Bix, dBix = airy(x)
+    Ai0, dAi0, Bi0, dBi0 = airy(xx)
+    return (
+        - np.pi * np.where(x < xx, Ai0 * (Bix + 1j * Aix), Aix * (Bi0 + 1j * Ai0))
+    )
+
+@interact(sigma=(0.01, 10.0))
+def go(sigma=1.0):
+    def psi_b(z):
+        return np.exp(-(z/sigma)**2/2)
+    
+    zz = np.linspace(-4*sigma, 4*sigma, 200)
+    psi_a = Omega*G(z[:, None], zz[None, :]) @ psi_b(zz)
+    n_a = abs(psi_a)**2
+    n_b = abs(psi_b(z))**2
+    fig, ax = plt.subplots()
+    ax.plot(z, n_a, 'C0', label='$n_a(z)$')
+    ax.twinx()plot(z, n_b, 'C1', label='$n_b(z)$')
+    ax.set(xlabel='$z$', ylabel="$n_a$")
+    ax.grid(True)
+    ax.legend();
+```
+
+```{code-cell} ipython3
+
+```
+
+```{code-cell} ipython3
+def psi_b(z):
+    return np.exp(-(z/sigma)**2/2)
+
+zz = np.linspace(-2*sigma, 2*sigma, 100)
+psi_a = G(z[:, None], zz[None, :]) @ psi_b(zz[None, :])
+
+plt.plot(z, abs(G(z, 2.0))**2)
+```
+
+```{code-cell} ipython3
+Gz = G(z)
+
+@interact(ar=(-2,2,0.001), ai=(-2,2,0.001))
+def go(ar=-np.sqrt(3)/4/np.pi/Ai0**2, ai=1/4/np.pi/Ai0**2):
+    a = ar + ai*1j
+    alpha = 1/a/Ai0 + np.pi * (np.sqrt(3) + 1j)*Ai0
+    psi = Gz + alpha * Aiz
+    n = abs(psi)**2
+    n_wkb = 1/m/np.sqrt(-2*g*z)
+    n_wkb *= n[0]/n_wkb[0]
+    j = (-1j * hbar * np.gradient(psi, z) * psi.conj()).real
+    fig, ax = plt.subplots()
+    ax.plot(z, n, label='$n(z)$')
+    ax.plot(z, j, ls='--', label='$j(z)=n(z)v(z)$')
+    ylim = ax.get_ylim()
+    ax.plot(z, n_wkb, ls=':', label='$n_{WKB}(z)$')
+    ax.set(xlabel='$z$', ylabel="$n$, $j$", ylim=ylim)
+    ax.grid(True)
+    ax.legend();
+```
 
 :::::{admonition} Old Discussion: Potential Source
 :class: dropdown
@@ -176,6 +312,8 @@ In the region $z < 0$ the solution will have the form:
 \end{gather*}
 
 ```{code-cell} ipython3
+:tags: [hide-input]
+
 from ipywidgets import interact
 from scipy.special import airy
 

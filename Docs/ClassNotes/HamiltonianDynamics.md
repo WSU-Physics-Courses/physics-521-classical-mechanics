@@ -5,14 +5,14 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.13.0
+    jupytext_version: 1.13.8
 kernelspec:
   display_name: Python 3 (phys-521-2022)
   language: python
   name: phys-521-2022
 ---
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-cell]
 
 import mmf_setup; mmf_setup.nbinit()
@@ -21,7 +21,6 @@ import logging; logging.getLogger("matplotlib").setLevel(logging.CRITICAL)
 import manim.utils.ipython_magic
 !manim --version
 ```
-
 
 Hamiltonian Mechanics
 =====================
@@ -144,7 +143,7 @@ equilibrium position:
   \end{pmatrix}.
 \end{gather*}
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input, full-width]
 
 plt.rcParams['figure.dpi'] = 300
@@ -379,7 +378,8 @@ times.
 We have evolved slightly longer than before ($1.3$ small-oscillation periods) to better
 demonstrate the structure of the flow. 
 :::
-```{code-cell} ipython3
+
+```{code-cell}
 :tags: [hide-input]
 
 fig, axs = plt.subplots(2, 1, figsize=(10, 6), sharex=True, 
@@ -555,7 +555,8 @@ $q_0 p_0$ in $\S$:
 
 ## Examples
 
-````{admonition} Example: Falling Particle
+````{admonition} Example: Falling Particle 1D
+:class: dropdown
 
 As a second example, consider a particle in free-fall with Hamiltonian $H = p^2/2m +
 mgz$.  The classical problem is most easily solved with conservation of energy $E$:
@@ -573,12 +574,12 @@ Since our Hamiltonian is time-independent, the results will depend only on $t-t_
 we can choose $t_0=0$ without loss of generality.  This has the following solution
 $z(t)$ and [Hamilton's principal function] $\S$:
 
-\begin{align*}
+\begin{gather*}
   \newcommand{\t}{t}
-  z(t) &= z_0 + \frac{p_0}{m}\t - \frac{g}{2}\t^2,\\
-  \S(z,\t;z_0,t_0=0) &= \int_{0}^{\t}\left(E - 2mgz_0 - 2gp_0\t + mg^2\t^2\right)\d{\t},\\
-                     &= E(z,\t;z_0)\t - 2mgz_0\t - gp_0(z,\t;z_0)\t^2 + \frac{mg^2\t^3}{3}.
-\end{align*}
+  z(t) = z_0 + \frac{p_0}{m}\t - \frac{g}{2}\t^2,\\
+  \S(z,\t;z_0,t_0=0) = \int_{0}^{\t}\left(E - 2mgz_0 - 2gp_0\t + mg^2\t^2\right)\d{\t},\\
+                     = E(z,\t;z_0)\t - 2mgz_0\t - gp_0(z,\t;z_0)\t^2 + \frac{mg^2\t^3}{3}.
+\end{gather*}
 
 The appropriate functional dependence can be deduced by solving for $p_0(z,\t;z_0)$ and
 $E(z,\t;z_0)$:
@@ -612,7 +613,77 @@ Hence, the WKB propagator is:
 \end{gather*}
 ````
 
-````{admonition} Example: Falling Particle
+````{admonition} Example: Particle 1D
+
+Slightly more general, we now consider a particle falling in an arbitrary
+time-independent potential $V(z) = mgz + \delta(z)$ where we will ultimately consider
+$\delta(z)$ to be small:
+
+\begin{gather*}
+  E = \frac{p^2}{2m} + V(z) = \frac{p_{0}^2}{2m} + V(z_0), \\
+  p = \pm\sqrt{2mE - 2mV(z)},\\
+  L(z) = E - 2V(z).
+\end{gather*}
+
+The trajectory $z(t)$ no longer has a closed form, but we can still express the action
+by changing variables $\d{z} = \dot{z}\d{t} = p\d{t}/m$:
+
+\begin{gather*}
+  \S(z;z_0;E) = m\int_{z_0}^{z}\frac{\Bigl(E - 2V(z)\Bigr)}{p(z)}\d{z}\\
+  = \sqrt{\frac{m}{2}}\int_{z_0}^{z}\frac{\Bigl(E - 2V(z)\Bigr)}
+                                         {\pm\sqrt{E - V(z)}}\d{z}.
+\end{gather*}
+
+This form has two complications.  First, the sign of the denominator must be chosen
+appropriately to match the direction of motion.  This is often clear from the physics,
+and so does not pose a fundamental problem.  Second, this form of the action as an
+explicit function of either $S(z, p; z_0) = S(z;z_0, p_0)$ since $E = E(z_0, p_0) = E(z,
+p)$ is conserved and a function of the initial or final coordinates.
+
+To compute the normalization factor, we must perform the appropriate change of variables
+using the analogy of the Maxwell relations in thermodynamics using:
+
+\begin{gather*}
+  f(z, z_0, E) = t - t_0 = \int_{t_0}^{t}\d{t} = \int_{z_0}^{z}\frac{m}{p}\d{z}\\
+  = \sqrt{\frac{m}{2}}\int_{z_0}^{z}\frac{1}{\pm\sqrt{E - V(z)}}\d{z},\\
+  \pdiff{f(z, z_0, E)}{z} = \pm\frac{\sqrt{m/2}}{\sqrt{E-V(z)}}\\
+  \pdiff{f(z, z_0, E)}{z_0} = \mp\frac{\sqrt{m/2}}{\sqrt{E-V(z_0)}}\\
+  \pdiff{f(z, z_0, E)}{E} = \mp\int_{z_0}^{z}\frac{\sqrt{m/8}}{\sqrt{E - V(z)}^3}\d{z}.
+\end{gather*}
+
+We must compute the partials holding this constant, so we have:
+
+\begin{gather*}
+  \pdiff{f(z, z_0, E)}{z} \d{z} 
+  + \pdiff{f(z, z_0, E)}{z_0} \d{z_0} 
+  + \pdiff{f(z, z_0, E)}{E} \d{E} = 0,\\
+  \d{E} = \frac{\pdiff{f(z, z_0, E)}{z}\d{z} + \pdiff{f(z, z_0, E)}{z_0}\d{z_0}}
+               {\pdiff{f(z, z_0, E)}{E}}\\
+        = \frac{-2}{\int_{z_0}^{z}\frac{1}{\sqrt{E - V(z)}^3}\d{z}}
+          \left(\frac{\d{z}}{\sqrt{E-V(z)}} - \frac{\d{z_0}}{\sqrt{E-V(z_0)}}\right).
+\end{gather*}
+
+We can now compute the normalization factor.  We take the first derivative using the
+well-known properties of Hamilton's principle function
+
+\begin{gather*}
+  \frac{\partial^2 S(z,t;z_0,t_0)}{\partial z\partial z_0} =
+  \frac{\partial p(z,t;z_0,t_0)}{\partial z_0} =
+  -\frac{\partial p_0(z,t;z_0,t_0)}{\partial z}
+\end{gather*}
+
+and then use the expression above for $p(z, E) = \pm \sqrt{2m\bigl(E-V(z)\bigr)}$ to compute:
+
+\begin{gather*}
+  \d{p} = \frac{\pm \sqrt{2m}}{\sqrt{E-V(z)}}\Bigl(\d{E} - V'(z) \d{z}\Bigr)\\
+  \pdiff{p(z, t;z_0, t_0)}{z_0} = 
+  \frac{\pm \sqrt{8m}}{\sqrt{\bigl(E-V(z)\bigr)\bigl(E-V(z_0)\bigr)}}
+  \frac{1}{\int_{z_0}^{z}\frac{1}{\sqrt{E - V(z)}^3}\d{z}}.
+\end{gather*}
+````
+
+
+````{admonition} Example: Falling Particle 2D
 
 As a second example, consider a particle in free-fall with Hamiltonian $H = (p_x^2 +
 p_z^2)/2m + mgz$.  The classical problem is most easily solved with conservation of
@@ -620,12 +691,15 @@ energy $E$ and momentum $p_x$:
 
 \begin{gather*}
   E = \frac{p_x^2+p_z^2}{2m} + mgz = \frac{p_{x0}^2 + p_{z0}^2}{2m} + mgz_0, \\
-  p_z = \pm\sqrt{2mE - 2m^2gz - p_x^2} 
-      = \pm\sqrt{p_{z0}^2 - 2m^2g(z-z_0)},\\
+  p_z = \pm\sqrt{2mE - 2m^2gz - p_x^2}\\ 
+      = \pm\sqrt{p_{z0}^2 - 2m^2g(z-z_0) + (p_{x0}^2 - p_x^2)}\\
   L(\vect{r},t) = E - 2mgz
 \end{gather*}
 
+Again, time-independence allows us to set $t_0=0$ without loss of generality.
 
+
+***Incomplete***
 
 
 
@@ -694,7 +768,7 @@ The harmonic oscillator has the following solution:
 
 ````
 
-### Traditional WKB
+## Traditional WKB
 
 The more traditional approach is to express the wavefunction as follows, then insert it
 into the Schrödinger equation:
@@ -722,7 +796,7 @@ Expanding $W$ in powers of $\hbar$, we have the following lowest two orders:
   &\psi_{WKB}(x, t) = A(x,t)\exp\left\{\frac{i}{\hbar}S(x,t)\right\}\psi_0(x).
 \end{align*}
 
-#### $\order(\hbar^0)$: Hamilton-Jacobi Equation
+### $\order(\hbar^0)$: Hamilton-Jacobi Equation
 
 The order $\hbar^0$ equation is the well-known Hamilton-Jacobi equation, which is
 satisfied by the classical action as a function of initial and final states.
@@ -743,7 +817,7 @@ $x(t_0) = x_0$ and $x(t) = x$, as discussed above.  I.e., show that
 \end{gather*}
 ```
 
-#### $\order(\hbar^1)$: Continuity Equation
+### $\order(\hbar^1)$: Continuity Equation
 
 The order $\hbar^1$ equation is the well-known continuity equation, expressing the
 conservation of particle number or probability.  To see this, multiply through by
@@ -809,8 +883,6 @@ We proceed using the linearity of the derivatives to rearrange the left-hand-sid
 
 because the potential does not depend on the initial position $x_0$.
 ```
-
-
 
 ## Maxwell Relations
 
@@ -1237,7 +1309,7 @@ wavefunction does not yield a simple Hamilton-Jacobi equation.
    describe by free-fall.  Under this approximation, we may view the particle as a
    two-component $SU(2)$-valued particle, whose components evolve on the Bloch sphere as
    the particle falls.  To go beyond this, we must use some sort of multi-component WKB
-   formalism which is quite complicated.
+   formalism, which is quite complicated.
 2. We assume that the pulses $\op{U}_{\theta}$ are essentially instantaneous.
 3. To obtain simple expressions, we shall also consider the limit where
    $t_{\mathrm{wait}} \rightarrow 0$, which we call the "impulse approximation".
@@ -1353,7 +1425,7 @@ $$
 
 p^2 = 2m(E-V(q))
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 plt.rcParams['figure.dpi'] = 300
@@ -1391,10 +1463,7 @@ for zc in zcs:
 
 ax.legend()
 ax.set(xlabel="$z$", ylabel="$n$");
-
 ```
-
-
 
 ### Interference 1
 
@@ -1420,8 +1489,7 @@ approximation, under which the leading order correction to the action is:
           = - \frac{\lambda}{\sqrt{2g}}\int_{0}^{z}\frac{V(z)}{\sqrt{-z}}\d{z} + \order(\lambda^2)
 \end{gather*}
 
-
-```{code-cell} ipython3
+```{code-cell}
 from scipy.integrate import cumtrapz
 micron = 1.0
 mm = 1000*micron
@@ -1450,7 +1518,6 @@ dS1_dz = -np.sqrt(abs(-2*m*V1))
 dS2_dz = -np.sqrt(abs(-2*m*V2))
 
 S = cumtrapz((dS2_dz - dS1_dz)[:, ::-1], axis=1, initial=0)[:, ::-1]
-
 ```
 
 ### Interference 2
