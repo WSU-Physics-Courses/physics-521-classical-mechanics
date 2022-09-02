@@ -20,6 +20,7 @@ import mmf_setup;mmf_setup.nbinit(quiet=True)
 import numpy as np, matplotlib.pyplot as plt
 ```
 
+(sec:a0)=
 # Assignment 0: Forced Oscillations
 
 Due: **Friday 2 September**.  Please insert your solutions into your OneNote Class in

@@ -55,7 +55,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinxcontrib.bibtex",
     "sphinxcontrib.zopeext.autointerface",
-    "matplotlib.sphinxext.plot_directive",
+    # "matplotlib.sphinxext.plot_directive",
     # From jupyterbook
     # "jupyter_book",
     # "sphinx_thebe",
@@ -134,11 +134,11 @@ html_theme_options = {
     "repository_url": "https://gitlab.com/wsu-courses/physics-521-classical-mechanics",
     "use_repository_button": True,
     #
-    "launch_buttons": {
-        "notebook_interface": "classic",
-        "binderhub_url": "https://mybinder.org",
-        #'thebe': True
-    },
+    # "launch_buttons": {
+    #    "notebook_interface": "classic",
+    #     "binderhub_url": "https://mybinder.org",
+    #    'thebe': True
+    # },
 }
 
 # Override version number in title... not relevant for docs.
