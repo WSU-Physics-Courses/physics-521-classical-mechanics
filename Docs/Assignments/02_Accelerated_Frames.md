@@ -5,44 +5,51 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.13.8
+    jupytext_version: 1.14.0
 kernelspec:
-  display_name: Python 3 (phys-521)
+  display_name: Python 3 (Anaconda 2021)
   language: python
-  name: phys-521
+  name: anaconda2021
 ---
 
 ```{code-cell}
 :tags: [hide-input]
 
 import mmf_setup;mmf_setup.nbinit(quiet=True)
-import logging;logging.getLogger('matplotlib').setLevel(logging.CRITICAL)
 ```
 
 # Assignment 2: Accelerated Frames
 
-+++
-
-**Due: 11:59pm Friday 24 September 2021**
-
-+++
+Due: Friday 30 September 2022 at 11:59pm.
 
 ## Merry-go-round
 
-+++
+Consider a free particle moving in 2D ($x$-$y$ plane) with constant velocity on. Using
+the force law for motion in an accelerated frame, compute the trajectory of this "free"
+particle in a moving frame with $\omega(t) = \alpha t$ (i.e. with angle $\theta(t) =
+\alpha t^2/2$).  Show that your trajectory explicitly satisfies Newton's law in the
+accelerating frame including all three correction terms.
 
-Consider a free particle moving in 2D ($x$-$y$ plane) with a constant velocity.  Find
-the trajectory for this "free" particle in an accelerated frame rotating with $\omega(t)
-= \alpha t$ (i.e. with angle $\theta(t) = \alpha t^2/2$).  In principle you could solve
-the problem in the rotating frame, but there is an easier way to find the trajectory.
-Show that your trajectory explicitly satisfies Newton's law in the accelerating frame
-including all three corrections.
+It is fairly straightforward to apply formula (8.2) twice, obtaining the three
+correction terms in (8.3), however, it is very easy to make a mistake with the signs
+(e.g. by forgetting which term is the derivative in the "inertial" frame and which is
+the derivative in the "body" frame).  Use simple arguments to quickly but carefully
+justify the signs of the corrections.  You really should memorize Eq. (8.2) and these
+methods for future use.  *(For example, when working with motion on the earth, think
+about sitting on the north pole and repeating these arguments.)*  Don't try to remember
+(8.3) as it is quick to derive from Eq. (8.2)
+
+> \begin{gather*}
+    \left(\frac{\d}{\d{t}}\right)_{\text{intertial}} =
+    \left(\frac{\d}{\d{t}}\right)_{\text{body}} + \vect{\omega}\times \tag{8.2}
+  \end{gather*}
+
+
+
 
 +++
 
 ## Larmor's Theorem: Problem 2.1
-
-+++
 
 Do problem 2.1 from {cite:p}`Fetter:2003`:
 
@@ -63,20 +70,34 @@ charged particle in a weak electric field looks like motion in a rotating frame.
 by removing the "rotation" you can simplify the problem to permit an analysis that is
 more akin to mechanics in a non-rotating frame.
 
-Notes:
-1. When justifying what makes something small, be sure to compare quantities of the same
-   dimension.  *(E.g., it make no sense to say that the mass of an electron $m$ is
-   small.  Compared to your mass, it is indeed small, but compared to the mass of an
+::::{note}
+1. When justifying what makes something small ("weak"), be sure to compare quantities of
+   the same dimension.  *(E.g., it make no sense to say that the mass of an electron $m$
+   is small.  Compared to your mass, it is indeed small, but compared to the mass of an
    electron neutrino, it is huge!)*
+   
+   :::{warning}
+   You may recall that charged particles in a constant magnetic field move in a
+   helix, or circle with a characteristic [cyclotron frequency] $\omega_c = eB/mc =
+   2\omega_L$.  This factor of two is not a mistake: the physics here is different.
+   Rotating at the cyclotron frequency makes the motion of one particular set of
+   particles very simple -- those that exactly orbit the axis of rotation are
+   motionless.  However, other particles do not have a simple motion.  The transformation
+   here to a frame roting with the Larmor frequency makes the motion of **all**
+   particles *simpler* (within a particular approximation).  Think carefully about this.
+   :::
 2. The point of the second part is to explain why the charge-to-mass ratio must be the
    same for all particles, and why the potentials must only depend on their separation.
-   How would the analysis break down if these conditions were not satisfied?
+   How would the analysis break down if these conditions were not satisfied?  You should
+   not be solving equations for this part, but should be arguing why the method of
+   analysis still makes sense.
+
+[cyclotron frequency]: <https://en.wikipedia.org/wiki/Cyclotron_resonance>
+::::
 
 +++
 
 ## Motion on the Earth: Problem 2.2
-
-+++
 
 Do problem 2.2 from {cite:p}`Fetter:2003`:
 
@@ -101,21 +122,19 @@ critical if you were, for example, using such a measurement to determine the
 distribution of mass in the earth since that is only one component of the total
 acceleration.
 
-Notes:
+::::{note}
 * The point of this problem is not to do a bunch of algebra: it is to figure out what
-    the difference between Newton's laws expressed relative to an origin at the center
-    of the earth, and those expressed in a terrestrial frame.  Hint: When considering
-    the origin at the center of the earth, $\vect{r}$ is very long (radius of the earth
-    plus any deviations in the lab).  This means that the centrifugal force is quite
-    strong.  However, when derived in a terrestrial frame with the origin attached to
-    the surface of the earth, $\vect{r}$ is short (few meters), so the centrifugal force
-    is much smaller.  Obviously the motion of a particle in a terrestrial lab does not
-    depend on where you place your origin.  How do you reconcile this apparent paradox?
+  the difference between Newton's laws expressed relative to an origin at the center
+  of the earth, and those expressed in a terrestrial frame.  Hint: When considering
+  the origin at the center of the earth, $\vect{r}$ is very long (radius of the earth
+  plus any deviations in the lab).  This means that the centrifugal force is quite
+  strong.  However, when derived in a terrestrial frame with the origin attached to
+  the surface of the earth, $\vect{r}$ is short (few meters), so the centrifugal force
+  is much smaller.  Obviously the motion of a particle in a terrestrial lab does not
+  depend on where you place your origin.  How do you reconcile this apparent paradox?
+::::
 
-+++
-
-The corrections to the dynamical laws affect the motion of projectiles as you will use
-below.
+The corrections to the dynamical laws affect the motion of projectiles as you will use below.
 
 +++
 
@@ -155,12 +174,13 @@ real problem of this type.
 > rederive the net eastward deflection of $\tfrac{1}{3}\omega g \sin \theta\;
 > (2h/g)^{3/2}$, where $\theta$ is the observer's polar angle.
 
-Notes:
+::::{note}
 * Don't use the provided answers to "guide" you.  Work through the problem first on your
-    own, then use these to check your work.  If you do not get the correct answer, then
-    you probably made a mistake.  There are several places where it is easy to forget an
-    important piece of physics in these problems that will spoil your calculation.  To
-    check your answer with the form of the answer give, it might be best to plot the two
-    results or look at them numerically to avoid doing unnecessary algebra.
+  own, then use these to check your work.  If you do not get the correct answer, then
+  you probably made a mistake.  There are several places where it is easy to forget an
+  important piece of physics in these problems that will spoil your calculation.  To
+  check your answer with the form of the answer give, it might be best to plot the two
+  results or look at them numerically to avoid doing unnecessary algebra.
 * If you can't figure out what is missing, perhaps try a numerical solution to make sure
-    that the formula presented here are indeed correct.
+  that the formula presented here are indeed correct.
+::::
