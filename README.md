@@ -247,7 +247,6 @@ hg add local.bib _static/ _templates/
 
 
 <!-- Links -->
-[Anaconda Project]: <https://github.com/Anaconda-Platform/anaconda-project> "Anaconda Project"
 [CoCalc]: <https://cocalc.com> "CoCalc: Collaborative Calculation and Data Science"
 [WSU Physics]: <https://physics.wsu.edu> "WSU Physics Department"
 [GitLab]: <https://gitlab.com> "GitLab"

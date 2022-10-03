@@ -60,7 +60,7 @@ extensions = [
     # "jupyter_book",
     # "sphinx_thebe",
     # "sphinx_external_toc",
-    "sphinx_comments",  # Hypothes.is comments and annotations
+    #"sphinx_comments",  # Hypothes.is comments and annotations
     "sphinx_panels",
     # "recommonmark",
 ]
@@ -111,7 +111,7 @@ templates_path = ["_templates"]
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "Solutions/_unpublished/*"]
 
 # Cache notebook output to speed generation.
 # https://myst-nb.readthedocs.io/en/latest/use/execute.html
@@ -175,6 +175,51 @@ napoleon_use_rtype = True
 # Variables with course information
 course_package = "phys_521"
 
+######################################################################
+# Custom Admonitions
+# https://docutils.sourceforge.io/docs/howto/rst-directives.html
+
+from docutils import nodes
+from docutils.parsers.rst import Directive, directives
+from docutils.parsers.rst.directives.admonitions import BaseAdmonition, Admonition
+from docutils.parsers.rst.roles import set_classes
+from sphinx_togglebutton import Toggle
+
+
+class SolutionAdmonition(BaseAdmonition):
+
+    required_arguments = 0
+    optional_arguments = 1
+    # final_argument_whitespace = True
+    # has_content = True
+    node_class = nodes.admonition
+    # name = "Solution"
+    option_spec = dict(BaseAdmonition.option_spec, show=directives.flag)
+    show_all = False  #  If True, always show.  Useful for writing
+
+    def run(self):
+        set_classes(self.options)
+        self.assert_has_content()
+        text = "\n".join(self.content)
+        admonition_node = self.node_class(text, **self.options)
+        self.add_name(admonition_node)
+        title_text = "Solution"
+        if self.arguments:
+            title_text = self.arguments[0]
+        textnodes, messages = self.state.inline_text(title_text, self.lineno)
+        title = nodes.title(title_text, "", *textnodes)
+        title.source, title.line = self.state_machine.get_source_and_line(self.lineno)
+        admonition_node += title
+        admonition_node += messages
+        if not "classes" in self.options:
+            admonition_node["classes"].extend(
+                ["admonition-" + nodes.make_id(title_text), "dropdown"]
+            )
+        if "show" in self.options or self.show_all:
+            admonition_node["classes"].append("toggle-shown")
+
+        self.state.nested_parse(self.content, self.content_offset, admonition_node)
+        return [admonition_node]
 
 ######################################################################
 
@@ -190,7 +235,7 @@ mathjax3_config = {
 }
 
 # Hypothes.is comments and annotations
-comments_config = {"hypothesis": True}
+#comments_config = {"hypothesis": True}
 
 
 def config_inited_handler(app, config):
@@ -208,7 +253,6 @@ def config_inited_handler(app, config):
         pass
 
     config.html_context["mathjax_defines"] = "\n".join(defines)
-
 
 # Allows us to perform initialization before building the docs.  We use this to install
 # the named kernel so we can keep the name in the notebooks.
@@ -282,3 +326,6 @@ def setup(app):
     app.add_config_value("on_rtd", on_rtd, "env")
     app.add_config_value("on_cocalc", on_cocalc, "env")
     my_init(app)
+
+    # app.add_directive("solution", SolutionAdmonition)
+    app.add_directive("solution", Toggle)    

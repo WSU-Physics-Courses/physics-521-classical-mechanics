@@ -44,9 +44,6 @@ about sitting on the north pole and repeating these arguments.)*  Don't try to r
     \left(\frac{\d}{\d{t}}\right)_{\text{body}} + \vect{\omega}\times \tag{8.2}
   \end{gather*}
 
-
-
-
 +++
 
 ## Larmor's Theorem: Problem 2.1

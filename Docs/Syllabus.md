@@ -1,27 +1,28 @@
 ---
-substitutions:
-  Fasano: |-
-    A. Fasano, S. Marmi, and B. Pelloni: "Analytical Mechanics : An
-    Introduction". Oxford Graduate Texts (2006).
-  Fetter: |-
-    Alexander L. Fetter and John Dirk Walecka: "Theoretical Mechanics
-    of Particles and Continua", Dover (2003).
-  FetterSupp: |-
-    Alexander L. Fetter and John Dirk Walecka: "Nonlinear Mechanics: A
-    Supplement to Theoretical Mechanics of Particles and Continua", Dover (2006).
-  Gregory: |-
-    R. Douglas Gregory: "Classical Mechanics". Cambridge University
-    Press (2006).
-  LL1: |-
-    L. D. Landau and E. M. Lifshitz: "Mechanics", Pergamon Press (1969).
-  SMC: CoCalc (<http://cocalc.com>)
-  Sussman: |-
-    G. J. Sussman and J. Wisdom: "Structure and Interpretation of
-    Classical Mechanics". MIT Press (2015). (Available online through Library.)
-  deLange: |-
-    O. L. deLange and J. Pierrus: "Solved Problems in Classical
-    Mechanics: Analytical and Numerical Solutions with
-    Comments". Oxford University Press (2010). (Available online through Library.)
+myst:
+  substitutions:
+    Fasano: |-
+      A. Fasano, S. Marmi, and B. Pelloni: "Analytical Mechanics : An
+      Introduction". Oxford Graduate Texts (2006).
+    Fetter: |-
+      Alexander L. Fetter and John Dirk Walecka: "Theoretical Mechanics
+      of Particles and Continua", Dover (2003).
+    FetterSupp: |-
+      Alexander L. Fetter and John Dirk Walecka: "Nonlinear Mechanics: A
+      Supplement to Theoretical Mechanics of Particles and Continua", Dover (2006).
+    Gregory: |-
+      R. Douglas Gregory: "Classical Mechanics". Cambridge University
+      Press (2006).
+    LL1: |-
+      L. D. Landau and E. M. Lifshitz: "Mechanics", Pergamon Press (1969).
+    SMC: CoCalc (<http://cocalc.com>)
+    Sussman: |-
+      G. J. Sussman and J. Wisdom: "Structure and Interpretation of
+      Classical Mechanics". MIT Press (2015). (Available online through Library.)
+    deLange: |-
+      O. L. deLange and J. Pierrus: "Solved Problems in Classical
+      Mechanics: Analytical and Numerical Solutions with
+      Comments". Oxford University Press (2010). (Available online through Library.)
 ---
 
 (sec:sylabus)=
@@ -72,7 +73,7 @@ substitutions:
   ([Available online through the WSU Library.](
       https://ntserver1.wsulibs.wsu.edu:2061/book/9780750628969/mechanics))
   
-Additional required readings will be made on {{ Perusall }} with a forum for discussion.
+Additional required readings will be made on [Perusall] with a forum for discussion.
 
 #### Additional Resources
 
@@ -121,7 +122,7 @@ Additional required readings will be made on {{ Perusall }} with a forum for dis
       https://ntserver1.wsulibs.wsu.edu:2171/lib/wsu/detail.action?docID=3339940).)
 
 Canvas
-: The course material is hosted on the WSU {{ Canvas }} system
+: The course material is hosted on the WSU [Canvas] system
   <https://canvas.wsu.edu>. Check the webpage there for changes to the schedule.
 
 Computation Platform: {{ SMC }}
@@ -340,7 +341,7 @@ recorded lectures (if available), etc.
 The following details the content of the course.  It essentially follows the main
 textbook.  Content from the supplement will be inserted as appropriate
 throughout. Details and further resources will be included on the lecture pages on the
-{{ Canvas }} server.
+[Canvas] server.
 
 ### Course Outline
 
@@ -408,12 +409,6 @@ throughout. Details and further resources will be included on the lecture pages 
     - Chaos
     - Fluids
     - Special Relativity
-
-[communitystandards.wsu.edu]: https://communitystandards.wsu.edu/
-[definitions of cheating]: https://apps.leg.wa.gov/WAC/default.aspx?cite=504-26-010
-[run, hide, fight]: https://oem.wsu.edu/emergency-procedures/active-shooter/
-[the wsu safety portal]: https://oem.wsu.edu/about-us/
-[wac 504-26-010(3)]: https://apps.leg.wa.gov/WAC/default.aspx?cite=504-26
 
 ## Other Information
 
@@ -513,7 +508,8 @@ If you or someone you know is in immediate danger, DIAL 911 FIRST!
 [Git]: <https://git-scm.com> "Git"
 [Anki]: <https://apps.ankiweb.net/> "Powerful, intelligent flash cards."
 
-
 [Official Course Repository]: <https://gitlab.com/wsu-courses/physics-521-classical-mechanics> "Official Course Repository hosted on GitLab"
 [Shared CoCalc Project]: <https://cocalc.com/2abf35ad-5508-4d1b-8684-48a66abe8417/> "Shared CoCalc Project"
 [WSU Courses CoCalc project]: <https://cocalc.com/projects/c31d20a3-b0af-4bf7-a951-aa93a64395f6>
+[Perusall]: <https://app.perusall.com/courses/2022-fall-physics-521-pullm-1-01-01832-classical-mechanics-i>
+[Canvas]: <https://wsu.instructure.com/courses/1567877/>

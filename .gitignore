@@ -11,6 +11,7 @@ _artifacts/
 _build/
 
 Docs/media/
+Docs/Solutions/media/
 
 __pycache__
 envs/

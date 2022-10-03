@@ -1,32 +1,32 @@
 ---
-substitutions:
-  Fasano: |-
-    A. Fasano, S. Marmi, and B. Pelloni: "Analytical Mechanics : An
-    Introduction". Oxford Graduate Texts (2006).
-  Fetter: |-
-    Alexander L. Fetter and John Dirk Walecka: "Theoretical Mechanics
-    of Particles and Continua", Dover (2003). {cite:p}`Fetter:2003`.
-  FetterSupp: |-
-    Alexander L. Fetter and John Dirk Walecka: "Nonlinear Mechanics: A
-    Supplement to Theoretical Mechanics of Particles and Continua", Dover (2006).
-  Gregory: |-
-    R. Douglas Gregory: "Classical Mechanics". Cambridge University
-    Press (2006).
-  LL1: |-
-    L. D. Landau and E. M. Lifshitz: "Mechanics", Pergamon Press (1969).
-  SMC: CoCalc (<http://cocalc.com>)
-  Sussman: |-
-    G. J. Sussman and J. Wisdom: "Structure and Interpretation of
-    Classical Mechanics". MIT Press (2015). (Available online through Library.)
-  deLange: |-
-    O. L. deLange and J. Pierrus: "Solved Problems in Classical
-    Mechanics: Analytical and Numerical Solutions with
-    Comments". Oxford University Press (2010). (Available online through Library.)
-  Arnold: |-
-    Vladimir I. Arnol'd: "Mathematical Methods of Classical Mechanics".
-    Springer-Verlag, New York, 1989, translated by K. Vogtmann and A. Weinstein.
-    {cite:p}`Arnold:1989`
-
+myst:
+  substitutions:
+    Fasano: |-
+      A. Fasano, S. Marmi, and B. Pelloni: "Analytical Mechanics : An
+      Introduction". Oxford Graduate Texts (2006).
+    Fetter: |-
+      Alexander L. Fetter and John Dirk Walecka: "Theoretical Mechanics
+      of Particles and Continua", Dover (2003). {cite:p}`Fetter:2003`.
+    FetterSupp: |-
+      Alexander L. Fetter and John Dirk Walecka: "Nonlinear Mechanics: A
+      Supplement to Theoretical Mechanics of Particles and Continua", Dover (2006).
+    Gregory: |-
+      R. Douglas Gregory: "Classical Mechanics". Cambridge University
+      Press (2006).
+    LL1: |-
+      L. D. Landau and E. M. Lifshitz: "Mechanics", Pergamon Press (1969).
+    SMC: CoCalc (<http://cocalc.com>)
+    Sussman: |-
+      G. J. Sussman and J. Wisdom: "Structure and Interpretation of
+      Classical Mechanics". MIT Press (2015). (Available online through Library.)
+    deLange: |-
+      O. L. deLange and J. Pierrus: "Solved Problems in Classical
+      Mechanics: Analytical and Numerical Solutions with
+      Comments". Oxford University Press (2010). (Available online through Library.)
+    Arnold: |-
+      Vladimir I. Arnol'd: "Mathematical Methods of Classical Mechanics".
+      Springer-Verlag, New York, 1989, translated by K. Vogtmann and A. Weinstein.
+      {cite:p}`Arnold:1989`
 ---
 
 Readings
@@ -56,7 +56,7 @@ Readings
   ([Available online through the WSU Library.](
       https://ntserver1.wsulibs.wsu.edu:2061/book/9780750628969/mechanics))
   
-Additional required readings will be made on {{ Perusall }} with a forum for discussion.
+Additional required readings will be made on [Perusall] with a forum for discussion.
 
 ## Supplementary Material
 
@@ -113,4 +113,14 @@ Additional required readings will be made on {{ Perusall }} with a forum for dis
   [3rd
   Edition](https://ntserver1.wsulibs.wsu.edu:2171/lib/wsu/detail.action?pq-origsite=primo&docID=6745409)s.
   (The 3rd edition is preferred, but may have a limited number of slots for readers to
-  access, so if it is checked out, the second edition is good too.)
+      access, so if it is checked out, the second edition is good too.)
+
+## Miscellaneous
+
+These are some interesting references I have stumbled on, such as notes from other
+course:
+
+* [P3318: Analytical Mechanics at UCI](https://www.physics.uci.edu/~tanedo/P3318.html):
+  Has some nice discussions about topics like non-holonomic constraints.
+
+[Perusall]: <https://app.perusall.com/courses/2022-fall-physics-521-pullm-1-01-01832-classical-mechanics-i>
