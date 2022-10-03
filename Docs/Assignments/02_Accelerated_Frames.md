@@ -7,9 +7,9 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.14.0
 kernelspec:
-  display_name: Python 3 (Anaconda 2021)
+  display_name: Python 3 (phys-521)
   language: python
-  name: anaconda2021
+  name: phys-521
 ---
 
 ```{code-cell}

@@ -126,6 +126,7 @@ dependencies:
   - conda-forge::sphinx-book-theme>=0.3.2
   - conda-forge::sphinx-autobuild
   - conda-forge::sphinx-comments # Hypothes.is comments and annotations
+  - conda-forge::sphinx-togglebutton
   - pycairo  # Needed by manim
   - pango    # Needed by manim
   #- manimpango    # Needed by manim
