@@ -22,6 +22,7 @@ import numpy as np, matplotlib.pyplot as plt
 #!manim --version
 ```
 
+(sec:LagrangeMultipliers)=
 Lagrange Multipliers
 ====================
 
