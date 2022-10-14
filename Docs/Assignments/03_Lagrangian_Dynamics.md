@@ -67,7 +67,7 @@ ax.set(xlabel='x', ylabel='y', aspect=1);
 ## Bead on a Circular Wire
 
 Derive the equations of motion for a bead of mass $m$ moving on a frictionless circular
-wire of radius $a$ (problem 3.1 but for now consider the wire to be stationary).  Do
+wire of radius $a$ (problem 3.1 below but for now consider the wire to be stationary).  Do
 this three ways:
 
 1. Use Newtonian mechanics by projecting the forces as appropriate.

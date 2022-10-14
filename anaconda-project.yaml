@@ -122,7 +122,7 @@ dependencies:
   - notebook
   - conda-forge::myst-nb
   - conda-forge::myst-parser
-  - conda-forge::sphinx-panels
+  - conda-forge::sphinx-design
   - conda-forge::sphinx-book-theme>=0.3.2
   - conda-forge::sphinx-autobuild
   - conda-forge::sphinx-comments # Hypothes.is comments and annotations
@@ -135,6 +135,7 @@ dependencies:
   # Pip-only dependencies
   - pip
   - pip:
+    - sphinx-togglebutton
     - sphinxcontrib-zopeext
     - sphinxcontrib-bibtex>=2.4.0
     - sphobjinv  # Helps looking up intersphinx references

@@ -83,7 +83,9 @@ more akin to mechanics in a non-rotating frame.
    here to a frame roting with the Larmor frequency makes the motion of **all**
    particles *simpler* (within a particular approximation).  Think carefully about this.
    :::
-2. The point of the second part is to explain why the charge-to-mass ratio must be the
+2. The notation $E(\norm{\vect{r}}) = E(r)$ means that the magnitude of the electric
+   field is a function of the distance $r$ from the origin.  This is not a product.
+3. The point of the second part is to explain why the charge-to-mass ratio must be the
    same for all particles, and why the potentials must only depend on their separation.
    How would the analysis break down if these conditions were not satisfied?  You should
    not be solving equations for this part, but should be arguing why the method of

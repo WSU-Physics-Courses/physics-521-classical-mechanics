@@ -24,9 +24,112 @@ Small Oscillations
 :tags: [hide-cell]
 
 import mmf_setup;mmf_setup.nbinit()
-import logging;logging.getLogger('matplotlib').setLevel(logging.CRITICAL)
-%pylab inline --no-import-all
+%matplotlib inline
+import numpy as np, matplotlib.pyplot as plt
 ```
+
+## General Normal Modes
+
+The general idea of normal modes is to consider small-amplitude excitations about a
+**stationary solution** to the problem.  This typically means:
+
+1. Finding a **stationary solution** $\vect{q}_0$.
+2. Expanding this with a small-amplitude excitation $\vect{q}(t) = \vect{q}_0 + \vect{\eta}(t)$.
+3. Finding the equations of motion for $\vect{\eta}(t)$ to linear order.
+4. Solving the resulting linear eigenvalue problem to find a complete set of orthogonal
+   normal modes.
+
+:::{note}
+*  The **stationary solution** solution might not be "stationary", but must be regular.
+   For example, one might consider the regular motion of a particle in a closed orbit,
+   then expand about this.  In most cases one can transform to a different frame where
+   the stationary solution is indeed stationary.  For example, if one is looking at
+   perturbations to a circular orbit, then the solution can be rendered stationary by
+   moving to a co-rotating frame.
+*  We will often use a Lagrangian where the problem becomes that of expanding the
+   Lagrangian to quadratic order in $\vect{\eta}$, yielding linear equations of motion.
+   However, this is not the most general approach: one can always come back to Newton's
+   laws if needed.  This might be required if there is dissipation in the system for
+   example.
+*  The eigenvalue problem can have a slightly different form than usual:
+   \begin{gather*}
+     \mat{M}\vect{a}_n\lambda_n = \mat{K}\vect{a}_n
+   \end{gather*}
+   This is called a [generalized eigenvalue problem][] and often arises when the kinetic
+   energy is not diagonal -- common when dealing with rotating bodies where the "mass
+   matrix" is the moment of inertia tensor.
+:::
+
+
+Consider linearized equations of motion of the following form:
+\begin{gather*}
+  \mat{M}\ddot{\vect{\eta}}(t) = -\mat{K}\vect{\eta}(t).
+\end{gather*}
+This an be viewed as a generalized spring problem, and the solutions can be expressed as
+\begin{gather*}
+  \vect{\eta}(t) = e^{\pm \I \omega t}\vect{a}, \\
+  \ddot{\vect{\eta}}(t) = -\omega^2 e^{\pm \I \omega t}\vect{a} = -\omega^2\vect{\eta}(t),\\
+  (\mat{K}-\omega^2\mat{M})\vect{a} = 0.
+\end{gather*}
+This is the standard [generalized eigenvalue problem][] with eigenvalues $\omega^2$ and
+eigenvectors $\vect{a}$.
+
+As we shall show, both matrices $\mat{M}=\mat{M}^T$ and $\mat{K}=\mat{K}^T$ can be taken
+to be symmetric.  Thus, as long as one of the matrices is positive-definite (i.e. let's
+say that $\mat{M}$ has only positive eigenvalues), then there exists a complete set
+of real eigenvalues $\omega_n^2$ and orthogonal eigenvectors $\{\vect{a}_n\}$ such that
+\begin{gather*}
+  \mat{a}_m^T\mat{M}\mat{a}_n = \delta_{mn}.
+\end{gather*}
+Note that this is a slight generalization of the usual notion of orthonormality because
+of the matrix $\mat{M}$ which plays the role of a [metric tensor][].  The normal modes
+are said to be orthogonal with respect to this metric.
+
+To get back to the more conventional form of orthogonality, we must find a square root
+of $\mat{M}$ in the form
+\begin{gather*}
+  \mat{M} = \sqrt{\mat{M}}^2 = \sqrt{\mat{M}}^T\sqrt{\mat{M}}.
+\end{gather*}
+We can then define vectors $\vect{b}_n$ which are orthonormal in the usual sense:
+\begin{gather*}
+  \vect{b}_n = \sqrt{\mat{M}}\vect{a}_b, \qquad
+  \vect{b}^T_m\vect{b}_n = \delta_{mn}.
+\end{gather*}
+
+:::{admonition} Do it! Explain why must $\mat{M}$ be positive definite?
+:class: dropdown
+
+The fact that $\mat{M}=\mat{M}^T$ is symmetric means that it has a complete set of
+orthogonal eigenvectors, and can be diagonalized with real eigenvalues.  Thus, we can
+always compute a square root $\sqrt{\mat{M}}$.  The problem is that if any of the eigenvalues
+are negative, then $\sqrt{\mat{M}}$ will no longer be real and we need to jump to
+complex vector spaces.  Although $\sqrt{\mat{M}} = \sqrt{\mat{M}}^T$ can be symmetric,
+in this case it will not be hermitian, and so the nice properties of the symmetric
+eigenvalue problem that guarantees a complete set of orthonormal eigenvectors can fail.
+
+If $\mat{M}$ has zero eigenvalues, then there is no way to normalize all eigenvectors,
+but they can be chosen to be orthogonal.
+:::
+
+As the book points out, once we find the complete set of orthonormal eigenvectors
+$\vect{a}_n$, we have:
+\begin{gather*}
+  (\mat{K}-\omega_n^2\mat{M})\vect{a}_n = 0, \qquad
+  \vect{a}_m^T(\mat{K}-\omega_n^2\mat{M})\vect{a}_n = 0,\\ 
+  \vect{a}_m^T\mat{K}\vect{a}_n = \omega_n^2\vect{a}_m^T\mat{M}\vect{a}_n = \omega_n^2\delta_{mn}.
+\end{gather*}
+Thus, the **modal matrix** $\mat{\mathcal{A}}$ whose columns are the eigenvectors
+$\vect{a}_n$, *simultaneously diagonalizes* the mass matrix $\mat{M}$ and the potential
+matrix $\mat{K}$ as state in the text (22.59):
+\begin{gather*}
+  \mat{A}^T\mat{M}\mat{A} = \mat{1}, \qquad
+  \mat{A}^T\mat{K}\mat{A} = \begin{pmatrix}
+    \omega_1^2\\
+    & \omega_2^2\\
+    & & \ddots\\
+    & & & \omega_N^2
+  \end{pmatrix}.
+\end{gather*}
 
 ## Kapitza Oscillator
 
@@ -195,7 +298,7 @@ made a mistake with the derivative computation.  We can use
 a quick check.
 
 ```{margin}
-I found a sign error in the derivative by writing this check.  It do not change the
+I found a sign error in the derivative by writing this check.  It does not change the
 results though.  To write these checks, it takes a bit of interactive playing to get the
 correct value of `rtol` since the finite difference operation has intrinsic errors.
 ```
@@ -214,7 +317,7 @@ formula above, we have:
 
 \begin{gather*}
   V_{\mathrm{eff}}(\theta) 
-  = m\omega_0^2 \cos\theta + \frac{mh_0^2 \omega^2}{4r^2}\sin^2\theta
+  = m\omega_0^2 \cos\theta + \frac{mh_0^2 \omega^2}{4r^2}\sin^2\theta\\
   = m\omega_0^2 \left(1 - \frac{\theta^2}{2}\right)
   + \frac{mh_0^2 \omega^2}{4r^2}\theta^2 + \order(\theta^4)\\
   = \frac{m\omega_0^2}{2}\left(\frac{h_0^2\omega^2}{2r^2\omega_0^2} - 1\right) \theta^2 
@@ -228,3 +331,7 @@ Thus, we expect an oscillation frequency of:
 \end{gather*}
 
 We include this prediction in our plots above.
+
+
+[generalized eigenvalue problem]: <https://en.wikipedia.org/wiki/Generalized_eigenvalue_problem>
+[metric tensor]: <https://en.wikipedia.org/wiki/Metric_tensor>

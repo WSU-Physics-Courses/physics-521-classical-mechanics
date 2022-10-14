@@ -61,7 +61,8 @@ extensions = [
     # "sphinx_thebe",
     # "sphinx_external_toc",
     #"sphinx_comments",  # Hypothes.is comments and annotations
-    "sphinx_panels",
+    "sphinx_design",
+    "sphinx_togglebutton",
     # "recommonmark",
 ]
 
