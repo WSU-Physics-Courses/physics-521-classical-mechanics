@@ -16,21 +16,18 @@ kernelspec:
 :tags: [hide-cell]
 
 import mmf_setup;mmf_setup.nbinit()
-import logging;logging.getLogger('matplotlib').setLevel(logging.CRITICAL)
-%pylab inline --no-import-all
+%matplotlib inline
+import numpy as np, matplotlib.pyplot as plt
 ```
 
 # Assignment 4: Small Oscillations
 
-+++
-
-**Due: 11:59pm Friday 29 October 2021**
+**Due: 11:59pm Friday 21 October 2022**
 
 +++
 
 ## Masses and Springs 1
 
-+++
 
 Consider an equiliateral triangle of three equal masses $m$ and springs with spring
 constant $k$ and equilibrium length $l$ as discussed in class.  Consider this free to
@@ -45,9 +42,7 @@ move in three dimensions (i.e. on the International Space Station).
 
 ## Masses and Springs 2
 
-+++
-
-Repeat the process for a tetrahedron with four equal masses and four 6 equal springs.
+Repeat the process for a tetrahedron with 4 equal masses and 6 equal springs.
 You may want to check your results with the code on CoCalc.
 
 +++
@@ -136,8 +131,6 @@ the completeness of your solution:
 
 ## (Optional) Double Pendulum
 
-+++
-
 Consider a double pendulum as shown below:
 
 ```{code-cell}
@@ -146,7 +139,8 @@ Consider a double pendulum as shown below:
 import sympy
 sympy.init_printing()
 
-from phys_521_2021 import double_pendulum
+
+from phys_521 import double_pendulum
 double_pendulum.draw_figure()
 ```
 

@@ -148,10 +148,13 @@ $(MINICONDA):
 	$@/bin/conda clean -y --all
 
 
-# Special targets on CoCalc to prevent re-installing mmf_setup.
-#~/.local/bin/mmf_setup:
-#	python3 -m pip install --user --upgrade mmf-setup
-#	mmf_setup cocalc
+# Special target on CoCalc to prevent re-installing mmf_setup.
+~/.local/bin/mmf_setup:
+ifdef ANACONDA2020
+	python3 -m pip install --user --upgrade mmf-setup
+	mmf_setup cocalc
+endif
+
 
 ifdef ANACONDA2020
 $(MMF_SETUP_VENV):
