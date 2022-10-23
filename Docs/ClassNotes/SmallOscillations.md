@@ -26,6 +26,11 @@ Small Oscillations
 import mmf_setup;mmf_setup.nbinit()
 %matplotlib inline
 import numpy as np, matplotlib.pyplot as plt
+
+from myst_nb import glue
+import logging
+import manim.utils.ipython_magic
+!manim --version
 ```
 
 ## General Normal Modes
@@ -130,6 +135,296 @@ matrix $\mat{K}$ as state in the text (22.59):
     & & & \omega_N^2
   \end{pmatrix}.
 \end{gather*}
+
+## Worked Example
+
+Here we consider the following example.  Consider a mass $m$ anchored between two walls
+with identical springs of equilibrium length $l$ and spring constant $k$.  Let the
+separation between the walls be $2L$ so that the springs are in compression if $L<l$ and
+stretched if $L<l$.  Ignore gravity in this problem.
+
+```{code-cell} ipython3
+:tags: [hide-cell]
+
+%%manim -v WARNING --progress_bar None -qm BallAndSprings
+from manim import *
+
+config.media_width = "100%"
+config.media_embed = True
+
+my_tex_template = TexTemplate()
+with open("../_static/math_defs.tex") as f:
+    my_tex_template.add_to_preamble(f.read())
+
+class BallAndSprings(Scene):
+    def construct(self):
+        config["tex_template"] = my_tex_template
+        config["media_width"] = "100%"
+        class colors:
+            ball = BLUE
+            spring = GREEN
+            wall = WHITE
+        
+        ball = Circle(color=colors.ball)
+        self.play(Create(ball))
+```
+
+The potential energy of a spring is $\tfrac{k}{2}(x-l)^2$ where $x$ is the extension of
+the spring and $l$ is the equilibrium length.  Let us introduce the following
+coordinates:
+* $\vect{A} = (-L, 0)$: Location of left spring anchor.
+* $\vect{B} = (L, 0)$: Location of right spring anchor.
+* $\vect{r} = (x, y)$: Location of the ball.
+
+The length of the springs is $\norm{\vect{A}-\vect{r}}$ and $\norm{\vect{B} - \vect{r}}$
+respectively, so the potential energy of the system us:
+\begin{gather*}
+  V(\vect{r}) = V(x, y) = \frac{k}{2}\left(
+    (\norm{\vect{A}-\vect{r}} - l)^2 + 
+    (\norm{\vect{B}-\vect{r}} - l)^2 
+  \right)\\
+  = \frac{k}{2}\left(
+    \Bigl(\sqrt{(-L-x)^2 + y^2} - l\Bigr)^2 + 
+    \Bigl(\sqrt{(L-r)^2 + y^2} - l\Bigr)^2
+  \right)\\
+  = k\left(
+    l^2 + L^2 + x^2 + y^2 - l\sqrt{(L+x)^2 + y^2} - l \sqrt{(L-x)^2 + y^2}
+  \right).
+\end{gather*}
+
+The kinetic energy is
+\begin{gather*}
+  T(\dot{\vect{r}}) = T(\dot{x}, \dot{y}) = \frac{m}{2}(\dot{x}^2 + \dot{y}^2).
+\end{gather*}
+
+Formally, we now have a simple Lagrangian mechanics problem
+\begin{gather*}
+  L(\vect{r}, \dot{\vect{r}}) = T(\dot{\vect{r}}) - V(\vect{r})\\
+  \vect{p} = \pdiff{L}{\dot{\vect{r}}} = m\begin{pmatrix}\dot{x}\\\dot{y}\end{pmatrix}\\
+  \dot{\vect{p}} = \pdiff{L}{\vect{r}} = -\vect{\nabla}V(\vect{r}) = \vect{F}.
+\end{gather*}
+
+The first step is to find the equilibrium points $\vect{r}_0$.  Intuitively, this is
+$\vect{r}_0 = (0,0)$ if $l < L$ and $\vect{r}_0 = (0, \pm y_0)$ if $l > L$ with $y_0 =
+\sqrt{l^2 - L^2}$.  The normal modes should also be quite intuitive: independent
+vibrations along both $x$ and $y$ axes.  This all follows from symmetry, but would be
+more complicated if, for example, the spring constants were different.
+
+:::{margin}
+If you need to actually solve these equations, then you could cross multiply,
+isolate the remaining radical and square, yielding a pair of quartic equations.  While
+not pleasant algebraically, this poses no problem technically.
+:::
+Let's check more formally by computing the force $\vect{F} = -
+\vect{\nabla}V(\vect{r})$:
+\begin{gather*}
+  \vect{F}(x, y) = -k\begin{pmatrix}
+    2x - \frac{l(L+x)}{\sqrt{(L+x)^2 + y^2}} + \frac{l(L-x)}{\sqrt{(L-x)^2 + y^2}}\\
+    2y - \frac{ly}{\sqrt{(L+x)^2 + y^2}} - \frac{ly}{\sqrt{(L-x)^2 + y^2}}
+  \end{pmatrix},\\
+  \vect{F}(0, 0) = -k\begin{pmatrix}0\\0\end{pmatrix},\\
+  \vect{F}(0, y_0)
+  =-2ky_0\begin{pmatrix}
+    0\\
+    1  - \frac{l}{\sqrt{L^2 + y_0^2}}
+  \end{pmatrix}.
+\end{gather*}
+Thus, $\vect{r}_0 = (0,0)$ is always an equilibrium solution, and $\vect{r}_0 = (0,
+y_0)$ is a solution if $y_0^2 = l^2 -L^2$ which only has a real $y_0$ if $L<l$ as we
+intuited above.
+
+Next, we need to expand either the Lagrangian to quadratic order or the equations of
+motion to linear order in a perturbation $\vect{r} = \vect{r}_0 + \vect{\eta}$ where we
+take $\vect{\eta} = (X, Y)$ with the notation that $X$ and $Y$ are the small
+perturbations.  For completeness, we do both of these expansions:
+
+\begin{gather*}
+  L(\vect{r}, \dot{\vect{r}}) = \\
+  \frac{1}{2}\overbrace{m(\dot{X}^2 + \dot{Y}^2)}^{\dot{\vect{\eta}}^T\mat{M}\dot{\vect{\eta}}}
+  -\overbrace{V(\vect{r}_0)}^{\mathrm{const.}}
+  - \vect{\eta}\cdot \overbrace{\vect{\nabla}V(\vect{r}_0)}^{-\vect{F}(\vect{r}_0) = \vect{0}}
+  - \frac{1}{2}\overbrace{
+    \sum_{ij}\eta_i\eta_j
+    \underbrace{\frac{\partial^2 V(\vect{r}_0)}
+                     {\partial \eta_i \partial \eta_j}}_{[\mat{K}]_{ij}}}
+    ^{\vect{\eta}^T\mat{K}\vect{\eta}}
+  + \order(\eta^3).
+\end{gather*}
+The constant term $V(\vect{r}_0)$ will not impact the equations of motion, but we need
+to compute the partial derivatives of the potential $\mat{K}$, then evaluate these at
+$\vect{r}_0 = (0, y_0)$.  I find this easiest to do in terms of a Taylor expansion,
+rather than explicitly computing the derivatives:
+\begin{gather*}
+  \frac{V(\vect{r}_0 + \vect{\eta})}{k} = \mathrm{const.} + X^2 + (y_0+Y)^2 + \\
+  -l\sqrt{(L+X)^2 + (y_0+Y)^2} - l \sqrt{(L-X)^2 + (y_0+Y)^2}.
+\end{gather*}
+These radicals have the form of $\sqrt{1 + \epsilon}$ where $\epsilon =
+\order(\eta)$ is small, so we can use the expansion 
+\begin{gather*}
+  f(\epsilon) = \sqrt{1+\epsilon}, \qquad
+  f'(\epsilon) = \frac{1}{2\sqrt{1+\epsilon}}, \qquad
+  f''(\epsilon) = \frac{-1}{4\sqrt{1+\epsilon}^3},\\
+  \sqrt{1 + \epsilon} = f(0) + \epsilon f'(0) + \frac{\epsilon^2 f''(0)}{2} +
+  \order(\epsilon^3)\\
+  = 1 + \frac{\epsilon}{2} - \frac{\epsilon^2}{8} + \order(\epsilon^3).
+\end{gather*}
+
+Let's do a quick check:
+```{code-cell}
+eps = 0.001
+print((np.sqrt(1+eps) - (1 + eps/2 - eps**2/4))/eps**3)  # Wrong
+print((np.sqrt(1+eps) - (1 + eps/2 - eps**2/8))/eps**3)  # Correct
+```
+
+Note that wee need to keep $\order(\eta^3)$ terms, so we must include both of these
+terms, but we can drop things like $X^4$ from $\epsilon^2$.  Here is how one might do
+this calculations
+\begin{gather*}
+  \sqrt{(L\pm X)^2 + (y_0+Y)^2} = 
+  \sqrt{L^2 + y_0^2 \pm 2LX + 2y_0Y + X^2 + Y^2} \\
+  = \sqrt{L^2+y_0^2}\sqrt{1 \pm 2\tilde{L}\tilde{X} + 2\tilde{y}_0\tilde{Y} + \tilde{X}^2 +
+  \tilde{Y}^2}\\
+  \epsilon_{\pm} = \pm 2\tilde{L}\tilde{X} + 2\tilde{y}_0\tilde{Y} + \tilde{X}^2 +\tilde{Y}^2,
+\end{gather*}
+where $\tilde{X} = X/\sqrt{L^2 + y_0^2}$ etc.  Hence the quadratic terms coming from these radicals are:
+\begin{gather*}
+  \frac{V(\vect{r}_0 + \vect{\eta})}{k} = \cdots + X^2 + (y_0+Y)^2
+  - l\sqrt{L^2+y_0^2}\sum_{\pm}\Bigl(1 + \frac{\epsilon_{\pm}}{2} - \frac{\epsilon_{\pm}^2}{8}\Bigr) + \cdots
+\end{gather*}
+:::{important}
+If you end up with linear terms, you have either made a mistake, or are not expanding
+about an extremal point $\vect{r}_0$.  Here, the $\epsilon_{\pm}$ has the $\pm
+2\tilde{L}\tilde{X}$ and $2\tilde{y}_0\tilde{Y}$ terms which are linear and thus seems
+suspicious since our expression has a linear $\epsilon_{\pm}/2$ term.
+
+In the sum $\epsilon_{+} + \epsilon_{-}$ the linear $X$ contributions cancel.  To show
+that the linear $Y$ terms cancel, we must include the linear piece from $(y_0+Y)^2$.
+:::
+After verifying that the linear terms cancel, we can just keep the quadratic terms:
+\begin{gather*}
+  \frac{V(\vect{r}_0 + \vect{\eta})}{k} = \cdots + X^2 + Y^2 +\\
+  - l\sqrt{L^2+y_0^2}\Bigl(\tilde{X}^2 + \tilde{Y}^2 - 
+  \frac{4\sum_{\pm}(\tilde{y}_0\tilde{Y}\pm\tilde{L}\tilde{X})^2}{8}\Bigr) + \cdots\\
+  =
+ X^2 + Y^2 - \frac{l}{\sqrt{L^2+y_0^2}}\Bigl(X^2 + Y^2 - (\tilde{y}_0^2Y^2 + \tilde{L}^2 X^2)\Bigr) + \cdots\\
+  = \begin{pmatrix}X & Y\end{pmatrix}
+  \begin{pmatrix}
+    1 - \frac{l(1-\tilde{L}^2)}{\sqrt{L^2+y_0^2}}\\
+    & 1 - \frac{l(1-\tilde{y}_0^2)}{\sqrt{L^2+y_0^2}}
+
+  \end{pmatrix}
+ \begin{pmatrix}X \\ Y\end{pmatrix} + \cdots.
+\end{gather*}
+
+Hence, both the matrices $\mat{M}$ and $\mat{K}$ are diagonal in this case:
+\begin{gather*}
+  \mat{M} = m\begin{pmatrix}
+  1\\
+  & 1
+  \end{pmatrix}, \qquad
+  \mat{K} = 2k\begin{pmatrix}
+    1 - \frac{l(1-\tilde{L}^2)}{\sqrt{L^2+y_0^2}}\\
+    & 1 - \frac{l(1-\tilde{y}_0^2)}{\sqrt{L^2+y_0^2}}
+  \end{pmatrix}.
+\end{gather*}
+
+The same result can be obtained by expanding the force to linear order:
+\begin{gather*}
+  \frac{\vect{F}(\vect{r}_0 + \vect{\eta})}{k} = -k\begin{pmatrix}
+    2X - \frac{l(L+X)}{\sqrt{(L+X)^2 + (y_0+Y)^2}} + \frac{l(L-X)}{\sqrt{(L-X)^2 + (y_0+Y)^2}}\\
+    2(y_0+Y) - \frac{l(y_0+Y)}{\sqrt{(L+X)^2 + (y_0+Y)^2}} 
+             - \frac{l(y_0+Y)}{\sqrt{(L-X)^2 + (y_0+Y)^2}}
+  \end{pmatrix}.
+\end{gather*}
+
+Here again we need to expand the radicals in the denominator, but now we only need to do
+this to linear order, so we can use:
+\begin{gather*}
+  \frac{1}{\sqrt{1+\epsilon}} 
+  = \frac{1}{1+\frac{\epsilon}{2} + \order(\epsilon^2)}
+  = 1-\frac{\epsilon}{2} + \order(\epsilon^2).
+\end{gather*}
+:::{important}
+Now we must make sure that there are no constant terms: these would be an external force
+that would force the system away from equilibrium.  We have already checked this to
+determine the equilibrium solutions.
+:::
+Keeping only the linear terms and using the same definitions of $\epsilon_{\pm} =
+2(\tilde{y}_0\tilde{Y} \pm \tilde{L}\tilde{X}) + \order(\eta^2)$, we have
+\begin{gather*}
+  \frac{\vect{F}(\vect{r}_0 + \vect{\eta})}{k} = -\begin{pmatrix}
+    2X - \frac{l(L+X)(1-\epsilon_+/2)}{\sqrt{L^2+y_0^2}}
+       + \frac{l(L-X)(1-\epsilon_-/2)}{\sqrt{L^2+y_0^2}}\\
+    2Y - \frac{l(y_0+Y)(1-\epsilon_+/2)}{\sqrt{L^2+y_0^2}} 
+       - \frac{l(y_0+Y)(1-\epsilon_-/2)}{\sqrt{L^2+y_0^2}}
+  \end{pmatrix}\\
+  = -2\begin{pmatrix}
+    X - \frac{l(X - L\tilde{L}\tilde{X})}{\sqrt{L^2+y_0^2}}\\
+    Y - \frac{l(Y - y_0\tilde{y}_0\tilde{Y})}{\sqrt{L^2+y_0^2}}
+  \end{pmatrix}
+  = -2\begin{pmatrix}
+    X\left(1 - \frac{l(1 - \tilde{L}^2)}{\sqrt{L^2+y_0^2}}\right)\\
+    Y\left(1 - \frac{l(1 - \tilde{y}_0^2)}{\sqrt{L^2+y_0^2}}\right)
+  \end{pmatrix},\\
+  \vect{F}(\vect{r}_0 + \vect{\eta})
+  =-\underbrace{
+    2k\begin{pmatrix}
+    1 - \frac{l(1 - \tilde{L}^2)}{\sqrt{L^2+y_0^2}}\\
+    & 1 - \frac{l(1 - \tilde{y}_0^2)}{\sqrt{L^2+y_0^2}}
+  \end{pmatrix}}_{\mat{K}}
+  \begin{pmatrix}X\\ Y \end{pmatrix}
+  =\underbrace{m \begin{pmatrix} 1 \\ & 1\end{pmatrix}}_{\mat{M}}
+  \begin{pmatrix}\ddot{X}\\ \ddot{Y} \end{pmatrix}.
+\end{gather*}
+
+Now we solve the eigenvalue problem.  In this case, it is trivial since both $\mat{M}$
+and $\mat{K}$ are diagonal.  The eigenvectors are $\ket{a_x} = (1, 0)$ and $\ket{a_y} =
+(0,1)$ with frequencies
+\begin{gather*}
+  \omega_x^2 = \frac{2k}{m}\left(1 - \frac{l(1 - \tilde{L}^2)}{\sqrt{L^2+y_0^2}}\right),
+  \qquad
+  \omega_y^2 = \frac{2k}{m}\left(1 - \frac{l(1 - \tilde{y}_0^2)}{\sqrt{L^2+y_0^2}}\right).
+\end{gather*}
+
+Now we need to think about the physics.  If $y_0 = 0$, then $\tilde{L}=1$ and we have:
+\begin{gather*}
+  \omega_x^2 = \frac{2k}{m}, \qquad
+  \omega_y^2 = \frac{2k}{m}\left(1 - \frac{l}{L}\right).
+\end{gather*}
+This makes sense. In the $x$-direction, the oscillation is harmonic with a spring
+constant of $2k$ because there are two springs (in parallel).  In the $y$ direction, the
+frequency is real until $l>L$ at which point $\omega_y^2 <0$ meaning that the
+equilibrium position at $y_0 = 0$ becomes unstable in the $y$ direction.  This becomes a
+saddle point.
+
+Now, if $l > L$, then we must also consider the equilibrium points $y_0 = \pm
+\sqrt{l^2-L^2}$, where $L^2 + y_0^2 = l^2$, $\tilde{y}_0 = y_0/l$, and $\tilde{L} = L/l$:
+\begin{gather*}
+  \omega_x^2 = \frac{2k}{m}\left(1 - (1 - L^2/l^2)\right)
+             = \frac{2kL^2}{ml^2},\\
+  \omega_y^2 = \frac{2k}{m}\left(1 - (1 - y_0^2/l^2)\right)
+             = \frac{2k}{m}\left(1-\frac{L^2}{l^2}\right).
+\end{gather*}
+Thus, as $l$ increases, the effective restoring force in the $x$ direction gets
+smaller.  This might seem strange at first, but if you thing of really long springs,
+then there will be almost no restoring force because of the angles.  Conversely, the
+restoring force along $y$ approaches that of two springs -- again, this makes sense
+because the two springs are almost parallel in this limit.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Kapitza Oscillator
 

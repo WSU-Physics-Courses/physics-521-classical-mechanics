@@ -130,7 +130,7 @@ dependencies:
   - pycairo  # Needed by manim
   - pango    # Needed by manim
   #- manimpango    # Needed by manim
-  #- ffmpeg   # Needed by manim    
+  - ffmpeg   # Needed by manim    
   
   # Pip-only dependencies
   - pip

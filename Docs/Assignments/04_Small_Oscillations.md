@@ -22,7 +22,7 @@ import numpy as np, matplotlib.pyplot as plt
 
 # Assignment 4: Small Oscillations
 
-**Due: 11:59pm Friday 23 October 2022**
+**Due: 11:59pm Friday 28 October 2022**
 
 +++
 
