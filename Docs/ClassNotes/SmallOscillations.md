@@ -136,7 +136,7 @@ matrix $\mat{K}$ as state in the text (22.59):
   \end{pmatrix}.
 \end{gather*}
 
-## Worked Example
+## Worked Examples
 
 Here we consider the following example.  Consider a mass $m$ anchored between two walls
 with identical springs of equilibrium length $l$ and spring constant $k$.  Let the
@@ -189,15 +189,112 @@ respectively, so the potential energy of the system us:
   \right)\\
   = k\left(
     l^2 + L^2 + x^2 + y^2 - l\sqrt{(L+x)^2 + y^2} - l \sqrt{(L-x)^2 + y^2}
-  \right).
+  \right),
 \end{gather*}
-
-The kinetic energy is
+while the kinetic energy is
 \begin{gather*}
   T(\dot{\vect{r}}) = T(\dot{x}, \dot{y}) = \frac{m}{2}(\dot{x}^2 + \dot{y}^2).
 \end{gather*}
 
-Formally, we now have a simple Lagrangian mechanics problem
+### Quick Solution
+
+The symmetry of this problem allows us to find a solution quickly by guessing the normal
+modes.  If the springs are stretched $l < L$, then the only equilibrium point is $\vect{r}_0 =
+(0,0)$, while if they are compressed $l > L$, then there are two additional stable
+points with $\vect{r}_0 = (0, y_0)$ where $y_0 = \pm \sqrt{l^2 - L^2}$.  It should be
+clear that about all of these points, the normal modes are either along the $x$ axis or
+along the $y$ axis.  If we are certain that this picture is true (and we should check,
+which we will do below), then we can simply formulate the respective 1D problems for the
+modes.
+
+First we consider $y_0 = 0$.  The $x$ mode has coordinate $x = 0 + X$ where $X$ is
+small.  This directly compresses one of the springs while stretching the other and the
+effective Lagrangian is:
+:::{margin}
+Note that the equilibrium length drops out of the problem.  It changes the value of
+$V(\vect{r}_0)$ but this is just a constant energy shift.  This is typical of springs
+that are compressed linearly, but, as we shall see, does not hold if the springs are not
+compressed directly along their length.
+:::
+\begin{gather*}
+  L(X,\dot{X}) = \frac{m}{2}\dot{X}^2 - \frac{k}{2}\Biggl(
+    \Bigl(\sqrt{(-L-X)^2} - l\Bigr)^2 + \Bigl(\sqrt{(L-X)^2} - l\Bigr)^2
+  \Biggr)\\
+  = \frac{m}{2}\dot{X}^2 - \frac{k}{2}\Bigl(
+    (L + X - l)^2 + (L - X - l)^2
+  \Bigr)\\
+  = \frac{m}{2}\dot{X}^2 - k\Bigl((L-l)^2 + X^2\Bigr).
+\end{gather*}
+This is already quadratic with frequency
+\begin{gather*}
+  \omega_x^2 = \frac{2k}{m}.
+\end{gather*}
+
+:::{margin}
+Here we must expand and keep only $\order(Y^2)$ terms:
+\begin{gather*}
+  \sqrt{L^2 + Y^2} = L\sqrt{1 + \frac{Y^2}{L^2}}\\
+  = L\Bigl(1 - \frac{Y^2}{2L^2} + \order(Y^4)\Bigr).
+\end{gather*}
+:::
+The second mode has $y = 0 + Y$:
+\begin{gather*}
+  L(Y,\dot{Y}) = \frac{m}{2}\dot{Y}^2 - k\left(
+    l^2 + L^2 + Y^2 - 2l\sqrt{L^2 + Y^2}
+  \right)\\
+  = \frac{m}{2}\dot{Y}^2 - k\Bigl(Y^2 - \frac{l}{L}Y^2\Bigr) + \mathrm{const.} + \order(Y^3).
+\end{gather*}
+The frequency for small amplitude oscillations is thus:
+\begin{gather*}
+  \omega_y^2 = \frac{2k}{m}\left(1-\frac{l}{L}\right).
+\end{gather*}
+Note that $\omega_y$ becomes imaginary when $l>L$: once the springs start to become
+compressed, the point $\vect{r}_0 = (0,0)$ becomes unstable in the $y$ direction as the
+spring accelerates toward the new equilibrium.
+
+We now consider the oscillations about the new equilibrium point $\vect{r}_0 = (0, y_0)$
+where $y_0^2 = l^2 - L^2$.  The effective Lagrangians become:
+\begin{align*}
+  L(X,\dot{X}) &= \frac{m}{2}\dot{X}^2 - k(l^2 + L^2 + X^2 + y_0^2) +\\
+    &\qquad + kl\Bigl(\sqrt{(L+X)^2 + y_0^2} + \sqrt{(L-X)^2 + y_0^2}\Bigr),\\
+    &= \frac{m}{2}\dot{X}^2 - k(l^2 + L^2 + X^2 + y_0^2) +\\
+    &\qquad + kl\Bigl(\sqrt{(L+X)^2 + y_0^2} + \sqrt{(L-X)^2 + y_0^2}\Bigr),\\
+  L(Y,\dot{Y}) &= \frac{m}{2}\dot{Y}^2 - k\left(
+    l^2 + L^2 + (y_0+Y)^2 - 2l\sqrt{L^2 + (y_0+Y)^2}
+  \right),
+\end{align*}
+
+Here we compute these symbolically, dropping constant terms.  We add a single small
+parameter $X\rightarrow \epsilon X$, $Y\rightarrow \epsilon Y$ to do the expansion:
+```{code-cell}
+import sympy
+from sympy import sqrt
+L, l, eps = sympy.symbols('L,l,epsilon', positive=True)
+x, y = sympy.symbols('X,Y')
+y0 = sqrt(l**2 - L**2)
+X, Y = eps*x, eps*y
+Vx = -X**2 + l*(sqrt((L+X)**2 + y0**2) + sqrt((L-X)**2 + y0**2))
+Vy = -(y0+Y)**2 + 2*l*sqrt(L**2+(y0+Y)**2)
+display(sympy.series(Vx, eps, 0, 3).simplify())
+display(sympy.series(Vy, eps, 0, 3).simplify())
+```
+
+\begin{align*}
+  L(X,\dot{X}) &= \frac{m}{2}\dot{X}^2 - \frac{k}{2}\frac{2L^2}{l^2}X^2 
+  + \mathrm{const.} + \order(X^3),\\
+  L(Y,\dot{Y}) &= \frac{m}{2}\dot{Y}^2 - \frac{k}{2}2\left(1-\frac{L^2}{l^2}\right)Y^2 
+  + \mathrm{const.} + \order(Y^3).
+\end{align*}
+
+This gives the frequencies:
+\begin{gather*}
+  \omega_x^2 = \frac{2L^2}{ml^2}, \qquad
+  \omega_y^2 = \frac{2k}{m}\left(1-\frac{L^2}{l^2}\right)
+\end{gather*}
+
+### Full Solution
+
+Formally, we have a 2D Lagrangian mechanics problem
 \begin{gather*}
   L(\vect{r}, \dot{\vect{r}}) = T(\dot{\vect{r}}) - V(\vect{r})\\
   \vect{p} = \pdiff{L}{\dot{\vect{r}}} = m\begin{pmatrix}\dot{x}\\\dot{y}\end{pmatrix}\\

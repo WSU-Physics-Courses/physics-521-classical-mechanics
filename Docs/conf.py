@@ -60,7 +60,7 @@ extensions = [
     # "jupyter_book",
     # "sphinx_thebe",
     # "sphinx_external_toc",
-    #"sphinx_comments",  # Hypothes.is comments and annotations
+    # "sphinx_comments",  # Hypothes.is comments and annotations
     "sphinx_design",
     "sphinx_togglebutton",
     # "recommonmark",
@@ -222,6 +222,7 @@ class SolutionAdmonition(BaseAdmonition):
         self.state.nested_parse(self.content, self.content_offset, admonition_node)
         return [admonition_node]
 
+
 ######################################################################
 
 math_defs_filename = "_static/math_defs.tex"
@@ -236,7 +237,7 @@ mathjax3_config = {
 }
 
 # Hypothes.is comments and annotations
-#comments_config = {"hypothesis": True}
+# comments_config = {"hypothesis": True}
 
 
 def config_inited_handler(app, config):
@@ -254,6 +255,7 @@ def config_inited_handler(app, config):
         pass
 
     config.html_context["mathjax_defines"] = "\n".join(defines)
+
 
 # Allows us to perform initialization before building the docs.  We use this to install
 # the named kernel so we can keep the name in the notebooks.
@@ -329,4 +331,4 @@ def setup(app):
     my_init(app)
 
     # app.add_directive("solution", SolutionAdmonition)
-    app.add_directive("solution", Toggle)    
+    app.add_directive("solution", Toggle)

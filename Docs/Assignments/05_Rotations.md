@@ -16,9 +16,7 @@ kernelspec:
 
 +++
 
-**Due: 11:59pm Friday 19 November 2021**
-
-+++
+**Due: 11:59pm Friday 18 November 2022**
 
 ## Rolling Coin
 Consider a coin rolling in a circle.  Treat the coin as a flat disk of radius $R$ and
@@ -171,7 +169,7 @@ equations of motion for $\theta(t)$.
 4. :::{margin}
    Alternative corrections to Newton's law are discussed in {cite:p}`Jensen:2011`
    (available [on
-   Perusal](https://app.perusall.com/courses/2021-fall-physics-521-pullm-1-01-01645-classical-mechanics-i/rules-for-rolling-as-a-rotation-about-the-instantaneous-point-of-contact-73799225)
+   Perusal](https://app.perusall.com/courses/2022-fall-physics-521-pullm-1-01-01832-classical-mechanics-i/rules-for-rolling-as-a-rotation-about-the-instantaneous-point-of-contact-73799225)
    for discussion), but I 
    do not find any of these very intuitive.  Please let me know if you find any of these
    intuitive.
