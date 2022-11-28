@@ -51,7 +51,7 @@ Imagine the vortex tube as a hose: if you cut the hose along the curves $\gamma_
 then $\sigma$ would be the piece of hose between.  The orientation of the boundary is
 important, which is why there is a minus sign.
 ```
-In 3D, every vector field has a curl $\vect{r} = \vect{nabla}\times \vect{v}$, and one
+In 3D, every vector field has a curl $\vect{r} = \vect{\nabla}\times \vect{v}$, and one
 can find the integral curves of these, which Arnold calls *vortex lines*.  Since
 $\vect{\nabla}\cdot \vect{r} = 0$, these vortex lines have no "source", hence flux is
 conserved.  They need not form closed loops.

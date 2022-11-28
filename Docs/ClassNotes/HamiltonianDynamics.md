@@ -187,7 +187,7 @@ def plot_set(y, dy=0.1, T=T, phase_space=True, N=10, Nt=5, c='C0',
         Number of images along trajectory to show.
     c : color
         Color.
-    alpha : float
+    _alpha : float
         Transparency of regions.
     max_step : float
         Maximum spacing for times dt.
@@ -228,7 +228,7 @@ fig, ax = plt.subplots(figsize=(10,5))
 
 
 for n, y in enumerate(np.linspace(0.25, 1.75, 6)):
-    plot_set(y=(y, y), c=f"C{n}", ax=ax)
+    plot_set(y=(y, y), c=f"C{n}", phase_space=False, ax=ax)
 ```
 
 :::{sidebar} Phase flow for a pendulum.
@@ -394,6 +394,230 @@ for n, y in enumerate(np.linspace(0.25, 1.75, 6)):
 axs[0].set(ylim=(-6, 7))
 axs[0].set(title=fr"$\alpha = {alpha}$, $T=1.3\times 2\pi \sqrt{{r/g}}$");
 ```
+
+# Dispersion and Relativity
+
+The Hamiltonian framework helps you if you know the **dispersion relation** $E(p)$ --
+the kinetic energy as a function of the momentum.  For example, recall that in special
+relativity, the kinetic energy of a particle of rest-mass $m$ and momentum $p$ is
+
+\begin{gather*}
+  E(p) = \sqrt{p^2c^2 + m^2c^4}
+\end{gather*}
+
+where $c$ is the speed of light, which should be constant for all observers.
+
+Simply apply Hamilton's equations of motion:
+
+\begin{gather*}
+  H(q, p) = E(p) + V(q), \\
+  \dot{q} = \pdiff{H}{p} = E'(p), \\
+  \dot{p} = -\pdiff{H}{q} = -V'(q) = F(q).
+\end{gather*}
+
+## Group Velocity
+
+If you have studied waves, you may recognize the second equation as the [**group
+velocity**](https://en.wikipedia.org/wiki/Group_velocity) of a wave, which is the
+derivative of the dispersion relationship.  The last equation is just Newton's law.
+
+## Effective Mass
+
+We can get the more conventional form of Newton's law by taking the time derivative of
+the second equation and using the chain rule:
+
+:::{margin}
+In higher dimensions, the inverse effective mass becomes a matrix:
+\begin{gather*}
+  [\mat{M}^{-1}]_{ij} = \frac{\partial^2 E(\vect{p})}{\partial p_i\partial p_j}\\
+  \vect{a} = \mat{M}^{-1}\cdot\vect{F}.
+\end{gather*}
+:::
+\begin{gather*}
+  \ddot{q} = \diff{}{t}E'(p) = E''(p)\dot{p} = \overbrace{E''(p)}^{m^{-1}}F(q).
+\end{gather*}
+
+This shows us that the effective mass is the inverse of the second derivative of the
+dispersion $m = 1/E''(q)$.  I.e. the curvature of the dispersion defines the mass.
+
+## Constant Force
+
+There is a peculiar special case which we can solve easily: that of a particle under a
+constant force $F$:
+\begin{gather*}
+  V'(q) = -F, \qquad
+  V(q) = -Fq.
+\end{gather*}
+The solution has two arbitrary constants $a$ (position) and $b$ (speed):
+\begin{gather*}
+  q(t) = \frac{E(p_0 + Ft)}{F} + a + bt.
+\end{gather*}
+
+::::{admonition} Do It!  Derive this solution.
+:class: dropdown
+
+In this case, we have the following equations:
+\begin{gather*}
+  \ddot{q} = E''(p)F, \qquad \dot{p} = F.
+\end{gather*}
+Hence, the momentum is linear in time:
+\begin{gather*}
+  p(t) = p_0 + Ft.  
+\end{gather*}
+Using the usual chain-rule trick twice:
+\begin{gather*}
+  \ddot{q} = \diff{\dot{q}}{p}\diff{p}{t} = \diff{\dot{q}}{p}\overbrace{\dot{p}}^{F} = FE''(p),\\
+  \int \d{\dot{q}} = \int E''(p)\d{p}.\\
+  \dot{q} = F\diff{q}{p} = E'(p) + C,\\
+  \int F \d{q} = \left(E'(p) + C\right)\d{p},\\
+  F q = E(p) + Cp + D.
+\end{gather*}
+Finally, substituting $p(t)$ and redefining the constants, have
+\begin{gather*}
+  q(t) = \frac{E(p_0+Ft)}{F} + a + bt
+\end{gather*}
+where $a$ is a constant position, and $b$ is a constant velocity.  Evaluating this at
+time $t=0$ allows us to replace $a$ and $b$ with the initial position $q_0$ and velocity
+$v_0$:
+\begin{gather*}
+  q(t) = \frac{E(p_0 + Ft) - E(p_0) - FE'(p_0)t}{F} + q_0 + v_0t.
+\end{gather*}
+::::
+
+Here the trajectory of the particle has the same shape as the dispersion.
+
+## [Rindler Coordinates][]
+
+Inserting the relativistic dispersion gives us the motion of a constantly accelerating
+object like a rocket that adjusts its power to compensate for the loss of mass.
+Choosing the constants so that we start at time $t=0$ at rest $v_0 = p_0 = 0$ and at position
+$q_0$, we have
+\begin{gather*}
+  q(t) = \sqrt{t^2c^2 + h^2} + (q_0 - h), \qquad
+  h = \frac{mc^2}{F},
+\end{gather*}
+where $h$ is the natural length scale.  Choosing units so that $h = c = 1$:
+\begin{gather*}
+  q(t) = q_0 + \underbrace{\sqrt{1 + t^2}}_{\gamma} - 1.
+\end{gather*}
+::::{admonition} Do It! Find this solution.
+:class: dropdown
+
+Using $E(p) = \sqrt{p^2c^2 + m^2c^4}$ with $p_0 = v_0 = 0$ and taking $a=0$, we have
+\begin{gather*}
+  q(t) = \frac{\sqrt{F^2 c^2 t^2 + m^2c^4}}{F}
+   = \sqrt{c^2 t^2 + \frac{m^2c^4}{F^2}}\\
+   = \sqrt{c^2 t^2 + h^2},
+\end{gather*}
+where $h = mc^2/F$.
+::::
+:::{margin}
+Of course, this picture is only relevant for the accelerated observer.  To a
+non-accelerating observer, the watch will move along a line with a constant velocity,
+and will cross the horizon at a specified time.  This is what a free-falling observer
+would see at the event horizon of a black hole: i.e. nothing special.
+:::
+With some work, this allows one to consider physics from the perspective of a constantly
+accelerating observer using [Rindler coordinates][]: the relativistic equivalent of a
+constant gravitational field.
+Even though this is purely special-relativity, the
+Rindler frame has some very interesting properties, including the existence of an event
+horizon distance $h$ below the observer.  If you drop a watch, the watch will approach
+this horizon, slowing both the rate at which it falls, and the rate at which the clock
+runs, never actually falling across the horizon: just like a black hole.
+
+
+
+## [Relativistic Lagrangian][]
+
+One might like to try to figure out what Lagrangian gives rise to an equation with
+dispersion $E(p)$ by effecting the Legendre transform:
+\begin{gather*}
+  L(q, \dot{q}, t) = \dot{q}p - H(q, p, t).
+\end{gather*}
+We must now solve for $p(\dot{q})$ by inverting $\dot{q} = E'(p)$:
+\begin{gather*}
+  L(q, \dot{q}, t) = \dot{q}p(\dot{q}) - E\Bigl(p(\dot{q})\Bigr) - V(q).
+\end{gather*}
+Note that, in general, this does **not have the form** of $L=T-V$, kinetic minus
+potential unless $E(p) \propto p^2$, i.e. as for Newtonian mechanics.
+
+::::{admonition} Do It!  Find the conditions for $L = T-V$ to work.
+:class: dropdown
+
+Noting that $\dot{q} = E'(p)$ we are looking for the forms of $E(p)$ such that
+\begin{gather*}
+  pE'(p) - E(p) = E(p), \qquad
+  pE'(p) = 2E(p), \\
+  \frac{\d{E}}{E} = 2\frac{\d{p}}{p}\\
+  \ln(E) = 2\ln(p) + \ln C\\
+  E(p) = C p^2.
+\end{gather*}
+Thus, the form $L=T(\dot{q})-V(q)$ only works for Newtonian mechanics where $E(p)$ is
+purely quadratic in $p$.
+::::
+
+In the case of a relativistic particle,
+:::{margin}
+Note that this looks like
+\begin{gather*}
+  p = \gamma m \dot{q}.
+\end{gather*}
+This has led some people to interpret $\gamma m$ as the "mass of a moving particle".
+The idea is that a moving particle has extra kinetic energy $E_k$, which then has a mass
+equivalence via $\delta m = E_k/c^2$.  Problems appear in higher dimensions where this
+interpretation requires introducing different masses in different directions, which does
+not really make much sense.  It is best to stick with only one definition of mass, the
+rest mass $m$, which is the mass one measures in the co-moving "rest" frame.
+:::
+\begin{gather*}
+  \dot{q} = E'(p) = \frac{pc^2}{\sqrt{p^2c^2 + m^2c^4}}, \qquad
+  p = \frac{mc\beta}{\sqrt{1 - \beta^2}} = \gamma m c \beta,
+\end{gather*}
+where $\beta = \dot{q}/c$ is the speed in units of the speed of light $c$ and $\gamma$
+is the [Lorentz factor](https://en.wikipedia.org/wiki/Lorentz_factor) that relates the
+rate of change of time $t$ in the inertial frame to proper time $\tau$ in the co-moving
+frame:
+\begin{gather*}
+  \gamma = \frac{1}{\sqrt{1 - \beta^2}} = \diff{t}{\tau}.
+\end{gather*}
+The correct Lagrangian is thus
+\begin{gather*}
+  L(q, \dot{q}, t) = -\frac{m c^2}{\gamma(\dot{q})} - V(q).
+\end{gather*}
+:::{admonition} Do It!  Derive $L(q, \dot{q}, t)$.
+:class: dropdown
+
+We start by noting that $\dot{q} = pc^2/E(p)$ so that:
+\begin{gather*}
+  p = \gamma m \dot{q}, \qquad
+  E'(p) = \dot{q}, \qquad
+  E(p) = pc^2/\dot{q} = \gamma m c^2.
+\end{gather*}
+Then, we use the Legendre transform
+\begin{gather*}
+  L = pE' - E - V = \gamma m \dot{q}^2 - \gamma m c^2 - V(q) = \\ 
+  \gamma m c^2 \underbrace{\left(\frac{\dot{q}^2}{c^2} - 1\right)}_{-\gamma^{-2}} - V(q)
+  =
+  -\frac{m c^2}{\gamma} - V(q).
+\end{gather*}
+:::
+This makes more sense when we consider the action and introduce proper time $\tau$ such
+that $1/\gamma = \d{\tau}/\d{t}$:
+\begin{gather*}
+  I = \int_{t_0}^{t_1} L \d{t} 
+  = \int_{t_0}^{t_1} \left(-mc^2\diff{\tau}{t} - V(q)\right) \d{t}\\
+  = -mc^2\int_{\tau_0}^{\tau_1}\d{\tau} - \int_{t_0}^{t_1}V(q)\d{t}.
+\end{gather*}
+Note that the [relativistic Lagrangian][] does **not** have the form $T - V$.  Instead, the action
+corresponding to the kinetic piece becomes manifestly Lorentz invariant: it is simply
+the proper time of a clock moving with the observer, multiplied by appropriate
+dimensional factors.
+
+[Rindler Coordinates]: <https://en.wikipedia.org/wiki/Rindler_coordinates>
+[relativistic Lagrangian]: <https://en.wikipedia.org/wiki/Relativistic_Lagrangian_mechanics>
+
+
 
 # WKB Approximation
 

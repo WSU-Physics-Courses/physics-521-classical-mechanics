@@ -12,9 +12,16 @@ kernelspec:
   name: phys-521
 ---
 
-# Assignment 5: Rotations
+```{code-cell}
+:tags: [hide-cell]
 
-+++
+import mmf_setup;mmf_setup.nbinit()
+%matplotlib inline
+import numpy as np, matplotlib.pyplot as plt
+import manim.utils.ipython_magic
+```
+
+# Assignment 5: Rigid Bodies
 
 **Due: 11:59pm Friday 18 November 2022**
 
