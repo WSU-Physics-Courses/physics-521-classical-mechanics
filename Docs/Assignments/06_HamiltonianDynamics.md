@@ -316,7 +316,7 @@ complete the same type of analysis for the harmonic oscillator.
      =  \frac{mq^2}{2(T + t)}.
    $$
    
-   Note that this does *not* have the same form as the separable solution we constructed above.  This is due to the choice of initial condistions $S_0(q)$.  In particular, our separable solution corresponds with the initial conditions $S_0(q) = m v_0 q$ instead.  Mathematically, however, the Hamilton-Jacobi equations can be solved with any arbitrary initial conditions.
+   Note that this does *not* have the same form as the separable solution we constructed above.  This is due to the choice of initial conditions $S_0(q)$.  In particular, our separable solution corresponds with the initial conditions $S_0(q) = m v_0 q$ instead.  Mathematically, however, the Hamilton-Jacobi equations can be solved with any arbitrary initial conditions.
 
 +++
 

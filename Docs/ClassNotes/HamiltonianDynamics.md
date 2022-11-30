@@ -1006,7 +1006,7 @@ To simplify the notation here, we use:
 ```
 
 \begin{gather*}
-  \psi(x, t) = \exp\left\{\frac{i}{\hbar}W(x,t)\right\}\psi_0(x),\\
+  \psi(x, t) = \exp\left\{\frac{i}{\hbar}W(x,t)\right\},\\
   \left(\frac{(S')^2}{2m} - \frac{\I\hbar}{2m}W'' + V + \dot{W}\right)\psi = 0.
 \end{gather*}
 
@@ -1017,7 +1017,7 @@ Expanding $W$ in powers of $\hbar$, we have the following lowest two orders:
   \text{Order $\hbar^0$:}\quad &\frac{(S')^2}{2m} + V(x,t) + \dot{S} 
   = H(x, S', t) + \dot{S} = 0\\
   \text{Order $\hbar^1$:}\quad &\frac{S''}{2m} + \frac{A'S'}{mA} + \frac{\dot{A}}{A} = 0\\
-  &\psi_{WKB}(x, t) = A(x,t)\exp\left\{\frac{i}{\hbar}S(x,t)\right\}\psi_0(x).
+  &\psi_{WKB}(x, t) = A(x,t)\exp\left\{\frac{i}{\hbar}S(x,t)\right\}.
 \end{align*}
 
 ### $\order(\hbar^0)$: Hamilton-Jacobi Equation
@@ -1036,7 +1036,7 @@ where $x(t)$ is a solution to the classical equations of motion with boundary co
 $x(t_0) = x_0$ and $x(t) = x$, as discussed above.  I.e., show that
 
 \begin{gather*}
-  S' \equiv \pdiff{S(x, t; x_0, t_0}{x} = p, \qquad
+  S' \equiv \pdiff{S(x, t; x_0, t_0)}{x} = p, \qquad
   \dot{S} = \pdiff{S(x, t;x_0, t_0)}{t} = -H(x, S', t).
 \end{gather*}
 ```
@@ -1107,6 +1107,25 @@ We proceed using the linearity of the derivatives to rearrange the left-hand-sid
 
 because the potential does not depend on the initial position $x_0$.
 ```
+
+### Propagator
+
+We have been working with wavefunctions, but notice that the classical action is a
+function of both initial and final coordinates $S(x, t; x_0, t_0)$, but the initial
+coordinates are just parameters (they are not part of the Schrödinger equation).  Since
+the Schrödinger equation is linear, we can form a solution as a linear combination of
+these, which allows us to use the full classical action to obtain an approximation to
+the quantum propagator, exactly mirroring the path integral approach:
+
+\begin{gather*}
+  \mat{U}_{WKB}(x, t;x_0, t_0) = \exp\left\{\frac{\I}{\hbar}W(x, t;x_0, t_0)\right\}\\
+  = A(x, t; x_0, t_0) \exp\left\{\frac{\I}{\hbar}S(x, t;x_0, t_0)\right\},\\
+  \psi_{WKB}(x, t) = \int \d{x_0}\; \mat{U}_{WKB}(x, t;x_0, t_0)\psi(x_0).
+\end{gather*}
+
+The normalization needs to be checked, since the traditional WKB approach does not
+specify the magnitude of $A$, but, appropriately normalized, $\mat{U}_{WKB}$ is unitary.
+
 
 ## Maxwell Relations
 
