@@ -351,13 +351,25 @@ Lagrangian.  In the action, this can be interpreted as a rescaling of time $\tau
 e^{\alpha t}\d{t}$:
 
 \begin{gather*}
-  S[q] = \int L_0(q, \dot{q}) \underbrace{e^{\alpha t} \d{t}}_{\d{\tau}}.
+  S[q] = \int L_0(q, \dot{q})\; \underbrace{e^{\alpha t} \d{t}}_{\d{\tau}}.
 \end{gather*}
 
-This is presents an analogy of cosmology where the universe is decelerating as it
+This presents an analogy of cosmology where the universe is decelerating as it
 expands, leading to an effective cooling from the dissipative term introduced by the
 scaling of time.
 
+We now demonstrate Liouville's theorem.  Note that this applies only to he **canonically
+conjugate** variables $(q, p)$ that enter the Hamiltonian (top plot below), but not to
+the conventional coordinates $(q, m\dot{q})$ for which the damping results in
+contraction.
+
+The key is that the canonical momentum is not $m\dot{q}$, but instead
+\begin{gather*}
+  p = \pdiff{L}{\dot{q}} = e^{\alpha t} m \dot{q}.  
+\end{gather*}
+The extra time-dependent factor $e^{\alpha t}$ exactly counters this contraction to
+ensure Liouville's theorem.  However, now the phase space dynamics are not independent
+of time.
 
 :::{margin}
 This plot shows the phase-flow for the time-dependent Hamiltionian for the pendulum with
@@ -382,8 +394,9 @@ demonstrate the structure of the flow.
 ```{code-cell}
 :tags: [hide-input]
 
-fig, axs = plt.subplots(2, 1, figsize=(10, 6), sharex=True, 
-                        gridspec_kw=dict(height_ratios=(3.5, 1)))
+fig, axs = plt.subplots(
+    2, 1, figsize=(20, 12), sharex=True, 
+    gridspec_kw=dict(height_ratios=(3.5, 1)))
 
 alpha = 0.3
 
@@ -397,18 +410,9 @@ axs[0].set(title=fr"$\alpha = {alpha}$, $T=1.3\times 2\pi \sqrt{{r/g}}$");
 
 # Dispersion and Relativity
 
-The Hamiltonian framework helps you if you know the **dispersion relation** $E(p)$ --
-the kinetic energy as a function of the momentum.  For example, recall that in special
-relativity, the kinetic energy of a particle of rest-mass $m$ and momentum $p$ is
-
-\begin{gather*}
-  E(p) = \sqrt{p^2c^2 + m^2c^4}
-\end{gather*}
-
-where $c$ is the speed of light, which should be constant for all observers.
-
-Simply apply Hamilton's equations of motion:
-
+A useful application of the Hamiltonian framework is if you know the **dispersion
+relation** $E(p)$ -- the kinetic energy as a function of the momentum.  Simply apply
+Hamilton's equations of motion:
 \begin{gather*}
   H(q, p) = E(p) + V(q), \\
   \dot{q} = \pdiff{H}{p} = E'(p), \\
@@ -417,9 +421,10 @@ Simply apply Hamilton's equations of motion:
 
 ## Group Velocity
 
-If you have studied waves, you may recognize the second equation as the [**group
-velocity**](https://en.wikipedia.org/wiki/Group_velocity) of a wave, which is the
-derivative of the dispersion relationship.  The last equation is just Newton's law.
+If you have studied waves, you may recognize the second equation $\dot{q} = E'(p)$ as
+the [**group velocity**](https://en.wikipedia.org/wiki/Group_velocity) of a wave, which
+is the derivative of the dispersion relationship.  The last equation $\dot{q} = F =
+-V'(q)$ is just Newton's law.
 
 ## Effective Mass
 
@@ -486,10 +491,31 @@ $v_0$:
 
 Here the trajectory of the particle has the same shape as the dispersion.
 
+## Special Relativity
+
+:::{margin}
+This comes from the Lorentz-invariant magnitude of the energy-momentum four-vector
+$p^\mu = (E/c, \vect{p})$, which defines the rest mass $m$:
+\begin{gather*}
+  p^\mu p_\mu = \frac{E^2}{c^2} - p^2 \\
+  = m^2c^2.
+\end{gather*}
+:::
+For a specific example, recall that in special relativity, the kinetic energy of a
+particle of rest-mass $m$ and momentum $p$ is
+\begin{gather*}
+  E(p) = \sqrt{p^2c^2 + m^2c^4}
+\end{gather*}
+where $c$ is the speed of light, which should be constant for all observers.
+
 ## [Rindler Coordinates][]
 
-Inserting the relativistic dispersion gives us the motion of a constantly accelerating
-object like a rocket that adjusts its power to compensate for the loss of mass.
+:::{margin}
+To achieve a truly constant acceleration, a rocket would need to adjust slowly reduce its power to
+compensate for the loss.
+:::
+Combining the relativistic dispersion and constant force result gives us the
+relativistic motion of a constantly accelerating object.
 Choosing the constants so that we start at time $t=0$ at rest $v_0 = p_0 = 0$ and at position
 $q_0$, we have
 \begin{gather*}
@@ -526,9 +552,8 @@ horizon distance $h$ below the observer.  If you drop a watch, the watch will ap
 this horizon, slowing both the rate at which it falls, and the rate at which the clock
 runs, never actually falling across the horizon: just like a black hole.
 
-
-
 ## [Relativistic Lagrangian][]
+
 
 One might like to try to figure out what Lagrangian gives rise to an equation with
 dispersion $E(p)$ by effecting the Legendre transform:
@@ -557,13 +582,18 @@ Thus, the form $L=T(\dot{q})-V(q)$ only works for Newtonian mechanics where $E(p
 purely quadratic in $p$.
 ::::
 
-In the case of a relativistic particle,
 :::{margin}
-Note that this looks like
+Be careful with the signs of the roots when squaring: here
+everything works out, even if $\dot{q} < 0$.
+:::
+Simplifying the relationship for the group velocity $\dot{q} = E'(p)$ we have
 \begin{gather*}
-  p = \gamma m \dot{q}.
+  \dot{q} = E'(p) = \frac{pc^2}{\sqrt{p^2c^2 + m^2c^4}}, \qquad
+  p = m\dot{q}\frac{1}{\sqrt{1 - \frac{\dot{q}^2}{c^2}}}.
 \end{gather*}
-This has led some people to interpret $\gamma m$ as the "mass of a moving particle".
+Thus, we recover the well-known relativistic relationship:
+:::{margin}
+This form has led some people to interpret $\gamma m$ as the "mass of a moving particle".
 The idea is that a moving particle has extra kinetic energy $E_k$, which then has a mass
 equivalence via $\delta m = E_k/c^2$.  Problems appear in higher dimensions where this
 interpretation requires introducing different masses in different directions, which does
@@ -571,17 +601,19 @@ not really make much sense.  It is best to stick with only one definition of mas
 rest mass $m$, which is the mass one measures in the co-moving "rest" frame.
 :::
 \begin{gather*}
-  \dot{q} = E'(p) = \frac{pc^2}{\sqrt{p^2c^2 + m^2c^4}}, \qquad
-  p = \frac{mc\beta}{\sqrt{1 - \beta^2}} = \gamma m c \beta,
+  p = \gamma m \dot{q}, \qquad
+  \gamma = \frac{1}{\sqrt{1-\beta^2}}, \qquad
+  \beta = \frac{\dot{q}}{c},
 \end{gather*}
-where $\beta = \dot{q}/c$ is the speed in units of the speed of light $c$ and $\gamma$
-is the [Lorentz factor](https://en.wikipedia.org/wiki/Lorentz_factor) that relates the
+in terms of the [Lorentz
+factor](https://en.wikipedia.org/wiki/Lorentz_factor) $\gamma(\beta)$ that relates the
 rate of change of time $t$ in the inertial frame to proper time $\tau$ in the co-moving
 frame:
 \begin{gather*}
-  \gamma = \frac{1}{\sqrt{1 - \beta^2}} = \diff{t}{\tau}.
+  \gamma = \diff{t}{\tau}.
 \end{gather*}
-The correct Lagrangian is thus
+
+Collecting and simplifying we find the correct Lagrangian:
 \begin{gather*}
   L(q, \dot{q}, t) = -\frac{m c^2}{\gamma(\dot{q})} - V(q).
 \end{gather*}
@@ -672,24 +704,22 @@ elementary result that
 The [WKB approximation] amount to considering all classical trajectories with
 appropriate boundary conditions, performing the path integral over $\xi$, and dropping
 terms of order $\order(\xi^3)$ and higher to obtain:
-
 \begin{gather*}
   U_{WKB}(q, t; q_0, t_0) = \int \mathcal{D}[\xi]\; \exp\left\{\frac{\I}{\hbar}\left(
-  S[q_{\mathrm{cl}}] + \frac{1}{2}S''[q_{\mathrm{cl}}]\cdot\xi\xi\right)\right\} =\\
+  S[q_{\mathrm{cl}}] + \frac{1}{2}S''[q_{\mathrm{cl}}]\cdot\xi\xi\right)\right\}\\
   = \sqrt{\frac{-\partial^2 S / (2\pi \I \hbar)}
           {\partial q_{\mathrm{cl}}(t)\partial q_{\mathrm{cl}}(t_0)}}
     \exp\left\{\frac{\I}{\hbar}\S(q_{\mathrm{cl}}(t),t;q_{\mathrm{cl}}(t_0),t_0)\right\},
 \end{gather*}
-
 where $\S = \S(q,t;q_0,t_0)$ is the classical action with $q=q_{\mathrm{cl}}(t)$ and $q_0
-= q_{\mathrm{cl}}(t_0)$ being the final and initial points of the classical trajectory.
+= q_{\mathrm{cl}}(t_0)$ are the final and initial points of the classical trajectory.
 The key point here is that all of the information about the propagator in this
 approximation is contained in the classical action $\S(q,t;q_0,t_0)$, sometimes called
-[Hamilton's principal function].
+[Hamilton's principal function][].
 
 Once the path integrals over $\xi$ have been done, everything is expressed in terms of
-the classical trajectory $q_{\mathrm{cl}}(t)$ and we shall drop the $\mathcal{cl}$
-subscript in what follows.
+the classical trajectory $q_{\mathrm{cl}}(t)$ and we shall drop the "cl" subscript in
+what follows.
 
 *(Note: if there are multiple trajectories that satisfy the boundary conditions, then
 they should be added, giving rise to quantum interference patterns.)*
@@ -733,7 +763,6 @@ Extending this to higher dimensions, we have:
   \S(\vect{x},t;\vect{x}_0,t_0) = \frac{m\norm{\vect{x}-\vect{x}_0}^2}{2(t-t_0)},\\
   \frac{\partial^2 \S}{\partial x_{i}\partial [x_0]_{j}} = -\frac{m\delta_{ij}}{(t-t_0)}.
 \end{gather*}
-
 ````
 
 Similar results can be obtained from the momentum-to-position transitions if the initial
@@ -777,6 +806,7 @@ $q_0 p_0$ in $\S$:
 \end{gather*}
 ````
 
+(eg:FallingParticles)=
 ## Examples
 
 ````{admonition} Example: Falling Particle 1D
@@ -837,32 +867,47 @@ Hence, the WKB propagator is:
 \end{gather*}
 ````
 
-````{admonition} Example: Particle 1D
+````{admonition} Example: General Particle 1D
 
 Slightly more general, we now consider a particle falling in an arbitrary
 time-independent potential $V(z) = mgz + \delta(z)$ where we will ultimately consider
-$\delta(z)$ to be small:
-
+$\delta(z)$ to be small.  Here, since energy is conserved, we immediately have:
 \begin{gather*}
   E = \frac{p^2}{2m} + V(z) = \frac{p_{0}^2}{2m} + V(z_0), \\
   p = \pm\sqrt{2mE - 2mV(z)},\\
   L(z) = E - 2V(z).
 \end{gather*}
-
 The trajectory $z(t)$ no longer has a closed form, but we can still express the action
 by changing variables $\d{z} = \dot{z}\d{t} = p\d{t}/m$:
-
 \begin{gather*}
   \S(z;z_0;E) = m\int_{z_0}^{z}\frac{\Bigl(E - 2V(z)\Bigr)}{p(z)}\d{z}\\
   = \sqrt{\frac{m}{2}}\int_{z_0}^{z}\frac{\Bigl(E - 2V(z)\Bigr)}
                                          {\pm\sqrt{E - V(z)}}\d{z}.
 \end{gather*}
-
 This form has two complications.  First, the sign of the denominator must be chosen
 appropriately to match the direction of motion.  This is often clear from the physics,
 and so does not pose a fundamental problem.  Second, this form of the action as an
-explicit function of either $S(z, p; z_0) = S(z;z_0, p_0)$ since $E = E(z_0, p_0) = E(z,
+explicit function of either $S(z, p; z_0)$ or $S(z;z_0, p_0)$ since $E = E(z_0, p_0) = E(z,
 p)$ is conserved and a function of the initial or final coordinates.
+
+A comment about the role of the conserved energy $E$ here.  Note that if $E=0$, then the
+numerator and denominator both contain factors of $\sqrt{-V(z)}$ and can be combined.
+The presence of $E$ seems to spoil this, but, as is generally well known, in classical
+mechanics, only the relative value of the energy is physically significant.  To make
+this explicit, we note that
+\begin{gather*}
+  V(z) = E - \frac{p^2}{2m}, \quad
+  L(z) = E - 2V(z) = \frac{p^2}{m} - E,\\
+  \begin{aligned}
+    S(z;z_0;E) &= -\int_{0}^{t}E\d{t} + \int_{z_0}^{z}\bigl(\pm p(z)\bigr)\d{z}\\
+    &= -Et \pm \int_{z_0}^{z}p(z)\d{z}.
+  \end{aligned}
+\end{gather*}
+The first term clearly does not affect the physics, and in quantum mechanics,
+corresponds to an overall global phase.  This is exactly the effect of shifting the
+zero-energy level.  The second term is a common form of the action, as an integral of a
+generalized momentum with respect to the corresponding coordinate.  This form appears in
+the action-angle variable formulation for example.
 
 To compute the normalization factor, we must perform the appropriate change of variables
 using the analogy of the Maxwell relations in thermodynamics using:
@@ -971,6 +1016,70 @@ $q p_0$ in $\S$:
 \end{gather*}
 ````
 
+````{admonition} Example: General Particle 2D
+
+As a second example, consider a particle in free-fall with Hamiltonian $H = (p_x^2 +
+p_z^2)/2m + V(x, z)$.  The classical problem is most easily solved with conservation of
+energy $E$:
+
+\begin{gather*}
+  E = \frac{p_x^2+p_z^2}{2m} + V(x, z) = \frac{p_{x0}^2 + p_{z0}^2}{2m} + V(x_0, z_0), \\
+  p_z = \pm\sqrt{2mE - 2m^2gz - p_x^2}\\ 
+      = \pm\sqrt{p_{z0}^2 - 2m^2g(z-z_0) + (p_{x0}^2 - p_x^2)}\\
+  L(\vect{r},t) = E - 2mgz
+\end{gather*}
+
+Again, time-independence allows us to set $t_0=0$ without loss of generality.
+
+
+***Incomplete***
+
+
+
+This has the following solution $\vect{r}(t)$ and [Hamilton's
+principal function] $\S$:
+
+\begin{gather*}
+  \vect{r}(t) = \vect{r}_0 + \frac{\vect{p}_0}{m}(t - t_0) - \frac{g}{2}(t-t_0)^2\uvect{z},\\
+  p_0 = m\frac{x-x_0}{t-t_0},\\
+  \S(\vect{r},t;\vect{r}_0,t_0) = \frac{p_0^2}{2m}(t-t_0) = \frac{m(x-x_0)^2}{2(t-t_0)},\\
+  \frac{\partial^2 \S}{\partial x\partial x_0} = -\frac{m}{(t-t_0)}.
+\end{gather*}
+
+Hence, the WKB propagator is:
+
+\begin{gather*}
+  U_{WKB}(x,t;x_0,t_0) = \sqrt{\frac{m}{2\pi \I \hbar (t-t_0)}}\exp\left\{
+    \frac{i}{\hbar}\frac{m(x-x_0)^2}{2(t-t_0)}
+  \right\}.
+\end{gather*}
+Changing variables, we now have:
+
+\begin{gather*}
+  \S(x,t;p_0,t_0) = xp_0 - \frac{p_0^2}{2m}(t-t_0),\qquad
+  \frac{\partial^2 \S}{\partial x\partial p_0} = 1
+\end{gather*}.
+
+Hence, the WKB propagator is:
+
+\begin{gather*}
+  U_{WKB}(x,t;p_0,t_0) = \exp\left\{
+    \frac{i}{\hbar}\left(xp_0 - \frac{p_0^2 (t-t_0)}{2m}\right)\right\}.
+\end{gather*}
+
+A quick check shows that this is also exact, and confirms the need for the extra piece
+$q p_0$ in $\S$:
+
+\begin{gather*}
+  U(x,t;p_0,t_0) = \braket{x|e^{\op{H}(t-t_0)/\I\hbar}|p_0}
+  = \braket{x|p_0}e^{p_0^2(t-t_0)/(2m\I\hbar)}\\
+  = e^{\tfrac{\I}{\hbar} x p_0}e^{p_0^2(t-t_0)/(2m\I\hbar)}\\
+  = \exp\left\{\frac{\I}{\hbar}\left(
+      x p_0 - \frac{p_0^2}{2m}(t-t_0)
+    \right)\right\}.
+\end{gather*}
+````
+
 ````{admonition} Example: Harmonic Oscillator
 
 The harmonic oscillator has the following solution:
@@ -982,10 +1091,15 @@ The harmonic oscillator has the following solution:
   S(x, t; x_0, t_0) = \frac{\omega(xp - x_0p_0)}{2}\\
   = \frac{m\omega}{2\sin\omega\t}\Bigl(
   (x^2+x_0^2)\cos\omega\t - 2xx_0\Bigr),\\
-  S_{,xx_0} = -\frac{m\omega}{\sin\omega\tau},\\
+  \frac{\partial^2 S}{\partial x \partial x_0} = -\frac{m\omega}{\sin\omega\tau},\qquad
   A = \sqrt{\frac{m\omega}{\sin\omega\tau}}\\
-  S' = \frac{m\omega}{\sin\omega\t}\Bigl(x\cos\omega\t - x_0\Bigr),\\
-  S'' = m\omega\cot\omega\t,\\
+  \begin{aligned}
+    S' &\equiv \pdiff{S}{x} = p = \frac{m\omega}{\sin\omega\t}\Bigl(x\cos\omega\t - x_0\Bigr),\\
+    S'' &\equiv \pdiff[2]{S}{x} = m\omega\cot\omega\t,\\
+    \dot{A} &\equiv \pdiff{A}{t} 
+    %= \frac{-1}{2}\sqrt{\frac{m\omega^3\cos^2\omega \tau}{\sin^3\omega \tau}}
+    = \frac{-\omega A \cot \omega \tau}{2}
+  \end{aligned}\\
   \frac{S''}{2m} + \frac{\dot{A}}{A} + \frac{A'S'}{mA} = 
   \frac{\omega}{2}\cot\omega\t - \frac{\omega}{2}\cot\omega\t + 0 = 0.
 \end{gather*}
@@ -1036,7 +1150,7 @@ where $x(t)$ is a solution to the classical equations of motion with boundary co
 $x(t_0) = x_0$ and $x(t) = x$, as discussed above.  I.e., show that
 
 \begin{gather*}
-  S' \equiv \pdiff{S(x, t; x_0, t_0)}{x} = p, \qquad
+  S' \equiv \pdiff{S(x, t; x_0, t_0)}{x} = p, \\
   \dot{S} = \pdiff{S(x, t;x_0, t_0)}{t} = -H(x, S', t).
 \end{gather*}
 ```
@@ -1070,18 +1184,20 @@ matter), and the properties $S' = p$, $\dot{S} = -H$ to express the result as:
   \pdiff{}{x_0}Q(x) = 0.
 \end{gather*}
 
-where you can argue that the quantity $Q(x)$ is independet of $x_0$.
+where you can argue that the quantity $Q(x)$ is independent of $x_0$.
 ````
 ```{admonition} Exercise
 
 Show that the order $\hbar^1$ equation is satisfied by
 
 \begin{gather*}
-  A(z, t) = \sqrt{-\frac{\partial^2 S(x, t; x_0, t_0) / (2\pi \I\hbar)}
+  A(x, t) = \sqrt{-\frac{\partial^2 S(x, t; x_0, t_0) / (2\pi \I\hbar)}
                         {\partial x\partial x_0}}
 \end{gather*}
 
-as given by the path integral formulation.
+as given by the path integral formulation.  *Note: this is only valid up to an overall
+constant giving the dependence of $A(x, t)$ on $x$ and $t$.  One must adjust this overall
+constant to normalize the wavefunction.*
 ```
 ```{admonition} Solution
 :class: dropdown
@@ -1108,6 +1224,51 @@ We proceed using the linearity of the derivatives to rearrange the left-hand-sid
 because the potential does not depend on the initial position $x_0$.
 ```
 
+```{admonition} Exercise: Geometry
+Note that since $S' = p$, the factor $A$ can be expressed as
+\begin{gather*}
+  n(x, t) \propto A^2(x, t) \propto \pdiff{p(x,  t;x_0, t_0)}{x_0}.
+\end{gather*}
+Explain this geometrically using Liouville's theorem and the requirement that classical
+evolution conserves particle number
+\begin{gather*}
+  n_0(x_0, t_0)\d{x_0} = n(x, t)\d{x}
+\end{gather*}
+for fixed initial condition $p_0(x_0)$.
+```
+```{admonition} Solution (Incomplete)
+:class: dropdown
+
+Liouville's theorem tells us that evolution conserves phase-space volumes when
+considered as functions of $t$ and initial conditions $x_0$, and $p_0$ at time $t_0$:
+\begin{gather*}
+  x(t) = x(t; x_0, p_0, t_0), \qquad
+  p(t) = p(t; x_0, p_0, t_0),\\
+  \frac{\partial (x, p)}{\partial (x_0, p_0)} =
+  \pdiff{x}{x_0}\pdiff{p}{p_0} - \pdiff{x}{p_0}\pdiff{p}{x_0}
+  = 1.
+\end{gather*}
+
+\begin{gather*}
+\d{p} = \pdiff{p}{t}\d{t} + \pdiff{p}{x_0}\d{x_0}
+        + \pdiff{p}{p_0}\d{p_0} + \pdiff{p}{t_0}\d{t_0},\\
+\d{x} = \pdiff{x}{t}\d{t} + \pdiff{x}{x_0}\d{x_0}
+        + \pdiff{x}{p_0}\d{p_0} + \pdiff{x}{t_0}\d{t_0}.
+\end{gather*}
+
+To get $n(x, t)$ from the previous relationship, we hold $\d{x} = \d{t} = \d{t_0} = 0$.
+
+\begin{gather*}
+  \d{p} = \pdiff{p}{x_0}\d{x_0} + \pdiff{p}{p_0}\d{p_0},\\
+  \d{x} = 0 = \pdiff{x}{x_0}\d{x_0} + \pdiff{x}{p_0}\d{p_0},\\
+  \frac{\d{p_0}}{\d{x_0}} = -\frac{\pdiff{x}{x_0}}{\pdiff{x}{p_0}},\\
+  \pdiff{p(x, t;x_0, t_0)}{x_0} 
+  = \pdiff{p}{x_0} + \pdiff{p}{p_0}\frac{\d{p_0}}{\d{x_0}}\\
+  = \pdiff{p}{x_0} - \frac{\pdiff{x}{x_0}\pdiff{p}{p_0}}{\pdiff{x}{p_0}}\\
+  = \pdiff{p}{x_0} - \frac{1 + \pdiff{x}{p_0}\pdiff{p}{x_0}}{\pdiff{x}{p_0}}\\
+  = - \frac{1}{\pdiff{x}{p_0}}.
+\end{gather*}
+```
 ### Propagator
 
 We have been working with wavefunctions, but notice that the classical action is a

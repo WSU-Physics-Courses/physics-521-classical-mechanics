@@ -412,16 +412,20 @@ Your assignment is to repeat a similar analysis with the harmonic oscillator.
      H\left(q, \pdiff{S}{q}, t\right) + \pdiff{S}{t}  = ? = 0.
    $$
    
-5. This equation is separable, and we may place the $q$'s on one side, and the $t$'s on the other.  Connect the two equations with the constant $E$ and integrate each side to obtain both the *abbreviated action $W(q)$ and the generating function $S(q,t)$:
+5. This equation is separable, and we may place the $q$'s on one side, and the $t$'s on
+   the other.  Connect the two equations with the constant $E$ and integrate each side
+   to obtain both the *abbreviated action $W(q)$ and the generating function $S(q,t)$:
 
    $$
       W(Q) = ?, \\
       S(q, t) = W(q) - Et = ?.
    $$
    
-   *Note: to complete the integrals here you will probably want to make a trignometric substitution $m\omega q = p\sin\theta$.*
+   *Note: to complete the integrals here you will probably want to make a trignometric
+   substitution $\sqrt{k/2E}q = \sin\theta$.* 
    
-6. You are free to choose any new coordinate $Q$ as long as the invertability requirement still holds.  Compute this a choose a reasonable coordinate $Q$:
+6. You are free to choose any new coordinate $Q$ as long as the invertability
+   requirement still holds.  Compute this a choose a reasonable coordinate $Q$: 
 
    $$
      \left(\frac{\partial^2 S}{\partial q \partial Q}\right) = ? \neq 0.

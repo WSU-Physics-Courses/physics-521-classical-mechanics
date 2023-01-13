@@ -286,6 +286,7 @@ def my_init(app):
         subprocess.check_call(["anaconda-project", "run", "init"])
 
     mathjax_offline = False
+    mathjax_offline = True
     if mathjax_offline:
         # For this to work, you need to put mathjax js files in Docs/_static/mathjax
         # Docs/_static/

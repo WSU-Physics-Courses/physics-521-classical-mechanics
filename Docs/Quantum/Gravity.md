@@ -22,7 +22,7 @@ import numpy as np, matplotlib.pyplot as plt
 ```
 
 (sec:atom-laser)=
-# Falling Particle
+# Falling Atom Laser
 
 Here we consider the quantum mechanics of a particle falling in a gravitational field:
 
@@ -57,7 +57,8 @@ In these units, the time-independent Schrödinger equation has the form:
   \psi(z) = a\Ai(z-E) + b\Bi(z-E),
 \end{gather*}
 
-where the solution is expressed in terms of the Airy functions $y=\Ai(x)$ and $y=\Bi(x)$, which satisfy:
+where the solution is expressed in terms of the Airy functions $y=\Ai(x)$ and
+$y=\Bi(x)$, which satisfy:
 
 \begin{gather*}
   y'' = xy.
@@ -203,6 +204,155 @@ out-couples atoms from a fairly narrow region about
 
 the location of which can be tuned by adjust the drive frequency $\omega$.
 :::
+
+## Atom Interferometry
+
+An application of the atom laser is to image differential potentials (see
+e.g. {cite-p}`Mossman:2022`.)  In this application, we have two streams of particles,
+which experience slightly different potentials
+\begin{gather*}
+  V_{a,b}(z) = V_0(z) \pm V(z).
+\end{gather*}
+
+The corresponding actions are (see {ref}`eg:FallingParticles`):
+\begin{gather*}
+  S_{a,b}(z;z_0; E)
+  = -Et \pm \int_{z_0}^{z} p_{a,b}(z)\d{z}, \\
+  p_{a,b}(z) = \sqrt{2m(E-V_{a,b}(z))}.
+\end{gather*}
+For a falling particle with, we can set $z_0 = 0$, $E=0$, and $V_0(z) = mgz$.  An
+interferometer allows us to recover the relative phase difference, so by
+differentiating, we can directly extract $V(z)$:
+\begin{align*}
+  S_a'(z) - S_b'(z) &= -p_a(z) + p_b(z) \\
+  &= \sqrt{-2m^2 gz + 2mV(z)} -  \sqrt{-2m^2 gz - 2mV(z)}.
+\end{align*}
+If $V(z)$ is small, we can expand:
+\begin{gather*}
+  V(z) \approx
+  \sqrt{\frac{-gz}{2}}\Bigl(S_a'(z) - S_b'(z)\Bigr)
+\end{gather*}
+
+:::{margin}
+The function $\mathbf{1}_{A}(t)$ is called an [indicator function]:
+\begin{gather*}
+  \mathbf{1}_{A}(t) = \begin{cases}
+    1 & x\in A,\\
+    0 & x\notin A.
+  \end{cases}
+\end{gather*}
+:::
+The experiment is slightly more complicated in that the differential potential is pulsed
+on for a short period of time:
+\begin{gather*}
+  V_{a,b}(z, t) = V_0(z) \pm V(z)\mathbf{1}_{[t_1, t_2]}(t).
+\end{gather*}
+To deal with this, we define the trajectory $z(t, z_f)$ for the particle ending up at
+$z(t_f, z_f) = z_f$ at imaging time $t_f$.  We can then use the same formalism with the
+potential, but now with a potential that depends on $z_f$.  Assuming again that $z_0=0$,
+$E=0$, and that the particle is falling, we have
+\begin{gather*}
+  V_{a, b}(z; z_f) = V_0(z) \pm V(z)\mathbf{1}_{[z(t_1;z_f),z(t_2;z_f)]}(z),\\
+  S_{a,b}(z_f) = -\int_{z_0}^{z_f} p_{a,b}(z;z_f)\d{z}, \\
+  \begin{aligned}
+    p_{a, b}(z;z_f) &= \sqrt{-2mV_{a,b}(z;z_f)}\\ 
+    &\approx \sqrt{-2m V_0(z)} \pm
+    \frac{mV(z)}{\sqrt{-2mV_0(z)}}\mathbf{1}_{[z(t_1;z_f),z(t_2;z_f)]}(z)
+  \end{aligned}
+\end{gather*}
+The derivative is slightly more complicated now because of the addition $z_f$ dependence
+in the momentum:
+\begin{gather*}
+  \pdiff{V_{a,b}(z;z_f)}{z_f} =   
+  \pm V(z)[\delta\bigl(z-z(t_2, z_f)\bigr) - \delta\bigl(z-z(t_1;z_f)\bigr)],\\
+  \begin{aligned}
+  \pdiff{p_{a,b}(z;z_f)}{z_f} &= \sqrt{\frac{-m}{2V_{a,b}(z;z_f)}}\pdiff{V_{a,b}(z;z_f)}{z_f}\\
+                              &= \frac{m}{p_{a,b}(z;z_f)}\pdiff{V_{a,b}(z;z_f)}{z_f},
+  \end{aligned}
+\end{gather*}
+This gives:
+\begin{gather*}
+  S_{a, b}'(z_f) = -p_{a,b}(z_f;z_f)
+  -\int_{z_0}^{z_f} \pdiff{p_{a,b}(z;z_f)}{z_f}\d{z},\\
+    = -p_{a,b}(z_f;z_f) 
+    \mp\left.
+    \frac{m V(z)}{p_{a,b}(z;z_f)}\right|_{z=z_2=z(t_2;z_f)}^{z=z_1=z(t_1;z_f)}.
+\end{gather*}
+
+In a typical experiment, the differential potential is turned off at the imaging time,
+so $p_{a}(z_f;z_f) = p_{b}(z_f;z_f)$, so the first term -- which gives the dominant
+contribution above -- vanishes, leaving the following difference in the action:
+\begin{align*}
+  S_a'(z_f) - S_b'(z_f) &= 
+  \left.
+    m V(z)\left(
+      \frac{1}{p_{b}(z;z_f)} - \frac{1}{p_{a}(z;z_f)}
+    \right)
+  \right|_{z=z_2=z(t_2;z_f)}^{z=z_1=z(t_1;z_f)}\\
+  &\approx
+  \left.
+    -2 m V(z)
+      \frac{mV(z)}{\sqrt{-2mV_0(z)}} 
+    \right|_{z=z_2=z(t_2;z_f)}^{z=z_1=z(t_1;z_f)}\\
+  &\approx  
+\end{align*}
+    
+
+```{code-cell} ipython3
+t_1 = 1.0
+t_2 = 2.0
+t_f = 3.0
+g = 1.0
+m = 1.0
+z_f = -g*t_f**2/2
+
+z_V = -1.0
+sigma = 0.1
+dV = 1.0
+
+@np.vectorize
+def V(z, t):
+    return m*g*z + dV * np.exp(-(z-z_V)**2/2/sigma**2)*np.where(t_1 < t < t_2, 1, 0)
+
+@np.vectorize
+def Vzf(z, z_f):
+    # How long the particle takes to get to z
+    dt = np.sqrt(-2*z/g)
+    # How long the particle takes to get to z_f dtf = (t_f-t_0)
+    dtf = np.sqrt(-2*z_f/g)
+    t_0 = t_f - dtf
+    t = t_0 + dt
+    return V(z=z, t=t)
+
+t, z = np.meshgrid(np.linspace(0, t_f, 200), 
+                   np.linspace(z_f, 0, 201), 
+                   indexing='ij', sparse=True)
+fig, axs = plt.subplots(1, 2)
+ax = axs[0]
+ax.pcolormesh(t.ravel(), z.ravel(), V(z, t).T, shading='auto')
+
+ax = axs[1]
+zf = z.T
+ax.pcolormesh(zf.ravel(), z.ravel(), Vzf(z, zf).T, shading='auto')
+ax.set(xlabel="z_f", ylabel="z", aspect=1);
+```
+
+
+
+
+[indicator function]: <https://en.wikipedia.org/wiki/Indicator_function>
+
+# (Old Stuff)
+
+
+
+
+
+
+
+
+
+
 
 ```{code-cell} ipython3
 from ipywidgets import interact
