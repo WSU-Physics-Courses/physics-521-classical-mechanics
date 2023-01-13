@@ -285,14 +285,13 @@ contribution above -- vanishes, leaving the following difference in the action:
 \begin{align*}
   S_a'(z_f) - S_b'(z_f) &= 
   \left.
-    m V(z)\left(
-      \frac{1}{p_{b}(z;z_f)} - \frac{1}{p_{a}(z;z_f)}
+    -m V(z)\left(
+      \frac{1}{p_{b}(z;z_f)} + \frac{1}{p_{a}(z;z_f)}
     \right)
   \right|_{z=z_2=z(t_2;z_f)}^{z=z_1=z(t_1;z_f)}\\
   &\approx
   \left.
-    \frac{V(z)}{\sqrt{-2mV_0(z)}}
-    \frac{V(z)}{V_0(z)} 
+    \frac{-2mV(z)}{\sqrt{-2mV_0(z)}}
     \right|_{z=z_2=z(t_2;z_f)}^{z=z_1=z(t_1;z_f)}.
 \end{align*}
     
