@@ -291,10 +291,9 @@ contribution above -- vanishes, leaving the following difference in the action:
   \right|_{z=z_2=z(t_2;z_f)}^{z=z_1=z(t_1;z_f)}\\
   &\approx
   \left.
-    -2 m V(z)
-      \frac{mV(z)}{\sqrt{-2mV_0(z)}} 
-    \right|_{z=z_2=z(t_2;z_f)}^{z=z_1=z(t_1;z_f)}\\
-  &\approx  
+    \frac{V(z)}{\sqrt{-2mV_0(z)}}
+    \frac{V(z)}{V_0(z)} 
+    \right|_{z=z_2=z(t_2;z_f)}^{z=z_1=z(t_1;z_f)}.
 \end{align*}
     
 
