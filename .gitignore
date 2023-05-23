@@ -11,6 +11,9 @@ _artifacts/
 _build/
 
 Docs/media/
+Docs/OtherNotes/media/
+Docs/ClassNotes/media/
+Docs/Assignments/media/
 Docs/Solutions/media/
 
 __pycache__
