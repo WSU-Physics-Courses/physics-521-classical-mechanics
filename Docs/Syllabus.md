@@ -1,34 +1,44 @@
 (sec:sylabus)=
 # Syllabus
 
+::::{margin}
+:::{warning}
+Customize this section for your course!
+:::
+::::
 ::::{admonition} Instructor Notes
 This syllabus contains sample content from the WSU course **Physics 455/555: Quantum
 Technologies and Computation** as offered Fall 2022.  These sections need to be replaced
 with appropriate material for your course.  Material that needs to be customized
-appears in a "Customize" admonition: 
+has a "Customize" margin note.  In the code look for: 
 
-    :::{admonition} Customize for Course
-    Example of material that instructors need to replace.
+    ::::{margin}
+    :::{warning}
+    Customize this section for your course!
     :::
+    ::::
 
-:::{admonition} Customize for Course
-Example of material that instructors need to replace.
-:::
-
-Once the material is suitably customize, just remove the admonition.
+Once the material is suitably customize, just remove the margin note.
 ::::
 
+::::{margin}
+:::{warning}
+Customize this section for your course!  Most of this should come from the cookiecutter
+template `.cookiecutter.yaml`, but it might need some attention.
+
+:::
+::::
 ## Course Information
 
 - **Instructor(s):** Michael McNeil Forbes [`m.forbes+521@wsu.edu`](mailto:m.forbes+521@wsu.edu)
-- **Course Assistants:** TBA
+- **Course Assistants:** 
 - **Office:** Webster 947F
 - **Office Hours:** TBD
-- **Course Homepage:** https://schedules.wsu.edu/List/Pullman/20223/Phys/521/01
+- **Course Homepage:** https://schedules.wsu.edu/List/Pullman/20233/Phys/521/01
 - **Class Number:** 521
-- **Title:** Phys 521: Classical Mechanics I
+- **Title:** Phys 521: Classical Mechanics
 - **Credits:** 3
-- **Recommended Preparation**: Linear Algebra
+- **Recommended Preparation**: 
 - **Meeting Time and Location:** MWF, 11:10am - 12:00pm, [Webster 941](https://sah-archipedia.org/buildings/WA-01-075-0008-13), Washington State University (WSU), Pullman, WA
 - **Grading:** Grade based on assignments and project presentation.
 
@@ -40,8 +50,7 @@ Once the material is suitably customize, just remove the admonition.
 
 :::{admonition} Customize for Course
 This course is intended for a broad audience.  As such, the only formal background
-assumed is a strong background in linear algebra as described in {ref}`Linear
-Algebra`.
+assumed is a strong background in linear algebra as described in {ref}`sec:linear-algebra`.
 
 Familiarity with quantum mechanics, classical information theory, and the foundations of
 computer science may be useful, but are not required.  The course will focus on
@@ -49,9 +58,12 @@ finite-dimensional systems where a deep understanding of complex vector spaces a
 matrices will suffice.
 :::
 
+::::{margin}
+:::{warning}
+Customize this section for your course!
+:::
+::::
 ### Textbooks and Resources
-
-::::{admonition} Customize for Course
 
 #### Required
 :::{margin}
@@ -87,29 +99,31 @@ For a discussion, see [Augmenting Long-term Memory](http://augmentingcognition.c
 
 [Preskill: "Quantum Computation"][Preskill (Physics/CS 219)]
 :  Online notes from John Preskill.  These provide more theoretical foundation that
-   complements {cite:p}`Nielson:2010`.
+   complements {cite:p}`Nielsen:2010`.
 
 Additional readings and references will be provided as needed.  Please see
 {ref}`sec:readings` for details.
 Details and further resources will also be included on the lecture pages on the
-[Canvas](https://wsu.instructure.com/courses/1567877) server.
-[Augmenting Long-term Memory]:
-  <http://augmentingcognition.com/ltm.html>
+[Canvas](https://wsu.instructure.com/courses/1658144) server.
+
+
+[Augmenting Long-term Memory]: <http://augmentingcognition.com/ltm.html> 
   "Michael Nielsen's discussion about how to use Anki effectively"
-[Quantum Country]:
-  <https://quantum.country/>
+[Quantum Country]: <https://quantum.country/>
 [Nielsen:2010 (ProQuest)]:
   <https://ntserver1.wsulibs.wsu.edu:2171/lib/wsu/detail.action?docID=647366>
 [Nielsen:2010 (WSU)]:
   <https://searchit.libraries.wsu.edu/permalink/f/1jnr272/TN_cdi_askewsholts_vlebooks_9780511985249>
 [Preskill (Physics/CS 219)]:
   <http://www.theory.caltech.edu/~preskill/ph229/>
+
+
+::::{margin}
+:::{warning}
+Customize this section for your course!
+:::
 ::::
-
-
 ### Student Learning Outcomes
-
-:::{admonition} Customize for Course
 
 **Physics 455/555:** By the end of this course, all students will:
 
@@ -127,22 +141,24 @@ Details and further resources will also be included on the lecture pages on the
    is under active investigate, and present a critical summary of this topic to the
    class considering the previous outcomes.
 
+::::{margin}
+:::{warning}
+Customize this section for your course!
 :::
-
+::::
 ### Expectations for Student Effort
-
-:::{admonition} Customize for Course
 
 For each hour of lecture equivalent, all students should expect to have a minimum of two
 hours of work outside class.  All students are expected to keep up with the readings
 assigned in class, asking questions through the Perusall/Hypothes.is forums, complete
 homework on time, and prepare their projects/presentations.
 
+::::{margin}
+:::{warning}
+Customize this section for your course!
 :::
-
+::::
 ### Assessment and Grading Policy
-
-:::{admonition} Customize for Course
 
 Assessment and Grading Policy 
 
@@ -187,23 +203,25 @@ The final grade will be converted to a letter grade using the following scale:
 | 40.0% ≤ P \< 50.0% | D     |
 | P \< 40.0%         | F     |
 
+::::{margin}
+:::{warning}
+Customize this section for your course!
 :::
-
+::::
 ### Attendance and Make-up Policy 
-
-:::{admonition} Customize for Course
 
 While there is no strict attendance policy, students are expected attend an participate
 in classroom activities and discussion. Students who miss class are expected to cover
 the missed material on their own, e.g. by borrowing their classmates notes, reviewing
 recorded lectures (if available), etc.
 
+::::{margin}
+:::{warning}
+Customize this section for your course!
 :::
-
+::::
 ### Course Timeline
 <!-- 16 Weeks -->
-
-::::{admonition} Customize for Course
 
 :::{margin}
 *Week 1 / Assignment 1*
@@ -299,8 +317,7 @@ Quantum Computing and Presentations
    -  **Questions:** Please curate questions and discussions in this section. Use this
       section to ask any questions you have while working on your material, and then to
       help answer classmate questions.  This should be a dynamic section where all
-      members of the course participate. 
-::::
+      members of the course participate.
 
 ## Other Information
 
@@ -402,5 +419,5 @@ If you or someone you know is in immediate danger, DIAL 911 FIRST!
 
 
 [Official Course Repository]: <https://gitlab.com/wsu-courses/physics-521-classical-mechanics> "Official Course Repository hosted on GitLab"
-[Shared CoCalc Project]: <https://cocalc.com/2abf35ad-5508-4d1b-8684-48a66abe8417/> "Shared CoCalc Project"
+[Shared CoCalc Project]: <https://cocalc.com/c5a0bdae-e17c-46a1-ada4-78c6556d9429/> "Shared CoCalc Project"
 [WSU Courses CoCalc project]: <https://cocalc.com/projects/c31d20a3-b0af-4bf7-a951-aa93a64395f6>

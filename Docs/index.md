@@ -44,6 +44,17 @@ Assignments
 
 References
 ```
+```{toctree}
+---
+maxdepth: 2
+caption: "Prerequisites:"
+titlesonly:
+hidden:
+glob:
+---
+Prerequisites/*
+```
+
 
 ```{toctree}
 ---

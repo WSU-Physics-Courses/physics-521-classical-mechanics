@@ -1,13 +1,13 @@
 export PS1="\h:\W \u\$ "
-source $(conda info --base)/etc/profile.d/conda.sh
-
 # Assume that this is set by running anaconda-project run shell
 CONDA_ENV="${CONDA_PREFIX}"
-conda deactivate
-conda activate                 # Activate the base environment
-conda activate "${CONDA_ENV}"  # Now activate the previously set environment
-alias ap="anaconda-project"
-alias apr="anaconda-project run"
+eval "$(micromamba shell hook --shell=bash)"
+
+# [[ -v CONDA_PREFIX ]] is better, but needs bash > 4.2... not on Mac OS X.
+while [[ ! -z ${CONDA_PREFIX+x} ]]; do 
+    micromamba deactivate
+done
+micromamba activate "${CONDA_ENV}"
 
 _exclude_array=(
     -name ".hg" -or
@@ -17,6 +17,8 @@ _exclude_array=(
     -name 'envs' -or 
     -name "*.sage-*" -or
     -name "_build" -or
+    -name '_trash' -or
+    -name '_oven' -or
     -name "build" -or
     -name "__pycache__"
 )

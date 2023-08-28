@@ -21,19 +21,3 @@ test:
   coverage: '/Total coverage: (\d+\..*\%)$/'
 
 #
-test-0:
-  script:
-    - anaconda-project run test-0 || true
-  artifacts:
-    when: always
-    paths:
-      - _artifacts
-
-test-1:
-  script:
-    - anaconda-project run test-1 || true
-  artifacts:
-    when: always
-    paths:
-      - _artifacts
-#

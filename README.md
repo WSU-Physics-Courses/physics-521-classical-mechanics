@@ -1,11 +1,11 @@
 Phys 521 - Classical Mechanics
 ==============================
-[![Documentation Status](https://readthedocs.org/projects/physics-521-classical-mechanics-i/badge/?version=latest)](https://physics-521-classical-mechanics-i.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/physics-521-classical-mechanics-i/badge/?version=latest)](https://physics-521-classical-mechanics-i.readthedocs.io/en/latest/?badge=latest)
 [![gitlab pipeline status](https://gitlab.com/wsu-courses/physics-521-classical-mechanics/badges/main/pipeline.svg)](https://gitlab.com/wsu-courses/physics-521-classical-mechanics/-/commits/main)
 [![gitlab coverage report](https://gitlab.com/wsu-courses/physics-521-classical-mechanics/badges/main/coverage.svg)](https://gitlab.com/wsu-courses/physics-521-classical-mechanics/-/commits/main)
 
 This is the main project for the [WSU Physics] course
-**Phys 521: Classical Mechanics I** first offered in [Fall 2022](https://schedules.wsu.edu/List/Pullman/20223/Phys/521/01).
+**Phys 521: Classical Mechanics** first offered in [Fall 2023](https://schedules.wsu.edu/List/Pullman/20233/Phys/521/01).
 
 Physics has a successful track record of providing effective solutions to complex
 problems outside its specific domain. This course will focus on using efficient
@@ -400,7 +400,7 @@ hg add local.bib _static/ _templates/
 
       # ~/.ssh/config
       Host cc_phys-521-classical-mechanics
-        User 2abf35ad55084d1b868448a66abe8417
+        User c5a0bdaee17c46a1ada478c6556d9429
     
       Host cc_phys-521-classical-mechanics
         HostName ssh.cocalc.com
@@ -466,7 +466,7 @@ hg add local.bib _static/ _templates/
 
 
 [Official Course Repository]: <https://gitlab.com/wsu-courses/physics-521-classical-mechanics> "Official Course Repository hosted on GitLab"
-[Shared CoCalc Project]: <https://cocalc.com/2abf35ad-5508-4d1b-8684-48a66abe8417/> "Shared CoCalc Project"
+[Shared CoCalc Project]: <https://cocalc.com/c5a0bdae-e17c-46a1-ada4-78c6556d9429/> "Shared CoCalc Project"
 [WSU Courses CoCalc project]: <https://cocalc.com/projects/c31d20a3-b0af-4bf7-a951-aa93a64395f6>
 
 
