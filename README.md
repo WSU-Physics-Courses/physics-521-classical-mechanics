@@ -4,7 +4,7 @@ Phys 521 - Classical Mechanics
 [![gitlab pipeline status](https://gitlab.com/wsu-courses/physics-521-classical-mechanics/badges/main/pipeline.svg)](https://gitlab.com/wsu-courses/physics-521-classical-mechanics/-/commits/main)
 [![gitlab coverage report](https://gitlab.com/wsu-courses/physics-521-classical-mechanics/badges/main/coverage.svg)](https://gitlab.com/wsu-courses/physics-521-classical-mechanics/-/commits/main)
 
-This is the main project for the [WSU Physics] course
+This is the main project for the [WSU Physics][] course
 **Phys 521: Classical Mechanics** first offered in [Fall 2023](https://schedules.wsu.edu/List/Pullman/20233/Phys/521/01).
 
 Physics has a successful track record of providing effective solutions to complex
@@ -20,11 +20,11 @@ research, or industry applications.
 
 [![Documentation Status](https://readthedocs.org/projects/physics-521-classical-mechanics-i/badge/?version=latest)](https://physics-521-classical-mechanics-i.readthedocs.io/en/latest/?badge=latest)
 
-Main project for the [WSU Physics] course **Physics 521: Classical Mechanics I**.
+Main project for the [WSU Physics][] course **Physics 521: Classical Mechanics I**.
 
 ## Installation
 
-This project is intended to be installed on [CoCalc], but should work on other
+This project is intended to be installed on [CoCalc][], but should work on other
 computers.
 
 ### Preliminaries
@@ -103,7 +103,7 @@ with SSH as described above:
    make init
    ```
    
-   This will create a [Conda] environment you can activate `conda activate envs/phys-521`,
+   This will create a [Conda][] environment you can activate `conda activate envs/phys-521`,
    and a Jupyter kernel called `phys-521` that you can select from notebooks.
    
      ```bash
@@ -182,7 +182,7 @@ hg add local.bib _static/ _templates/
 
 
 * [Purchase a license](https://cocalc.com/settings/licenses) with 2 projects to allow
-  the course and [WSU Courses CoCalc project] and [Shared CoCalc Project] to run.  This
+  the course and [WSU Courses CoCalc project][] and [Shared CoCalc Project][] to run.  This
   approach requires the students to pay $14 for access four the term (4 months).  They
   can optionally use any license they already have instead.
    
@@ -192,15 +192,15 @@ hg add local.bib _static/ _templates/
   for more details.
   
 * Next, [create a course](https://doc.cocalc.com/teaching-create-course.html).  I do
-  this in my [WSU Courses CoCalc project]..
+  this in my [WSU Courses CoCalc project][].
 
 
 
-* Create a [Shared CoCalc Project] and activate the license for this project so that it
+* Create a [Shared CoCalc Project][] and activate the license for this project so that it
   can run.  I then add the SSH key to may `.ssh/config` files so I can quickly login.
 
 * Clone the repos into the shared project and initialize the project.  Optional, but
-  highly recommend -- use my [`mmf-setup`] project to provide some useful features
+  highly recommend -- use my [`mmf-setup`][] project to provide some useful features
 
   ```bash
   ssh smc<project name>       # My alias in .ssh/config
