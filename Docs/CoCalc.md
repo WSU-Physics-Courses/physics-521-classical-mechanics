@@ -1,6 +1,6 @@
-# [CoCalc]
+# [CoCalc][]
 
-[CoCalc] provides an online platform for performing computations without the need to
+[CoCalc][] provides an online platform for performing computations without the need to
 install any software on your computer.  It allows you to immediately start exploring in
 a variety of languages, with several unique features.
 
@@ -10,7 +10,7 @@ One of the main benefits of [CoCalc] is that you can just fire it up and get to 
 Later in this document we will discuss how to setup a reproducible programming
 environment, but for now, you can do the following to just get started.
 
-1. Create an account and project on [CoCalc].
+1. Create an account and project on [CoCalc][].
    *If you are taking this as a course, then you should use the project you are invited
    to join as part of the course.*
 
@@ -25,7 +25,7 @@ environment, but for now, you can do the following to just get started.
 3. Open your project and start exploring.
    *Students should see two projects that are automatically created for the course:*
    
-   * *A [shared CoCalc project] for the course, which is where everyone can
+   * *A [shared CoCalc project][] for the course, which is where everyone can
      interact with each other and collaborate on documents provided by the instructor.
      Remember -- this is shared with everyone, so be respectful and careful with your
      modifications. If you want to make extensive changes, it might be better to copy
@@ -41,28 +41,28 @@ environment, but for now, you can do the following to just get started.
 The following features are particularly relevant:
 
 Collaborative Editing
-: [CoCalc] is one of the only platform I know of at the time that allows simultaneous editing
-  of [Jupyter] notebooks.  This means that the instructors can directly connect to
+: [CoCalc][] is one of the only platform I know of at the time that allows simultaneous editing
+  of [Jupyter][] notebooks.  This means that the instructors can directly connect to
   student's projects, seeing the exact same code, and interactively debugging it.  This
   is done with a custom implementation of the notebook server, with the downside that
-  not all features of [Jupyter] notebooks are supported yet.  If you need to, you can
+  not all features of [Jupyter][] notebooks are supported yet.  If you need to, you can
   launch a [Plain Jupyter Server and JupyterLab
   Server](https://doc.cocalc.com/jupyter.html#alternatives-plain-jupyter-server-and-jupyterlab-server)
   to regain all functionality (but will lose the collaborative editing ability while you
   do so).
 
 [Extensive Software Preinstalled](https://cocalc.com/doc/software.htm)
-: [CoCalc] comes with a large amount of [useful
+: [CoCalc][] comes with a large amount of [useful
   software](https://cocalc.com/doc/software.html), including a rather complete
   `Anaconda` environment.  This allows you to immediately start working.  Simply create
-  a new [Jupyter] notebook, choose the `Anaconda2021` kernel, and start coding with the
+  a new [Jupyter][] notebook, choose the `Anaconda2021` kernel, and start coding with the
   full SciPy software stack at your disposal. (Once you get things working, I
   **strongly** advocate migrating your code to a well tested repository like the one
   described here, but don't let this stop you from exploring.)
   
-[VS Code] Editor:
-: [CoCalc] now supports editing files in your browser with [VS Code].  While I
-  personally use [Emacs], [VS Code] seems to be a very good tool for beginners.  I
+[VS Code][] Editor:
+: [CoCalc][] now supports editing files in your browser with [VS Code][].  While I
+  personally use [Emacs][], [VS Code][] seems to be a very good tool for beginners.  I
   strongly recommend that you learn a good editor with powerful search and replace
   features, syntax highlighting and language support: it will ultimately save you lots
   of time.  *(Note: this is a fairly
@@ -72,20 +72,20 @@ Collaborative Editing
 I find a couple of other features important:
 
 [Open Source](https://github.com/sagemathinc/cocalc)
-: [CoCalc] itself is [open source](https://github.com/sagemathinc/cocalc) and can be
+: [CoCalc][] itself is [open source](https://github.com/sagemathinc/cocalc) and can be
   installed from a [Docker image](https://doc.cocalc.com/docker-image.html).  This means
-  that you can run [CoCalc] on your own hardware, with complete control of your data,
+  that you can run [CoCalc][] on your own hardware, with complete control of your data,
   even if they go out of business.  The make their profits by selling their service.  I
   completely support this type of business model which puts you in control of your data.
 
 [Time Travel](https://doc.cocalc.com/time-travel.html)
-: [CoCalc] implements an amazing backup system they call [Time
+: [CoCalc][] implements an amazing backup system they call [Time
   Travel](https://cocalc.com/doc/software.htm) that allows you to roll back almost any
   file minutes, hours, days, weeks, or more.  I am blown away by how well this feature
   is implemented: it has saved me several times and along is worth the license costs.
 
 Responsive Support
-: The [CoCalc] company is small enough that they can still be responsive to feature and
+: The [CoCalc][] company is small enough that they can still be responsive to feature and
   support requests.  When I have issues, the often make changes within an hour, and
   virtually never take more than a day.  This is in stark contrast to large companies
   where you submit a request to their community forums only to have it ignore for
@@ -104,10 +104,10 @@ For a more completed exploration, look at the [list of features](https://cocalc.
 
 ## Setup for Software Development
 
-While one of the main benefits of [CoCalc] is that you can just fire it up and get to
+While one of the main benefits of [CoCalc][] is that you can just fire it up and get to
 work, for the purposes of this course, establishing a reproducible computing environment
-is important.  After exploring several tools, I have landed on [`anaconda-project`]
-which allows you to manage a [Conda] environment in a somewhat reasonable way.
+is important.  After exploring several tools, I have landed on [`anaconda-project`][]
+which allows you to manage a [Conda][] environment in a somewhat reasonable way.
 
 Using this effectively on `CoCalc` is a bit challenging out of the box because the
 default `anaconda2021` environment they have setup has a `/ext/anaconda2021.11/.condarc`
@@ -134,7 +134,7 @@ echo "export COCALC_MINICONDA=~/.miniconda" >> ~/.bashrc
 ```
 
 These are complete instructions for students to get started working with this project
-for use in the course and include managing a [GitLab] repository, with automated testing
+for use in the course and include managing a [GitLab][] repository, with automated testing
 etc.
 
 ## Instructions
@@ -142,21 +142,21 @@ etc.
 Here are the general instructions.  Some steps may require additional information if you
 are not familiar with the associated concepts (i.e. setting up SSH keys).
 
-1. *(Optional)* Create an account and project on [CoCalc].  If you are taking the
+1. *(Optional)* Create an account and project on [CoCalc][].  If you are taking the
    course, then you should use the project you are invited to join as part of the
-   course.  The instructions will generally assume you are working in the [CoCalc]
+   course.  The instructions will generally assume you are working in the [CoCalc][]
    project, but things will probably work out-of-the-box on Linux machines or Mac OS
    X. (No guarantees with Windows or other platforms.)  If you encounter any problems,
-   please [file an issue].
+   please [file an issue][].
    
-   If you plan to use [CoCalc], then either complete the remaining steps using an [Online
+   If you plan to use [CoCalc][], then either complete the remaining steps using an [Online
    Linux Terminal](https://cocalc.com/doc/terminal.html) in your project, or by
    [connecting to CoCalc with
    SSH](https://doc.cocalc.com/project-settings.html#ssh-keys).
    
    If you are running this on another platform, you must make sure that you have a
-   [Conda] environment setup with `anaconda-project >= 0.8.4`.  You can do this easily
-   by installing [Miniconda], then either updating the `base` environment:
+   [Conda][] environment setup with `anaconda-project >= 0.8.4`.  You can do this easily
+   by installing [Miniconda][], then either updating the `base` environment:
    
    ```console
    (base) $ conda install anaconda-project
@@ -179,15 +179,15 @@ are not familiar with the associated concepts (i.e. setting up SSH keys).
    cd phys-521-classical-mechanics
    ```
    
-   *Note: I actually prefer to use [Mercurial] and usually use the [hg-git] plugin, but
-   don't recommend this unless you are very familiar with [Mercurial].*
+   *Note: I actually prefer to use [Mercurial][] and usually use the [hg-git][] plugin, but
+   don't recommend this unless you are very familiar with [Mercurial][].*
    
    ```bash
    hg clone https://gitlab.com/wsu-courses/physics-521-classical-mechanics.git phys-521-classical-mechanics
    cd phys-521-classical-mechanics
    ```
    
-3. Use [`anaconda-project`] to provision the environment, setup the kernel, clone the
+3. Use [`anaconda-project`][] to provision the environment, setup the kernel, clone the
    resources, etc.  This can all be done with:
 
    ```bash
@@ -196,7 +196,7 @@ are not familiar with the associated concepts (i.e. setting up SSH keys).
    
    Which will do the following:
    
-   1. Clone the [GitLab private resources repo] into `_ext/Resources`.  Note: this is
+   1. Clone the [GitLab private resources repo][] into `_ext/Resources`.  Note: this is
       private and requires that your instructor grant you access.
    2. Run `anaconda-project prepare` which uses `conda` or `mamba` to create an
       environment in `envs/phys-521` as specified in the `anaconda-project.yaml`
@@ -204,18 +204,18 @@ are not familiar with the associated concepts (i.e. setting up SSH keys).
       disk space.  You can clean up some space after by running `make clean`.)*
    3. Installs this environment as an [IPython
       kernel](https://ipython.readthedocs.io/en/stable/install/kernel_install.html)
-      called `phys-521` for use with [Jupyter].  This is done by running
+      called `phys-521` for use with [Jupyter][].  This is done by running
       `anaconda-project run init` which runs [`ipykernel
       install`](https://ipython.readthedocs.io/en/stable/install/kernel_install.html):
       see the `init` target in `anaconda-project.yaml` for details.
-   4. If you are on [CoCalc] *(technically, if `ANACONDA2020` is defined)*, then `make
+   4. If you are on [CoCalc][] *(technically, if `ANACONDA2020` is defined)*, then `make
       init` will also install the `mmf-setup` package, update some files, create a
       `~/.bash_aliases` file, and insert a line to activate the environment when logging
-      in.  This also then runs `make sync` which uses [Jupytext] to populate the
-      notebooks so you can use them with [CoCalc].
+      in.  This also then runs `make sync` which uses [Jupytext][] to populate the
+      notebooks so you can use them with [CoCalc][].
 
 4. *(Optional)* After installing, you might like to clean up the downloaded files.  This
-   is especially important on [CoCalc] where disk space is at a premium:
+   is especially important on [CoCalc][] where disk space is at a premium:
    
    ```console
    conda clean --all -y
@@ -226,7 +226,7 @@ At this point you can start using the project, viewing the notebooks, running an
 editing code, etc.  If you need additional packages, you should add them with
 `anaconda-project`.  I recommend the following strategy. See if the package is available
 from the default conda repos, and install from there if it is available.  If it is only
-available from [`conda-forge`] then explicitly install it from there, otherwise use `pip`:
+available from [`conda-forge`][] then explicitly install it from there, otherwise use `pip`:
    
 ```bash
 conda search --override-channels -c defaults sphinx
@@ -246,9 +246,9 @@ There are a few more things you should do if you are registered in the course:
    them [to your CoCalc account](https://doc.cocalc.com/account/ssh.html) and [to your
    GitLab account](https://docs.gitlab.com/ee/ssh/).
    your project with SSH, forwarding your SSH agent.
-4. Create a [GitLab] account and send the username to your instructor so that they can
-   give you access to the [GitLab private resources repo].
-5. Create a [GitLab] repository for this course, and add this as a remote so that you
+4. Create a [GitLab][] account and send the username to your instructor so that they can
+   give you access to the [GitLab private resources repo][].
+5. Create a [GitLab][] repository for this course, and add this as a remote so that you
    can push your work to it.  *You may make this project public or private as you prefer,
    but note that private projects may have more limited access to CI resources.  See
    [GitLab pricing](https://about.gitlab.com/pricing/) for details.*
@@ -256,28 +256,28 @@ There are a few more things you should do if you are registered in the course:
 
 ## CoCalc Setup
 
-There are a few more things that one should do if using the [CoCalc] platform.
+There are a few more things that one should do if using the [CoCalc][] platform.
 
 ### License
 
 [Purchase a license](https://cocalc.com/settings/licenses).  A license is required to
-access the internet from projects, for example, to clone from [GitLab].  Students will
+access the internet from projects, for example, to clone from [GitLab][].  Students will
 be prompted for a term license from the course, but may use their own license.
 
 ### SSH Keys
 
-SSH keys are needed for two tasks: connecting to [GitLab] or other external servers
-**from** [CoCalc] to pull or push changes, and *(optional)* to directly connect **to**
-[CoCalc] from your computer without relying on the browser interface.
+SSH keys are needed for two tasks: connecting to [GitLab][] or other external servers
+**from** [CoCalc][] to pull or push changes, and *(optional)* to directly connect **to**
+[CoCalc][] from your computer without relying on the browser interface.
 
-To connect **from** [CoCalc], you need:
+To connect **from** [CoCalc][], you need:
 
-1. to be authenticated to a key on [CoCalc], and
-2. to share the associated **public key** with the external resource (e.g. [GitLab]).
+1. to be authenticated to a key on [CoCalc][], and
+2. to share the associated **public key** with the external resource (e.g. [GitLab][]).
 
-If you want to work with the web interface, then you need to generate a key on [CoCalc],
-and then share the public key to [GitLab] etc.  Do this in a new `Linux terminal` (use
-the New button on the top-left of the [CoCalc] interface):
+If you want to work with the web interface, then you need to generate a key on [CoCalc][],
+and then share the public key to [GitLab][] etc.  Do this in a new `Linux terminal` (use
+the New button on the top-left of the [CoCalc][] interface):
 
 ```bash
 # This will generated a private key in ~/.ssh/id_ed25519 and a
@@ -290,7 +290,7 @@ ssh-keygen -t ed25519   # or -t rsa or -t dsa
 cat ~/.id_ed25519.pub
 ```
 
-When you want to use this key, i.e. to clone or push to a private [GitLab] repo, you
+When you want to use this key, i.e. to clone or push to a private [GitLab][] repo, you
 will need to first authenticate.  This often happens automatically, but requires you
 enter your password multiple times.  To avoid this, you can start a terminal (`bash`) with
 [`ssh-agent`](https://en.wikipedia.org/wiki/Ssh-agent) and add then `ssh-add` the key.
@@ -310,8 +310,8 @@ etc.
 To connect **to** [CoCalc] from your computer with SSH, you will need to create a
 similar key *on your computer*, then copy the public version to CoCalc as described in
 [connecting to CoCalc with SSH](https://doc.cocalc.com/project-settings.html#ssh-keys).
-Also copy this public key to [GitLab] etc.  If you opt to do this, you can then forward
-your authenticated credentials to [CoCalc] when you connect, and use those forwarded
+Also copy this public key to [GitLab][] etc.  If you opt to do this, you can then forward
+your authenticated credentials to [CoCalc][] when you connect, and use those forwarded
 credentials instead of running `ssh-agent` as above.  This can all be expressed in your
 `~.ssh/config` file *on your computer*.  I recommend something like the following:
 
@@ -319,7 +319,7 @@ credentials instead of running `ssh-agent` as above.  This can all be expressed 
 # ~/.ssh/config file on your computer
 ...
 Host cc_phys-521-classical-mechanics
-  User 2abf35ad55084d1b868448a66abe8417
+  User c5a0bdaee17c46a1ada478c6556d9429
 Host cc_*
   HostName ssh.cocalc.com
   ForwardAgent yes
@@ -335,7 +335,7 @@ Host *
 
 The first `Host cc_phys-521-classical-mechanics` is an [SSH
 alias](https://man.openbsd.org/ssh_config) that specifies the project-specific username.
-Find the correct value under your [CoCalc] project's
+Find the correct value under your [CoCalc][] project's
 [`Settings`](https://doc.cocalc.com/project-settings.html#ssh-keys) tab.  The second
 entry is a wildcard that applies to every host that starts with `cc_`.  The last
 one is a general setting that applies for all hosts.  Note that general settings must
@@ -356,7 +356,7 @@ Host cc_*
 ...
 ```
 
-Once this is done, I can connect directly to a terminal on [CoCalc] by:
+Once this is done, I can connect directly to a terminal on [CoCalc][] by:
 
 1. Starting the project from the web if it is not running (I don't think there is a
    workaround for this step.  If the project is not running you will get an error like
@@ -376,8 +376,8 @@ Once this is done, I can connect directly to a terminal on [CoCalc] by:
    ```
    
    The `ForwardAgent yes` config (`-A` on the command line) will forward you your key to
-   [CoCalc] which can then forward it to [GitLab] eschewing the need to enter your
-   password.  In this case you should add the public key *on your computer* to [GitLab]
+   [CoCalc][] which can then forward it to [GitLab][] eschewing the need to enter your
+   password.  In this case you should add the public key *on your computer* to [GitLab][]
    etc.
    
    *Note: on most laptops, your login manager will authenticate you to your SSH key
@@ -390,7 +390,7 @@ Once this is done, I can connect directly to a terminal on [CoCalc] by:
 ### Git Username
 
 In order to commit to your version control, you need to specify your username and email
-to [Git] or [Mercurial]. Typically this is done by adding appropriate entries in
+to [Git][] or [Mercurial][]. Typically this is done by adding appropriate entries in
 `~/.gitconfig` or `~/.hgrc`:
 
 ```bash
@@ -408,7 +408,7 @@ username = Your Full Name <your.name@example.com>
 ...
 ```
 
-However, if you collaborate on [CoCalc], then this will not work well because all of
+However, if you collaborate on [CoCalc][], then this will not work well because all of
 your collaborators will be committing as you!  Instead, we rely on the value of
 `LC_GIT_USERNAME` etc. which each user can set when using SSH to access the project.
 
@@ -430,7 +430,7 @@ interface will commit with this username/email.  (Collaborators who use SSH to f
 
 :::{Note}
 The reason for the `LC_` prefix is that SSH allows these variables to
-be sent by default -- others will be blocked and we do not have root access on [CoCalc]
+be sent by default -- others will be blocked and we do not have root access on [CoCalc][]
 to change this behavior.  We must then set the more appropriate variables
 `GIT_AUTHOR_NAME="${LC_GIT_USERNAME}"` etc. in `~/.bash_aliases`.
 
@@ -521,13 +521,17 @@ hg add local.bib _static/ _templates/
 
 
 [Official Course Repository]: <https://gitlab.com/wsu-courses/physics-521-classical-mechanics> "Official Course Repository hosted on GitLab"
-[Shared CoCalc Project]: <https://cocalc.com/2abf35ad-5508-4d1b-8684-48a66abe8417/> "Shared CoCalc Project"
+[Shared CoCalc Project]: <https://cocalc.com/c5a0bdae-e17c-46a1-ada4-78c6556d9429/> "Shared CoCalc Project"
 [WSU Courses CoCalc project]: <https://cocalc.com/projects/c31d20a3-b0af-4bf7-a951-aa93a64395f6>
 
 
 [GitHub Mirror]: <https://github.com/WSU-Physics-Courses/physics-521-classical-mechanics> "GitHub mirror"
 [GitLab public repo]: <https://gitlab.com/wsu-courses/physics-521-classical-mechanics> "GitLab public repository."
-[Gitlab private resources repo]: <> "Private resources repository."
+
+
+[GitLab private resources repo]: <https://gitlab.com/> "Private resources repository."
+
+
 [file an issue]: <https://gitlab.com/wsu-courses/physics-521-classical-mechanics/-/issues> "Issues on the GitLab project."
 <!-- global markdown links end -->
 

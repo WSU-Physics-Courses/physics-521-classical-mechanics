@@ -1,5 +1,22 @@
-Physics 521: Classical Mechanics I
-==================================
+Phys 521 - Classical Mechanics
+==============================
+[![Documentation Status](https://readthedocs.org/projects/physics-521-classical-mechanics-i/badge/?version=latest)](https://physics-521-classical-mechanics-i.readthedocs.io/en/latest/?badge=latest)
+[![gitlab pipeline status](https://gitlab.com/wsu-courses/physics-521-classical-mechanics/badges/main/pipeline.svg)](https://gitlab.com/wsu-courses/physics-521-classical-mechanics/-/commits/main)
+[![gitlab coverage report](https://gitlab.com/wsu-courses/physics-521-classical-mechanics/badges/main/coverage.svg)](https://gitlab.com/wsu-courses/physics-521-classical-mechanics/-/commits/main)
+
+This is the main project for the [WSU Physics] course
+**Phys 521: Classical Mechanics** first offered in [Fall 2023](https://schedules.wsu.edu/List/Pullman/20233/Phys/521/01).
+
+Physics has a successful track record of providing effective solutions to complex
+problems outside its specific domain. This course will focus on using efficient
+numerical techniques inspired by physics to solve challenging problems in a wide variety
+of applications.  Techniques will be chosen from physics applications, but also applied
+to problems outside of the physics domain including economics, biology, sociology, etc.
+Students will be introduced to powerful numerical toolkits based on the
+[SciPy](https://www.scipy.org/) and [NumFocus](https://numfocus.org) ecosystem. Using
+the [CoCalc](https://cocalc.com/) platform will enable rapid development and prototyping
+with an explicit path to stable, tested, and performant codes capable of supporting
+research, or industry applications.
 
 [![Documentation Status](https://readthedocs.org/projects/physics-521-classical-mechanics-i/badge/?version=latest)](https://physics-521-classical-mechanics-i.readthedocs.io/en/latest/?badge=latest)
 
@@ -210,7 +227,7 @@ hg add local.bib _static/ _templates/
 
       # ~/.ssh/config
       Host cc_phys-521-classical-mechanics
-        User 2abf35ad55084d1b868448a66abe8417
+        User c5a0bdaee17c46a1ada478c6556d9429
     
       Host cc_phys-521-classical-mechanics
         HostName ssh.cocalc.com
@@ -263,4 +280,29 @@ hg add local.bib _static/ _templates/
 [Conda]: <https://docs.conda.io/en/latest/> "Conda: Package, dependency and environment management for any language—Python, R, Ruby, Lua, Scala, Java, JavaScript, C/ C++, FORTRAN, and more."
 [`mmf-setup`]: <https://pypi.org/project/mmf-setup/>
 [Miniconda]: <https://docs.conda.io/en/latest/miniconda.html> "Miniconda is a free minimal installer for conda."
-[Anaconda Project]: <https://anaconda-project.readthedocs.io/en/latest/> "Reproducible and executable project directories"
+[MyST]: <https://myst-parser.readthedocs.io/en/latest/> "MyST - Markedly Structured Text"
+[Read the Docs]: <https://readthedocs.org> "Read the Docs homepage"
+[WSU Physics]: <https://physics.wsu.edu> "WSU Department of Physics and Astronomy"
+[WSU Mathematics]: <https://www.math.wsu.edu/> "WSU Department of Mathematics and Statistics"
+[`anaconda-project`]: <https://anaconda-project.readthedocs.io> "Anaconda Project: Tool for encapsulating, running, and reproducing data science projects."
+[`anybadge`]: <https://github.com/jongracecox/anybadge> "Python project for generating badges for your projects"
+[`conda-forge`]: <https://conda-forge.org/> "A community-led collection of recipes, build infrastructure and distributions for the conda package manager."
+[`genbadge`]: <https://smarie.github.io/python-genbadge/> "Generate badges for tools that do not provide one."
+[`mmf-setup`]: <https://pypi.org/project/mmf-setup/> "PyPI mmf-setup page"
+[`pytest`]: <https://docs.pytest.org> "pytest: helps you write better programs"
+[hg-git]: <https://hg-git.github.io> "The Hg-Git mercurial plugin"
+[GitLab test coverage visualization]: <https://docs.gitlab.com/ee/user/project/merge_requests/test_coverage_visualization.html>
+
+
+
+[Official Course Repository]: <https://gitlab.com/wsu-courses/physics-521-classical-mechanics> "Official Course Repository hosted on GitLab"
+[Shared CoCalc Project]: <https://cocalc.com/c5a0bdae-e17c-46a1-ada4-78c6556d9429/> "Shared CoCalc Project"
+[WSU Courses CoCalc project]: <https://cocalc.com/projects/c31d20a3-b0af-4bf7-a951-aa93a64395f6>
+
+
+[GitHub Mirror]: <https://github.com/WSU-Physics-Courses/physics-521-classical-mechanics> "GitHub mirror"
+[GitLab public repo]: <https://gitlab.com/wsu-courses/physics-521-classical-mechanics> "GitLab public repository."
+[Gitlab private resources repo]: <> "Private resources repository."
+[file an issue]: <https://gitlab.com/wsu-courses/physics-521-classical-mechanics/-/issues> "Issues on the GitLab project."
+
+<!-- End Links -->

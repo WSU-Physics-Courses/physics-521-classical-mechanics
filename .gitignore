@@ -4,6 +4,8 @@ syntax:glob
 .venv/
 .coverage
 .pytest_cache/
+.nox/
+.pdm.toml
 _data/
 _ext/
 _trash/
@@ -17,8 +19,10 @@ Docs/Assignments/media/
 Docs/Solutions/media/
 
 __pycache__
+__pypackages__
 envs/
 .ipynb_checkpoints/
 *.ipynb
 *.sage-jupyter2
 *.term
+*.orig

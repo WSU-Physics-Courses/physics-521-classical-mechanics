@@ -28,15 +28,63 @@ myst:
 (sec:sylabus)=
 # Syllabus
 
+<<<<<<< variant A
+>>>>>>> variant B
+::::{margin}
+:::{warning}
+Customize this section for your course!
+:::
+::::
+::::{admonition} Instructor Notes
+This syllabus contains sample content from the WSU course **Physics 455/555: Quantum
+Technologies and Computation** as offered Fall 2022.  These sections need to be replaced
+with appropriate material for your course.  Material that needs to be customized
+has a "Customize" margin note.  In the code look for: 
+
+    ::::{margin}
+    :::{warning}
+    Customize this section for your course!
+    :::
+    ::::
+
+Once the material is suitably customize, just remove the margin note.
+::::
+
+::::{margin}
+:::{warning}
+Customize this section for your course!  Most of this should come from the cookiecutter
+template `.cookiecutter.yaml`, but it might need some attention.
+
+:::
+::::
+####### Ancestor
+::::{admonition} Instructor Notes
+This syllabus contains sample content from the WSU course **Physics 455/555: Quantum
+Technologies and Computation** as offered Fall 2022.  These sections need to be replaced
+with appropriate material for your course.  Material that needs to be customized
+appears in a "Customize" admonition: 
+
+    :::{admonition} Customize for Course
+    Example of material that instructors need to replace.
+    :::
+
+:::{admonition} Customize for Course
+Example of material that instructors need to replace.
+:::
+
+Once the material is suitably customize, just remove the admonition.
+::::
+
+======= end
 ## Course Information
 
 - **Instructor(s):** Michael McNeil Forbes [`m.forbes+521@wsu.edu`](mailto:m.forbes+521@wsu.edu)
-- **Course Assistants:** TBA
+- **Course Assistants:** 
 - **Office:** Webster 947F
 - **Office Hours:** TBD
-- **Course Homepage:** https://schedules.wsu.edu/List/Pullman/20223/Phys/521/01
+- **Course Homepage:** https://schedules.wsu.edu/List/Pullman/20233/Phys/521/01
 - **Class Number:** 521
-- **Title:** Phys 521: Classical Mechanics I
+- **Title:** Phys 521: Classical Mechanics
 - **Credits:** 3
 - **Recommended Preparation**: Undergraduate mechanics and calculus including calculus of
   variations, Newton's laws, Kepler's laws, conservation of momentum, energy,
@@ -129,6 +177,11 @@ Computation Platform: {{ SMC }}
 : This will be used for assignment distribution and for numerical work.
 
 
+::::{margin}
+:::{warning}
+Customize this section for your course!
+:::
+::::
 ### Student Learning Outcomes
 
 The main objective of this course is to enable students to explain physical
@@ -509,7 +562,7 @@ If you or someone you know is in immediate danger, DIAL 911 FIRST!
 [Anki]: <https://apps.ankiweb.net/> "Powerful, intelligent flash cards."
 
 [Official Course Repository]: <https://gitlab.com/wsu-courses/physics-521-classical-mechanics> "Official Course Repository hosted on GitLab"
-[Shared CoCalc Project]: <https://cocalc.com/2abf35ad-5508-4d1b-8684-48a66abe8417/> "Shared CoCalc Project"
+[Shared CoCalc Project]: <https://cocalc.com/c5a0bdae-e17c-46a1-ada4-78c6556d9429/> "Shared CoCalc Project"
 [WSU Courses CoCalc project]: <https://cocalc.com/projects/c31d20a3-b0af-4bf7-a951-aa93a64395f6>
 [Perusall]: <https://app.perusall.com/courses/2022-fall-physics-521-pullm-1-01-01832-classical-mechanics-i>
 [Canvas]: <https://wsu.instructure.com/courses/1567877/>

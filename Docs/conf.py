@@ -29,7 +29,7 @@ on_cocalc = "ANACONDA2020" in os.environ
 # -- Project information -----------------------------------------------------
 
 project = "Phys 521 - Classical Mechanics"
-copyright = "2022, Michael McNeil Forbes"
+copyright = "2023, Michael McNeil Forbes"
 author = "Michael McNeil Forbes"
 
 # The full version, including alpha/beta/rc tags
@@ -60,7 +60,10 @@ extensions = [
     # "jupyter_book",
     # "sphinx_thebe",
     # "sphinx_external_toc",
-    # "sphinx_comments",  # Hypothes.is comments and annotations
+# 
+    "sphinx_jupyterbook_latex",
+# 
+    "sphinx_comments",  # Hypothes.is comments and annotations
     "sphinx_design",
     "sphinx_togglebutton",
     # "recommonmark",
@@ -229,6 +232,52 @@ class SolutionAdmonition(BaseAdmonition):
 
 ######################################################################
 
+######################################################################
+# Custom Admonitions
+# https://docutils.sourceforge.io/docs/howto/rst-directives.html
+
+from docutils import nodes
+from docutils.parsers.rst import Directive, directives
+from docutils.parsers.rst.directives.admonitions import BaseAdmonition, Admonition
+from docutils.parsers.rst.roles import set_classes
+from sphinx_togglebutton import Toggle
+
+
+class SolutionAdmonition(BaseAdmonition):
+
+    required_arguments = 0
+    optional_arguments = 1
+    # final_argument_whitespace = True
+    # has_content = True
+    node_class = nodes.admonition
+    # name = "Solution"
+    option_spec = dict(BaseAdmonition.option_spec, show=directives.flag)
+    show_all = False  #  If True, always show.  Useful for writing
+
+    def run(self):
+        set_classes(self.options)
+        self.assert_has_content()
+        text = "\n".join(self.content)
+        admonition_node = self.node_class(text, **self.options)
+        self.add_name(admonition_node)
+        title_text = "Solution"
+        if self.arguments:
+            title_text = self.arguments[0]
+        textnodes, messages = self.state.inline_text(title_text, self.lineno)
+        title = nodes.title(title_text, "", *textnodes)
+        title.source, title.line = self.state_machine.get_source_and_line(self.lineno)
+        admonition_node += title
+        admonition_node += messages
+        if not "classes" in self.options:
+            admonition_node["classes"].extend(
+                ["admonition-" + nodes.make_id(title_text), "dropdown"]
+            )
+        if "show" in self.options or self.show_all:
+            admonition_node["classes"].append("toggle-shown")
+
+        self.state.nested_parse(self.content, self.content_offset, admonition_node)
+        return [admonition_node]
+
 math_defs_filename = "_static/math_defs.tex"
 
 html_context = {
@@ -245,7 +294,11 @@ mathjax3_config = {
 
 
 def config_inited_handler(app, config):
-    """Insert contents of `math_defs_filename` into html_context['mathjax_defines']"""
+    """Insert contents of `math_defs_filename` into html_context['mathjax_defines'].
+
+    Note: this requires a customized `_template/layout.html` which inserts this content
+    onto each page.
+    """
     global math_defs_filename
     filename = os.path.join(
         "" if os.path.isabs(math_defs_filename) else app.confdir, math_defs_filename
@@ -287,7 +340,7 @@ def my_init(app):
         )
     else:
         print("Not On RTD!")
-        subprocess.check_call(["anaconda-project", "run", "init"])
+        subprocess.check_call(["make", "init"])
 
     mathjax_offline = False
     # mathjax_offline = True
@@ -334,6 +387,6 @@ def setup(app):
     app.add_config_value("on_rtd", on_rtd, "env")
     app.add_config_value("on_cocalc", on_cocalc, "env")
     my_init(app)
-
-    # app.add_directive("solution", SolutionAdmonition)
+     # app.add_directive("solution", SolutionAdmonition)
     app.add_directive("solution", Toggle)
+    

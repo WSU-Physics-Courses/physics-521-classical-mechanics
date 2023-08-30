@@ -1,28 +1,30 @@
 default_context:
+  use_course: "yes"
+  use_docs: "yes"
+  use_cocalc: "yes"
   institution: "Washington State University (WSU)"
   department: "Physics"
   campus: "Pullman"
   campus_state: "WA"
   course_number: "521"
   course_section: "01"
-  year: "2022"
+  title: "Classical Mechanics"
+  year: "2023"
   term: "Fall"
   class_time: "MWF, 11:10am - 12:00pm"
   class_room: "[Webster 941](https://sah-archipedia.org/buildings/WA-01-075-0008-13)"
-  wsu_class_number: "01832"     # Listed next to course on https://schedules.wsu.edu/
-  zoom_number: "505 115 089"
-  canvas_url: "https://wsu.instructure.com/courses/1567877"
-  perusall_url: "https://app.perusall.com/courses/2022-fall-physics-521-pullm-1-01-01832-classical-mechanics-i/"
+  wsu_class_number: "03206"     # Listed next to course on https://schedules.wsu.edu/
+  zoom_number: "941 0594 8181"
+  canvas_url: "https://wsu.instructure.com/courses/1658144"
+  perusall_url: "https://app.perusall.com/courses/2023-fall-physics-521-pullm-1-01-03206-classical-mechanics-i/"
   author: "Michael McNeil Forbes"
   author_email: "m.forbes+{{cookiecutter.course_number}}@wsu.edu"
   office: "Webster 947F"
   phone: "(509) 720-8095"
   office_hours: "TBD"
-  personnel:
-    instructors: ['Michael McNeil Forbes [`m.forbes+{{cookiecutter.course_number}}@wsu.edu`](mailto:m.forbes+{{cookiecutter.course_number}}@wsu.edu)']
-    assistants: ["TBA"]
-  title: "Classical Mechanics I"
-  short_title: "Classical Mechanics"
+#  personnel:
+#    instructors: ['Michael McNeil Forbes [`m.forbes+{{cookiecutter.course_number}}@wsu.edu`](mailto:m.forbes+{{cookiecutter.course_number}}@wsu.edu)']
+#    assistants: ["TBA"]
   gitlab_url: "https://gitlab.com/wsu-courses/physics-521-classical-mechanics"
   github_url: "https://github.com/WSU-Physics-Courses/physics-521-classical-mechanics"
 
@@ -35,4 +37,12 @@ default_context:
   cocalc_course_project: "c31d20a3-b0af-4bf7-a951-aa93a64395f6"
 
   # This is the Shared Project which changes for each class.
-  cocalc_project: "2abf35ad-5508-4d1b-8684-48a66abe8417"
+  cocalc_project: "c5a0bdae-e17c-46a1-ada4-78c6556d9429"
+
+  # The remaining configuration options deal with provisioning of the environment etc.
+  use_conda: "micromamba"
+  use_pyproject: "no"
+  use_manin: "yes"
+  make_tools: "yes"
+  
+  
