@@ -674,10 +674,12 @@ into their components.  Their key property is that they are [idempotent]:
 
 I.e. once you project a vector into a subspace, projecting it again does not change anything.
 
-For example, suppose\begin{gather*}
+For example, suppose
+\begin{gather*}
   \newcommand{\proj}[2][]{\mat{P}^{#1}_{\ket{#2}}}
   \ket{\psi} = \ket{a}a + \ket{b}b
-\end{gather*}where $\ket{a}$ and $\ket{b}$ are linearly independent unit vectors.  Projection
+\end{gather*}
+where $\ket{a}$ and $\ket{b}$ are linearly independent unit vectors.  Projection
 matrices $\proj{a}$ and $\proj{b}$ that act as
 
 \begin{gather*}

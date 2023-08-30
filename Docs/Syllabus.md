@@ -28,54 +28,6 @@ myst:
 (sec:sylabus)=
 # Syllabus
 
-<<<<<<< variant A
->>>>>>> variant B
-::::{margin}
-:::{warning}
-Customize this section for your course!
-:::
-::::
-::::{admonition} Instructor Notes
-This syllabus contains sample content from the WSU course **Physics 455/555: Quantum
-Technologies and Computation** as offered Fall 2022.  These sections need to be replaced
-with appropriate material for your course.  Material that needs to be customized
-has a "Customize" margin note.  In the code look for: 
-
-    ::::{margin}
-    :::{warning}
-    Customize this section for your course!
-    :::
-    ::::
-
-Once the material is suitably customize, just remove the margin note.
-::::
-
-::::{margin}
-:::{warning}
-Customize this section for your course!  Most of this should come from the cookiecutter
-template `.cookiecutter.yaml`, but it might need some attention.
-
-:::
-::::
-####### Ancestor
-::::{admonition} Instructor Notes
-This syllabus contains sample content from the WSU course **Physics 455/555: Quantum
-Technologies and Computation** as offered Fall 2022.  These sections need to be replaced
-with appropriate material for your course.  Material that needs to be customized
-appears in a "Customize" admonition: 
-
-    :::{admonition} Customize for Course
-    Example of material that instructors need to replace.
-    :::
-
-:::{admonition} Customize for Course
-Example of material that instructors need to replace.
-:::
-
-Once the material is suitably customize, just remove the admonition.
-::::
-
-======= end
 ## Course Information
 
 - **Instructor(s):** Michael McNeil Forbes [`m.forbes+521@wsu.edu`](mailto:m.forbes+521@wsu.edu)
@@ -152,15 +104,18 @@ Additional required readings will be made on [Perusall] with a forum for discuss
   the authors use functional notation and the Scheme programming language.  For example,
   the usual Euler Lagrange equations
 
-  $$
-    \providecommand{\diff}[2]{\frac{\mathrm{d}{#1}}{\mathrm{d}{#2}}} \providecommand{\pdiff}[2]{\frac{\partial{#1}}{\partial{#2}}} \diff{}{t} \pdiff{L}{\dot{q}^i} - \pdiff{L}{q^i}
-  $$
+  \begin{gather*}
+    %\newcommand{\diff}[2]{\frac{\mathrm{d}{#1}}{\mathrm{d}{#2}}}
+    %\newcommand{\pdiff}[2]{\frac{\partial{#1}}{\partial{#2}}}
+    \diff{}{t} \pdiff{L}{\dot{q}^i} - \pdiff{L}{q^i}
+  \end{gather*}
 
   becomes
 
-  $$
+  \begin{gather*}
     D(\partial_2 L\circ \Gamma[q]) - \partial_1L \circ \Gamma[q] = 0 \\ \Gamma[q] = (t, q(t), Dq(t), \dots).
-  $$
+  \end{gather*}
+
 
   The ability to be able to recognize and understand results in a slightly different
   "language" can be extremely valuable for checking one's understanding and cementing
@@ -177,11 +132,6 @@ Computation Platform: {{ SMC }}
 : This will be used for assignment distribution and for numerical work.
 
 
-::::{margin}
-:::{warning}
-Customize this section for your course!
-:::
-::::
 ### Student Learning Outcomes
 
 The main objective of this course is to enable students to explain physical
@@ -452,7 +402,12 @@ throughout. Details and further resources will be included on the lecture pages 
     These topics will be introduced as we progress through the course,
     inserted into the appropriate locations.
 
-11. Special topics and review.
+11. Canonical Perturbation Theory (~2 weeks)
+
+    These topics will be introduced as we progress through the course,
+    inserted into the appropriate locations.
+
+12. Special topics and review.
 
     - How these topics will be covered depends on interest.  One option
       is to discuss superfluidity with some numerical examples
@@ -464,6 +419,24 @@ throughout. Details and further resources will be included on the lecture pages 
     - Special Relativity
 
 ## Other Information
+
+### Policy for the Use of Large Language Models (LLMs) or Generative AI in Physics Courses
+
+The use of LLMs or Generative AI such as Chat-GPT is becoming prevalent, both in education and in industry.  As such, we believe that it is important for students to recognize the capabilities and inherent limitations of these tools, and use them appropriately.
+
+To this end, **please submit 4 examples of your own devising:**
+* Two of which demonstrate the phenomena of "hallucination" -- Attempt to use the tool to learn something you know to be true, and catch it making plausible sounding falsehoods.
+* Two of which demonstrate something useful (often the end of a process of debugging and correcting the AI).
+
+Note: one can find plenty of examples online of both cases.  Use these to better understand the capabilities and limitations of the AIs, but for your submission, please find your own example using things you know to be true. *If you are in multiple courses, you may submit the same four examples for each class, but are encouraged to tailor your examples to the course.*
+
+Being able to independently establish the veracity of information returned by a search, an AI, or indeed any publication, is a critical skill for a scientist.  **If you are the type of employee who can use tools like ChatGPT to write prose, code etc., but not accurately validate the results, then you are exactly the type of employee that AI will be able to replace.** 
+
+Any use of Generative AI or similar tools for submitted work must include:
+1. **A complete description of the tool.** (E.g. *"ChatGPT Version 3.5 via CoCalc's interface"* or *Chat-GPT 4 through Bing AI using the Edge browser"*, etc.)
+2. **A complete record of the queries issued and response provided.**  (This should be provided as an attachment, appendices, or supplement.)
+3. **An attribution statement consistent with the following:**
+   *“The author generated this <text/code/etc.> in part with <GPT-3, OpenAI’s large-scale language-generation model/etc.> as documented in appendix <1>. Upon generating the draft response, the author reviewed, edited, and revised the response to their own liking and takes ultimate responsibility for the content.”*
 
 ### COVID-19 Statement
 Per the proclamation of Governor Inslee on August 18, 2021, **masks that cover both the
