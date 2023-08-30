@@ -44,8 +44,8 @@ build:
 python:
    version: "3.9"
 
+
 # Use conda
-# https://docs.readthedocs.io/en/stable/faq.html#can-i-use-anaconda-project-and-anaconda-project-yml
 conda:
-  environment: anaconda-project.yaml
+  environment: environment.yaml  
 

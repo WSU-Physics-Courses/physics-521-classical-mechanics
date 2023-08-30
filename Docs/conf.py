@@ -179,6 +179,10 @@ napoleon_use_admonition_for_references = False
 napoleon_use_ivar = False
 napoleon_use_param = True
 napoleon_use_rtype = True
+
+######################################################################
+# Open Graph settings for the sphinxext.opengraph extension
+ogp_site_url = "https://physics-521-classical-mechanics-i.readthedocs.io/en/latest"
 ######################################################################
 # Variables with course information
 course_package = "phys_521"
@@ -230,7 +234,6 @@ class SolutionAdmonition(BaseAdmonition):
         return [admonition_node]
 
 
-######################################################################
 
 ######################################################################
 # Custom Admonitions
@@ -244,6 +247,17 @@ from sphinx_togglebutton import Toggle
 
 
 class SolutionAdmonition(BaseAdmonition):
+    """Use for a solution box that is hidden by default.
+
+    Example:
+
+    ```markdown
+    :::{solution} Find the roots of $x^2+1 = 1$
+
+    The roots are $x = \pm \I$.
+    :::
+    ```
+    """
 
     required_arguments = 0
     optional_arguments = 1
@@ -253,6 +267,7 @@ class SolutionAdmonition(BaseAdmonition):
     # name = "Solution"
     option_spec = dict(BaseAdmonition.option_spec, show=directives.flag)
     show_all = False  #  If True, always show.  Useful for writing
+    title_text = "Solution"
 
     def run(self):
         set_classes(self.options)
@@ -260,7 +275,7 @@ class SolutionAdmonition(BaseAdmonition):
         text = "\n".join(self.content)
         admonition_node = self.node_class(text, **self.options)
         self.add_name(admonition_node)
-        title_text = "Solution"
+        title_text = self.title_text
         if self.arguments:
             title_text = self.arguments[0]
         textnodes, messages = self.state.inline_text(title_text, self.lineno)
@@ -269,14 +284,51 @@ class SolutionAdmonition(BaseAdmonition):
         admonition_node += title
         admonition_node += messages
         if not "classes" in self.options:
-            admonition_node["classes"].extend(
-                ["admonition-" + nodes.make_id(title_text), "dropdown"]
-            )
-        if "show" in self.options or self.show_all:
-            admonition_node["classes"].append("toggle-shown")
+            classes = ["admonition-" + nodes.make_id(title_text), "dropdown"]
+            classes = self._get_classes(node=admonition_node, classes=classes)
+            admonition_node["classes"].extend(classes)
 
         self.state.nested_parse(self.content, self.content_offset, admonition_node)
         return [admonition_node]
+
+    def _get_classes(self, node, classes):
+        """Return a list of custom CSS classes if not specified."""
+        if "show" in self.options or self.show_all:
+            classes.append("toggle-shown")
+        return classes
+
+
+class DoItAdmonition(SolutionAdmonition):
+    """Use for a Do It admonition that is shown by default.
+
+    Example:
+
+    ```markdown
+    :::{doit} Finding roots
+
+    Find the roots of $x^2+1 = 1$.
+    :::
+    ```
+    """
+
+    # name = "DoIt"
+    option_spec = dict(BaseAdmonition.option_spec, hide=directives.flag)
+    show_all = False  #  If True, always show.  Useful for writing
+    title_text = "Do It!"
+
+    def _get_classes(self, node, classes):
+        """Return a list of custom CSS classes if not specified."""
+        if self.show_all or not "hide" in self.options:
+            classes.append("toggle-shown")
+        return classes
+
+
+class AsideAdmonition(SolutionAdmonition):
+    """Use for an aside admonition that is hidden by default."""
+
+    # name = "Aside"
+    show_all = False  #  If True, always show.  Useful for writing
+    title_text = "Aside"
 
 math_defs_filename = "_static/math_defs.tex"
 
@@ -387,6 +439,8 @@ def setup(app):
     app.add_config_value("on_rtd", on_rtd, "env")
     app.add_config_value("on_cocalc", on_cocalc, "env")
     my_init(app)
-     # app.add_directive("solution", SolutionAdmonition)
-    app.add_directive("solution", Toggle)
+    # app.add_directive("solution", Toggle)
+    app.add_directive("solution", SolutionAdmonition)
+    app.add_directive("doit", DoItAdmonition)
+    app.add_directive("aside", AsideAdmonition)
     

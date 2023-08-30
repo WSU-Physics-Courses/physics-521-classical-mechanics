@@ -541,7 +541,7 @@ leave, so the total probability of measuring one of the outcomes may be less tha
 
 ### Positive Operator
 
-A [positive operator] (or positive semi-definite matrix) is an operator (matrix)
+A [positive operator][] (or positive semi-definite matrix) is an operator (matrix)
 $\mat{A}$ for which
 
 \begin{gather*}
@@ -665,8 +665,8 @@ matrix $\mat{U}$.
 (sec:Projections)=
 ### Projection Matrices
 
-[Projection] matrices also play an important role, providing a way of decomposing vectors
-into their components.  Their key property is that they are [idempotent]:
+[Projection][] matrices also play an important role, providing a way of decomposing vectors
+into their components.  Their key property is that they are [idempotent][]:
 
 \begin{gather*}
   \mat{P}^2 = \mat{P}.
@@ -675,10 +675,14 @@ into their components.  Their key property is that they are [idempotent]:
 I.e. once you project a vector into a subspace, projecting it again does not change anything.
 
 For example, suppose
+
+
 \begin{gather*}
   \newcommand{\proj}[2][]{\mat{P}^{#1}_{\ket{#2}}}
   \ket{\psi} = \ket{a}a + \ket{b}b
 \end{gather*}
+
+
 where $\ket{a}$ and $\ket{b}$ are linearly independent unit vectors.  Projection
 matrices $\proj{a}$ and $\proj{b}$ that act as
 
@@ -1265,7 +1269,7 @@ $\{\ket{b_j}\}$ for $\mathcal{H}_b$, then the basis $\ket{ij} =
 \mathcal{H}_b$.
 
 It is useful to be able to work with the tensor product numerically.  The function
-{py:func}`numpy.kron`, named for [Kronecker product], directly implements the tensor
+{py:func}`numpy.kron`, named for [Kronecker product][], directly implements the tensor
 product, but I find it clearer to explicitly work with indices using
 {py:func}`numpy.einsum`.
 
@@ -1324,7 +1328,7 @@ display(np.einsum('ij,kl->ikjl', A, B).reshape((4,4)))
 
 ### Schmidt Decomposition
 
-The **[Schmidt decomposition]** is an important decomposition of a tensor product space
+The **[Schmidt decomposition][]** is an important decomposition of a tensor product space
 which states that for any vector $\ket{w} \in \mathcal{H}_a \otimes \mathcal{H}_b$ we
 can find a set of orthonormal bases $\{\ket{u_i}\}$ and $\{\ket{v_j}\}$ for $\mathcal{H}_a$ and
 an $\mathcal{H}_b$ respectively such that
