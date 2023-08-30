@@ -4,7 +4,7 @@ Phys 521 - Classical Mechanics
 [![gitlab pipeline status](https://gitlab.com/wsu-courses/physics-521-classical-mechanics/badges/main/pipeline.svg)](https://gitlab.com/wsu-courses/physics-521-classical-mechanics/-/commits/main)
 [![gitlab coverage report](https://gitlab.com/wsu-courses/physics-521-classical-mechanics/badges/main/coverage.svg)](https://gitlab.com/wsu-courses/physics-521-classical-mechanics/-/commits/main)
 
-This is the main project for the [WSU Physics] course
+This is the main project for the [WSU Physics][] course
 **Phys 521: Classical Mechanics** first offered in [Fall 2023](https://schedules.wsu.edu/List/Pullman/20233/Phys/521/01).
 
 Physics has a successful track record of providing effective solutions to complex
@@ -20,13 +20,13 @@ research, or industry applications.
 
 ## TL;DR
 
-Clone this repository somewhere with [Anaconda Project] and [Conda] installed, then run
+Clone this repository somewhere with [Anaconda Project][] and [Conda][] installed, then run
 
 ```bash
 make init
 ```
 
-This will generate a [Conda] environment you can use to work with the project.  Once
+This will generate a [Conda][] environment you can use to work with the project.  Once
 this is done you can make the documentation, tests, etc. with commands like:
 
 ```bash
@@ -65,13 +65,13 @@ See `Docs/index.md` for more details.
 To use this repository:
 
 1. *(Optional)* 
-   * Create accounts on [CoCalc] and [GitLab], a project on [CoCalc], and a
-   repo on [GitLab].  Send your [GitLab] account name to your instructor.
+   * Create accounts on [CoCalc][] and [GitLab][], a project on [CoCalc][], and a
+   repo on [GitLab][].  Send your [GitLab][] account name to your instructor.
    * Create [Create SSH
    keys](https://doc.cocalc.com/project-settings.html#ssh-keys), and add them [to your
    CoCalc account](https://doc.cocalc.com/account/ssh.html) and [to your GitLab
    account](https://docs.gitlab.com/ee/ssh/).
-   * SSH into your [CoCalc] project for the remaining steps.
+   * SSH into your [CoCalc][] project for the remaining steps.
 2. Clone this repo and initialize it:
 
    ```bash
@@ -80,12 +80,12 @@ To use this repository:
    make init
    ```
    
-   This will create a [Conda] environment you can activate `conda activate envs/phys-521`,
+   This will create a [Conda][] environment you can activate `conda activate envs/phys-521`,
    and a Jupyter kernel called `phys-521` that you can select from notebooks.
    
 3. *(Optional)* 
-   * Add your [GitLab] repo as a remote, and push.
-   * Create a [GitHub] mirror with automatic push from your [GitLab] repo so you can
+   * Add your [GitLab][] repo as a remote, and push.
+   * Create a [GitHub][] mirror with automatic push from your [GitLab][] repo so you can
      take advantage of their CI.
 
 4. *(Optional)*
@@ -156,7 +156,7 @@ As fast as possible
 Another objective of the course is to provide students with good software carpentry
 skills.  This includes using version control, documenting code, testing, code-coverage,
 and continuous integration (CI).  In particular, students are expected to fork this
-repository and maintain their own [GitLab] repository with fully tested code.
+repository and maintain their own [GitLab][] repository with fully tested code.
 Assignments will be distributed in the form of tests which the students must provide
 functions which pass these tests.
 
@@ -173,7 +173,7 @@ objectives.  With continuous integration techniques, these tests can be run when
 code is committed, helping maintain functioning, well-tested code.
 
 This repository provides a skeleton satisfying these requirements, and demonstrating how
-to write proper tests, use [GitLab]s continuous integration, and to generate
+to write proper tests, use [GitLab][]s continuous integration, and to generate
 documentation for Python.  *(Students wishing to use other languages will need to learn
 how to use similar tools on their own.)*
 
@@ -192,15 +192,15 @@ Justification
 
 ### GitLab Fork
 
-1. Create an account on [GitLab].
-2. Fork the [Official Course Repository] (I suggest making this private since your grade
+1. Create an account on [GitLab][].
+2. Fork the [Official Course Repository][] (I suggest making this private since your grade
    is associated with the tests, but you are welcome to make it public whenever you are
    comfortable.)
 3. Add your instructor `@mforbes` as a **Developer** for the project:
 
    * **Project Information > Members**
    
-4. Clone this to your [CoCalc] project and/or your computer.  Do your work etc. and push
+4. Clone this to your [CoCalc][] project and/or your computer.  Do your work etc. and push
    your changes.
 5. Trigger the CI pipeline if it was not triggered by your push.
 
@@ -255,18 +255,17 @@ Justification
 ### Optional: SSH Keys
 
 Typing your password every time you want to pull or push quickly gets tiring.  A better
-option is to use [SSH] to authenticate, connect, and to forward your agent so you don't
+option is to use [SSH][] to authenticate, connect, and to forward your agent so you don't
 need to re-authenticate.  The basic ideas are explained in [connecting to CoCalc with
 SSH](https://doc.cocalc.com/project-settings.html#ssh-keys).
 
 ### Optional: GitHub Mirror
 
-You can create a mirror on [GitHub] of your [GitLab] project which is updated whenever
-you commit to your `main` branch.  Maintaining a [GitHub] mirror like this allows you to
-use the [GitHub CI] tools, which differ somewhat from those on [GitLab].  In particular,
-[LGTM] integration is quite interesting.
+You can create a mirror on [GitHub][] of your [GitLab][] project which is updated whenever
+you commit to your `main` branch.  Maintaining a [GitHub][] mirror like this allows you to
+use the [GitHub CI][] tools, which differ somewhat from those on [GitLab][].
 
-3. *(Optional)* Create an account on [GitHub].
+3. *(Optional)* Create an account on [GitHub][].
 
 
 ## References
@@ -355,7 +354,7 @@ hg add local.bib _static/ _templates/
 
 
 * [Purchase a license](https://cocalc.com/settings/licenses) with 2 projects to allow
-  the course and [WSU Courses CoCalc project] and [Shared CoCalc Project] to run.  This
+  the course and [WSU Courses CoCalc project][] and [Shared CoCalc Project][] to run.  This
   approach requires the students to pay $14 for access four the term (4 months).  They
   can optionally use any license they already have instead.
    
@@ -365,15 +364,15 @@ hg add local.bib _static/ _templates/
   for more details.
   
 * Next, [create a course](https://doc.cocalc.com/teaching-create-course.html).  I do
-  this in my [WSU Courses CoCalc project]..
+  this in my [WSU Courses CoCalc project][].
 
 
 
-* Create a [Shared CoCalc Project] and activate the license for this project so that it
+* Create a [Shared CoCalc Project][] and activate the license for this project so that it
   can run.  I then add the SSH key to may `.ssh/config` files so I can quickly login.
 
 * Clone the repos into the shared project and initialize the project.  Optional, but
-  highly recommend -- use my [`mmf-setup`] project to provide some useful features
+  highly recommend -- use my [`mmf-setup`][] project to provide some useful features
 
   ```bash
   ssh smc<project name>       # My alias in .ssh/config
@@ -447,7 +446,6 @@ hg add local.bib _static/ _templates/
 [Heptapod]: <https://heptapod.net> "Heptapod: is a community driven effort to bring Mercurial SCM support to GitLab"
 [Jupyter]: <https://jupyter.org> "Jupyter"
 [Jupytext]: <https://jupytext.readthedocs.io> "Jupyter Notebooks as Markdown Documents, Julia, Python or R Scripts"
-[LGTM]: <https://lgtm.com/> "Continuous security analysis: A code analysis platform for finding zero-days and preventing critical vulnerabilities"
 [Mercurial]: <https://www.mercurial-scm.org> "Mercurial"
 [Miniconda]: <https://docs.conda.io/en/latest/miniconda.html> "Miniconda is a free minimal installer for conda."
 [MyST]: <https://myst-parser.readthedocs.io/en/latest/> "MyST - Markedly Structured Text"

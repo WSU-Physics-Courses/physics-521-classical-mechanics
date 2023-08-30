@@ -138,8 +138,6 @@ clean:
 
 
 realclean:
-	$(ANACONDA_PROJECT) run clean || true  # Custom command: see anaconda-project.yaml
-	$(ANACONDA_PROJECT) clean || true
 	$(RM) -r envs
 
 test:
