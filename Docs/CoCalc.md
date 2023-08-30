@@ -529,7 +529,7 @@ hg add local.bib _static/ _templates/
 [GitLab public repo]: <https://gitlab.com/wsu-courses/physics-521-classical-mechanics> "GitLab public repository."
 
 
-[GitLab private resources repo]: <https://gitlab.com/> "Private resources repository."
+[GitLab private resources repo]: <https://gitlab.com/wsu-courses/physics-521-classical-mechanics_resources> "Private resources repository."
 
 
 [file an issue]: <https://gitlab.com/wsu-courses/physics-521-classical-mechanics/-/issues> "Issues on the GitLab project."
