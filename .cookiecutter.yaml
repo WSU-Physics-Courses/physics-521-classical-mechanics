@@ -29,7 +29,7 @@ default_context:
   github_url: "https://github.com/WSU-Physics-Courses/physics-521-classical-mechanics"
 
   # The following should get the resources and place them in _ext/Resources
-  get_resources: "git clone git@gitlab.com:wsu-courses/physics-521-classical-mechanics_resources.git _ext/Resources"
+  resources_url: "https://gitlab.com/wsu-courses/physics-521-classical-mechanics_resources"
 
   rtd: "physics-521-classical-mechanics-i"
 
