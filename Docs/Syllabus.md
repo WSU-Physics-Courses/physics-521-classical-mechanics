@@ -256,10 +256,9 @@ The learning outcomes will be assessed as follows:
    resolve the issue, then at this point it will be productive for a group to make an
    appointment with me to discuss.
    
-   In Fall 2022, we plan to hold open iSciMath lab/office hours in Spark 235 from 4:30pm
-   to 7pm most days of the week: Monday and Wednesday for sure (after Physics 555) and
-   other days by appointment.  You may stop by these sessions to discuss any issues you
-   have.  I am also available for appointment by Zoom.
+   In Fall 2023, we plan to hold open iSciMath lab/office hours in the Band Room Friday
+   2-4:30pm.  You may stop by these sessions to discuss any issues you have.  I am also
+   available for appointment by Zoom.
    :::
   
 **Exams:**
@@ -328,7 +327,7 @@ receive that as your grade (with the exception being if it is discovered during 
 portion that your written portion is not your work).  However, our experience is that
 the oral portion generally improves ones grade.
 
-The final exam is scheduled for Thursday 15 December at 10:30am.
+The final exam is scheduled for Tuesday 12 December 2023 at 10:30am.
 
 ### Attendance and Make-up Policy 
 
@@ -537,5 +536,5 @@ If you or someone you know is in immediate danger, DIAL 911 FIRST!
 [Official Course Repository]: <https://gitlab.com/wsu-courses/physics-521-classical-mechanics> "Official Course Repository hosted on GitLab"
 [Shared CoCalc Project]: <https://cocalc.com/c5a0bdae-e17c-46a1-ada4-78c6556d9429/> "Shared CoCalc Project"
 [WSU Courses CoCalc project]: <https://cocalc.com/projects/c31d20a3-b0af-4bf7-a951-aa93a64395f6>
-[Perusall]: <https://app.perusall.com/courses/2022-fall-physics-521-pullm-1-01-01832-classical-mechanics-i>
+[Perusall]: <https://app.perusall.com/courses/2023-fall-physics-521-pullm-1-01-03206-classical-mechanics-i-471434971>
 [Canvas]: <https://wsu.instructure.com/courses/1567877/>

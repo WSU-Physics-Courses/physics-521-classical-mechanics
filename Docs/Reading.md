@@ -123,4 +123,4 @@ course:
 * [P3318: Analytical Mechanics at UCI](https://www.physics.uci.edu/~tanedo/P3318.html):
   Has some nice discussions about topics like non-holonomic constraints.
 
-[Perusall]: <https://app.perusall.com/courses/2022-fall-physics-521-pullm-1-01-01832-classical-mechanics-i>
+[Perusall]: <https://app.perusall.com/courses/2023-fall-physics-521-pullm-1-01-03206-classical-mechanics-i-471434971>
