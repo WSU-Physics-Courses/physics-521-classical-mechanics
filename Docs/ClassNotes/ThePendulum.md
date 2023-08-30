@@ -7,9 +7,9 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.14.0
 kernelspec:
-  display_name: Python 3 (phys-555)
+  display_name: Python 3 (phys-521)
   language: python
-  name: phys-555
+  name: phys-521
 ---
 
 ```{code-cell}
