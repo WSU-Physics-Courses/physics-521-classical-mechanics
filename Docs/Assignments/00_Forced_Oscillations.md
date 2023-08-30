@@ -114,7 +114,12 @@ where $F(t)$ is a driving force which we will take to be a pure cosine wave as s
 
    Feel free to use or modify the following code (also in your CoCalc assignment) to
    help, but be sure to explain what it is doing.
+
+7. **(Extension)** Add an anharmonic term and demonstrate the types of resonance curves
+   in {cite:p}`LL1:1976` Fig. 32.
    
+8. **(Extension)** Add an parametric drive and demonstrate parametric resonances and
+   Kapitza's Oscillator (stabilization of a vertical oscillator.
 ```{code-cell}
 
 %matplotlib inline
