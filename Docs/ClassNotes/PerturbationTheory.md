@@ -243,8 +243,7 @@ problem in the following form:
   \omega^2(t) = \omega_0^2(1 + h\cos\omega_p t).
 \end{gather*}
 In the code, we spell these: $\lambda=$`damping`, $\omega_0=$`w0`, $\omega_d=$`w_d`,
-  $\omega_p=$`w_p`, $\theta_0=$`theta0`, $\dot{\theta}_0=$`dtheta0`, $\omega(t)=$:
-  `w_t(t)`,  $f(t)=$`f_t(t)`.
+$\omega_p=$`w_p`, $\theta_0=$`theta0`, $\dot{\theta}_0=$`dtheta0`, $\omega(t)=$`w_t(t)`,  $f(t)=$`f_t(t)`.
   
 SciPy's {func}`scipy.integrate.solve_ivp` requires a first-order differential equation,
 so we use the method of order reduction to solve for the two-component vector $\vect{y}$:
@@ -615,6 +614,39 @@ fig, ax = plt.subplots()
 ax.pcolormesh(w0s, hs, res.T, shading='nearest')
 ax.set(xlabel=r"$\omega_0/\omega_p$", ylabel="$h$");
 ```
+
+# Harmonic Oscillator
+
+We start with the complete solution for a Harmonic Oscillator: i.e. the limit of a
+pendulum for small amplitude motion:
+\begin{gather*}
+  \ddot{\theta} + 2\lambda \dot{\theta} + \omega_0^2 \theta = 0, \qquad
+  \theta(0) = \theta_0, \qquad
+  \dot{\theta}_0 = \dot{\theta}_0.
+\end{gather*}
+This is a homogeneous second-order differential equation.  Substituting $\theta =
+ae^{\I\omega t}$, we find the characteristic polynomial
+\begin{gather*}
+  -\omega^2 + 2\lambda \I \omega + \omega_0^2 = 0, \qquad
+  \omega = \lambda \I \pm \underbrace{\sqrt{\omega_0^2 - \lambda^2}}_{\bar{\omega}},\\
+  \theta(t) = e^{-\lambda t}\Bigl(a\cos\bar{\omega} t + b \sin\bar{\omega} t\Bigr)
+\end{gather*}
+Solving for the initial conditions, we have
+\begin{gather*}
+  \theta_0 = a, \qquad
+  \dot{\theta}_0 = -\lambda a + b\omega,\\
+  a = \theta_0, \qquad
+  b = \frac{\dot{\theta}_0 + \lambda \theta_0}{\bar{\omega}},\\
+  \theta(t) = e^{-\lambda t}\Bigl(\theta_0\cos\bar{\omega} t 
+  + \frac{\dot{\theta}_0 + \lambda \theta_0}{\bar{\omega}} \sin\bar{\omega} t\Bigr)
+\end{gather*}
+
+
+
+
+
+
+
 
 # Naïve Perturbation Theory
 
@@ -1175,6 +1207,95 @@ The derivatives required for canonical perturbation theory is thus
   \cos\omega_{p}t.
 \end{gather*}
 
+## Example: Anharmonic Oscillator 1
+
+We use the same approach for the anharmonic oscillator starting with $q(0) = q_0$ and
+$\dot{q}(0) = 0$:
+\begin{gather*}
+  \ddot{q} + \omega_0^2(q + \epsilon q^3) = 0,\qquad
+  H_1(q, p, t) = \omega_0^2\frac{q^4}{4}.
+\end{gather*}
+
+### Canonical Transformation
+
+The canonical transformation is
+\begin{gather*}
+  q = \frac{(\alpha P - Q\sin\bar{\omega}t)}{\bar{\omega}},\qquad
+  p = \frac{-(\alpha Q + P\omega_0^2\sin\bar{\omega}t)}{\bar{\omega}},\\
+  \alpha = \bar{\omega}\cos\bar{\omega} t.
+\end{gather*}
+
+
+We use the same approach for the anharmonic oscillator starting with $q(0) = q_0$ and
+$\dot{q}(0) = 0$:
+\begin{gather*}
+  \ddot{q} + 2\lambda \dot{q} + \omega_0^2(q + \epsilon q^3) = 0,\qquad
+  H_1(q, p, t) = \omega_0^2\frac{q^4}{4}.
+\end{gather*}
+First we clean up the notation a bit.
+
+
+
+Thus, the perturbation and canonical series is:
+\begin{gather*}
+  H_1(Q, P, t) = 
+  \frac{\omega_0^2}{\bar{\omega}^4e^{4\lambda t}}
+  \frac{(\alpha P - Q \sin\bar{\omega}t)^4}{4},\qquad
+  X = \frac{\omega_0^2}{\bar{\omega}^4e^{4\lambda t}}
+      (\alpha P - Q \sin\bar{\omega}t)^3,\\
+  \begin{pmatrix}
+    \partial H_1/\partial P\\
+    -\partial H_1/\partial Q\\
+  \end{pmatrix}
+  =
+  X
+  \begin{pmatrix}
+    \alpha\\
+    \sin\bar{\omega}t
+  \end{pmatrix}.
+\end{gather*}
+Plugging in our zero'th order solution $P_0 = q(0) = q_0$, $Q_0 = -\dot{q}(0) = 0$, we
+ have the first order correction
+\begin{align*}
+  X_0 &= \frac{\omega_0^2q_0^3}{\bar{\omega}^4e^{4\lambda t}}\alpha^3,\\
+  \dot{Q}_1 &= \alpha X_0 
+  = \frac{\omega_0^2q_0^3}{\bar{\omega}^4e^{4\lambda t}}
+    (\bar{\omega}\cos\omega t - \lambda \sin\bar{\omega}t)^4,\\
+  \dot{P}_1 &= X_0\sin\bar{\omega}t 
+  = \frac{\omega_0^2q_0^3}{\bar{\omega}^4e^{4\lambda t}}
+    (\bar{\omega}\cos\omega t - \lambda \sin\bar{\omega}t)^3
+    \sin\bar{\omega}t.
+\end{align*}
+In the limit of no damping $\lambda \rightarrow 0$ we have
+\begin{align*}
+  \alpha &= \omega_0\cos\omega_0 t\\
+  \dot{Q}_1 &= 
+  \omega_0^2q_0^3\cos^4\omega_0 t,\\
+  \dot{P}_1 &=
+  \frac{\omega_0^2q_0^3}{\omega_0}
+  \cos^3\omega t\sin\omega_0t,\\
+  Q_1 &= 
+  \omega_0^2q_0^3\frac{12\omega_0 t + 8 \sin 2\omega_0 t + \sin 4\omega_0 t}
+                      {32\omega_0},\\
+  \omega_0 P_1 &=
+  \omega_0^2q_0^3
+  \frac{1-\cos^4 \omega_0 t}{4\omega_0}.
+\end{align*}
+Converting back to our original coordinates, we have
+\begin{align*}
+  q &= q_0 + \epsilon \frac{\omega_0 P_1\cos\omega_0 t - Q_1 \sin\omega_0t}{\omega_0}\\
+    &= q_0 + \epsilon q_0^3
+       \frac{\cos 3\omega_0 t - \cos \omega_0 t - 12 \omega_0 t \sin \omega_0 t}{32}
+  ,\\
+  p &= p_0 + \epsilon (Q_1\cos\omega_0 t + \omega_0 P_1\sin\omega_0t).
+\end{align*}
+
+
+
+First we clean up the notation a bit.
+
+
+
 ## Example: Anharmonic Oscillator
 
 We use the same approach for the anharmonic oscillator starting with $q(0) = q_0$ and
@@ -1183,7 +1304,11 @@ $\dot{q}(0) = 0$:
   \ddot{q} + 2\lambda \dot{q} + \omega_0^2(q + \epsilon q^3) = 0,\qquad
   H_1(q, p, t) = \omega_0^2\frac{q^4}{4}.
 \end{gather*}
-First we clean up the notation a bit.  The canonical transformation is
+First we clean up the notation a bit.
+
+
+
+The canonical transformation is
 \begin{gather*}
   q = \frac{e^{-\lambda t}}{\bar{\omega}}(\alpha P - Q\sin\bar{\omega}t),\qquad
   p = \frac{-e^{\lambda t}}{\bar{\omega}}(\alpha Q + P\omega_0^2\sin\bar{\omega}t),\\

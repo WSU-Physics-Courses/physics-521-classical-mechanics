@@ -23,7 +23,7 @@ import numpy as np, matplotlib.pyplot as plt
 (sec:a0)=
 # Assignment 0: Forced Oscillations
 
-Due: **Friday 2 September**.  Please insert your solutions into your OneNote Class in
+Due: **Monday 4 September 2023**.  Please insert your solutions into your OneNote Class in
 the **Homework** section on a page named **Assignment 0: Forced Oscillations**.
 
 ## Forced Damped Oscillations
