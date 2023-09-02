@@ -7,6 +7,7 @@ dependencies:
   # Core dependencies
   - scipy
   - matplotlib
+  - sympy
   - ipykernel
   #- conda-forge::jupyter_console
 
