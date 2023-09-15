@@ -16,16 +16,21 @@ kernelspec:
 :tags: [hide-cell]
 
 import mmf_setup; mmf_setup.nbinit()
+from pathlib import Path
+FIG_DIR = Path(mmf_setup.ROOT) / 'Docs/_images/'
+os.makedirs(FIG_DIR, exist_ok=True)
 import logging; logging.getLogger("matplotlib").setLevel(logging.CRITICAL)
-%pylab inline --no-import-all
+%matplotlib inline
+import numpy as np, matplotlib.pyplot as plt
 import manim.utils.ipython_magic
 !manim --version
 ```
 
+(sec:HamiltonianMechanics)=
 Hamiltonian Mechanics
 =====================
 
-Recall that with [Lagrangian mechanics], one recovers Newton's laws as a principle of
+Recall that with [Lagrangian mechanics][], one recovers Newton's laws as a principle of
 extremal action:
 
 :::{margin}
@@ -223,12 +228,37 @@ def plot_set(y, dy=0.1, T=T, phase_space=True, N=10, Nt=5, c='C0',
     ax.set(xlabel=r"$\theta$", ylabel=ylabel, aspect=1)
     return fig, ax
 
+# Version without damping for now
+alpha = 0.0
+xlim = (-3, 14)
+ylim = (-2, 3)
 
-fig, ax = plt.subplots(figsize=(10,5))
+fig, ax = plt.subplots(figsize=(10, 5))
 
+ys = np.linspace(0.25, 3.5, 13)
 
-for n, y in enumerate(np.linspace(0.25, 1.75, 6)):
+for n, y in enumerate(ys):
     plot_set(y=(y, y), c=f"C{n}", phase_space=False, ax=ax)
+
+ax.set(xlim=xlim, ylim=ylim)
+plt.tight_layout()
+fig.savefig(FIG_DIR / "phase_space_pendulum_no_damping.svg")
+display(fig)
+plt.close(fig)
+
+# Version with damping for use elsewhere.
+xlim = (-1.5, 14)
+fig, ax = plt.subplots(figsize=(10, 10 * abs(np.diff(ylim)/np.diff(xlim))))
+
+alpha = 0.3
+
+for n, y in enumerate(ys):
+    plot_set(y=(y, y), c=f"C{n}", ax=ax, T=1.3*T, phase_space=True)
+ax.set(ylabel=r"$p_{\theta}$", xlim=xlim, ylim=ylim, aspect='none')
+
+plt.tight_layout()
+fig.savefig(FIG_DIR / "phase_space_pendulum_damping.svg")
+plt.close(fig)
 ```
 
 :::{sidebar} Phase flow for a pendulum.
@@ -398,15 +428,23 @@ fig, axs = plt.subplots(
     2, 1, figsize=(20, 12), sharex=True, 
     gridspec_kw=dict(height_ratios=(3.5, 1)))
 
+# Saved version with damping.
+fig0, ax0 = plt.subplots(figsize=(10,5))
+
 alpha = 0.3
 
 for n, y in enumerate(np.linspace(0.25, 1.75, 6)):
     plot_set(y=(y, y), c=f"C{n}", ax=axs[0], T=1.3*T, phase_space=False)
-    plot_set(y=(y, y), c=f"C{n}", ax=axs[1], T=1.3*T)
-
+    [plot_set(y=(y, y), c=f"C{n}", ax=ax, T=1.3*T)
+     for ax in [ax0, axs[1]]]
+    
 axs[0].set(ylim=(-6, 7))
 axs[0].set(title=fr"$\alpha = {alpha}$, $T=1.3\times 2\pi \sqrt{{r/g}}$");
+
+#fig0.savefig(FIG_DIR / "phase_space_pendulum_damping.svg")
+plt.close(fig0)
 ```
+
 
 # Dispersion and Relativity
 

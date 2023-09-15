@@ -119,9 +119,9 @@ where $F(t)$ is a driving force which we will take to be a pure cosine wave as s
    in {cite:p}`LL1:1976` Fig. 32.
    
 8. **(Extension)** Add an parametric drive and demonstrate parametric resonances and
-   Kapitza's Oscillator (stabilization of a vertical oscillator.
+   Kapitza's Oscillator (stabilization of a vertical oscillator).
+   
 ```{code-cell}
-
 %matplotlib inline
 import numpy as np, matplotlib.pyplot as plt
 

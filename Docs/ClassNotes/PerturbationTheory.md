@@ -16,6 +16,9 @@ kernelspec:
 :tags: [hide-cell]
 
 import mmf_setup;mmf_setup.nbinit()
+from pathlib import Path
+FIG_DIR = Path(mmf_setup.ROOT) / 'Docs/_build/figures/'
+os.makedirs(FIG_DIR, exist_ok=True)
 import logging;logging.getLogger('matplotlib').setLevel(logging.CRITICAL)
 %matplotlib inline
 import numpy as np, matplotlib.pyplot as plt
@@ -24,7 +27,69 @@ import numpy as np, matplotlib.pyplot as plt
 (sec:PendulumExample)=
 # Worked Example: The Pendulum
 
-Here we will develop a rather complete worked example: the motion of a pendulum.
+Here we will develop a rather complete worked example: the motion of a pendulum.  You
+should try to work along with this, both analytically, and checking your results
+numerically.  I *highly* recommend that you try to anticipate what I am going to do by
+scanning through the figures, equations, etc., and try to solve the problem yourself
+before reading the details.  To this end, I have "hidden" most of the work in expandable
+sections.
+
+## Overview
+
+We start with an overview demonstrating some interesting properties of this system.  I
+find a good way of trying to understand a system like this is to try to understand and
+then reproduce these figures, diving into the details when I get stuck.
+
+:::{margin}
+Physically, we imagine a pendulum with a massless rod of length $l$ with a point mass
+$m$ at the end, in a gravitational field of strength $g$, some damping $\lambda$ and a
+driving torque $\Gamma(t)$.  After deriving the equations of motion, we replace these with the
+more convenient parameters $\omega_0 = \sqrt{l/g}$ and $f(t) = \Gamma(t)/m$.
+:::
+We will consider the following general model for a rigid pendulum.  We will describe the
+motion of the pendulum with the angle $\theta(t)$ from equilibrium:
+\begin{gather*}
+  \ddot{\theta} + 2\lambda \dot{\theta} + \omega_0^2 \sin\theta = f(t).
+\end{gather*}
+We will consider various generalizations, such as expanding $\sin\theta$ (harmonic and
+anharmonic terms), and consider a time-dependent frequency $\omega_0(t)$ (parametric
+resonance).
+
+If we consider constant $\omega_0$ without any driving term $f(t)=0$, then we have an
+**autonomous** second-order equation, and we can plot the following phase diagram.  (For
+details, see {ref}`sec:HamiltonianMechanics`.)
+
+:::{figure} /_images/phase_space_pendulum_damping.svg
+:alt: Phase space flow for a pendulum with damping.
+
+Phase-space evolution of a damped pendulum.  Several closed regions are shown, evolved
+for time $1.3T_0$ where $T_0 = 2\pi/\omega_0$ is the natural period of the
+oscillator.  Due to the damping, this evolution is not Hamiltonian and Liouville's
+theorem does not hold -- the areas of the regions get smaller.  Properly scaled,
+however, Hamiltonian dynamics can be restored.  See {ref}`sec:HamiltonianMechanics` for
+details.
+:::
+
+Another interesting property is the **linear response** of the pendulum to small
+perturbations:
+
+:::{figure} /_images/LinearResponse.svg
+:figclass: margin-caption
+
+Linear response of a damped harmonic oscillator for various amounts of damping.  The
+dotted line shows $\abs{\chi_\max}^2$ vs $\omega_{\max}$.
+:::
+
+I recommend you try to make this figure two ways:
+
+1. Directly calculate the response function $\chi$ analytically.  *(This is how I
+   generated this plot.)*
+2. Setup an "experiment" where you simulate a driven pendulum and then "measure" the
+   amplification.
+   
+The response function has a very interesting property when one includes non-linear terms.
+
+
 
 ## Description
 
@@ -243,7 +308,9 @@ problem in the following form:
   \omega^2(t) = \omega_0^2(1 + h\cos\omega_p t).
 \end{gather*}
 In the code, we spell these: $\lambda=$`damping`, $\omega_0=$`w0`, $\omega_d=$`w_d`,
-$\omega_p=$`w_p`, $\theta_0=$`theta0`, $\dot{\theta}_0=$`dtheta0`, $\omega(t)=$`w_t(t)`,  $f(t)=$`f_t(t)`.
+$\omega_p=$`w_p`, $\theta_0=$`theta0`, $\dot{\theta}_0=$`dtheta0`, $\omega(t)=$`w_t(t)`,
+$f(t)=$`f_t(t)`.
+
   
 SciPy's {func}`scipy.integrate.solve_ivp` requires a first-order differential equation,
 so we use the method of order reduction to solve for the two-component vector $\vect{y}$:
@@ -288,13 +355,23 @@ class Pendulum:
     def f_t(self, t):
         """Return the driving force at time `t`."""
         return self.f * np.cos(self.w_d*t)
+        
+    def V_w2(self, theta, d=0):
+        """Return the specific potential `V(theta)/m/l/w0**2` and its derivatives."""
+        if d == 0:
+            return 1 - np.cos(theta)
+        elif d == 1:
+            return np.sin(theta)
+        else:
+            raise NotImplementedError(f"{d=}")
 
     def compute_dy_dt(self, t, y):
         """Return dy_dt."""
         theta, dtheta = y
         w_t = self.w_t(t)
         f_t = self.f_t(t)
-        ddtheta = (-w_t**2*np.sin(theta) - 2*self.damping * dtheta + f_t)
+        V_w2 = self.V_w2(theta, d=1)
+        ddtheta = (-w_t**2*V_w2 - 2*self.damping * dtheta + f_t)
         return (dtheta, ddtheta)
     
     def solve(self, T, method="BDF", **kw):
@@ -333,6 +410,7 @@ class Pendulum:
 p = Pendulum()
 ax = p.solve_and_plot(T_T0=10)  # 10 natural periods
 ```
+
 *(Note, we have taken care to plot dimensionless quantities.  One should check that the
 plot does not change if we change the numerical values appropriately.)*
 
@@ -382,8 +460,6 @@ for n in [1, 2, 3]:
 plt.legend()
 ax.set(title="Parametric resonance");
 ```
-
-
 
 # Parametric Resonance
 
@@ -564,9 +640,7 @@ A\cos(n t)$, so the equation is periodic iff
   2\omega_0 = n - \epsilon
 \end{gather*}
 
-
 ```{code-cell}
-
 def get_A(dx=1e-8, tol=1e-12, **kw):
     p1 = Pendulum(f=0, theta0=dx, dtheta0=0, **kw)
     p2 = Pendulum(f=0, theta0=0, dtheta0=dx, **kw)
@@ -638,8 +712,16 @@ Solving for the initial conditions, we have
   a = \theta_0, \qquad
   b = \frac{\dot{\theta}_0 + \lambda \theta_0}{\bar{\omega}},\\
   \theta(t) = e^{-\lambda t}\Bigl(\theta_0\cos\bar{\omega} t 
-  + \frac{\dot{\theta}_0 + \lambda \theta_0}{\bar{\omega}} \sin\bar{\omega} t\Bigr)
+  + \frac{\dot{\theta}_0 + \lambda \theta_0}{\bar{\omega}} \sin\bar{\omega} t\Bigr).
 \end{gather*}
+
+From this solution, we can compute the solution to the Hamilton-Jacobi equation, which
+is the classical action $S(q, P, t)$
+\begin{gather*}
+  
+\end{gather*}
+
+
 
 
 
@@ -712,7 +794,6 @@ packing and indexing them as
     \dot{q}_{N}
   \end{pmatrix}
 \end{gather*}
-
 
 ```{code-cell}
 N = 30   # Include 30 terms
@@ -1368,15 +1449,6 @@ Converting back to our original coordinates, we have
   p &= p_0 + \epsilon (Q_1\cos\omega_0 t + \omega_0 P_1\sin\omega_0t).
 \end{align*}
 
-
-
-
-
-
-
-
-
-
 ```{code-cell}
 :tags: [hide-cell]
 
@@ -1387,9 +1459,165 @@ disp(('H_{1,P}', H1.subs(pq_subs).diff(P).simplify()),
      ('-H_{1,Q}', H1.subs(pq_subs).diff(Q).simplify()))
 ```
 
+### Anharmonic Oscillator Response
+
++++
+
+$$
+  V(\theta) = \frac{\omega_0^2}{8\theta_{\min}^2}(\theta^2 - \theta_{\min}^2)^2\\
+  V'(\theta) = \frac{\omega_0^2}{2\theta_{\min}^2}\theta(\theta^2 - \theta_{\min}^2)
+             = -\alpha \theta + \beta \theta^3.
+$$
+
+In terms of the parameters in [Duffing equation][]:
+
+$$
+  \alpha = \frac{\omega_0^2}{2}, \qquad
+  \beta = \frac{\omega_0^2}{2\theta_{\min}^2},\\
+  \omega_0 = \sqrt{2\alpha}, \qquad
+  \theta_{\min} = \sqrt{\frac{\alpha}{\beta}}\\
+$$
+
+[Duffing equation]: <https://en.wikipedia.org/wiki/Duffing_equation>
+
+```{code-cell} ipython3
+x = np.linspace(-1, 1)
+alpha, beta, delta, gamma, w = 1, 5, 0.02, 8.0, 0.5
+V = -alpha * x**2 / 2 + beta * x**4/4
+th_min = np.sqrt(alpha/beta)
+plt.plot(x, V)
+plt.axvline([th_min])
+```
+
+```{code-cell}
+#:tags: [hide-cell]
+
+class AnharmonicOscillator(Pendulum):
+    """Anharmonic oscillator."""
+    v1 = -0.1
+    v3 = 1.0
+    theta_min = 0.1  # Minimum of double well.
+    
+    w_d0 = 8.0
+    w_d1 = 10.0
+    T = 1000.0
+    
+    theta0 = 0.1
+    dtheta0 = 0
+    
+    def w_d(self, t):
+        return self. w_d0 + (self.w_d1 - self.w_d0) * (1-np.cos(2*np.pi * t/self.T))/2
+    
+    def f_t(self, t):
+        return self.f * np.cos(self.w_d(t)*t)
+        
+    def V_w2(self, theta, d=0):
+        """Return the specific potential `V(theta)/m/l/w0**2` and its derivatives."""
+        if d == 0:
+            return (theta**2 - self.theta_min**2)**2/8/self.theta_min**2
+        elif d == 1:
+            return theta*(theta**2 - self.theta_min**2)/2/self.theta_min**2
+        else:
+            raise NotImplementedError(f"{d=}")
+            
+    def solve_and_plot(self, axs=None, label="", window_shape=5):
+        """Solve and plot.  Return `axs`."""
+        t, theta, dtheta = self.solve(T=self.T)
+        if axs is None:
+            fig, axs = plt.subplots(2, 1)
+        w0 = self.w0
+        
+        axs[0].plot(t, theta, label=label)
+        
+        
+        from numpy.lib.stride_tricks import sliding_window_view
+        
+        theta_view = sliding_window_view(theta, window_shape=window_shape)
+        ws = self.w_d(t)
+        w_view = sliding_window_view(ws, window_shape=window_shape)
+        dtheta = np.max(theta_view, axis=1) - np.min(theta_view, axis=1)
+        ws = np.mean(w_view, axis=1)
+        axs[1].plot(ws/self.w0, dtheta)
+        #ax.plot(w0*t/2/np.pi, theta, label=label)
+        #ax.set(xlabel=r"$t/(2\pi/\omega_0)$", 
+        #      ylabel=r"$\theta(t)$",
+        #      title=", ".join([
+        #          fr"$f/\omega_0^2={self.f/w0**2:.2g}\cos({self.w_d/w0:.2g}\omega_0 t)$",
+        #          fr"$\omega^2/\omega_0^2=1+{self.h:.2g}\cos({self.w_p/w0:.2g}\omega_0t)$",
+        #          fr"$\lambda/\omega_0={self.damping:.2g}$",
+        #      ]))
+        return axs
+    
+    def plot_poincare(self, N, skip=0, Np=100, method="BDF", **kw):
+        """Plot Poincaré sections for N periods.
+        
+        Arguments
+        ---------
+        N : int
+            Number of periods to plot.
+        Np : int
+            Number of points per period.
+        skip : int
+            Number of periods to skip before plotting.
+        """
+        assert self.w_d0 == self.w_d1
+        w_d = self.w_d0
+        T = 2*np.pi / w_d
+        y0 = (self.theta0, self.dtheta0)
+        t0 = 0
+        if skip > 0:
+            sol = solve_ivp(
+                self.compute_dy_dt, y0=y0, t_span=(t0, T*skip), method=method, **kw)
+            y0 = sol.y[:, -1]
+            t0 = T*skip
+            
+        t_eval = t0 + np.arange(N*Np)*T/Np
+        sol = solve_ivp(
+            self.compute_dy_dt, y0=y0, 
+            t_span=(t0, t0 + N*T), 
+            t_eval=t_eval, method=method, **kw)
+        
+        t = sol.t
+        theta, dtheta = sol.y.reshape((2, Np, N))
+        plt.plot(theta.T, dtheta.T, '.', ms=0.11)
+        return (t, theta, dtheta)
+            
+
+for theta0 in [0, 0.1, 0.2]:
+    # Duffing alpha=1 beta=5 delta=0.02 K=8 omega=0.5
+    # alpha = 
+    p = AnharmonicOscillator(h=0, f=0.2, damping=0.02, theta_min=0.1, w_d0=2.0, w_d1=2.0, T=20, theta0=theta0)
+    #p = AnharmonicOscillator(h=0, f=0.2, damping=0.2, theta_min=0.1, w_d0=2.0, w_d1=2.0, T=20, theta0=theta0)
+    #p.solve_and_plot(window_shape=100)
+    t, th, dth = p.plot_poincare(1000, skip=5000, Np=200);
+```
+
+```
+
+fig, ax = plt.subplots(figsize=(4, 3))
+for lam in lams:
+    chi = 1/(w0**2 - w**2 + 2j*w*lam)
+    l, = ax.semilogy(w/w0, abs(chi*w0**2)**2, label=f"$\lambda={lam:.2g}\omega_0$")
+    if lam > 0:
+        w_max = np.sqrt(w0**2 - 2*lam**2)
+        chi2_max = 1/(4*lam**2*(w0**2-lam**2))
+        ax.plot([w_max/w0], [chi2_max*w0**4], 'o', c=l.get_c())
+
+lams = np.linspace(0, w0, 100)[1:-1]
+w_max = np.sqrt(w0**2 - 2*lams**2)
+chi2_max = 1/(4*lams**2*(w0**2-lams**2))
+ax.plot(w_max/w0, chi2_max*w0**4, 'k:')
+ax.legend()
+ax.set(xlabel=r"$\omega/\omega_0$",
+       ylabel=r"$|\chi|^2\omega_0^4$",
+       ylim=(0, 40))
+
+if glue: glue("fig:LinearResponse", fig);
+plt.tight_layout()
+fig.savefig(FIG_DIR / "LinearResponse.svg")
+```
+
 
 [Fine-structure constant]: <https://en.wikipedia.org/wiki/Fine-structure_constant>
 [Borel resummation]: <https://en.wikipedia.org/wiki/Borel_summation>
 [Big $O$ notation]: <https://en.wikipedia.org/wiki/Big_O_notation>
-
-

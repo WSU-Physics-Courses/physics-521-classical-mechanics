@@ -39,10 +39,10 @@ default_context:
   # This is the Shared Project which changes for each class.
   cocalc_project: "c5a0bdae-e17c-46a1-ada4-78c6556d9429"
 
+  nsf_grant: "2012190"
+
   # The remaining configuration options deal with provisioning of the environment etc.
   use_conda: "micromamba"
   use_pyproject: "no"
   use_manin: "yes"
   make_tools: "yes"
-  
-  

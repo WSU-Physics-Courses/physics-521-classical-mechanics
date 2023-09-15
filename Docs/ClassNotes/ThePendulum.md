@@ -16,9 +16,14 @@ kernelspec:
 :tags: [hide-cell]
 
 import mmf_setup;mmf_setup.nbinit()
+from pathlib import Path
+FIG_DIR = Path(mmf_setup.ROOT) / 'Docs/_build/figures/'
+os.makedirs(FIG_DIR, exist_ok=True)
 import logging;logging.getLogger('matplotlib').setLevel(logging.CRITICAL)
 %matplotlib inline
 import numpy as np, matplotlib.pyplot as plt
+try: from myst_nb import glue
+except: glue = None
 ```
 
 (sec:PendulumWorksheet)=
@@ -195,149 +200,6 @@ motion.
   2\lambda \dot{q} + \ddot{q} = -\omega^2q.
 \end{gather*}
 :::
-
-:::{doit} Solve the Hamilton-Jacobi equation.
-:hide:
-
-Use the general solution to solve the Hamilton-Jacobi equation by finding the classical
-action $S(q, P, t)$.  Recall that the idea is to effect a canonical transformation with
-the generating function $S(q, P, t)$ such that the new coordinates are $(Q, P)$ and the
-new Hamiltonian $K = 0$
-\begin{gather*}
-  p = \pdiff{S}{q}, \qquad
-  Q = \pdiff{S}{P}, \qquad
-  K = H - \pdiff{S}{t}.
-\end{gather*}
-This gives the Hamilton-Jacobi equation
-\begin{gather*}
-  K(Q, P, t) = H\Bigl(q, \pdiff{S}{q}, t\Bigr) - \pdiff{S}{t} = 0
-\end{gather*}
-which is solved by the classical action
-\begin{gather*}
-  S(q, P, t) = \int_{t_0}^{t_1}L_0(q, \dot{q}, t)\d{t}.
-\end{gather*}
-where a reasonable choice is $t_0 = 0$, $t_1 = t$, $q = q(t)$ and $P = q(0) = q_0$ is a
-constant of the motion. 
-:::
-
-:::{margin}
-If you want to compute this yourself, the following might be helpful:
-\begin{gather*}
-  \int_0^{t}\d{t}\begin{pmatrix}
-    \sin^2\bar{\omega}t\\
-    \cos^2\bar{\omega}t\\
-    \sin\bar{\omega}t\cos\bar{\omega}t\\
-  \end{pmatrix}
-  =
-  \frac{1}{2\bar{\omega}}\begin{pmatrix}
-    \bar{\omega}t - \frac{\sin 2\bar{\omega}t}{2}\\
-    \bar{\omega}t + \frac{\sin 2\bar{\omega}t}{2}\\
-    \sin^2\bar{\omega}t
-  \end{pmatrix},
-\end{gather*}
-:::
-:::{solution}
-:show:
-
-Some algebra gives
-\begin{gather*}
-  P = \theta_0 = a, \qquad
-  q = e^{-\lambda t}(a\cos\bar{\omega}t + b\sin\bar{\omega}t),\\
-  a = P, \qquad
-  b = e^{\lambda t}q - P\cot\bar{\omega}t.
-\end{gather*}
-*Note: we must include the time-dependence in the coefficient $b(t)$ here to enforce the
-appropriate boundary conditions.  For any given solution it is constant.*
-
-Computing this all is rather tedious, and better left for a computer.  When the dust
-settles, we have the generating function:
-\begin{gather*}
-  S(q, P, t) =
-  \bar{\omega}\frac{P^{2} + q^{2} e^{2 \lambda t}}
-  {2 \tan{\bar{\omega} t}} 
-  - \frac{P \bar{\omega} q e^{\lambda t}}{\sin\bar{\omega}t} 
-  + \lambda\frac{P^{2} - q^{2} e^{2 \lambda t}}{2},\\
-  P = q(0) = q e^{\lambda t} \cos\bar{\omega}t
-  - (\lambda q e^{\lambda t} + p e^{- \lambda t})
-    \frac{\sin\bar{\omega}t}{\bar{\omega}} = a,\\
-  Q = - \dot{q}(0) =
-  -pe^{-\lambda t} \cos\bar{\omega}t
-  -
-  \left(
-    \omega_0^{2} q e^{\lambda t}
-    + \lambda p e^{-\lambda t} 
-  \right)\frac{\sin\bar{\omega}t}{\bar{\omega}} 
-  = \lambda a - \bar{\omega}b,\\
-  q = \frac{e^{- \lambda t}}{\bar{\omega}}
-  \Bigl(
-    P(\bar{\omega} \cos\bar{\omega}t + \lambda\sin\bar{\omega}t) 
-    - Q \sin\bar{\omega} t
-  \Bigr),\\
-  p = \frac{-e^{\lambda t}}{\bar{\omega}}
-  \Bigl(
-    Q(\bar{\omega} \cos\bar{\omega}t - \lambda\sin\bar{\omega} t)
-    + P\omega_0^2\sin\bar{\omega}t 
-  \Bigr)
-\end{gather*}
-:::
-
-```{code-cell}
-:tags: [hide-cell]
-
-from IPython.display import Latex
-import sympy
-from sympy import sqrt, exp, sin, cos, I, Eq, S
-
-def disp(*v, **kw):
-    """Simple display function."""
-    for var, expr in v + tuple(kw.items()):
-        display(Latex(f"${var}={sympy.latex(expr)}$"))
-        
-a, b, P, Q, p, q = sympy.var(r'a,b,P,Q,p,q', real=True)
-lam, w_, w0, t = sympy.var(r'\lambda,\bar{\omega},\omega_0,t', positive=True)
-s, c = sin(w_*t), cos(w_*t)
-w0 = sqrt(w_**2+lam**2)
-q_t = exp(-lam*t)*(a*c + b*s)
-
-# Check equation of motion
-assert (q_t.diff(t, t) + 2*lam*q_t.diff(t) + w0**2*q_t).simplify() == 0
-
-# Compute L0
-H0 = exp(-2*lam*t)*p**2/2 + exp(2*lam*t)*w0**2*q**2/2
-dq = sympy.var(r'\dot{q}')
-p_ = sympy.solve(H0.diff(p) - dq, p)[0]
-L0 = (p_*dq - H0).subs([(p, p_)]).simplify()
-disp(L_0=L0)
-
-# Now use solution
-dq_t = q_t.diff(t)
-p_t = p_.subs([(dq, dq_t)])
-L0 = L0.subs([(q, q_t), (dq, dq_t)]).expand().simplify()
-#L0 = (exp(2*lam*t)*(dq_t**2 - w0**2*q_t**2)/2).expand().simplify()
-disp(L_0=L0.collect([sin(2*w_*t), cos(2*w_*t)]))
-
-# Compute S0
-S0 = L0.integrate((t, 0, t)).collect([sin(2*w_*t), cos(2*w_*t)]).simplify()
-disp(S_0=S0)
-
-# Find a and b in terms of P and q
-ab_subs = sympy.solve([q_t.limit(t, 0) - P, q_t - q], [a, b])
-S0 = S0.subs(ab_subs).simplify()
-disp(S_0=S0)
-
-# Check that this works!
-PQ_subs = sympy.solve([S0.diff(q) - p, S0.diff(P) - Q], [P, Q])
-pq_subs = sympy.solve([S0.diff(q) - p, S0.diff(P) - Q], [p, q])
-P_, Q_ = PQ_subs[P].simplify(), PQ_subs[Q].simplify()
-p_, q_ = pq_subs[p].simplify(), pq_subs[q].simplify()
-disp(P=P_, Q=Q_)
-disp(p=p_.collect([P, Q]).simplify(), 
-     q=q_.collect([P, Q]).simplify())
-disp(P=P_.subs([(q, q_t), (p, p_t)]).simplify(), 
-     Q=Q_.subs([(q, q_t), (p, p_t)]).simplify())
-K0 = (H0 + S0.diff(t)).subs(PQ_subs).simplify()
-assert K0 == 0
-```
 
 ### Driven Damped Harmonic Oscillator
 
@@ -522,9 +384,6 @@ dotted line shows $\abs{\chi_\max}^2$ vs $\omega_{\max}$.
 ```{code-cell}
 :tags: [hide-cell]
 
-try: from myst_nb import glue
-except: glue = None
-
 w0 = 1.0
 w = np.linspace(0, 2*w0, 500)
 lams = [0, 0.1, 0.2, 0.3]
@@ -548,6 +407,8 @@ ax.set(xlabel=r"$\omega/\omega_0$",
        ylim=(0, 40))
 
 if glue: glue("fig:LinearResponse", fig);
+plt.tight_layout()
+fig.savefig(FIG_DIR / "LinearResponse.svg")
 ```
 
 ## Anharmonic Oscillator
@@ -610,6 +471,7 @@ Instead, we apply canonical perturbation theory using the classical action
 
 
 :::
+
 
 
 

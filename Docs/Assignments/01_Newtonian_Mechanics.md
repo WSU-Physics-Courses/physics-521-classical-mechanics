@@ -26,7 +26,7 @@ except:
 
 +++
 
-Due: Start of class on **Friday 16 September**.
+Due: Start of class on **Monday 25 September**.
 
 :::{note}
 
@@ -39,32 +39,37 @@ your answers to be pushed to your student project.
 
 ## Rockets
 
-+++
+Consider a rocket of mass $m(t)$ which ejects fuel at a rate of $\dot{m}(t) \leq 0$.
+Assume that all of the fuel is ejected with speed $v_e$ directed in the $-x$ direction
+relative to the rocket.
 
-Consider a rocket of mass $m(t)$ which ejects fuel at a rate of $\dot{m}(t) \leq 0$.  Assume that all of the fuel is ejected with speed $v_e$ directed in the $-x$ direction relative to the rocket.
+1. Carefully justify the Tsiolkovsky rocket equation for a rocket moving in one
+   dimension without gravity (or air resistance):
 
-1. Carefully justify the Tsiolkovsky rocket equation derived in class for a rocket moving in one dimension without gravity (or air resistance):
-
-   $$
-     v(t) = v(0) + v_e\ln\frac{m(0)}{m(t)}.
-   $$
+   \begin{gather*}
+     v(t) = v(0) + v_e\ln\frac{m(0)}{m(t)}.  
+   \end{gather*}
    
-2. This formula is independent of the rate $\dot{m}(t)$ at which fuel is expelled.  Explain how this result is consistent with the simple formula for the velocity of the rocket if all of the fuel were to be immediately eject as one blob with speed $v_e$:
+2. This formula is independent of the rate $\dot{m}(t)$ at which fuel is expelled.
+   Explain how this result is consistent with the simple formula for the velocity of the
+   rocket if all of the fuel were to be immediately eject as one blob with speed $v_e$:
    
-   $$
+   \begin{gather*}
      v(t>0) = v_i + v_e\frac{m(0) - m(t)}{m(t)}.
-   $$
+   \end{gather*}
    
-3. Derive the equation of motion for the rocket moving vertically in a gravitational field.
-4. Solve these equations for a rocket moving vertically in a constant gravitational field.  Assume that $\dot{m}(t) = \dot{m}$ is constant and find the height $z(t)$.
-5. **Bonus**: Briefly estimate how much energy is required to place a payload of $1$kg into a geosynchronous orbit.  How does this depend on the overall mass of the rocket (i.e. is it more efficient to send several small rockets or a single large rocket?
-
+3. Derive the equation of motion for the rocket moving vertically in a gravitational
+   field.
+4. Solve these equations for a rocket moving vertically in a constant gravitational
+   field.  Assume that $\dot{m}(t) = \dot{m}$ is constant and find the height $z(t)$.
+5. **Bonus**: Briefly estimate how much energy is required to place a payload of $1$kg
+   into a geosynchronous orbit.  How does this depend on the overall mass of the rocket
+   (i.e. is it more efficient to send several small rockets or a single large rocket?
 
 ## Tides
 
-Give a plausible physical argument as to why the distance between the Earth and the Moon is slowly increasing.
-
-+++
+Give a plausible physical argument as to why the distance between the Earth and the Moon
+is slowly increasing.
 
 ## Elliptical Orbits
 
@@ -79,17 +84,21 @@ the original 2-body problem to a single effective equation for the relative coor
 $r$ in terms of the reduced mass, etc.  I will likely ask you about this during one of
 your exams.*
 
-+++
-
 ## Central Potentials
 
-Throughout the course we will visit the problem of a Harmonic Oscillator: i.e. the motion of a particle of mass $m$ in a potential $V(r) = \tfrac{1}{2}kr^2$ which might represent a ball connected to an anchored spring with spring constant $k$.  We shall revisit this problem in all formalisms and use it as a basis for understanding chaotic dynamics.
+Throughout the course we will visit the problem of a Harmonic Oscillator: i.e. the
+motion of a particle of mass $m$ in a potential $V(r) = \tfrac{1}{2}kr^2$ which might
+represent a ball connected to an anchored spring with spring constant $k$.  We shall
+revisit this problem in all formalisms and use it as a basis for understanding chaotic
+dynamics.
 
-1. Use the effective potential to show that all orbits are bound and that $E$ must exceed $E_{\text{min}} = \sqrt{kl^2/m}$ where $l$ is the angular momentum of the system.
-2. Verify that the orbit is a closed ellipse with the origin at the center of the potential.  (Compare your result with the formulas in the book for problem 1.10 (b).)
-3. Prove that the period is independent of the energy and angular momentum.  Could you have anticipated this from simple arguments? Discuss the significance of this result.
-
-+++
+1. Use the effective potential to show that all orbits are bound and that $E$ must
+   exceed $E_{\text{min}} = \sqrt{kl^2/m}$ where $l$ is the angular momentum of the
+   system.
+2. Verify that the orbit is a closed ellipse with the origin at the center of the
+   potential.  (Compare your result with the formulas in the book for problem 1.10 (b).)
+3. Prove that the period is independent of the energy and angular momentum.  Could you
+   have anticipated this from simple arguments? Discuss the significance of this result.
 
 ## Scattering
 
