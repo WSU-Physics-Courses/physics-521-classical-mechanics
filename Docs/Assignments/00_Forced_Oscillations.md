@@ -101,10 +101,10 @@ where $F(t)$ is a driving force which we will take to be a pure cosine wave as s
    resolve the issue, then at this point it will be productive for a group to make an
    appointment with me to discuss.
    
-   In Fall 2022, we plan to hold open iSciMath lab/office hours in Spark 235 from 4:30pm
-   to 7pm most days of the week: Monday and Wednesday for sure (after Physics 555) and
-   other days by appointment.  You may stop by these sessions to discuss any issues you
-   have.  I am also available for appointment by Zoom.
+   In Fall 2023, we plan to hold open iSciMath lab/office hours in the Band room on the
+   12th floor 12:00pm to 2:00pm Mondays, 2:00pm to 4:00pm Fridays and other days by
+   appointment.  You may stop by these sessions to discuss any issues you have.  I am
+   also available for appointment by Zoom.
    :::
 6. Derive and explain the meaning of the resonance curve in Fig. 31 (shown below).
    Discuss all the qualitatively different behavior as characterized by the intrinsic

@@ -16,6 +16,7 @@ kernelspec:
 :tags: [hide-cell]
 
 import mmf_setup; mmf_setup.nbinit()
+import os
 from pathlib import Path
 FIG_DIR = Path(mmf_setup.ROOT) / 'Docs/_images/'
 os.makedirs(FIG_DIR, exist_ok=True)
@@ -248,13 +249,13 @@ plt.close(fig)
 
 # Version with damping for use elsewhere.
 xlim = (-1.5, 14)
-fig, ax = plt.subplots(figsize=(10, 10 * abs(np.diff(ylim)/np.diff(xlim))))
+fig, ax = plt.subplots(figsize=(10, 10 * abs(np.diff(ylim)/np.diff(xlim))[0]))
 
 alpha = 0.3
 
 for n, y in enumerate(ys):
     plot_set(y=(y, y), c=f"C{n}", ax=ax, T=1.3*T, phase_space=True)
-ax.set(ylabel=r"$p_{\theta}$", xlim=xlim, ylim=ylim, aspect='none')
+ax.set(ylabel=r"$p_{\theta}$", xlim=xlim, ylim=ylim, aspect='auto')
 
 plt.tight_layout()
 fig.savefig(FIG_DIR / "phase_space_pendulum_damping.svg")

@@ -27,6 +27,11 @@ dependencies:
     - pytest-flake8
     - pytest-html
     - pytest-xdist
+
+    # Plotting
+    - ipywidgets
+
+    # Documentation
     #- sphinx>=7.0.1             # Main documentation system
     #- myst-parser>=2.0.0        # Support for MyST .md files. Provided by myst-nb
     - myst-nb>=0.17.2           # Support for notebooks as MyST .md files.
@@ -40,7 +45,7 @@ dependencies:
     - sphinx-comments # Hypothes.is comments and annotations
     - sphinxcontrib-bibtex>=2.4.0
     # https://github.com/executablebooks/sphinx-jupyterbook-latex/issues/97
-    - sphinx-jupyterbook-latex    
+    - sphinx-jupyterbook-latex
 
     - sphobjinv  # Helps looking up intersphinx references
     - mmf-setup
