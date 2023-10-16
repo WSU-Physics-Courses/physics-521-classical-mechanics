@@ -50,3 +50,6 @@ dependencies:
     - sphobjinv  # Helps looking up intersphinx references
     - mmf-setup
     - ruamel-yaml
+
+    # The current repository
+    - . 

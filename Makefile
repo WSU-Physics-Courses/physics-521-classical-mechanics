@@ -138,6 +138,7 @@ sync:
 
 clean:
 	-find . -name "__pycache__" -exec $(RM) -r {} +
+	-$(RM) -r $(DOCS)/_build
 	-$(RM) -r _htmlcov .coverage .pytest_cache
 	-$(CONDA_EXE) clean --all -y
 
@@ -246,7 +247,7 @@ ifdef COCALC_ANACONDA
 endif # cookiecutter.make_tools
 # ------- Documentation  -----
 html:
-	$(ANACONDA_PROJECT) run make -C $(DOCS) html
+	$(_RUN) make -C $(DOCS) html
 
 # We always rebuild the index.md file in case it literally includes the top-level README.md file.
 # However, I do not know a good way to pass these to sphinx-autobuild yet.
@@ -262,6 +263,10 @@ endif
 521-Docs.tgz: $(DOCS)/*
 	@make html
 	tar -s "|$(DOCS)/_build/html|521-Docs|g" -zcvf $@ $(DOCS)/_build/html
+
+521-Solutions.tgz: $(DOCS)/* Docs/Solutions/*
+	@make html
+	tar -s "|Docs/_build/html|521-Solutions|g" -zcvf $@ $(DOCS)/_build/html
 
 .PHONY: html doc-server
 
