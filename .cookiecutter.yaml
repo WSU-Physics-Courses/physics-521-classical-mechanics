@@ -1,6 +1,7 @@
 default_context:
   use_course: "yes"
   use_docs: "yes"
+  use_src: "yes"
   use_cocalc: "yes"
   institution: "Washington State University (WSU)"
   department: "Physics"

@@ -133,20 +133,24 @@ sync:
                $(SHELL) {} +
 # See https://stackoverflow.com/a/15936384/1088938 for details
 
-clean:
+cleanspace:
 	-find . -name "__pycache__" -exec $(RM) -r {} +
 	-$(RM) -r _htmlcov .coverage .pytest_cache
-	-$(CONDA_EXE) clean --all -y
+	-$(_MICROMAMBA) clean --all --yes
 
+cleandocs:
+	-$(RM) -r $(DOCS)/_build
 
-realclean:
+clean: cleanspace cleandocs
+
+realclean: clean
 	$(RM) -r envs
 
 test:
 	$(ANACONDA_PROJECT) run test
 
 
-.PHONY: init lock sync clean realclean test tools
+.PHONY: init lock sync clean cleanspace realclean test tools
 ######################################################################
 # Tools
 #
@@ -242,8 +246,8 @@ ifdef COCALC_ANACONDA
 	mmf_setup cocalc
 endif # cookiecutter.make_tools
 # ------- Documentation  -----
-html:
-	$(ANACONDA_PROJECT) run make -C $(DOCS) html
+html: $(ENV_PATH)
+	$(_RUN) make -C $(DOCS) html
 
 # We always rebuild the index.md file in case it literally includes the top-level README.md file.
 # However, I do not know a good way to pass these to sphinx-autobuild yet.
@@ -257,6 +261,10 @@ else
 endif
 
 521-Docs.tgz: $(DOCS)/*
+	@make html
+	tar -s "|$(DOCS)/_build/html|521-Docs|g" -zcvf $@ $(DOCS)/_build/html
+
+521-Solutions.tgz: $(DOCS)/*
 	@make html
 	tar -s "|$(DOCS)/_build/html|521-Docs|g" -zcvf $@ $(DOCS)/_build/html
 
@@ -406,8 +414,10 @@ Testing:
    make test         Runs the general tests.
 
 Maintenance:
-   make clean        Call conda clean --all: saves disk space.
-   make reallyclean  delete the environments and kernel as well.
+   make clean        Delete the documentation.
+   make cleandocs    Remove documentation build.
+   make cleanspace   Save disk space by removing __pycache__, calling conda clean --all etc.
+   make reallyclean  Delete the documentation, environments, and kernel as well.
    make hg-update-cookiecutter 
                      Update the base branch with any pushed cookiecutter updates.  Note: this
                      assumes several things, including that you have a `default` and
