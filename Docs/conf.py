@@ -342,6 +342,8 @@ def my_init(app):
     run init` as normal, this will create a **whole new conda environment** and install
     the kernel from there.
     """
+    # mathjax_offline = True
+    mathjax_offline = False
     if on_rtd:
         subprocess.check_call(
             [
@@ -356,12 +358,11 @@ def my_init(app):
                 "Python 3 (phys-521)",
             ]
         )
+        mathjax_offline = False
     else:
         print("Not On RTD!")
-        subprocess.check_call(["make", "init"])
+        subprocess.check_call(["make", "-C", str(mmf_setup.ROOT), "init"])
 
-    mathjax_offline = False
-    # mathjax_offline = True
     if mathjax_offline:
         # For this to work, you need to put mathjax js files in Docs/_static/mathjax
         # Docs/_static/
