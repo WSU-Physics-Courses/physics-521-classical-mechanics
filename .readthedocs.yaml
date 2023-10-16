@@ -15,16 +15,26 @@ sphinx:
 
 ######################################################################
 # Option 1: Use mamba
+# https://github.com/readthedocs/readthedocs.org/issues/8424
+# https://docs.readthedocs.io/en/stable/guides/conda.html#making-builds-faster-with-mamba
+# As of 6 April 2022, this fails with
+# Command killed due to timeout or excessive memory consumption
+
+#build:
+#  os: ubuntu-22.04
+#  tools:
+#    python: "mambaforge-4.10"
+
+######################################################################
+# Option 2: Use conda
 build:
   os: ubuntu-22.04
   tools:
-    # python: "3.11"
     python: "mambaforge-22.9"
   apt_packages:
     - libcairo2-dev
     - libpango1.0-dev
     - ffmpeg
-
 
 # Use conda
 conda:

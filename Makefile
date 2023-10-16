@@ -90,6 +90,9 @@ ifdef CONDA_SUBDIR
   CONDA_PRE += CONDA_SUBDIR=$(CONDA_SUBDIR)
 endif
 
+MMF_SETUP_VENV ?= ~/.venvs/mmf_setup
+ACTIVE_MMF_SETUP ?= source $(MMF_SETUP_VENV)/bin/activate
+
 # ------- Top-level targets  -------
 # Default prints a help message
 help:
@@ -135,6 +138,7 @@ sync:
 
 cleanspace:
 	-find . -name "__pycache__" -exec $(RM) -r {} +
+	-$(RM) -r $(DOCS)/_build
 	-$(RM) -r _htmlcov .coverage .pytest_cache
 	-$(_MICROMAMBA) clean --all --yes
 

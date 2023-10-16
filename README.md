@@ -18,318 +18,146 @@ the [CoCalc](https://cocalc.com/) platform will enable rapid development and pro
 with an explicit path to stable, tested, and performant codes capable of supporting
 research, or industry applications.
 
-## TL;DR
+[![Documentation Status](https://readthedocs.org/projects/physics-521-classical-mechanics-i/badge/?version=latest)](https://physics-521-classical-mechanics-i.readthedocs.io/en/latest/?badge=latest)
 
-Clone this repository somewhere with [Anaconda Project][] and [Conda][] installed, then run
+Main project for the [WSU Physics][] course **Physics 521: Classical Mechanics I**.
+
+## Installation
+
+This project is intended to be installed on [CoCalc][], but should work on other
+computers.
+
+### Preliminaries
+
+Before performing the main install, you should complete the following preliminaries,
+which will ensure that you can access the repository with SSH etc.  These may vary by
+platform, but after you are done
+
+1. Create a [CoCalc] project in which to work. (We will use the class [Shared CoCalc
+   Project] for this example.)
+2. (Optional) Create a [GitLab] account and inform your instructor of your username so
+   that they can add you to the class private repository.
+3. On your computer, create an SSH key, authenticate to this, and optionally, add this
+   to your keychain manager (e.g. `Keychain Access.app` on Mac OS X).
+4. Copy the associated public key to your [GitLab] account and to your [CoCalc] account.
+5. Add the appropriate entry to your `~/.ssh/config` file so you can `ssh` to the
+   [CoCalc] project, forwarding your keys.  For example, with the class [Shared CoCalc
+   Project], I do this with the following configuration:
+   
+   ```ini
+   # ~/.ssh/config
+   ...
+   Host cc521shared
+     User 31c120c9295644209d6f374a6ee32df3
+   Host cc*
+     HostName ssh.cocalc.com
+     ForwardAgent yes
+     SetEnv LC_HG_USERNAME=Michael McNeil Forbes <michael.forbes+python@gmail.com>
+     SetEnv LC_GIT_USERNAME=Michael McNeil Forbes
+     SetEnv LC_GIT_USEREMAIL=michael.forbes+github@gmail.com
+     SetEnv LC_EDITOR=vi
+   Host *
+     IgnoreUnknown UseKeychain
+     UseKeychain yes
+     AddKeysToAgent yes
+     AddressFamily inet
+     # Force IPv4
+     # https://www.electricmonk.nl/log/2014/09/24/
+     #         ssh-port-forwarding-bind-cannot-assign-requested-address/
+   ```
+
+Once these are done, you should be able to ssh directly to the [CoCalc] project **after
+first starting the project via the web***:
 
 ```bash
-make init
+ssh smc521shared
 ```
 
-This will generate a [Conda][] environment you can use to work with the project.  Once
-this is done you can make the documentation, tests, etc. with commands like:
+Note: the `LC_*` environment variables set above allow us to customize the environment
+later so that multiple users can share the same environment.  This deals with a quirk of
+[CoCalc] in that one connects to a project with a specialized username.  This means that
+everyone has the same username, making it difficult for different users to commit
+changes to version control.  To remedy this, my [`mmf-setup`] packages modifies the
+`~/.bash_alises` file to use the variables sent above.
 
-```bash
-make test
-make html
-make doc-server
-...
-```
+The remainder of the instructions should be performed after connecting to your [CoCalc]
+project in this way.
+   
+### CoCalc Installation
 
-The latter will host the documentation on https://localhost:8000 and auto-update when you
-make changes.
+To install everything on [CoCalc], do the following after connecting to your project
+with SSH as described above:
 
-These will use `anaconda-project run` to perform the various actions.  If you want to
-manually interact with the environment, then you can run:
-
-```bash
-anaconda-project run shell
-```
-
-In this shell, you can directly run `pytest` for example.
-
-## Developer Notes
-
-This file can be included in the documentation by adding the following to
-`Docs/index.md`:
-
-````markdown
-```{include} ../README.md
-```
-````
-
-See `Docs/index.md` for more details.
-
-
-
-To use this repository:
-
-1. *(Optional)* 
-   * Create accounts on [CoCalc][] and [GitLab][], a project on [CoCalc][], and a
-   repo on [GitLab][].  Send your [GitLab][] account name to your instructor.
-   * Create [Create SSH
-   keys](https://doc.cocalc.com/project-settings.html#ssh-keys), and add them [to your
-   CoCalc account](https://doc.cocalc.com/account/ssh.html) and [to your GitLab
-   account](https://docs.gitlab.com/ee/ssh/).
-   * SSH into your [CoCalc][] project for the remaining steps.
-2. Clone this repo and initialize it:
+1. Make a `repositories` directory and clone the project:
 
    ```bash
-   git clone https://gitlab.com/wsu-courses/physics-521-classical-mechanics.git phys-521-classical-mechanics
-   cd phys-521-classical-mechanics
+   mkdir repositories
+   cd repositories
+   git clone git@gitlab.com:wsu-courses/physics-521-classical-mechanics.git
+   ```
+2. Run `make init`:
+  
+   ```bash
+   cd ~/repositories/physics-521-classical-mechanics
+   git pull   # Make sure repo is up to date.
    make init
    ```
    
    This will create a [Conda][] environment you can activate `conda activate envs/phys-521`,
    and a Jupyter kernel called `phys-521` that you can select from notebooks.
    
-3. *(Optional)* 
-   * Add your [GitLab][] repo as a remote, and push.
-   * Create a [GitHub][] mirror with automatic push from your [GitLab][] repo so you can
-     take advantage of their CI.
-
-4. *(Optional)*
-   * Add an appropriate Git Username etc. by defining `LC_GIT_USERNAME` etc. in your
-     project or send these in your `~/.ssh/config` file.  In your project you can add
-     something like this in your project **Settings > Custom environmental variables**
-     section: 
+     ```bash
+     python3 -m pip install --user --upgrade mmf-setup
+     mmf_setup cocalc
+     ```
      
-     ```json
-     {
-       "LC_GIT_USERNAME": "Your Full Name", 
-       "LC_GIT_USEREMAIL": "your.name@example.com",
-       "LC_HG_USERNAME": "Your Full Name <your.name@example.com>",
-       "LC_EDITOR": "vi",
-     }
+     The last step installs some useful files including `~/.inputrc` (arrows for command
+     completion), `~/.bash_aliases` (defines some useful commands like `findpy`, and
+     `finda`, uses the `LC_*` variables defined above, etc.)
+   * Depending on the state of the `USE_ANACONDA2020` flag, one of the following is
+     done. If `USE_ANACONDA2020` is `true`, then the `anaconda2020` environment on
+     [CoCalc] is activated, otherwise [Miniconda] is installed in `~/.miniconda3` and
+     the `base` environment is updated with `conda`, `anaconda-project`, and `mamba`.
+     This is roughly equivalent to the following (but also checking hashes, using proper
+     paths, using `/tmp`, disabling prompts, etc.)
+
+     ```bash
+     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+     bash Miniconda3-latest-Linux-x86_64.sh
+     conda update conda
+     conda install anaconda-project
+     conda install --override-channels --channel conda-forge mamba
+     conda clean --all
+     ```
+   * Once [Conda] is installed, [Anaconda Project] is used to setup the specific project
+     environment:
+
+     ```bash
+     cd ~/repositories/physics-521-classical-mechanics
+     anaconda-project prepare
+     anaconda-project run init
      ```
 
-Overview
---------
+     This installs all of the dependencies listed in `anaconda-project.yaml` into an
+     environment in `envs/phys-521`, and then creates a Jupyter kernel called
+     `phys-521` that the [CoCalc] notebooks can find.  The latter step is roughly
+     equivalent to running the following with the appropriate python installed in
+     `envs/phys-521`:
 
-One of the things I would like to do is to present each technique from at least two
-perspectives:
+     ```bash
+     python3 -m ipykernel install --user --name "phys-521" --display-name "Python 3 (phys-521)"
+     ```
 
-From scratch
-: I feel it is extremely valuable to understand what is at the core
-  of an algorithm, and to be able to quickly implement a simplistic "brute force"
-  version.  These have the following advantage:
-  * Predictable convergence properties.  While often not as accurate or fast as more
-    specialized or adaptive routines, simple brute-force versions of an algorithm can
-    often be understood completely in terms of convergence properties and/or stability
-    with respect to round-off errors etc.  I highly recommend always checking your results
-    with a simple brute-force approach to make sure you are not making any mistakes:
-  * Occasionally one will need to implement an algorithm from scratch on a specialize
-    platform.  For example, to efficiently port code to a GPUs, one must try to remove
-    conditionals (`if` statements).  This makes high-precision adaptive routines very
-    hard to program, and one  can often gets better performance from a more
-    straight-forward brute-force approach. 
-  * Related: sometimes high precision is not needed.  In these cases, a simple
-    low-accuracy but highly optimized brute-force approach might be fastest.  *(This is
-    common in video graphics for example where results need only be accurate to the
-    pixel level.)*
-  * Having a basic understanding what is happening under "under the hood" of library
-    routines can help when those routines fail. 
+   * Finally, a line is added to the end of `~/.bash_aliases` to activate the
+     environment when you ssh to the [CoCalc] project.  If you logout and log back in,
+     you should now see the following prompt:
 
-As fast as possible
-: When you need accurate results for research, however, it is also very useful to be
-  familiar with library techniques so you can quickly get high-precision results. 
-  * If the appropriate technique is implement in a well-tested library, then one can
-    often use it in a few lines of code and implement it in a few minutes of time --
-    most of which is spent understanding the arguments.  This allows you to get results
-    quickly. 
-  * These techniques tend to be adaptive, spending more time where the problem is hard
-    to achieve desired tolerance objectives.  If you need performance, you can reduce
-    the tolerance. 
-   * Unfortunately, adaptive routines can skip over the hard stuff, giving incorrect
-     results that may seem reasonable at first.  There is no substitute for
-     understanding your problem. 
-  * It can be hard to understand exactly what black-box library routines are doing, and
-    hence hard to understand their convergence properties.  It is essential to check your
-    results with different techniques, or, at a minimum, with different resolutions. 
-      > **Definition 16 (IDIOT)** *Anyone who publishes a calculation without checking it
-      > against an identical computation with smaller $N$ OR without evaluating the 
-      > residual of the pseudospectral approximation via finite differences is an IDIOT.*
-      *(J. P. Boyd: Chebyshev and Fourier Spectral Methods {cite:p}`Boyd:1989`)* 
-
-## Software Carpentry
-
-Another objective of the course is to provide students with good software carpentry
-skills.  This includes using version control, documenting code, testing, code-coverage,
-and continuous integration (CI).  In particular, students are expected to fork this
-repository and maintain their own [GitLab][] repository with fully tested code.
-Assignments will be distributed in the form of tests which the students must provide
-functions which pass these tests.
-
-* Students will be expected to maintain their code under version control.
-* Code must be tested with unit tests providing at least 85% code coverage.
-* Code must meet certain quality metrics, including documenting behaviour,
-  inputs/outputs, specifying interfaces etc.
-
-As part of the course, I will provide a detailed explanation of how to use tools like
-[pytest](https://docs.pytest.org), [Coverage.py](https://coverage.readthedocs.io),
-[Flake8](https://flake8.pycqa.org) and new tools like [LGTM](https://lgtm.com/) that
-provide security analyses of code for Python-based projects to satisfying all of these
-objectives.  With continuous integration techniques, these tests can be run whenever
-code is committed, helping maintain functioning, well-tested code.
-
-This repository provides a skeleton satisfying these requirements, and demonstrating how
-to write proper tests, use [GitLab][]s continuous integration, and to generate
-documentation for Python.  *(Students wishing to use other languages will need to learn
-how to use similar tools on their own.)*
-
-Justification
-: * Thinking about how to test code can significantly help in understanding the
-    techniques and the problems. A significant portion of the course will address this
-    issue.  For example: How can one find non-trivial problems with analytic solutions
-    for testing?  What if such problems cannot be found? How should the algorithms
-    converge?  Is appropriate convergence being achieved? *(Answering this later
-    question quantitatively can provide for very useful test cases.)*
-  * These skills will definitely be of benefit to anyone looking later for a career in
-    industry, but will also help in maintaining code in a research setting.
-  * The repository of code developed for this course can serve as a future portfolio.
-  * Working tests serve as a demonstration of how to use the code, thereby functioning
-    in some sense as documentation examples that are checked.
-
-### GitLab Fork
-
-1. Create an account on [GitLab][].
-2. Fork the [Official Course Repository][] (I suggest making this private since your grade
-   is associated with the tests, but you are welcome to make it public whenever you are
-   comfortable.)
-3. Add your instructor `@mforbes` as a **Developer** for the project:
-
-   * **Project Information > Members**
-   
-4. Clone this to your [CoCalc][] project and/or your computer.  Do your work etc. and push
-   your changes.
-5. Trigger the CI pipeline if it was not triggered by your push.
-
-   * **CI/CD > Pipelines > Run pipeline**
-
-6. Add the badges *(I don't know how to automate this or store this in a file
-   yet... could maybe use [the Badges API](https://docs.gitlab.com/ee/api/project_badges.html))*:
-
-   * **Settings > General > Badges**
-
-    The following list the required fields:
-    
-    ```
-    Name
-    Link
-    Badge image URL
-    ```
-    
-    ```
-    Docs
-    https://wsu-phys-581-fall-2021.readthedocs.io/en/latest/?badge=latest
-    https://readthedocs.org/projects/wsu-phys-581-fall-2021/badge/?version=latest
-    ```
-    ```
-    Pipeline
-    https://gitlab.com/%{project_path}
-    https://gitlab.com/%{project_path}/badges/%{default_branch}/pipeline.svg
-    ```
-    ```
-    Tests
-    https://gitlab.com/%{project_path}
-    https://gitlab.com/%{project_path}/-/jobs/artifacts/%{default_branch}/raw/_artifacts/test-badge.svg?job=test
-    ```
-    ```
-    Coverage
-    https://gitlab.com/%{project_path}
-    https://gitlab.com/%{project_path}/-/jobs/artifacts/%{default_branch}/raw/_artifacts/coverage-badge.svg?job=test
-    ```
-    ```
-    Assignment-0
-   https://gitlab.com/%{project_path}
-    https://gitlab.com/%{project_path}/-/jobs/artifacts/%{default_branch}/raw/_artifacts/test-0-badge.svg?job=test-0
-    ```
-    ```
-    Assignment-1
-    https://gitlab.com/%{project_path}
-    https://gitlab.com/%{project_path}/-/jobs/artifacts/%{default_branch}/raw/_artifacts/test-1-badge.svg?job=test-1
-    ```
-
-    etc.
-
-### Optional: SSH Keys
-
-Typing your password every time you want to pull or push quickly gets tiring.  A better
-option is to use [SSH][] to authenticate, connect, and to forward your agent so you don't
-need to re-authenticate.  The basic ideas are explained in [connecting to CoCalc with
-SSH](https://doc.cocalc.com/project-settings.html#ssh-keys).
-
-### Optional: GitHub Mirror
-
-You can create a mirror on [GitHub][] of your [GitLab][] project which is updated whenever
-you commit to your `main` branch.  Maintaining a [GitHub][] mirror like this allows you to
-use the [GitHub CI][] tools, which differ somewhat from those on [GitLab][].
-
-3. *(Optional)* Create an account on [GitHub][].
-
-
-## References
-
-* [Python Tutorial](https://docs.python.org/3/tutorial/): This is the definative tutorial for the python language.  If you have not read this and plan to use python, then you should.
-* [NumPy Tutorial](https://numpy.org/numpy-tutorials/): Growing repository of tutorials for using NumPy.  Being able to "think" in terms of arrays *(vectorization)* can greatly simplify your understanding of algorithms, while simultaneously improving your code, both from a performance and a reliability standpoint.  Not every problem benefits from this approach, but many of those in physics do.  *(We should try to [contribute](https://github.com/numpy/numpy-tutorials) to these.)*
-* [Hypermodern Python](https://cjolowicz.github.io/posts/hypermodern-python-01-setup/): Deals with issues about packaging, testing, etc.  I plan to follow this (with some modifications discussed in [Hypothes.is annotations](https://hypothes.is/groups/z7AoNvZ1/computing) to setup the coding framework.
-
-
-
-## Maintainer Notes
-Try to keep this upper-level project as clean as possible, matching the layout expected
-for the students.  This will be turned into a skeleton at some point.
-
-
-## Tools
-
-### Cookie Cutter
-* https://github.com/cookiecutter/cookiecutter
-* https://cookiecutter-hypermodern-python.readthedocs.io/
-
-### Anaconda Project
-
-```bash
-anaconda-project init
-anaconda-project add-packages python=3.9 scipy matplotlib sphinx
-anaconda-project add-packages conda-forge::uncertainties
-anaconda-project add-packages conda-forge::sphinx-panels conda-forge::sphinx-book-theme conda-forge::myst-nb
-anaconda-project add-packages --pip sphinxcontrib-zopeext sphinxcontrib-bibtex mmf-setup
-```
-
-To clean:
-
-```bash
-anaconda-project clean
-```
-
-## Repository Setup
-
-Can use GitHub, GitLab, or Heptapod.  With automatic pushing to GitHub, one and run the
-following CI's:
-* LGTM.com
-
-* One course repo.  Students clone their own fork and pull changes.  Assignments
-  distributed as tests.
-* How to grade?  Student's can keep projects private (but probably will not have access
-  to badges.)  Run tests on Student's CoCalc servers or with CI?
-  
-
-## Best Practices
-
-* Use Jupytext and version control the associated python files.  Only commit the full
-  notebooks (with output) when you want to archive documentation.
-  * Maybe do this on an "output" branch or something so the main repo does not get
-    cluttered?
-
-
-## Docs
-
-To build the documents interactively:
-
-```bash
-make doc-server
-```
+     ```bash
+     $ ssh cc521shared
+     (phys-521) ~$ 
+     ```
+ 
+ You should now be able to use the `phys-521` kernel in notebooks.
 
 This will run [`sphinx-autobuild`](https://github.com/executablebooks/sphinx-autobuild)
 which will launch a webserver on http://127.0.0.1:8000 and rebuild the docs whenever you
@@ -436,17 +264,21 @@ hg add local.bib _static/ _templates/
 
 
 <!-- Links -->
-[Anaconda Project]: <https://github.com/Anaconda-Platform/anaconda-project> "Anaconda Project"
 [CoCalc]: <https://cocalc.com> "CoCalc: Collaborative Calculation and Data Science"
-[Conda]: <https://docs.conda.io/en/latest/> "Conda: Package, dependency and environment management for any language—Python, R, Ruby, Lua, Scala, Java, JavaScript, C/ C++, FORTRAN, and more."
-[GitHub CI]: <https://docs.github.com/en/actions/guides/about-continuous-integration> "GitHub CI"
-[GitHub]: <https://github.com> "GitHub"
+[WSU Physics]: <https://physics.wsu.edu> "WSU Physics Department"
 [GitLab]: <https://gitlab.com> "GitLab"
+[GitHub]: <https://github.com> "GitHub"
 [Git]: <https://git-scm.com> "Git"
+[Mercurial]: <https://www.mercurial-scm.org> "Mercurial"
+[hg-git]: <https://hg-git.github.io> "The Hg-Git mercurial plugin"
 [Heptapod]: <https://heptapod.net> "Heptapod: is a community driven effort to bring Mercurial SCM support to GitLab"
 [Jupyter]: <https://jupyter.org> "Jupyter"
 [Jupytext]: <https://jupytext.readthedocs.io> "Jupyter Notebooks as Markdown Documents, Julia, Python or R Scripts"
-[Mercurial]: <https://www.mercurial-scm.org> "Mercurial"
+[Resources project]: <https://gitlab.com/wsu-courses/physics-521-classical-mechanics_resources> "Private course resources repository."
+[Official Course Repository]: <https://gitlab.com/wsu-courses/physics-521-classical-mechanics/> "Official Physics 581 Repository hosted on GitLab"
+[file an issue]: <https://gitlab.com/wsu-courses/physics-521-classical-mechanics/-/issues> "Issues on the class GitLab project."
+[Conda]: <https://docs.conda.io/en/latest/> "Conda: Package, dependency and environment management for any language—Python, R, Ruby, Lua, Scala, Java, JavaScript, C/ C++, FORTRAN, and more."
+[`mmf-setup`]: <https://pypi.org/project/mmf-setup/>
 [Miniconda]: <https://docs.conda.io/en/latest/miniconda.html> "Miniconda is a free minimal installer for conda."
 [MyST]: <https://myst-parser.readthedocs.io/en/latest/> "MyST - Markedly Structured Text"
 [Read the Docs]: <https://readthedocs.org> "Read the Docs homepage"

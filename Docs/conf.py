@@ -60,7 +60,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinxcontrib.bibtex",
     "sphinxcontrib.zopeext.autointerface",
-    "matplotlib.sphinxext.plot_directive",
+    # "matplotlib.sphinxext.plot_directive",
     # From jupyterbook
     # "jupyter_book",
     # "sphinx_thebe",
@@ -114,13 +114,17 @@ autosummary_generate_overwrite = False
 autosummary_imported_members = False
 add_module_names = False
 
+autodoc_default_options = {
+    "member-order": "bysource",
+}
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "Solutions/_unpublished/*"]
 
 # Cache notebook output to speed generation.
 # https://myst-nb.readthedocs.io/en/latest/use/execute.html
@@ -139,7 +143,15 @@ html_theme = "sphinx_book_theme"  # Theme for JupyterBook
 html_logo = "_static/wsu-logo.svg"
 
 html_theme_options = {
-#
+    #
+    "repository_url": "https://gitlab.com/wsu-courses/physics-521-classical-mechanics",
+    "use_repository_button": True,
+    #
+    # "launch_buttons": {
+    #    "notebook_interface": "classic",
+    #     "binderhub_url": "https://mybinder.org",
+    #    'thebe': True
+    # },
 }
 
 # Override version number in title... not relevant for docs.
@@ -180,6 +192,15 @@ ogp_site_url = "https://physics-521-classical-mechanics-i.readthedocs.io/en/late
 # Variables with course information
 course_package = "phys_521"
 
+######################################################################
+# Custom Admonitions
+# https://docutils.sourceforge.io/docs/howto/rst-directives.html
+
+from docutils import nodes
+from docutils.parsers.rst import Directive, directives
+from docutils.parsers.rst.directives.admonitions import BaseAdmonition, Admonition
+from docutils.parsers.rst.roles import set_classes
+from sphinx_togglebutton import Toggle
 
 
 ######################################################################
@@ -277,6 +298,9 @@ class AsideAdmonition(SolutionAdmonition):
     show_all = False  #  If True, always show.  Useful for writing
     title_text = "Aside"
 
+
+######################################################################
+
 math_defs_filename = "_static/math_defs.tex"
 
 html_context = {
@@ -289,7 +313,7 @@ mathjax3_config = {
 }
 
 # Hypothes.is comments and annotations
-comments_config = {"hypothesis": True}
+# comments_config = {"hypothesis": True}
 
 
 def config_inited_handler(app, config):
@@ -323,6 +347,7 @@ def my_init(app):
     run init` as normal, this will create a **whole new conda environment** and install
     the kernel from there.
     """
+    # mathjax_offline = True
     mathjax_offline = False
     if on_rtd:
         subprocess.check_call(
@@ -391,4 +416,3 @@ def setup(app):
     app.add_directive("solution", SolutionAdmonition)
     app.add_directive("doit", DoItAdmonition)
     app.add_directive("aside", AsideAdmonition)
-    

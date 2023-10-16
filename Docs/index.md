@@ -7,13 +7,14 @@
 <!-- Include ../README.md
      If you would like to use the contents of your top-level README.md file here, then
      you can literally include it here with the following:
+-->
 
 ```{include} ../README.md
 ``` 
 
-    Note that this may will break `sphinx-autobuild` (`make doc-server`) which will not rebuild
-    this index file when ../README.md changes.  See the note at the bottom of the file
-    if you want to do this while using sphinx-autobuild.
+<!-- Note that this may will break `sphinx-autobuild` (`make doc-server`) which will not rebuild
+     this index file when ../README.md changes.  See the note at the bottom of the file
+     if you want to do this while using sphinx-autobuild.
 --> 
 
 
@@ -43,6 +44,8 @@ Syllabus
 Assignments
 
 References
+ClassNotes
+OtherNotes
 ```
 ```{toctree}
 ---
@@ -81,7 +84,7 @@ README.md <../README>
      using the `sphinx.ext.ifconfig extension`:
      
      https://www.sphinx-doc.org/en/master/usage/extensions/ifconfig.html
-
+-->
 ```{eval-rst}
 .. ifconfig:: not on_rtd and not on_cocalc
 
@@ -94,4 +97,3 @@ README.md <../README>
       README.md <../README>
       InstructorNotes.md <../InstructorNotes>
 ```
--->

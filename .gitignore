@@ -12,6 +12,12 @@ _trash/
 _artifacts/
 _build/
 
+Docs/media/
+Docs/OtherNotes/media/
+Docs/ClassNotes/media/
+Docs/Assignments/media/
+Docs/Solutions/media/
+
 __pycache__
 __pypackages__
 envs/
