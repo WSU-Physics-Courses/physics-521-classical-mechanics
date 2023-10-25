@@ -11,6 +11,7 @@ _ext/
 _trash/
 _artifacts/
 _build/
+build
 
 Docs/media/
 Docs/OtherNotes/media/
@@ -26,3 +27,4 @@ envs/
 *.sage-jupyter2
 *.term
 *.orig
+*.egg-info

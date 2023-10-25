@@ -42,10 +42,8 @@ hidden:
 ---
 Syllabus
 Assignments
-
+ClassNotes/HamiltonianDynamics
 References
-ClassNotes
-OtherNotes
 ```
 ```{toctree}
 ---
@@ -65,6 +63,8 @@ maxdepth: 2
 caption: "Miscellaneous:"
 hidden:
 ---
+ClassNotes
+OtherNotes
 Demonstration
 CoCalc
 ClassLog

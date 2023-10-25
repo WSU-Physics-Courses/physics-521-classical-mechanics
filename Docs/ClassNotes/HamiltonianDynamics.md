@@ -57,22 +57,30 @@ Expressed in this form, we have:
   \diff{\vect{p}}{t} = \pdiff{L}{\vect{q}}.
 \end{gather*}
 
-The idea of [Hamiltonian mechanics] is to effect a [Legendre transformation], replacing
+The idea of [Hamiltonian mechanics][] is to effect a [Legendre transformation][], replacing
 the coordinates $\dot{\vect{q}}$ with the conjugate momenta $\vect{p}$:
-
+:::{margin}
+Note: one must invert the first set of equations to express $\dot{\vect{q}}(\vect{q},
+\vect{p}, t)$ as a function of the coordinate and generalized momenta.
+:::
 \begin{gather*}
   \vect{p} = \pdiff{L}{\dot{\vect{q}}}, \qquad
-  H(\vect{p}, \vect{q}, t) = \vect{p}\cdot\dot{\vect{q}} - L.
+  H(\vect{p}, \vect{q}, t) =
+  \underbrace{\vect{p}\cdot\dot{\vect{q}}}_{
+    \mathclap{\vect{p}\cdot\dot{\vect{q}}(\vect{q}, \vect{p}, t)}
+  } - \overbrace{L}^{\mathclap{
+    L\bigl(\vect{q}, \dot{\vect{q}}(\vect{q}, \vect{p}, t), t\bigr)
+  }}.
 \end{gather*}
 
-How we have Hamilton's equations of motion:
+Now we have Hamilton's equations of motion:
 
 \begin{gather*}
   \dot{\vect{q}} = \pdiff{H}{\vect{p}}, \qquad
   \dot{\vect{p}} = -\pdiff{H}{\vect{q}}.
 \end{gather*}
 
-::::{admonition} Proof
+::::{admonition} Do it!  Prove that these are correct.
 :class: dropdown
 
 We first solve the first equation for $\dot{\vect{q}} = \dot{\vect{q}}(\vect{q},
@@ -83,7 +91,8 @@ We first solve the first equation for $\dot{\vect{q}} = \dot{\vect{q}}(\vect{q},
   = \vect{p}\cdot\dot{\vect{q}}(\vect{q}, \vect{p}, t) - L\Bigl(\vect{q}, \dot{\vect{q}}(\vect{q}, \vect{p}, t), t\Bigr).
 \end{gather*}
 
-Now we simply differentiate, using the chain rule, and cancel $\vect{p} = \pdiff L/\partial\dot{\vect{q}}$:
+Now we simply differentiate, using the chain rule, and cancel $\vect{p} = \pdiff
+L/\partial\dot{\vect{q}}$:
 
 \begin{gather*}
   \pdiff{H(\vect{p}, \vect{q}, t)}{\vect{p}} 
@@ -102,7 +111,26 @@ Now we simply differentiate, using the chain rule, and cancel $\vect{p} = \pdiff
 
 ::::
 
+::::{admonition} Do it! Invert the process: find $L(\vect{q}, \dot{\vect{q}}, t)$ from $H(\vect{q}, \vect{p}, t)$.
+:class: dropdown
+
+From $H(\vect{q}, \vect{p}, t)$, use Hamilton's equation of motion to find the velocity,
+then reverse the transformation:
+\begin{gather*}
+  \dot{\vect{q}} = \pdiff{H}{\vect{p}}, \qquad
+  L(\vect{q}, \dot{\vect{q}}, t) = 
+  \vect{p}\cdot\dot{\vect{q}} - H
+\end{gather*}
+
+::::
+
 ## Phase Flow
+
+Although one can study dynamics by plotting the flow of trajectories in configuration
+space by plotting the velocity verses position $(\vect{q}, \dot{\vect{q}})$, there are
+advantages to considering dynamics in [phase space][] $(\vect{q}, \vect{p})$, replacing
+the velocity with the generalized momentum.  Specifically, Hamiltonian dynamics
+preserves area in [phase space][], which is not necessarily true if one uses the velocity.
 
 Hamilton's equations define **phase flow**.  Let $\vect{y}(0) = (\vect{q}_0, \vect{p}_0)$ be a
 point in phase space.  The phase flow is defined by the trajectory $\vect{y}(t)$ through
@@ -361,8 +389,8 @@ Hamiltonian or Lagrangian framework.  Consider the following:
   \dot{q} = \frac{p}{m}e^{-\alpha t}, \qquad
   p = m\dot{q} e^{\alpha t},\\
   \begin{aligned}
-  m\ddot{q} &= \dot{p}e^{-\alpha t} - m\alpha \dot{q}
-           = - V'(q) e^{\alpha t}e^{-\alpha t} - m\alpha \dot{q}\\
+  m\ddot{q} &= \dot{p}e^{-\alpha t} - m\alpha \dot{q}\\
+           &= - V'(q) e^{\alpha t}e^{-\alpha t} - m\alpha \dot{q}\\
            &= - V'(q) - m\alpha \dot{q}.\end{aligned}
 \end{gather*}
 
@@ -595,7 +623,7 @@ runs, never actually falling across the horizon: just like a black hole.
 
 
 One might like to try to figure out what Lagrangian gives rise to an equation with
-dispersion $E(p)$ by effecting the Legendre transform:
+dispersion $E(p)$ by effecting the [Legendre transformation][]:
 \begin{gather*}
   L(q, \dot{q}, t) = \dot{q}p - H(q, p, t).
 \end{gather*}
@@ -665,7 +693,7 @@ We start by noting that $\dot{q} = pc^2/E(p)$ so that:
   E'(p) = \dot{q}, \qquad
   E(p) = pc^2/\dot{q} = \gamma m c^2.
 \end{gather*}
-Then, we use the Legendre transform
+Then, we use the [Legendre transformation][]
 \begin{gather*}
   L = pE' - E - V = \gamma m \dot{q}^2 - \gamma m c^2 - V(q) = \\ 
   \gamma m c^2 \underbrace{\left(\frac{\dot{q}^2}{c^2} - 1\right)}_{-\gamma^{-2}} - V(q)
@@ -691,6 +719,11 @@ dimensional factors.
 
 
 # WKB Approximation
+
+:::{warning}
+
+This section is still in progress...
+:::
 
 In quantum mechanics, one can use the Feynman path-integral approach to construct the
 propagator (here expressed in terms of position-to-position
@@ -2098,3 +2131,4 @@ described by a spatially dependent potential.
 [gaussian integral]: <https://en.wikipedia.org/wiki/Gaussian_integral>
 [Maxwell relations]: <https://en.wikipedia.org/wiki/Maxwell_relations>
 [Hamilton's principal function]: <https://en.wikipedia.org/wiki/Hamilton%E2%80%93Jacobi_equation#Hamilton's_principal_function>
+[phase space]: <https://en.wikipedia.org/wiki/Phase_space>
