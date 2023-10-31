@@ -65,9 +65,9 @@ extensions = [
     # "jupyter_book",
     # "sphinx_thebe",
     # "sphinx_external_toc",
-# 
+    #
     "sphinx_jupyterbook_latex",
-# 
+    #
     "sphinx_comments",  # Hypothes.is comments and annotations
     "sphinx_design",
     "sphinx_togglebutton",
