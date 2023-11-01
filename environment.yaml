@@ -15,7 +15,10 @@ dependencies:
   - jupytext
   - pandoc
   - notebook
-  - conda-forge::jupyter_nbextensions_configurator    
+  - conda-forge::jupyter_nbextensions_configurator
+  # These are needed, but should be installed at the system level.
+  #- conda-forge::py3cairo
+  #- conda-forges::ffmpeg
   
   # Pip-only dependencies
   - pip
@@ -50,5 +53,6 @@ dependencies:
     - sphobjinv  # Helps looking up intersphinx references
     - mmf-setup
     - ruamel-yaml
+    - manim
     # The current project, and dependencies in pyproject.toml.
     - .

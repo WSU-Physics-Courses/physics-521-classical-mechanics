@@ -32,9 +32,12 @@ build:
   tools:
     python: "mambaforge-22.9"
   apt_packages:
+    # Needed for manim.
     - libcairo2-dev
     - libpango1.0-dev
     - ffmpeg
+    - texlive
+    - texlive-latex-extra
 
 # Use conda
 conda:
