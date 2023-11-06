@@ -9,17 +9,21 @@ dependencies:
   - matplotlib
   - sympy
   - ipykernel
+
   #- conda-forge::jupyter_console
 
   # Documentation
   - jupytext
   - pandoc
-  - notebook
-  - conda-forge::jupyter_nbextensions_configurator
   # These are needed, but should be installed at the system level.
   #- conda-forge::py3cairo
   #- conda-forges::ffmpeg
-  
+
+  # Not needed, but useful for working with the code
+  - jupyter_console
+  - notebook
+  - conda-forge::jupyter_nbextensions_configurator
+
   # Pip-only dependencies
   - pip
   - pip:
@@ -54,5 +58,6 @@ dependencies:
     - mmf-setup
     - ruamel-yaml
     - manim
+    # - jupyter-manim   # Not needed
     # The current project, and dependencies in pyproject.toml.
     - .

@@ -24,7 +24,7 @@ Due: Friday 30 September 2022 at 11:59pm.
 
 ## Merry-go-round
 
-Consider a free particle moving in 2D ($x$-$y$ plane) with constant velocity on. Using
+Consider a free particle moving in 2D ($x$-$y$ plane) with constant velocity. Using
 the force law for motion in an accelerated frame, compute the trajectory of this "free"
 particle in a moving frame with $\omega(t) = \alpha t$ (i.e. with angle $\theta(t) =
 \alpha t^2/2$).  Show that your trajectory explicitly satisfies Newton's law in the

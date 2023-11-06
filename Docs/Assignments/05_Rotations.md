@@ -23,14 +23,19 @@ import manim.utils.ipython_magic
 
 # Assignment 5: Rigid Bodies
 
-**Due: 11:59pm Friday 18 November 2022**
+**Due: 11:59pm Wednesday 15 November 2023**
 
-## Rolling Coin
-Consider a coin rolling in a circle.  Treat the coin as a flat disk of radius $R$ and
-mass $M$.  Assume that the coin rolls without slipping.  Determine all properties of the
-motion (period of the orbit, radius of the circle, angle of the coin, angular velocities
+## Rolling Ring
+Consider a ring rolling in a circle.  Treat the ring as thin, with radius $R$ and
+uniform mass $M$.  Assume that the ring rolls without slipping.  Determine all properties of the
+motion (period of the orbit, radius of the circle, angle of the ring, angular velocities
 etc.)  Be sure to clearly sketch the geometry of your problem, perform a dimensional
 analysis, and check your solution by considering various limits.
+
+Show how to compute the moment of inertial tensor $I_{ij}$ from its definition:
+\begin{gather*}
+  I_{ij} = \int \d{m} (r^2\delta_{ij} - r_i r_j).
+\end{gather*}
 
 +++
 
@@ -150,7 +155,7 @@ class RollingHoop(Scene):
         #self.play(HoopAnimation(hoop=hoop), run_time=3, rate_func=linear)
 ```
 
-Here we have half of a hoop of radius $R$ and mass $m$, with center of mass at $C$ which
+Here we have half of a hoop of mass $m$ and radius $R$, with center of mass at $C$ which
 is distance $a$ from the center of the hoop $O$.  The external torque is provided
 by the downward acceleration due to gravity $g>0$.  The hoop rolls without slipping
 along the floor with point of contact $P$.  The aim of this problem is to obtain the
@@ -167,16 +172,17 @@ equations of motion for $\theta(t)$.
    inertia exactly as needed to correct the equations.
 3. Solve the equations of motion using Newton's law about the center-of-mass $C$:
 
-   $$
+   \begin{gather*}
      \diff{\vect{L}}{t} = \vect{\tau}.
-   $$
+  
+   \end{gather*}
    
    Draw all forces and calculate the torque $\vect{\tau}$ in terms of these.
    
 4. :::{margin}
    Alternative corrections to Newton's law are discussed in {cite:p}`Jensen:2011`
    (available [on
-   Perusal](https://app.perusall.com/courses/2022-fall-physics-521-pullm-1-01-01832-classical-mechanics-i/rules-for-rolling-as-a-rotation-about-the-instantaneous-point-of-contact-73799225)
+   Perusal](https://app.perusall.com/courses/2023-fall-physics-521-pullm-1-01-03206-classical-mechanics-i-471434971/rules-for-rolling-as-a-rotation-about-the-instantaneous-point-of-contact-73799225)
    for discussion), but I 
    do not find any of these very intuitive.  Please let me know if you find any of these
    intuitive.
@@ -212,7 +218,8 @@ momentum $\dot{\vec{L}} = \vec{\Omega}\times\vec{L} = \vec{\tau}$.  Then, descri
 deviations from the stationary solution to derive the normal modes.  Try to identify all
 of the modes shown in Fig. 49, and check your answer numerically using the analytic
 solution (7).  (References are version available [on
-Perusall](https://app.perusall.com/courses/2021-fall-physics-521-pullm-1-01-01645-classical-mechanics-i/ll_6-rigidbody).)
+Perusall](https://app.perusall.com/courses/2023-fall-physics-521-pullm-1-01-03206-classical-mechanics-i-471434971/ll_6-rigidbody).)
 Let me know if you need any help setting up the numerical checks.  I recommend using the
 [`scipy.integration.quad`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.quad.html)
 routine.
+

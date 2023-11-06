@@ -12,7 +12,7 @@ kernelspec:
   name: phys-521
 ---
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-cell]
 
 import mmf_setup;mmf_setup.nbinit()
@@ -137,7 +137,7 @@ equation
 ### Thermodynamic Limit
 First we note some thermodynamic properties of this system.  Here is the equation of state:
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 class EoSBase:
@@ -294,7 +294,7 @@ The size of the droplet will minimize the energy for fixed $N$:
 \end{gather*}
 This gives the same relationship between the surface tension and the pressure we found above.
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 fig, ax = plt.subplots(figsize=(5,3))
@@ -321,7 +321,7 @@ ns = np.linspace(0, E.n0)
 ax.plot(ns, E.mu(E.n0)*ns, '--k')
 ax.set(xlabel="n", ylabel="$\mathcal{E}(n)$",
        xlim=(-0.1, 2.1), ylim=(-1.2, 1.0),
-       title=f"Droplet with $\sigma={sigma:.4g}$")
+       title=rf"Droplet with $\sigma={sigma:.4g}$")
 ax.legend()
 plt.tight_layout()
 ```
@@ -374,7 +374,7 @@ have $\mu = - \sin 2 n$
 \end{gather*}
 :::
 
-```{code-cell} ipython3
+```{code-cell}
 N = np.linspace(0, 6*np.pi, 1000)
 mu = - np.sin(2*N)
 E = - np.cos(N)**2
@@ -522,6 +522,8 @@ $\psi(r) = 0$ (corresponding to the vaccum), and $\psi = \sqrt{n_0}$ where $\mat
 
 As discussed above, droplets require $\mu < \mathcal{E}'(0)$, so we can write
 \begin{gather*}
+  \frac{\hbar^2}{2m}\left(\psi'' + \frac{2}{r}\psi'\right) = 
+  \Bigl(\mathcal{E}'(\psi^2)\psi - \mathcal{E}'(0)\Bigr)\psi + ({\mathcal{E}'(0) - \mu})\psi,\\
   \frac{\hbar^2}{2m({\mathcal{E}'(0) - \mu})}\left(\psi'' + \frac{2}{r}\psi'\right) = 
   \underbrace{\frac{\mathcal{E}'(\psi^2) - \mathcal{E}'(0)}
               {\mathcal{E}'(0) - \mu}}_{V_{\mu}(\psi^2)}\psi + \psi
@@ -565,7 +567,7 @@ where the bounds and form of $V(n)$ are for our EoS.
 
 We start with a brute-force solution of the problem as written:
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 from scipy.integrate import solve_bvp
@@ -678,7 +680,7 @@ with this solution, and then slowly increase and decrease $\alpha$.  Note:
 we must take many small steps, otherwise the solution does not converge, however, the
 general procedure is sound.
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 b = BVP1()
@@ -702,7 +704,7 @@ formula discussed above:
 In the following, we estimate the radius of the surface as the point where $n = n_0/2$,
 then plot $\sigma \approx P(n_0) r/2$
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 from scipy.interpolate import InterpolatedUnivariateSpline
@@ -723,7 +725,7 @@ n0 = b.n0
 E0 = b.E(n0)
 ax.plot(rs, (mus*n0 - E0)*rs/2)
 #plt.axhline([0.5], ls=":", c="y")
-ax.set(xlabel="$r$", ylabel="$\sigma \approx P(n_0)r/2$");
+ax.set(xlabel="$r$", ylabel=r"$\sigma \approx P(n_0)r/2$");
 ```
 
 (sec:droplet-asympt)=
@@ -742,7 +744,7 @@ simply $y'' = y$, which implies
 :::{margin}
 The [spherical Bessel functions][], i.e. $j_0(x)= \sinc x$,  satisfy
 \begin{gather*}
-  y'' + \frac{2y'}{x} + \bigl(1 - n(n+1)\bigr)y = 0.
+  y'' + \frac{2y'}{x} + \left(1 - \frac{n(n+1)}{x^2}\right)y = 0.
 \end{gather*}
 Our solution follows from replacing $x\rightarrow \I x$: i.e. $\sinh(x)/x$ and
 $\cosh(x)/x$.  Combining these to get the appropriate boundary condition gives our
@@ -782,7 +784,7 @@ We now include these refined boundary conditions:
 * `BVP2`: $y'(x_1) + y(x_1) = 0$.
 * `BVP3`: $y'(x_1) + (1+x_1^{-1})y(x_1) = 0$.
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 from scipy.integrate import solve_bvp
@@ -820,7 +822,7 @@ ax.plot(r, n)
 ax.set(xlabel="$r$", ylabel="$n$", title=rf"$\alpha={sol.alpha:.2g}$, $\mu={sol.mu:.2g}$");
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 b = BVP3()
@@ -890,7 +892,7 @@ the slope of the scaling is correct:
 Originally when I tested my code, I found that `BVP2` and `BVP3` had the same errors.
 This led me to discover a typo in my coding of the boundary condition.
 :::
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 from matplotlib.gridspec import GridSpec
@@ -998,7 +1000,7 @@ One can proceed analytically, but we will write a simple numerical routine:
 
 To find a solution, we return to the original definition.
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 class BVPGuess(BVP1):
@@ -1036,7 +1038,7 @@ g.go((10, 2))
         
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 from scipy.interpolate import InterpolatedUnivariateSpline
@@ -1072,7 +1074,7 @@ $A(x) = e^{B(x)}$:
   B'(\infty) = 0.
 \end{gather*}
 
-```{code-cell} ipython3
+```{code-cell}
 b1 = BVP1()
 b = BVP2()
 sol1 = b1.solve(R=5)
@@ -1089,7 +1091,7 @@ assert np.allclose(ddB, np.gradient(dB, x, edge_order=2), rtol=0.05, atol=0.05)
 assert np.allclose(ddB, -dB**2 + 2*(1-1/x)*dB + b.V(n) + 2/x, rtol=0.05, atol=0.05)
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 class BVP4(BVP1):
     def rhs(self, x, q):
         """Return dq/dr.  Note q = (B, dB)."""
@@ -1167,7 +1169,7 @@ Thus, we can consider a solution of the form $\psi(r) = Aj_0(r\sqrt{\mu})$:
 
 #a = 1/\sqrt{\mu}
 
-```{code-cell} ipython3
+```{code-cell}
 from sympy import var, sinh, sqrt
 r, A, a, mu = var('r, A, a, mu')
 a = 1/sqrt(-mu)
@@ -1175,10 +1177,59 @@ psi = A*sinh(r/a)/(r/a)
 display((psi.diff(r, r) + 2/r*psi.diff(r) + mu*psi).simplify())
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 r = np.linspace(0, 10)[1:]
 plt.plot(r, np.sinh(r)/r)
 ```
+
+
+## Two Components
+
+\begin{gather*}
+  \mathcal{E}(n_a, n_b) = \frac{1}{2}
+  \begin{pmatrix}
+    n_a & n_b
+  \end{pmatrix}
+  \begin{pmatrix}
+    g_{a} & g_{ab}\\
+    g_{ab} & g_{b}
+  \end{pmatrix}
+  \begin{pmatrix}
+    n_a\\
+    n_b
+  \end{pmatrix}\\
+  \begin{pmatrix}
+    \mu_a\\
+    \mu_b
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    g_{a} & g_{ab}\\
+    g_{ab} & g_{b}
+  \end{pmatrix}
+  \begin{pmatrix}
+    n_a\\
+    n_b
+  \end{pmatrix}.
+\end{gather*}
+
+\begin{gather*}
+  g_ag_b \geq g_{ab}^2  
+\end{gather*}
+
+
+\begin{gather*}
+  n_b = 0, \qquad
+  \mu_a = g_an_a, \qquad
+  \mu_b \leq g_{ab} n_a,\\
+  n_a = 0, \qquad
+  \mu_b = g_bn_b, \qquad
+  \mu_a \leq g_{ab} n_b,\\
+  \mu_b = g_bn_b\leq g_{ab} n_a, \qquad
+  \mu_a = g_an_a \leq g_{ab} n_b,\\
+\end{gather*}
+
+
 
 [Bessel functions]: <https://en.wikipedia.org/wiki/Bessel_function>
 [spherical Bessel functions]: <https://en.wikipedia.org/wiki/Bessel_function#Spherical_Bessel_functions:_jn,_yn>

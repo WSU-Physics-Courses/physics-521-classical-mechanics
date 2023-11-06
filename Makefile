@@ -259,9 +259,9 @@ ALWAYS_REBUILD ?= $(shell find $(DOCS) -type f -name "*.md" -exec grep -l '```{i
 
 doc-server: $(ENV_PATH)
 ifdef COCALC_ANACONDA
-	$(_RUN) sphinx-autobuild --re-ignore '_build|_generated' $(DOCS) $(DOCS)/_build/html --host 0.0.0.0 --port 8000
+	$(_RUN) sphinx-autobuild --re-ignore '_build|_generated|media/Tex' $(DOCS) $(DOCS)/_build/html --host 0.0.0.0 --port 8000
 else
-	$(_RUN) sphinx-autobuild --re-ignore '_build|_generated' $(DOCS) $(DOCS)/_build/html
+	$(_RUN) sphinx-autobuild --re-ignore '_build|_generated|media/Tex' $(DOCS) $(DOCS)/_build/html
 endif
 
 521-Docs.tgz: $(DOCS)/*
