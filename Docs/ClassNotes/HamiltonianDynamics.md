@@ -73,7 +73,7 @@ Note: one must invert the first set of equations to express $\dot{\vect{q}}(\vec
   }}.
 \end{gather*}
 
-Now we have Hamilton's equations of motion:
+Now we have [Hamilton's equations][] of motion:
 
 \begin{gather*}
   \dot{\vect{q}} = \pdiff{H}{\vect{p}}, \qquad
@@ -114,7 +114,7 @@ L/\partial\dot{\vect{q}}$:
 ::::{admonition} Do it! Invert the process: find $L(\vect{q}, \dot{\vect{q}}, t)$ from $H(\vect{q}, \vect{p}, t)$.
 :class: dropdown
 
-From $H(\vect{q}, \vect{p}, t)$, use Hamilton's equation of motion to find the velocity,
+From $H(\vect{q}, \vect{p}, t)$, use [Hamilton's equation][] of motion to find the velocity,
 then reverse the transformation:
 \begin{gather*}
   \dot{\vect{q}} = \pdiff{H}{\vect{p}}, \qquad
@@ -132,9 +132,9 @@ advantages to considering dynamics in [phase space][] $(\vect{q}, \vect{p})$, re
 the velocity with the generalized momentum.  Specifically, Hamiltonian dynamics
 preserves area in [phase space][], which is not necessarily true if one uses the velocity.
 
-Hamilton's equations define **phase flow**.  Let $\vect{y}(0) = (\vect{q}_0, \vect{p}_0)$ be a
+[Hamilton's equations][] define **phase flow**.  Let $\vect{y}(0) = (\vect{q}_0, \vect{p}_0)$ be a
 point in phase space.  The phase flow is defined by the trajectory $\vect{y}(t)$ through
-phase space which satisfies Hamilton's equations:
+phase space which satisfies [Hamilton's equations][]:
 
 \begin{gather*}
   \diff{}{t}\vect{y}(t) = \begin{pmatrix}
@@ -437,7 +437,7 @@ whereas the bottom figure shows the flow in the "physical" phase space $\vect{Y}
 P)$.  The flow in the upper plot obey's Liouville's theorem, preserving areas, but is
 time dependent.  This is why the trajectories intersect.
 
-The bottom pane is independent of time, but does not follow from Hamilton's equations,
+The bottom pane is independent of time, but does not follow from [Hamilton's equations][],
 and hence, does not obey Liouville.  In the bottom figure, we see the expected
 contraction of areas as the trajectories coalesce to the equilibrium points with $\theta
 = 2\pi n$.
@@ -479,7 +479,7 @@ plt.close(fig0)
 
 A useful application of the Hamiltonian framework is if you know the **dispersion
 relation** $E(p)$ -- the kinetic energy as a function of the momentum.  Simply apply
-Hamilton's equations of motion:
+[Hamilton's equations][] of motion:
 \begin{gather*}
   H(q, p) = E(p) + V(q), \\
   \dot{q} = \pdiff{H}{p} = E'(p), \\
@@ -716,472 +716,612 @@ dimensional factors.
 [Rindler Coordinates]: <https://en.wikipedia.org/wiki/Rindler_coordinates>
 [relativistic Lagrangian]: <https://en.wikipedia.org/wiki/Relativistic_Lagrangian_mechanics>
 
+# Canonical Transformations
 
+The power of the Hamiltonian framework is that it allows one to express the most general
+possible coordinate transformations that preserve the structure of [Hamilton's
+equations][].  These are called a [Canonical transformation][]s, and can be checked
+using the [Poisson bracket][] which we now define.
 
-# WKB Approximation
+## Poisson Bracket
 
-:::{warning}
-
-This section is still in progress...
-:::
-
-In quantum mechanics, one can use the Feynman path-integral approach to construct the
-propagator (here expressed in terms of position-to-position
-transitions):
-
-```{margin}
-See {cite:p}`DeWitt-Morette:1976` and {cite:p}`Cartier:2006` for extensive details and
-rigorous definitions of what the path integral means.  *Note: the expressions in
-{cite:p}`Cartier:2006` are missing factors of $2\pi \I$ -- see
-{cite:p}`DeWitt-Morette:1976` for the correct expressions.*
-```
+Given a set of canonical variables: coordinates $\vect{q}$ and associated conjugate
+momenta $\vect{p}$, one can define the [Poisson bracket][] $\{\cdot, \cdot\}$:
 \begin{gather*}
-  \newcommand{\S}{\mathcal{S}}
-  U(q, t; q_0, t_0) = \int \mathcal{D}[q]\; \exp\left\{\frac{\I}{\hbar}S[q]\right\},\\
-  \psi(q, t) = \int U(q, t;q_0, t_0)\psi(q_0, t_0)\d{q_0}.
+  \{f, g\}_{qp} = \sum_{i}\left(\pdiff{f}{q_i}\pdiff{g}{p_i} - \pdiff{g}{q_i}\pdiff{f}{p_i}\right)
+\end{gather*}
+:::::{admonition} Do It!  Prove the following properties of the [Poisson bracket][]:
+
+\begin{align*}
+  \{f, g\} &= -\{g, f\}, \tag{Anticommutativity}\\
+  \{af + bg, h\} &= a\{f, h\} + b\{g, h\}, \tag{Bilinearlity}\\
+  \{fg, h\} &= \{f, h\}g + f\{g, h\}, \tag{Leibniz' rule}\\
+  0 &= \underbrace{\{f, \{g, h\}\} + \{g, \{h, f\}\} + \{h, \{f, g\}\}}_{
+    \{f, \{g, h\}\} + \text{cyclic permutations}}. \tag{Jacobi identity}
+\end{align*}
+Note that these are the same properties shared by the matrix commutator $[\mat{A},
+  \mat{B}] = \mat{A}\mat{B} - \mat{B}\mat{A}$.
+:::::
+
+Note that
+\begin{gather*}
+  \{q_i, p_j\}_{qp} = \delta_{ij}, \qquad
+  \{q_i, q_j\}_{qp} = \{p_i, p_j\}_{qp} = 0.
 \end{gather*}
 
-where the integral is over all paths that start at $q(t_0) = q_0$ and end at $q(t) =
-q$, and $S[q]$ is the classical action
+:::::{admonition} Canonical Quantization
 
+Once canonically conjugate variables $q$ and $p$ have been identified, one can seek
+linear operators $\op{q}$ and $\op{p}$ whose commutator satisfy an analogous commutation
+relation:
 \begin{gather*}
-  S[q] = \int_{t_0}^{t}\d{t}\; L(q, \dot{q}, t).  
+  \{q, p\}_{qp} \rightarrow \frac{[\op{q}, \op{p}]}{\I\hbar}, \qquad
+  \{q_i, p_j\}_{qp} = \delta_{ij} \rightarrow [\op{q}_{i}, \op{p}_{j}] = \I\hbar\delta_{ij}.
 \end{gather*}
-
-Given an initial wavefunction $\psi(q_0, t_0)$, the wavefunction at time $t$ is:
-
+Once such operators are found, the theory can be [canonically quantized][canonical
+quantization] by replacing classical observables the Hamiltonian $H(q, p)$ with the
+quantum operators:
 \begin{gather*}
-  \psi(q, t) = \int \d{q_0}\; U(q, t;q_0, t_0)\psi(q_0, t_0).
+  \op{H} = H(\op{q}, \op{p}).  
 \end{gather*}
+This works for operators that are quadratic in the coordinates and momenta, but can fail
+in general, especially if there are higher order terms in both $p$ and $q$ where the
+order of operators becomes ambiguous.  For more information, see the associated
+discussion with the [Moyal bracket][], which generalizes the [Poisson bracket][].
+:::::
 
-the [WKB approximation] relies on the idea that classical trajectories where
-$S'[q_{\mathrm{cl}}] = 0$ -- the famous principle of extremal action -- dominate the
-propagator, and use the expansion of the action
+## Canonically Conjugate Variables
 
+Starting from a Lagrangian framework, we can identify canonically conjugate variables
+$q_i$ and $p_i = \partial L/\partial \dot{q}_i$.  The [Poisson bracket][] allows us to
+check whether or not new coordinates $\vect{Q}(\vect{q}, \vect{p}, t)$ and
+$\vect{P}(\vect{q}, \vect{p}, t)$ are canonically conjugate: They are if the they satisfy
 \begin{gather*}
-  S[q+\xi] = S[q] + S'[q]\cdot \xi + \frac{1}{2!}S''[q]\cdot\xi\xi 
-  + \frac{1}{3!}S'''[q]\cdot\xi\xi\xi  + \cdots.
+  \{Q_i, P_j\}_{qp} = \delta_{ij}, \qquad
+  \{Q_i, Q_j\}_{qp} = \{P_i, P_j\}_{qp} = 0.
 \end{gather*}
+Note that these relations hold for any set of conjugate pairs $(\vect{q}, \vect{p})$ and
+$(\vect{Q}, \vect{P})$, so we can suppress the subscript $\{\cdot, \cdot\}_{qp} \equiv
+\{\cdot, \cdot\}_{QP} \equiv \{\cdot, \cdot\}$: the [Poisson bracket][] expresses an
+operation that does not fundamentally depend on the coordinates.  (See [the Poisson bracket in coordinate-free language](https://en.wikipedia.org/wiki/Poisson_bracket#The_Poisson_bracket_in_coordinate-free_language))
 
-```{margin}
-The path integral over $\xi$ here can be computed analytically as it is simply a
-[gaussian integral].  This result is just the multi-dimensional generalization of the
-elementary result that
-
-\begin{gather*}
-  \int \d^n{\vect{x}} e^{-\tfrac{1}{2}\vect{x}^T\mat{A}\vect{x}} =\\
-  = \sqrt{\det(2\pi \mat{A}^{-1})}.
-\end{gather*}
-```
-The [WKB approximation] amount to considering all classical trajectories with
-appropriate boundary conditions, performing the path integral over $\xi$, and dropping
-terms of order $\order(\xi^3)$ and higher to obtain:
-\begin{gather*}
-  U_{WKB}(q, t; q_0, t_0) = \int \mathcal{D}[\xi]\; \exp\left\{\frac{\I}{\hbar}\left(
-  S[q_{\mathrm{cl}}] + \frac{1}{2}S''[q_{\mathrm{cl}}]\cdot\xi\xi\right)\right\}\\
-  = \sqrt{\frac{-\partial^2 S / (2\pi \I \hbar)}
-          {\partial q_{\mathrm{cl}}(t)\partial q_{\mathrm{cl}}(t_0)}}
-    \exp\left\{\frac{\I}{\hbar}\S(q_{\mathrm{cl}}(t),t;q_{\mathrm{cl}}(t_0),t_0)\right\},
-\end{gather*}
-where $\S = \S(q,t;q_0,t_0)$ is the classical action with $q=q_{\mathrm{cl}}(t)$ and $q_0
-= q_{\mathrm{cl}}(t_0)$ are the final and initial points of the classical trajectory.
-The key point here is that all of the information about the propagator in this
-approximation is contained in the classical action $\S(q,t;q_0,t_0)$, sometimes called
-[Hamilton's principal function][].
-
-Once the path integrals over $\xi$ have been done, everything is expressed in terms of
-the classical trajectory $q_{\mathrm{cl}}(t)$ and we shall drop the "cl" subscript in
-what follows.
-
-*(Note: if there are multiple trajectories that satisfy the boundary conditions, then
-they should be added, giving rise to quantum interference patterns.)*
-
-
-````{admonition} Example: Free Particle
-As an example, consider a free particle with Hamiltonian $H = p^2/2m$.  This has
-the following solution $x(t)$ and [Hamilton's principal function] $\S$:
-
-\begin{gather*}
-  x(t) = x_0 + \frac{p_0}{m}(t-t_0), \qquad
-  p_0 = m\frac{x-x_0}{t-t_0},\\
-  \S(x,t;x_0,t_0) = \frac{p_0^2}{2m}(t-t_0) = \frac{m(x-x_0)^2}{2(t-t_0)},\\
-  \frac{\partial^2 \S}{\partial x\partial x_0} = -\frac{m}{(t-t_0)}.
-\end{gather*}
-
-Hence, the WKB propagator is:
-
-\begin{gather*}
-  U_{WKB}(x,t;x_0,t_0) = \sqrt{\frac{m}{2\pi \I \hbar (t-t_0)}}\exp\left\{
-    \frac{i}{\hbar}\frac{m(x-x_0)^2}{2(t-t_0)}
-  \right\}.
-\end{gather*}
-
-A quick check shows that this is exact:
-
-\begin{gather*}
-  U(x,t;x_0,t_0) = \braket{x|e^{\op{H}(t-t_0)/\I\hbar}|x_0}
-  = \int \frac{\d{k}}{2\pi}\braket{x|k}e^{\hbar^2k^2(t-t_0)/(2m\I\hbar)}\braket{k|x_0}\\
-  = \int \frac{\d{k}}{2\pi}e^{\hbar^2k^2(t-t_0)/(2m\I\hbar) + \I k (x-x_0)}\\
-  = \sqrt{\frac{m}{2\pi \I\hbar (t-t_0)}}\exp\left\{
-    \frac{\I m(x-x_0)^2}{2\hbar (t-t_0)}
-  \right\}.
-\end{gather*}
-
-Extending this to higher dimensions, we have:
-
-\begin{gather*}
-  \vect{x}(t) = \vect{x}_0 + \frac{\vect{p}_0}{m}(t-t_0), \qquad
-  \vect{p}_0 = m\frac{\vect{x}-\vect{x}_0}{t-t_0},\\
-  \S(\vect{x},t;\vect{x}_0,t_0) = \frac{m\norm{\vect{x}-\vect{x}_0}^2}{2(t-t_0)},\\
-  \frac{\partial^2 \S}{\partial x_{i}\partial [x_0]_{j}} = -\frac{m\delta_{ij}}{(t-t_0)}.
-\end{gather*}
-````
-
-Similar results can be obtained from the momentum-to-position transitions if the initial
-state is expressed in terms of momentum, however, in this case, since the boundary
-conditions are no longer the same, we must use a different form of $\S(x,t;p_0,t_0)$:
-
-\begin{gather*}
-  \S(q,t;p_0,t_0) = p_0q_0(q,t;p_0,t_0) + \S\Bigl(q,t;q_0(q,t;p_0,t_0),t_0\Bigr),\\
-  U_{WKB}(q, t; p_0, t_0) 
-  = \sqrt{\frac{\partial^2 \S}{\partial q_{\mathrm{cl}}(t)\partial p_{\mathrm{cl}}(t_0)}}
-    \exp\left\{\frac{\I}{\hbar}\S(q_{\mathrm{cl}}(t),t;p_{\mathrm{cl}}(t_0);t_0)\right\}.
-\end{gather*}
-
-````{admonition} Example: Free Particle continued
-Changing variables, we now have:
-
-\begin{gather*}
-  \S(x,t;p_0,t_0) = p_0\left(x - \frac{p_0}{m}(t-t_0)\right) 
-                    + \overbrace{\frac{p_0^2}{2m}(t-t_0)}^{S}\\
-                  = p_0 x - \frac{p_0^2}{2m}(t-t_0), \qquad
-  \frac{\partial^2 \S}{\partial x\partial p_0} = 1
-\end{gather*}.
-
-Hence, the WKB propagator is:
-
-\begin{gather*}
-  U_{WKB}(x,t;p_0,t_0) = \exp\left\{
-    \frac{i}{\hbar}\left(xp_0 - \frac{p_0^2 (t-t_0)}{2m}\right)\right\}.
-\end{gather*}
-
-A quick check shows that this is also exact, and confirms the need for the extra piece
-$q_0 p_0$ in $\S$:
-
-\begin{gather*}
-  U(x,t;p_0,t_0) = \braket{x|e^{\op{H}(t-t_0)/\I\hbar}|p_0}
-  = \braket{x|p_0}e^{p_0^2(t-t_0)/(2m\I\hbar)}\\
-  = e^{\tfrac{\I}{\hbar} x p_0}e^{p_0^2(t-t_0)/(2m\I\hbar)}\\
-  = \exp\left\{\frac{\I}{\hbar}\left(
-      x p_0 - \frac{p_0^2}{2m}(t-t_0)
-    \right)\right\}.
-\end{gather*}
-````
-
-(eg:FallingParticles)=
-## Examples
-
-````{admonition} Example: Falling Particle 1D
+:::::{admonition} Do It!  Prove that $\{f, g\}_{qp} = \{f, g\}_{QP}$.
 :class: dropdown
 
-As a second example, consider a particle in free-fall with Hamiltonian $H = p^2/2m +
-mgz$.  The classical problem is most easily solved with conservation of energy $E$:
-
-\begin{align*}
-  E &= \frac{p^2}{2m} + mgz = \frac{p_{0}^2}{2m} + mgz_0, \\
-  p &= \pm\sqrt{2mE - 2m^2gz},\\ 
-    &= \pm\sqrt{p_{0}^2 - 2m^2g(z-z_0)},\\
-  L(z) &= E - 2mgz.
-\end{align*}
-
-<!-- For simplicity, we assume that $z<z_0$ and that the particle is falling throughout the -->
-<!-- region of interest so that $p \leq 0$. -->
-Since our Hamiltonian is time-independent, the results will depend only on $t-t_0$ and
-we can choose $t_0=0$ without loss of generality.  This has the following solution
-$z(t)$ and [Hamilton's principal function] $\S$:
-
+We limit our proof to a single variable and suppress the dependence on $t$ -- the
+generalization is straightforward.  They key is to note that
 \begin{gather*}
-  \newcommand{\t}{t}
-  z(t) = z_0 + \frac{p_0}{m}\t - \frac{g}{2}\t^2,\\
-  \S(z,\t;z_0,t_0=0) = \int_{0}^{\t}\left(E - 2mgz_0 - 2gp_0\t + mg^2\t^2\right)\d{\t},\\
-                     = E(z,\t;z_0)\t - 2mgz_0\t - gp_0(z,\t;z_0)\t^2 + \frac{mg^2\t^3}{3}.
+  \{f, g\}_{qp} = \{f, g\}_{QP}\underbrace{\{Q, P\}_{qp}}_{1} = \{f, g\}_{QP}.
 \end{gather*}
-
-The appropriate functional dependence can be deduced by solving for $p_0(z,\t;z_0)$ and
-$E(z,\t;z_0)$:
-
-\begin{align*}
-  p_0(z,\t;z_0) &= m\frac{z-z_0}{\t} + \frac{mg\t}{2}, &
-  \pdiff{p_0}{z_0} &= -\frac{m}{\t}, \\
-  E(z,\t;z_0) &= \frac{p_0^2(z,\t;z_0)}{2m} + mgz_0, &
-  \pdiff{E}{z_0} &= -\frac{p_0}{\t} + mg.
-\end{align*}
-
-From these, we can compute the action and various partials:
-
+Introducing the comma notation for partial derivatives, $f_{,Q} = \partial f/\partial
+Q$ etc., we have 
 \begin{gather*}
-\S(z,\t;z_0,t_0=0) = m\left(
-  \frac{(z-z_0)^2}{2\t} - \frac{g}{2}(z+z_0)\t - \frac{g^2\t^3}{24}\right),\\
-  \frac{\partial\S(z,\t;z_0,t_0=0)}{\partial z} = p = p_0(z, \t;z_0) - mg\t,\\
-  \frac{\partial\S(z,\t;z_0,t_0=0)}{\partial z_0} = -p_0\\
-  \frac{\partial^2\S(z,\t;z_0,t_0=0)}{\partial z\partial z_0} = -\frac{m}{\t}.
+  \{f, g\}_{qp}
+  =
+  (f_{,Q}Q_{,q} + f_{,P}P_{,q})(g_{,Q}Q_{,p} + g_{,P}P_{,p})
+  -
+  (g_{,Q}Q_{,q} + g_{,P}P_{,q})(f_{,Q}Q_{,p} + f_{,P}P_{,p})\\
+  =
+  \underbrace{(f_{,Q}g_{,P} - g_{,Q}f_{,P})}_{\{f, g\}_{QP}}
+  \underbrace{(Q_{,q}P_{,p} - P_{,q}Q_{,p})}_{\{Q, P\}_{qp}}.
 \end{gather*}
+:::::
 
-Hence, the WKB propagator is:
+## Evolution as a Canonical Transformation
 
+One very important set of canonically conjugate variables is defined by evolution.  Note
+that evolution defines an map from [phase space][] into itself:
 \begin{gather*}
-  U_{WKB}(z,t;z_0,t_0) = \sqrt{\frac{m}{2\pi \I \hbar (t-t_0)}}\\
-  \exp\left\{
-    \frac{\I m}{\hbar}\left(
-  \frac{(z-z_0)^2}{2(t-t_0)} - \frac{g}{2}(z+z_0)(t-t_0) - \frac{g^2(t-t_0)^3}{24}
+  \begin{pmatrix}
+    q_0 \\
+    p_0
+  \end{pmatrix}
+  \rightarrow
+  \begin{pmatrix}
+    q(q_0, p_0, t) \\
+    p(q_0, p_0, t)
+  \end{pmatrix}.
+\end{gather*}
+I.e., if we take our initial conditions $(q_0, p_0)$ at time $t=t_0$ as a point in
+[phase space][], then evolving these for time $t$ gives a new point in [phase space][]
+$(Q, P)$ which where the initial point ends up at time $t_0 + t$.  This evolution
+defines a **canonical transformation** from the old coordinates $(q, p) \equiv (q_0, p_0)$:
+\begin{gather*}
+  \begin{pmatrix}
+    Q(q_0, p_0, t) = q(q_0, p_0, t_0+t)\\
+    P(q_0, p_0, t) = p(q_0, p_0, t_0+t).
+  \end{pmatrix}
+\end{gather*}
+:::::{admonition} Do It!  Show that evolution is indeed a canonical transformation.
+:class: dropdown
+
+Hint: show that the [Poisson bracket][] $\{Q, P\}_{q_0p_0} = 1$.  This requires relating
+changes at the end of a trajectory to changes in the initial condition.  This can be
+done by using the fact that physical trajectories extremize the action.  Recall that
+physical trajectories extremize the action
+\begin{gather*}
+  S(q_0, t_0; q_1, t_1) = \int_{t_0}^{t_1} \d{t}\; L(q, \dot{q}, t), \qquad
+  q(t_0) = q_0, \qquad q(t_1) = q_1.
+\end{gather*}
+These trajectories satisfy the Euler-Lagrange equation:
+\begin{gather*}
+  \delta S = 0 \qquad \implies\qquad
+  \diff{}{t}\pdiff{L}{\dot{q}} = \pdiff{L}{q}.
+\end{gather*}
+Now consider physical trajectories (i.e. satisfying the Euler-Lagrange equations) that
+start and end at slightly **different** positions $q_0 + \d{q_0}$ and $q_1 + \d{q_1}$.
+The variation in the action is now
+\begin{gather*}
+  \d{S} = S_{,t_0}\d{t_0} + S_{,t_1}\d{t_1} + S_{,q_0}\d{q_0} + S_{,q_1}\d{q_1}.
+\end{gather*}
+The first two terms are related to varying the endpoints of the integral, but note that
+they are not simply the Lagrangian because we must change $t_1$ **while readjusting the
+trajectory so that $q(t_1+\delta t_1) = q_1$ remains fixed**.  We will return to this in
+a later problem, but for now, we fixed $t_0$ and $t_1$ so $\d{t_0} = \d{t_1} = 0$.
+To compute the second contribution, we use the equations of motion
+\begin{gather*}
+  \delta S = \int_{t_0}^{t_1}\d{t}\Biggl(
+    \pdiff{L}{\dot{q}}\underbrace{\delta \dot{q}}_{\diff{\delta q}{t}} 
+    + 
+    \underbrace{\pdiff{L}{q}}_{\diff{}{t}\pdiff{L}{\dot{q}}}\delta q
+  \Biggr)
+  = \int_{t_0}^{t_1}\d{t}\diff{}{t}\left(
+    \pdiff{L}{\dot{q}}\delta q
   \right)
-  \right\}.
+  = p_1\delta{q_1} - p_0\delta{q_0}.
 \end{gather*}
-````
+Hence, $p_1 = S_{,q_1}$ and $p_0 = -S_{,q_0}$.
 
-````{admonition} Example: General Particle 1D
-
-Slightly more general, we now consider a particle falling in an arbitrary
-time-independent potential $V(z) = mgz + \delta(z)$ where we will ultimately consider
-$\delta(z)$ to be small.  Here, since energy is conserved, we immediately have:
+Now let $(Q, P) = (q_1, p_1)$ be the new coordinates, and $q=(q_0, p_0)$ be the old
+coordinates, i.e., looking at evolution as a phase-space homomorphism:
 \begin{gather*}
-  E = \frac{p^2}{2m} + V(z) = \frac{p_{0}^2}{2m} + V(z_0), \\
-  p = \pm\sqrt{2mE - 2mV(z)},\\
-  L(z) = E - 2V(z).
+  \d{P} = \d{S_{,Q}} = S_{,Qq}\d{q} + S_{,QQ}\d{Q},\\
+  \d{p} = -\d{S_{,q}} = -S_{,qq}\d{q} - S_{,qQ}\d{Q},\\
+  \begin{pmatrix}
+    \d{Q}\\
+    \d{P}
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    S_{,QQ} & - 1\\
+    -S_{,qQ} & 0
+  \end{pmatrix}^{-1}
+  \begin{pmatrix}
+    S_{,Qq} & 0\\
+    S_{,qq} & 1
+  \end{pmatrix}
+  \begin{pmatrix}
+    \d{q}\\
+    \d{p}
+  \end{pmatrix},\\
+  =
+  \frac{-1}{S_{,qQ}}
+  \begin{pmatrix}
+    0 & 1\\
+    S_{,qQ} & S_{,QQ}
+  \end{pmatrix}
+  \begin{pmatrix}
+    S_{,Qq} & 0\\
+    S_{,qq} & 1
+  \end{pmatrix}
+  \begin{pmatrix}
+    \d{q}\\
+    \d{p}
+  \end{pmatrix}
+  =
+  -
+  \begin{pmatrix}
+    \frac{S_{,qq}}{S_{,qQ}} & \frac{1}{S_{,qQ}}\\
+    S_{,Qq} + \frac{S_{QQ}S_{qq}}{S_{,qQ}} & \frac{S_{QQ}}{S_{,qQ}}
+  \end{pmatrix}
+  \begin{pmatrix}
+    \d{q}\\
+    \d{p}
+  \end{pmatrix}.  
 \end{gather*}
-The trajectory $z(t)$ no longer has a closed form, but we can still express the action
-by changing variables $\d{z} = \dot{z}\d{t} = p\d{t}/m$:
+Therefore
 \begin{gather*}
-  \S(z;z_0;E) = m\int_{z_0}^{z}\frac{\Bigl(E - 2V(z)\Bigr)}{p(z)}\d{z}\\
-  = \sqrt{\frac{m}{2}}\int_{z_0}^{z}\frac{\Bigl(E - 2V(z)\Bigr)}
-                                         {\pm\sqrt{E - V(z)}}\d{z}.
+  \pdiff{Q}{q} = -\frac{S_{,qq}}{S_{,qQ}}, \qquad
+  \pdiff{Q}{p} = -\frac{1}{S_{,qQ}}, \qquad
+  \pdiff{P}{q} = -S_{,Qq} - \frac{S_{QQ}S_{qq}}{S_{,qQ}}, \qquad
+  \pdiff{P}{p} = -\frac{S_{QQ}}{S_{,qQ}},\\
+  \{Q,P\}_{qp} = 
+  \frac{S_{,qq}}{S_{,qQ}}\frac{S_{QQ}}{S_{,qQ}} 
+  - \left(\frac{S_{,Qq}}{S_{,qQ}} + \frac{S_{QQ}S_{qq}}{S_{,qQ}S_{,qQ}}\right)
+  = 1.
 \end{gather*}
-This form has two complications.  First, the sign of the denominator must be chosen
-appropriately to match the direction of motion.  This is often clear from the physics,
-and so does not pose a fundamental problem.  Second, this form of the action as an
-explicit function of either $S(z, p; z_0)$ or $S(z;z_0, p_0)$ since $E = E(z_0, p_0) = E(z,
-p)$ is conserved and a function of the initial or final coordinates.
+:::::
 
-A comment about the role of the conserved energy $E$ here.  Note that if $E=0$, then the
-numerator and denominator both contain factors of $\sqrt{-V(z)}$ and can be combined.
-The presence of $E$ seems to spoil this, but, as is generally well known, in classical
-mechanics, only the relative value of the energy is physically significant.  To make
-this explicit, we note that
+## Generating Functions
+
+Canonical transformations can be generated by specifying an arbitrary [generating
+function][] function of one old and one new coordinate.  There are thus four types of
+such functions:
 \begin{gather*}
-  V(z) = E - \frac{p^2}{2m}, \quad
-  L(z) = E - 2V(z) = \frac{p^2}{m} - E,\\
-  \begin{aligned}
-    S(z;z_0;E) &= -\int_{0}^{t}E\d{t} + \int_{z_0}^{z}\bigl(\pm p(z)\bigr)\d{z}\\
-    &= -Et \pm \int_{z_0}^{z}p(z)\d{z}.
-  \end{aligned}
+  F_1(q, Q, t), \qquad
+  F_2(q, P, t), \qquad
+  F_3(p, Q, t), \qquad
+  F_4(p, P, t).
 \end{gather*}
-The first term clearly does not affect the physics, and in quantum mechanics,
-corresponds to an overall global phase.  This is exactly the effect of shifting the
-zero-energy level.  The second term is a common form of the action, as an integral of a
-generalized momentum with respect to the corresponding coordinate.  This form appears in
-the action-angle variable formulation for example.
-
-To compute the normalization factor, we must perform the appropriate change of variables
-using the analogy of the Maxwell relations in thermodynamics using:
-
+From these, one can **generate** the omitted coordinates and the new Hamiltonian as
+follows:
+:::{margin}
+To remember these, start from $F_2(q, P, t)$ for which both equations are positive, and
+then change sign as needed when you change the variables.
+:::
+\begin{align*}
+  p &= +\pdiff{}{q}F_1(q, Q, t), &  P &= -\pdiff{}{Q}F_1(q, Q, t),\\
+  p &= +\pdiff{}{q}F_2(q, P, t), &  Q &= +\pdiff{}{P}F_2(q, P, t),\\
+  q &= -\pdiff{}{p}F_3(p, Q, t), &  P &= -\pdiff{}{Q}F_3(p, Q, t),\\
+  q &= -\pdiff{}{p}F_4(p, P, t), &  Q &= +\pdiff{}{P}F_4(p, P, t).
+\end{align*}
+Or, more compactly:
+\begin{align*}
+  p &= +\pdiff{}{q}F, & P &= -\pdiff{}{Q}F,\\
+  q &= -\pdiff{}{q}F, & Q &= \pdiff{}{P}F.
+\end{align*}
+Note that these equations give implicit relationships between the old and new
+coordinates which must be solved to complete the transformation.  Once this is done, the
+new Hamiltonian in all cases is:
 \begin{gather*}
-  f(z, z_0, E) = t - t_0 = \int_{t_0}^{t}\d{t} = \int_{z_0}^{z}\frac{m}{p}\d{z}\\
-  = \sqrt{\frac{m}{2}}\int_{z_0}^{z}\frac{1}{\pm\sqrt{E - V(z)}}\d{z},\\
-  \pdiff{f(z, z_0, E)}{z} = \pm\frac{\sqrt{m/2}}{\sqrt{E-V(z)}}\\
-  \pdiff{f(z, z_0, E)}{z_0} = \mp\frac{\sqrt{m/2}}{\sqrt{E-V(z_0)}}\\
-  \pdiff{f(z, z_0, E)}{E} = \mp\int_{z_0}^{z}\frac{\sqrt{m/8}}{\sqrt{E - V(z)}^3}\d{z}.
+  H'(Q, P, t) = H(q, p, t) + \pdiff{F}{t},
 \end{gather*}
-
-We must compute the partials holding this constant, so we have:
-
+which will give Hamilton's equations
 \begin{gather*}
-  \pdiff{f(z, z_0, E)}{z} \d{z} 
-  + \pdiff{f(z, z_0, E)}{z_0} \d{z_0} 
-  + \pdiff{f(z, z_0, E)}{E} \d{E} = 0,\\
-  \d{E} = \frac{\pdiff{f(z, z_0, E)}{z}\d{z} + \pdiff{f(z, z_0, E)}{z_0}\d{z_0}}
-               {\pdiff{f(z, z_0, E)}{E}}\\
-        = \frac{-2}{\int_{z_0}^{z}\frac{1}{\sqrt{E - V(z)}^3}\d{z}}
-          \left(\frac{\d{z}}{\sqrt{E-V(z)}} - \frac{\d{z_0}}{\sqrt{E-V(z_0)}}\right).
-\end{gather*}
-
-We can now compute the normalization factor.  We take the first derivative using the
-well-known properties of Hamilton's principle function
-
-\begin{gather*}
-  \frac{\partial^2 S(z,t;z_0,t_0)}{\partial z\partial z_0} =
-  \frac{\partial p(z,t;z_0,t_0)}{\partial z_0} =
-  -\frac{\partial p_0(z,t;z_0,t_0)}{\partial z}
-\end{gather*}
-
-and then use the expression above for $p(z, E) = \pm \sqrt{2m\bigl(E-V(z)\bigr)}$ to compute:
-
-\begin{gather*}
-  \d{p} = \frac{\pm \sqrt{2m}}{\sqrt{E-V(z)}}\Bigl(\d{E} - V'(z) \d{z}\Bigr)\\
-  \pdiff{p(z, t;z_0, t_0)}{z_0} = 
-  \frac{\pm \sqrt{8m}}{\sqrt{\bigl(E-V(z)\bigr)\bigl(E-V(z_0)\bigr)}}
-  \frac{1}{\int_{z_0}^{z}\frac{1}{\sqrt{E - V(z)}^3}\d{z}}.
-\end{gather*}
-````
-
-
-````{admonition} Example: Falling Particle 2D
-
-As a second example, consider a particle in free-fall with Hamiltonian $H = (p_x^2 +
-p_z^2)/2m + mgz$.  The classical problem is most easily solved with conservation of
-energy $E$ and momentum $p_x$:
-
-\begin{gather*}
-  E = \frac{p_x^2+p_z^2}{2m} + mgz = \frac{p_{x0}^2 + p_{z0}^2}{2m} + mgz_0, \\
-  p_z = \pm\sqrt{2mE - 2m^2gz - p_x^2}\\ 
-      = \pm\sqrt{p_{z0}^2 - 2m^2g(z-z_0) + (p_{x0}^2 - p_x^2)}\\
-  L(\vect{r},t) = E - 2mgz
-\end{gather*}
-
-Again, time-independence allows us to set $t_0=0$ without loss of generality.
-
-
-***Incomplete***
-
-
-
-This has the following solution $\vect{r}(t)$ and [Hamilton's
-principal function] $\S$:
-
-\begin{gather*}
-  \vect{r}(t) = \vect{r}_0 + \frac{\vect{p}_0}{m}(t - t_0) - \frac{g}{2}(t-t_0)^2\uvect{z},\\
-  p_0 = m\frac{x-x_0}{t-t_0},\\
-  \S(\vect{r},t;\vect{r}_0,t_0) = \frac{p_0^2}{2m}(t-t_0) = \frac{m(x-x_0)^2}{2(t-t_0)},\\
-  \frac{\partial^2 \S}{\partial x\partial x_0} = -\frac{m}{(t-t_0)}.
+  \dot{Q} = \pdiff{H'(Q, P, t)}{P}, \qquad
+  \dot{P} = -\pdiff{H'(Q, P, t)}{Q}.
 \end{gather*}
 
-Hence, the WKB propagator is:
-
+The general approach for deriving these is to note that the most general transformation
+from $(q, p)$ to $(Q, P)$ preserves the equations of motion after minimizing the action
+consists of three things: 1) scaling the Lagrangian, (just changes the time unit), 2)
+effecting a coordinate change, and 3) adding a total derivative.
 \begin{gather*}
-  U_{WKB}(x,t;x_0,t_0) = \sqrt{\frac{m}{2\pi \I \hbar (t-t_0)}}\exp\left\{
-    \frac{i}{\hbar}\frac{m(x-x_0)^2}{2(t-t_0)}
-  \right\}.
+  L(q, \dot{q}, t\bigr) = \alpha L'(Q, \dot{Q}, t) + \diff{F_1(q, Q, t)}{t}.
 \end{gather*}
-Changing variables, we now have:
+The scaling just changes the units of time, so we neglect this ($\alpha = 1$).  It is
+the addition of a total derivative that provides additional freedom over the standard
+Lagrangian approach of writing the new coordinates as a simple function of the old
+$Q=Q(q, t)$.
 
+Expressing this relationship in terms of differentials, and introducing the
+Hamiltonians, we have
+\begin{align*}
+  \d{F_1} &= (L - L')\d{t} = (p\dot{q} - H)\d{t} - (P\dot{Q} - H')\d{t}\\
+          &= p\d{q} - P\d{Q} + (H' - H)\d{t} ,\\
+  \d{F_1(q, Q, t)} &= \pdiff{F_1}{q}\d{q} + \pdiff{F_1}{Q}\d{Q} + \pdiff{F_1}{t}\d{t}.
+\end{align*}
+:::{margin}
+For completeness
+\begin{align*}
+  F_1(q, Q, t) &= F_1\\
+  F_2(q, P, t) &= F_1 + PQ\\
+  F_3(p, Q, t) &= F_1 - pq\\
+  F_4(p, P, t) &= F_1 + PQ - pq\\
+\end{align*}
+:::
+Equating these, and collecting the differentials gives our formula above for the
+canonical transformation generated by $F_1(q, Q, t)$.  To obtain the relationship for
+another function, say $F_2(q, P, t)$ we need to switch $-P\d{Q}$ to $Q\d{P}$, which can
+be done by adding $\d{QP} = Q\d{P} + P\d{Q}$.  I.e., $F_2 = F_1 + QP$:
+\begin{align*}
+  \d{F_2} = \d{(F_1 + QP)} 
+  &= p\d{q} + Q\d{P} + (H' - H)\d{t},\\
+  \d{F_2(q, P, t)} &= \pdiff{F_2}{q}\d{q} + \pdiff{F_2}{P}\d{P} + \pdiff{F_2}{t}\d{t}.
+\end{align*}
+This accounts for the sign change.
+
+:::{admonition} Do It!  Show explicitly that this procedure works.
+:class: dropdown
+
+Our task is to show that if
 \begin{gather*}
-  \S(x,t;p_0,t_0) = xp_0 - \frac{p_0^2}{2m}(t-t_0),\qquad
-  \frac{\partial^2 \S}{\partial x\partial p_0} = 1
-\end{gather*}.
-
-Hence, the WKB propagator is:
-
+  F = F_2\bigl(q, P(q, p, t), t\bigr), \qquad
+  H' = H + F_{,t},\\
+  p = F_{,q} \equiv \pdiff{F}{q}, \qquad
+  Q = F_{,P} \equiv \pdiff{F}{P},
+\end{gather*}
+then
 \begin{gather*}
-  U_{WKB}(x,t;p_0,t_0) = \exp\left\{
-    \frac{i}{\hbar}\left(xp_0 - \frac{p_0^2 (t-t_0)}{2m}\right)\right\}.
+  \begin{pmatrix}
+    \dot{q}\\
+    \dot{p}
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    H_{,p}\\
+    -H_{,q}
+  \end{pmatrix}
+  \implies
+  \begin{pmatrix}
+    \dot{Q}\\
+    \dot{P}
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    H'_{,P}\\
+    -H'_{,Q}
+  \end{pmatrix}.
+\end{gather*}
+One can proceed by brute force.  The idea here is to choose three independent variables,
+and then equate partials.  We choose $(q, P, t)$ since these are the natural variables
+for $F$:
+\begin{align*}
+  \d{Q} &= \d{F_{,P}} = F_{,Pq}\d{q} + F_{,PP}\d{P} + F_{,Pt}\d{t},\\
+  \d{p} &= \d{F_{,q}} = F_{,qq}\d{q} + F_{,qP}\d{P} + F_{,qt}\d{t},\\
+  \d{H'} &= H'_{,Q}\d{Q} + H'_{,P}\d{P} + H'_{,t}\d{t},\\
+         &= H'_{,Q}F_{,Pq}\d{q} + (H'_{,Q}F_{,PP} + H'_{,P})\d{P} 
+            + (H'_{,Q}F_{,Pt} + H'_{,t})\d{t},\\
+  \d{H} &= H_{,q}\d{q} + H_{,p}\d{p} + H_{,t}\d{t},\\
+        & (H_{,q} + H_{,p}F_{,qq})\d{q} + H_{,p}F_{,qP}\d{P} + (H_{,p}F_{,qt} + H_{,t})\d{t},\\
+   \d{F_{,t}} &= F_{,tq}\d{q} + F_{,tP}\d{P} + F_{,tt}\d{t}.
+\end{align*}
+Equating $H' = H + F_{,t}$ gives the following conditions (by varying only one of
+  $\d{q}$, $\d{P}$, and $\d{t}$ at a time respectively):
+\begin{align*}
+    H'_{,Q}F_{,Pq} &= H_{,q} + H_{,p}F_{,qq} + F_{,tq},\\
+    H'_{,Q}F_{,PP} + H'_{,P} &= H_{,p}F_{,qP} + F_{,tP},\\
+    H'_{,Q}F_{,Pt} + H'_{,t} &= H_{,p}F_{,qt} + H_{,t} + F_{,tt}.
+\end{align*}
+Solving, we have
+\begin{align*}
+    H'_{,Q} &= \frac{H_{,q} + H_{,p}F_{,qq} + F_{,tq}}{F_{,Pq}},\\
+    H'_{,P} &= H_{,p}F_{,qP} + F_{,tP} - F_{,PP}H'_{,Q}.
+\end{align*}
+We can then solve for $\dot{Q}$ and $\dot{P}$:
+\begin{align*}
+  \dot{P} &= -\frac{H_{,q} + F_{,qq}H_{,p} + F_{,qt}}{F_{,qP}} = -H'_{,Q},\\
+  \dot{Q} &= H_{,p}F_{,Pq} + F_{,Pt} + F_{,PP}\dot{P},\\
+          &= H_{,p}F_{,Pq} + F_{,Pt} - F_{,PP}H'_{,Q} = H'_{,P}.
+\end{align*}
+Q.E.D.
+:::
+
+## Hamilton-Jacobi Equation
+
+One important transformation is to find a generating function $F_{1}(q, Q, t) = S(q, Q,
+t)$ such that $H' = 0$.  This transformation defines coordinates which are completely
+independent of time $\dot{Q} = \dot{P} = 0$.  The conditions $H'(Q, P, t) = H(q, p, t) +
+S_{,t}$ and $p = S_{,q}$ define the [Hamilton-Jacobi equation][]:
+:::{margin}
+Since the coordinate $Q$ plays no role in this equation, one could equivalently use a type-2
+generating function $S(q, t) = F_2(q, P, t)$.  The important point is to choose
+constants of motion for either $P$ or $Q$.
+:::
+\begin{gather*}
+  H\left(q, \pdiff{S(q, Q, t)}{q}, t\right) + \pdiff{S(q, Q, t)}{t} = 0.
 \end{gather*}
 
-A quick check shows that this is also exact, and confirms the need for the extra piece
-$q p_0$ in $\S$:
+:::::{admonition} Do It!  Show that the classical action $S(q, Q, t)$ is a solution.
 
+Show that classical action for a physical trajectory $q(t)$ with $q(t_0) = q_0$ and
+$q(t_1) = q_1$,
 \begin{gather*}
-  U(x,t;p_0,t_0) = \braket{x|e^{\op{H}(t-t_0)/\I\hbar}|p_0}
-  = \braket{x|p_0}e^{p_0^2(t-t_0)/(2m\I\hbar)}\\
-  = e^{\tfrac{\I}{\hbar} x p_0}e^{p_0^2(t-t_0)/(2m\I\hbar)}\\
-  = \exp\left\{\frac{\I}{\hbar}\left(
-      x p_0 - \frac{p_0^2}{2m}(t-t_0)
-    \right)\right\}.
+  S(q_0, t_0; q_1, t_1) = \int_{t_0}^{t_1} L(q, \dot{q}, t)\d{t}, \qquad
+  \diff{}{t}\pdiff{L(q, \dot{q}, t)}{\dot{q}} = \pdiff{L(q, \dot{q}, t)}{q},
 \end{gather*}
-````
+gives a solution $S(q, Q, t)$ to the Hamilton-Jacobi equation with $Q=q_0$, and $t=t_1$.
 
-````{admonition} Example: General Particle 2D
-
-As a second example, consider a particle in free-fall with Hamiltonian $H = (p_x^2 +
-p_z^2)/2m + V(x, z)$.  The classical problem is most easily solved with conservation of
-energy $E$:
-
+::::{solution}
+Computing the total differential, we have
 \begin{gather*}
-  E = \frac{p_x^2+p_z^2}{2m} + V(x, z) = \frac{p_{x0}^2 + p_{z0}^2}{2m} + V(x_0, z_0), \\
-  p_z = \pm\sqrt{2mE - 2m^2gz - p_x^2}\\ 
-      = \pm\sqrt{p_{z0}^2 - 2m^2g(z-z_0) + (p_{x0}^2 - p_x^2)}\\
-  L(\vect{r},t) = E - 2mgz
+  \d{S} = S_{,t_0}\d{t_0} + S_{,t_1}\d{t_1}
+        + \underbrace{S_{,q_0}}_{-p_0}\d{q_0} 
+        + \underbrace{S_{,q_1}}_{p_1=p}\d{q_1}
+\end{gather*}
+as we did above when showing that evolution is a canonical transformation.  We now focus
+on the first partials.
+
+:::{warning}
+There is a subtly here: $S_{,t_1} \neq L_1$ as we might expect from varying the upper
+endpoint.  This is because the action is defined over physical trajectories.  Computing
+the partial $S_{,t_1}$ **requires readjusting** $q(t)$ so that $q(t_1+\delta t_1) = q_1$
+remains fixed!
+:::
+
+Suppose that $q(t)$ is a physical trajectory satisfying some
+initial conditions $q(t_0) = q_0$ and $\dot{q}(t_0) = \dot{q}_0$.  In this case, the
+functions $q(t)$, $\dot{q}(t)$, and thus $L(q, \dot{q}, t)$ are simply functions of
+time.  **For this trajectory only**, we can say that $\delta S = L_1\delta t_1$, or
+similar by extending backwards in time.  What this really means is:
+\begin{align*}
+  \overbrace{S(q_0, t_0; q_1 + \delta q_1, t_1 + \delta t_1) - S(q_0, t_0; q_1, t_1)}
+  ^{S_{,q_1}\delta q_1 + S_{,t_1}\delta t_1}
+  &= \overbrace{L(q_1, \dot{q}_1, t_1)}^{L_1} \delta t_1,\\
+  \underbrace{S(q_0+\delta q_0, t_0 + \delta t_0; q_1, t_1) - S(q_0, t_0; q_1, t_1)}
+  _{S_{,q_0}\delta q_0 + S_{,t_0}\delta t_0}
+  &= -\underbrace{L(q_0, \dot{q}_0, t_0)}_{L_0} \delta t_0.
+\end{align*}
+Hence, the relationships we need follow from $\delta{q}_i / \delta t_i = \dot{q}_i$:
+\begin{gather*}
+  S_{,t_1} = \underbrace{L_1 - \overbrace{S_{,q_1}}^{p_1}\dot{q}_1}_{-H_1}, \qquad
+  S_{,t_0} = \underbrace{-L_0 - \overbrace{S_{,q_0}}^{-p_0}\dot{q}_0}_{H_0}.
+\end{gather*}
+The total differential is thus:
+\begin{gather*}
+  \d{S} = \underbrace{S_{,t_0}}_{H_0}\d{t_0} 
+        + \underbrace{S_{,t_1}}_{-H_1}\d{t_1}
+        + \underbrace{S_{,q_0}}_{-p_0}\d{q_0} 
+        + \underbrace{S_{,q_1}}_{p_1=p}\d{q_1}.
+\end{gather*}
+Thus, setting $Q=q_0$, $q=q_1$, $p=p_1$, and $t=t_1$ we have
+\begin{gather*}
+  H\Bigl(q, \overbrace{\pdiff{S(q, Q, t)}{q}}^{S_{,q_1}=p_1=p}, t\Bigr) = 
+  H(q, p, t) = - \pdiff{S(q, Q, t)}{t}.
+\end{gather*}
+Q.E.D.
+::::
+:::::
+
+# Action-Angle Coordinates
+
+Another related set of coordinates called [action-angle coordinates][]. We will give the
+general formulation below, but the basic idea applies to time-independent Hamiltonians
+where the Hamilton-Jacobi equation is separable so that the motion can be considered
+quasi-periodic.  I.e., each of the coordinates executes either a libration $q_k(t+T_k) =
+q_k(t)$ or a rotation (where the coordinate is periodic like an angle) $q_k + Q_k \equiv
+q_k$.  In both cases, we can define the **action** over a complete period/cycle:
+:::{margin}
+The factor of $(2\pi)^{-1}$ here is not conventional, but ensures that the resulting
+frequencies $\omega_k$ are angular frequencies.  This is conventional in many fields of
+physics like particle theory where one keeps the factors of $(2\pi)^{-1}$ with the
+momentum integrals when doing Fourier transforms.
+:::
+\begin{gather*}
+  I_k(E) = \oint p_k\,\frac{\d{q_k}}{2\pi},
+\end{gather*}
+where the integral is over the path defined by the condition of constant energy
+$E=E(q_k, p_k)$.
+The energy of such a system is a function only of these actions
+\begin{gather*}
+  H'(\vect{I}) = E(\vect{I}),
+\end{gather*}
+hence the corresponding canonical coordinates (the **angle coordinates**) have constant
+velocity:
+\begin{gather*}
+  \dot{\theta}_{k} = \pdiff{H'(\vect{I})}{I_k} = \text{const.},\qquad
+  \theta_k(t) = \theta_k(0) + \dot{\theta}_{k} t.
 \end{gather*}
 
-Again, time-independence allows us to set $t_0=0$ without loss of generality.
+The geometric structure is one of an $n$-torus in phase space defined by the constant
+energy manifold $E = E(\vect{q}, \vect{p}) = E(\vect{I})$.  The periodic trajectories
+are orbits around these tori, and the angle variables specify where on the orbits the
+system is at a given time, parameterized in such a way as to advance at a constant rate
+in time.
 
-
-***Incomplete***
-
-
-
-This has the following solution $\vect{r}(t)$ and [Hamilton's
-principal function] $\S$:
-
+These coordinates are generated by the type-2 generating function $W(\vect{q}, \vect{I})$ called
+[Hamilton's characteristic function][]
 \begin{gather*}
-  \vect{r}(t) = \vect{r}_0 + \frac{\vect{p}_0}{m}(t - t_0) - \frac{g}{2}(t-t_0)^2\uvect{z},\\
-  p_0 = m\frac{x-x_0}{t-t_0},\\
-  \S(\vect{r},t;\vect{r}_0,t_0) = \frac{p_0^2}{2m}(t-t_0) = \frac{m(x-x_0)^2}{2(t-t_0)},\\
-  \frac{\partial^2 \S}{\partial x\partial x_0} = -\frac{m}{(t-t_0)}.
+  W(\vect{q}, \vect{I}) = S(q, \vect{I}, t) + E(\vect{I}) t.
 \end{gather*}
 
-Hence, the WKB propagator is:
+The process of finding these is straightforward
+1. Calculate the new generalized momenta $\vect{I}$ -- the **action variables**:
+   \begin{gather*}
+     I_k = \oint q_k\,\frac{\d{p_k}}{2\pi}.
+   \end{gather*}
+2. Express the original Hamiltonian in terms of these $H'(\vect{I}) = E(\vect{I})$.
+3. Differentiate to get the frequencies:
+   \begin{gather*}
+     \omega_k = \pdiff{H'}{I_k}, \qquad
+     \theta_k = \theta_k(0) + \omega_k t.
+   \end{gather*}
 
+## Formalism
+
+:::{margin}
+This discussion follows {cite}`Arnold:1989` §10: "Introduction to perturbation theory".
+:::
+The formalism for a system of $n$ particles starts with identifying $n$ integrals of
+motion $F_{k}(\vect{q}, \vect{p})$ with $F_1(\vect{q}, \vect{p}) = H(\vect{q},
+\vect{p})$ which are **in involution** with each other, meaning that their Poisson
+brackets are zero:
 \begin{gather*}
-  U_{WKB}(x,t;x_0,t_0) = \sqrt{\frac{m}{2\pi \I \hbar (t-t_0)}}\exp\left\{
-    \frac{i}{\hbar}\frac{m(x-x_0)^2}{2(t-t_0)}
-  \right\}.
+  \{F_i, F_j\}_{pq} = 0.
 \end{gather*}
-Changing variables, we now have:
-
+Liouville proved the following about the level set 
 \begin{gather*}
-  \S(x,t;p_0,t_0) = xp_0 - \frac{p_0^2}{2m}(t-t_0),\qquad
-  \frac{\partial^2 \S}{\partial x\partial p_0} = 1
-\end{gather*}.
-
-Hence, the WKB propagator is:
-
-\begin{gather*}
-  U_{WKB}(x,t;p_0,t_0) = \exp\left\{
-    \frac{i}{\hbar}\left(xp_0 - \frac{p_0^2 (t-t_0)}{2m}\right)\right\}.
+  M_{\vect{f}} = \{(\vect{q}, \vect{p}) \quad |\quad \vect{F}(\vect{q}, \vect{p}) = \vect{f}\}.
 \end{gather*}
+:::{margin}
+From {cite}`Arnold:1989` §10: "Introduction to perturbation theory".
+:::
+> 1. $M_{\vect{f}}$ is a smooth manifold, invariant under phase flow with the Hamiltonian
+>    $H = F_1$.
+> 2. If the manifold $M_{\vect{f}}$ is compact and connected, then it is diffeomorphic
+>    to the $n$-dimensional torus
+>    \begin{gather*}
+       T^{n} = \{\vect{\phi} \mod 2\pi\}
+     \end{gather*}
+> 3. The phase flow with Hamiltonian $H = F_1$ determines conditionally periodic motion
+>    on $M_{\vect{f}}$.  I.e.: 
+>    \begin{gather*}
+       \dot{\vect{\phi}} = \vect{\omega}(\vect{f}).
+     \end{gather*}
+> 4. The canonical equations can be integrated by quadratures.  (I.e., although we only
+>    have $n$ integrals, we can get all $2n$ integrals of motion.
 
-A quick check shows that this is also exact, and confirms the need for the extra piece
-$q p_0$ in $\S$:
-
+The angle coordinates will be
 \begin{gather*}
-  U(x,t;p_0,t_0) = \braket{x|e^{\op{H}(t-t_0)/\I\hbar}|p_0}
-  = \braket{x|p_0}e^{p_0^2(t-t_0)/(2m\I\hbar)}\\
-  = e^{\tfrac{\I}{\hbar} x p_0}e^{p_0^2(t-t_0)/(2m\I\hbar)}\\
-  = \exp\left\{\frac{\I}{\hbar}\left(
-      x p_0 - \frac{p_0^2}{2m}(t-t_0)
-    \right)\right\}.
+  \vect{\phi}(t) = \vect{\phi}(0) + \vect{\omega}(\vect{f}) t
 \end{gather*}
-````
+but we must still identify the conjugate momenta $\vect{I}$, which will not in general
+be the functions $\vect{F}$.  They are given as discussed above, by computing the action
+about the periodic orbit.
 
 ````{admonition} Example: Harmonic Oscillator
+
+:class: dropdown
 
 The harmonic oscillator has the following solution:
 
 \begin{gather*}
   \newcommand{\t}{\tau}
-  H(x, p) = \frac{p^2}{2m} + \frac{m\omega^2 x^2}{2}, \qquad 
-  \t= t-t_0\\
-  S(x, t; x_0, t_0) = \frac{\omega(xp - x_0p_0)}{2}\\
-  = \frac{m\omega}{2\sin\omega\t}\Bigl(
-  (x^2+x_0^2)\cos\omega\t - 2xx_0\Bigr),\\
-  \frac{\partial^2 S}{\partial x \partial x_0} = -\frac{m\omega}{\sin\omega\tau},\qquad
-  A = \sqrt{\frac{m\omega}{\sin\omega\tau}}\\
-  \begin{aligned}
-    S' &\equiv \pdiff{S}{x} = p = \frac{m\omega}{\sin\omega\t}\Bigl(x\cos\omega\t - x_0\Bigr),\\
-    S'' &\equiv \pdiff[2]{S}{x} = m\omega\cot\omega\t,\\
-    \dot{A} &\equiv \pdiff{A}{t} 
-    %= \frac{-1}{2}\sqrt{\frac{m\omega^3\cos^2\omega \tau}{\sin^3\omega \tau}}
-    = \frac{-\omega A \cot \omega \tau}{2}
-  \end{aligned}\\
-  \frac{S''}{2m} + \frac{\dot{A}}{A} + \frac{A'S'}{mA} = 
-  \frac{\omega}{2}\cot\omega\t - \frac{\omega}{2}\cot\omega\t + 0 = 0.
+  H(q, p) = \frac{p^2}{2m} + \frac{m\omega^2 q^2}{2}, \qquad 
+  \t= t-t_0,\\
+  q(t) = A\cos \omega \t,\qquad
+  p(t) = -m \omega A\sin\omega \t, \qquad
+  E = \frac{m\omega^2A^2}{2}.
+\end{gather*}
+1. From this, we can compute the action variable
+   \begin{gather*}
+     I = \oint p\, \frac{\d{q}}{2\pi} = \frac{1}{2\pi}\int p\dot{q}\,\d{t}
+       = \frac{1}{2\pi}\int_0^{2\pi/\omega} m \omega^2 A^2\sin^2\omega \t \,\d{\t}
+       = \frac{m \omega A^2}{2} = \frac{E}{\omega}.
+   \end{gather*}
+2. We then invert this to express $E(I)$:
+   \begin{gather*}
+      E(I) = I\omega
+   \end{gather*}
+3. Now we differentiate to obtain the angular velocity and angle variable:
+   \begin{gather*}
+     \omega = \pdiff{E}{I}, \qquad \phi(\t) = \omega \t.
+   \end{gather*}
+   Thus, we see that we recover the angular frequency.
+
+We now have the coordinate transformation:
+\begin{gather*}
+  q = \sqrt{\frac{2I}{m\omega}} \cos \phi, \qquad
+  p = -\sqrt{2m\omega I}\sin\phi,\\
+  I = \frac{p^2}{2m\omega} + \frac{m\omega q^2}{2}, \qquad
+  \phi = \tan^{-1}\left(\frac{-p}{m\omega q}\right),\\
+  p = -\sqrt{2m\omega I}\sqrt{1-\frac{m\omega q^2}{2I}},\qquad
+  \phi = \tan^{-1}\left(\sqrt{\frac{2I}{m\omega q^2} - 1}\right).
+\end{gather*}
+The generating function is
+\begin{gather*}
+  W(q, I) = I\left(\cos^{-1}\left(q\sqrt{\frac{m\omega}{2I}}\right) 
+                   -q\sqrt{\frac{m\omega}{2I}}\sqrt{1 - q^2\frac{m\omega}{2I}}\right),\\
+  p = \pdiff{W}{q}, \qquad
+  \phi = \pdiff{W}{I}.
 \end{gather*}
 
+Note that this is just [Hamilton's characteristic function][] $W = S + Et$ expressed in
+the appropriate coordinates as a type-2 generating function:
+\begin{gather*}
+  W(q,I) = S(q, t; q_0, t_0) + Et = 
+  \frac{\omega(qp - q_0p_0)}{2} + Et\\
+  = \frac{m\omega}{2\sin\omega\t}\Bigl(
+  (x^2+x_0^2)\cos\omega\t - 2xx_0\Bigr),\\
+\end{gather*}
+
+*Note: When trying to derive these types of relationships, it is much easier to work in
+natural units where $m\omega = 2I = 1$.  The latter throws some of the baby out with the
+bathwater (you lose the dependence on $I$ which is needed for derivatives) but
+simplifies algebra.*
+
+\begin{gather*}
+  W(q,I) = S(q, t; q_0, t_0) + Et = 
+  I\omega(-\cos \phi \sin \phi + \cos \phi_0 \sin \phi_0) + I \omega t\\
+  = \frac{m\omega}{2\sin\omega\t}\Bigl(
+  (x^2+x_0^2)\cos\omega\t - 2xx_0\Bigr),\\
+\end{gather*}
 ````
 
-## Traditional WKB
+# WKB Approximation
 
-The more traditional approach is to express the wavefunction as follows, then insert it
-into the Schrödinger equation:
+The traditional approach for the [WKB approximation][] of quantum mechanics is to
+express the wavefunction as follows, then insert it into the Schrödinger equation:
 
 ```{margin}
 To simplify the notation here, we use:
@@ -1191,41 +1331,30 @@ To simplify the notation here, we use:
 \end{gather*}
 ```
 
-\begin{gather*}
-  \psi(x, t) = \exp\left\{\frac{i}{\hbar}W(x,t)\right\},\\
-  \left(\frac{(S')^2}{2m} - \frac{\I\hbar}{2m}W'' + V + \dot{W}\right)\psi = 0.
-\end{gather*}
+\begin{align*}
+  \psi(x, t) &= \exp\left\{\frac{i}{\hbar}W(x,t)\right\},\\
+  \psi'(x, t) &= \frac{i}{\hbar}W'(x, t)\psi(x, t),\\ 
+  \psi''(x, t) &= \left(\frac{i}{\hbar}W''(x, t) - \frac{W''(x,
+  t)}{\hbar^2}\right)\psi(x, t),\\
+  0 &= \left(\frac{(W')^2 - \I\hbar W''}{2m} + V + \dot{W}\right)\psi.
+\end{align*}
 
 Expanding $W$ in powers of $\hbar$, we have the following lowest two orders:
 
 \begin{align*}
   &W(x,t) = S(x,t) - \I\hbar \log A + \order(\hbar^2),\\
+  &W'(x,t) = S'(x,t) - \I\hbar \frac{A'}{A} + \order(\hbar^2),\\
+  &W''(x,t) = S''(x,t) - \I\hbar \frac{A A'' - (A')^2}{A^2} + \order(\hbar^2),\\
   \text{Order $\hbar^0$:}\quad &\frac{(S')^2}{2m} + V(x,t) + \dot{S} 
-  = H(x, S', t) + \dot{S} = 0\\
-  \text{Order $\hbar^1$:}\quad &\frac{S''}{2m} + \frac{A'S'}{mA} + \frac{\dot{A}}{A} = 0\\
-  &\psi_{WKB}(x, t) = A(x,t)\exp\left\{\frac{i}{\hbar}S(x,t)\right\}.
+  = H(x, S', t) + \dot{S} = 0,\\
+  \text{Order $\hbar^1$:}\quad &\frac{S''}{2m} + \frac{A'S'}{mA} + \frac{\dot{A}}{A} = 0,\\
+  &\psi_{WKB}(x, t) = A(x,t)\exp\left\{\frac{i}{\hbar}S(x,t)\right\},\\
 \end{align*}
 
 ### $\order(\hbar^0)$: Hamilton-Jacobi Equation
 
 The order $\hbar^0$ equation is the well-known Hamilton-Jacobi equation, which is
 satisfied by the classical action as a function of initial and final states.
-
-```{admonition} Exercise
-Prove that the classical action $S(x, t)$ satisfies the Hamilton-Jacobi equation:
-
-\begin{gather*}
-  S(x, t) = S(x,t;x_0,t_0) = \int_{t_0}^{t} L\Bigl(x(t), \dot{x}(t), t\Bigr) \d{t},  
-\end{gather*}
-
-where $x(t)$ is a solution to the classical equations of motion with boundary conditions
-$x(t_0) = x_0$ and $x(t) = x$, as discussed above.  I.e., show that
-
-\begin{gather*}
-  S' \equiv \pdiff{S(x, t; x_0, t_0)}{x} = p, \\
-  \dot{S} = \pdiff{S(x, t;x_0, t_0)}{t} = -H(x, S', t).
-\end{gather*}
-```
 
 ### $\order(\hbar^1)$: Continuity Equation
 
@@ -1341,788 +1470,346 @@ To get $n(x, t)$ from the previous relationship, we hold $\d{x} = \d{t} = \d{t_0
   = - \frac{1}{\pdiff{x}{p_0}}.
 \end{gather*}
 ```
-### Propagator
 
-We have been working with wavefunctions, but notice that the classical action is a
-function of both initial and final coordinates $S(x, t; x_0, t_0)$, but the initial
-coordinates are just parameters (they are not part of the Schrödinger equation).  Since
-the Schrödinger equation is linear, we can form a solution as a linear combination of
-these, which allows us to use the full classical action to obtain an approximation to
-the quantum propagator, exactly mirroring the path integral approach:
+## WKB: Path Integral Formulation
 
-\begin{gather*}
-  \mat{U}_{WKB}(x, t;x_0, t_0) = \exp\left\{\frac{\I}{\hbar}W(x, t;x_0, t_0)\right\}\\
-  = A(x, t; x_0, t_0) \exp\left\{\frac{\I}{\hbar}S(x, t;x_0, t_0)\right\},\\
-  \psi_{WKB}(x, t) = \int \d{x_0}\; \mat{U}_{WKB}(x, t;x_0, t_0)\psi(x_0).
-\end{gather*}
+:::{warning}
 
-The normalization needs to be checked, since the traditional WKB approach does not
-specify the magnitude of $A$, but, appropriately normalized, $\mat{U}_{WKB}$ is unitary.
+This section is still in progress...
+:::
 
-
-## Maxwell Relations
-
-To work with these expressions, we must compute the classical action for a particle
-which follows the classical trajectory, for example $S(q,t;q_0,t_0)$ for the
-position-to-position transitions, or $S(q,t;p_0,t_0)$ for the momentum-to-position
-transitions.  We also need the various partial derivatives for the normalization factor
-and for additional analysis.  Relating the partials of $S(q,t;q_0,t_0)$ to the partials
-of $S(q,t;p_0,t_0)$ follows the same process of deriving thermodynamic relationships
-such as the [Maxwell relations].
-
-```{admonition} Warm-up Exercise
-Consider a function $f(q, q_0)$ and another variable $p_0(q, q_0)$.  Show that the following
-hold:
-
-\begin{align*}
-  \newcommand{\mypd}[3]{\left.\pdiff{#1}{#2}\right|_{#3}}
-  \mypd{f(q, p_0)}{p_0}{q} &= \frac{\mypd{f(q,q_0)}{q_0}{q}}{\mypd{p_0(q,q_0)}{q_0}{q}},\\
-  \mypd{f(q, p_0)}{q}{p_0} &= 
-  \mypd{f(q,q_0)}{q}{q_0} - \mypd{f(q,q_0)}{q_0}{q}\frac{\mypd{p_0(q,q_0)}{q}{q_0}}{\mypd{p_0(q,q_0)}{q_0}{q}}.
-\end{align*}
-
-Check this by providing explicit forms for $f(q, q_0)$ and $p_0(q, q_0)$, then
-explicitly changing variables and differentiating.
-```
+In quantum mechanics, one can use the Feynman path-integral approach to construct the
+propagator (here expressed in terms of position-to-position
+transitions):
 
 ```{margin}
-Some further relationships with this notation are:
-
-\begin{align*}
-  S_{,t} &= \mypd{\!S(q,\!t;q_0,\!t_0)}{t}{q,q_0,t_0}\\
-  S^{P}_{,p_0} &= \mypd{\!S^{P}(q,\!t;p_0,\!t_0)}{p_0}{q,t,t_0}\\
-  S^{G}_{,p_0} &= \mypd{\!S^{G}(q,\!t;q_0,\!p_0)}{p_0}{q,t,q_0}\\
-  {p_0}_{,t} &= \mypd{\!p_0(q,\!t;q_0,\!t_0)}{t}{q,q_0,t_0}
-\end{align*}
+See {cite:p}`DeWitt-Morette:1976` and {cite:p}`Cartier:2006` for extensive details and
+rigorous definitions of what the path integral means.  *Note: the expressions in
+{cite:p}`Cartier:2006` are missing factors of $2\pi \I$ -- see
+{cite:p}`DeWitt-Morette:1976` for the correct expressions.*
 ```
-Here we consider three different sets of variables $S(q,t;q_0,t_0)$, $S^{P}(q,t;p_0,t_0)$, and
-$S^{G}(q,t;q_0,p_0)$.  To simplify the equations, we use the following notation for
-partials:
-
 \begin{gather*}
-  S_{,q} = \mypd{S(q,t;q_0,t_0)}{q}{t,q_0,t_0}, \qquad
-  S^{P}_{,q} = \mypd{S^{P}(q,t;p_0,t_0)}{q}{t,p_0,t_0}, \\
-  S^{G}_{,q} = \mypd{S^{G}(q,t;q_0,p_0)}{t}{q,q_0,p_0}, \qquad
-  p_{0,q} = \mypd{p_0(q,t;q_0,t_0)}{t}{t,q_0,t_0}, \qquad \text{etc.}
+  \newcommand{\S}{\mathcal{S}}
+  U(q, t; q_0, t_0) = \int \mathcal{D}[q]\; \exp\left\{\frac{\I}{\hbar}S[q]\right\},\\
+  \psi(q, t) = \int U(q, t;q_0, t_0)\psi(q_0, t_0)\d{q_0}.
 \end{gather*}
 
-I.e., the superscript denotes which set of variables is held fixed, and the subscript
-denotes which variable we differentiate.  If there is no subscript  Prove the following:
+where the integral is over all paths that start at $q(t_0) = q_0$ and end at $q(t) =
+q$, and $S[q]$ is the classical action
 
-\begin{align*}
-  S^{P}_{,p_0} &= \frac{S_{,q_0}}{p_{0,q_0}}, &
-  S^{G}_{,p_0} &= \frac{S_{,t_0}}{p_{0,t_0}},
-  \\
-  S^{P}_{,q} &= S_{,q} - S_{,q_0}\frac{p_{0,q}}{p_{0,q_0}}, &
-  S^{G}_{,q} &= S_{,q} - S_{,t_0}\frac{p_{0,q}}{p_{0,t_0}},
-  \\
-  S^{P}_{,t} &= S_{,t} - S_{,q_0}\frac{p_{0,t}}{p_{0,q_0}}, &
-  S^{G}_{,t} &= S_{,t} - S_{,t_0}\frac{p_{0,t}}{p_{0,t_0}},
-  \\
-  S^{P}_{,t_0} &= S_{,t_0} - S_{,q_0}\frac{p_{0,t_0}}{p_{0,q_0}}, &
-  S^{G}_{,q_0} &= S_{,p_0} - S_{,t_0}\frac{p_{0,q_0}}{p_{0,t_0}}.
-\end{align*}
-  
-To simplify these further, we need some mechanics.  We shall work with $S(q,t;q_0,t_0)$
-explicitly:
+\begin{gather*}
+  S[q] = \int_{t_0}^{t}\d{t}\; L(q, \dot{q}, t).  
+\end{gather*}
 
-```{admonition} Exercise
-Show that:
-\begin{align*}
-  S_{,q} &= p &
-  S_{,t} &= -H &
-  S_{,q_0} &= -p_0 &
-  S_{,t_0} &= H_0.
-\end{align*}
+Given an initial wavefunction $\psi(q_0, t_0)$, the wavefunction at time $t$ is:
 
-Use the explicit form for the action, and then integrate by parts using the equations of
-motion to obtain simpler results.  For some details, see {cite:p}`Houchmandzadeh:2020`.
-```
+\begin{gather*}
+  \psi(q, t) = \int \d{q_0}\; U(q, t;q_0, t_0)\psi(q_0, t_0).
+\end{gather*}
 
-These relationships allow us to derive formula similar to the [Maxwell relations] in
-thermodynamics.  For example, using the fact that $p_0 = -S_{,q_0}$, $H_0 = S_{,t_0}$,
-and $\dot{p}_0 = -\partial H_0/\partial q_0$ from the Hamilton equations of motion, we have:
+the [WKB approximation] relies on the idea that classical trajectories where
+$S'[q_{\mathrm{cl}}] = 0$ -- the famous principle of extremal action -- dominate the
+propagator, and use the expansion of the action
 
-\begin{align*}
-  p_{0,t_0} &= -\frac{\partial^2 S}{\partial q_0\partial t_0}
-             = -\frac{\partial^2 S}{\partial t_0\partial q_0}
-             = -\frac{\partial H_0}{\partial q_0}
-             = \dot{p}_0.
-\end{align*}
+\begin{gather*}
+  S[q+\xi] = S[q] + S'[q]\cdot \xi + \frac{1}{2!}S''[q]\cdot\xi\xi 
+  + \frac{1}{3!}S'''[q]\cdot\xi\xi\xi  + \cdots.
+\end{gather*}
 
 ```{margin}
-We can use the Hamilton equations to simplify $H_{,q_0}$ since $H$ is the Hamiltonian at
-time $t$, while $q_0$ is the coordinate at time $t_0$.
+The path integral over $\xi$ here can be computed analytically as it is simply a
+[gaussian integral].  This result is just the multi-dimensional generalization of the
+elementary result that
+
+\begin{gather*}
+  \int \d^n{\vect{x}} e^{-\tfrac{1}{2}\vect{x}^T\mat{A}\vect{x}} =\\
+  = \sqrt{\det(2\pi \mat{A}^{-1})}.
+\end{gather*}
 ```
-Likewise, though less useful:
+The [WKB approximation] amount to considering all classical trajectories with
+appropriate boundary conditions, performing the path integral over $\xi$, and dropping
+terms of order $\order(\xi^3)$ and higher to obtain:
+\begin{gather*}
+  U_{WKB}(q, t; q_0, t_0) = \int \mathcal{D}[\xi]\; \exp\left\{\frac{\I}{\hbar}\left(
+  S[q_{\mathrm{cl}}] + \frac{1}{2}S''[q_{\mathrm{cl}}]\cdot\xi\xi\right)\right\}\\
+  = \sqrt{\frac{-\partial^2 S / (2\pi \I \hbar)}
+          {\partial q_{\mathrm{cl}}(t)\partial q_{\mathrm{cl}}(t_0)}}
+    \exp\left\{\frac{\I}{\hbar}\S(q_{\mathrm{cl}}(t),t;q_{\mathrm{cl}}(t_0),t_0)\right\},
+\end{gather*}
+where $\S = \S(q,t;q_0,t_0)$ is the classical action with $q=q_{\mathrm{cl}}(t)$ and $q_0
+= q_{\mathrm{cl}}(t_0)$ are the final and initial points of the classical trajectory.
+The key point here is that all of the information about the propagator in this
+approximation is contained in the classical action $\S(q,t;q_0,t_0)$, sometimes called
+[Hamilton's principal function][].
+
+Once the path integrals over $\xi$ have been done, everything is expressed in terms of
+the classical trajectory $q_{\mathrm{cl}}(t)$ and we shall drop the "cl" subscript in
+what follows.
+
+*(Note: if there are multiple trajectories that satisfy the boundary conditions, then
+they should be added, giving rise to quantum interference patterns.)*
+
+````{admonition} Example: Free Particle
+:class: dropdown
+
+As an example, consider a free particle with Hamiltonian $H = p^2/2m$.  This has
+the following solution $x(t)$ and [Hamilton's principal function] $\S$:
+
+\begin{gather*}
+  x(t) = x_0 + \frac{p_0}{m}(t-t_0), \qquad
+  p_0 = m\frac{x-x_0}{t-t_0},\\
+  \S(x,t;x_0,t_0) = \frac{p_0^2}{2m}(t-t_0) = \frac{m(x-x_0)^2}{2(t-t_0)},\\
+  \frac{\partial^2 \S}{\partial x\partial x_0} = -\frac{m}{(t-t_0)}.
+\end{gather*}
+
+Hence, the WKB propagator is:
+
+\begin{gather*}
+  U_{WKB}(x,t;x_0,t_0) = \sqrt{\frac{m}{2\pi \I \hbar (t-t_0)}}\exp\left\{
+    \frac{i}{\hbar}\frac{m(x-x_0)^2}{2(t-t_0)}
+  \right\}.
+\end{gather*}
+
+A quick check shows that this is exact:
+
+\begin{gather*}
+  U(x,t;x_0,t_0) = \braket{x|e^{\op{H}(t-t_0)/\I\hbar}|x_0}
+  = \int \frac{\d{k}}{2\pi}\braket{x|k}e^{\hbar^2k^2(t-t_0)/(2m\I\hbar)}\braket{k|x_0}\\
+  = \int \frac{\d{k}}{2\pi}e^{\hbar^2k^2(t-t_0)/(2m\I\hbar) + \I k (x-x_0)}\\
+  = \sqrt{\frac{m}{2\pi \I\hbar (t-t_0)}}\exp\left\{
+    \frac{\I m(x-x_0)^2}{2\hbar (t-t_0)}
+  \right\}.
+\end{gather*}
+
+Extending this to higher dimensions, we have:
+
+\begin{gather*}
+  \vect{x}(t) = \vect{x}_0 + \frac{\vect{p}_0}{m}(t-t_0), \qquad
+  \vect{p}_0 = m\frac{\vect{x}-\vect{x}_0}{t-t_0},\\
+  \S(\vect{x},t;\vect{x}_0,t_0) = \frac{m\norm{\vect{x}-\vect{x}_0}^2}{2(t-t_0)},\\
+  \frac{\partial^2 \S}{\partial x_{i}\partial [x_0]_{j}} = -\frac{m\delta_{ij}}{(t-t_0)}.
+\end{gather*}
+````
+
+Similar results can be obtained from the momentum-to-position transitions if the initial
+state is expressed in terms of momentum, however, in this case, since the boundary
+conditions are no longer the same, we must use a different form of $\S(x,t;p_0,t_0)$:
+
+\begin{gather*}
+  \S(q,t;p_0,t_0) = p_0q_0(q,t;p_0,t_0) + \S\Bigl(q,t;q_0(q,t;p_0,t_0),t_0\Bigr),\\
+  U_{WKB}(q, t; p_0, t_0) 
+  = \sqrt{\frac{\partial^2 \S}{\partial q_{\mathrm{cl}}(t)\partial p_{\mathrm{cl}}(t_0)}}
+    \exp\left\{\frac{\I}{\hbar}\S(q_{\mathrm{cl}}(t),t;p_{\mathrm{cl}}(t_0);t_0)\right\}.
+\end{gather*}
+
+````{admonition} Example: Free Particle continued
+:class: dropdown
+
+Changing variables, we now have:
+
+\begin{gather*}
+  \S(x,t;p_0,t_0) = p_0\left(x - \frac{p_0}{m}(t-t_0)\right) 
+                    + \overbrace{\frac{p_0^2}{2m}(t-t_0)}^{S}\\
+                  = p_0 x - \frac{p_0^2}{2m}(t-t_0), \qquad
+  \frac{\partial^2 \S}{\partial x\partial p_0} = 1
+\end{gather*}.
+
+Hence, the WKB propagator is:
+
+\begin{gather*}
+  U_{WKB}(x,t;p_0,t_0) = \exp\left\{
+    \frac{i}{\hbar}\left(xp_0 - \frac{p_0^2 (t-t_0)}{2m}\right)\right\}.
+\end{gather*}
+
+A quick check shows that this is also exact, and confirms the need for the extra piece
+$q_0 p_0$ in $\S$:
+
+\begin{gather*}
+  U(x,t;p_0,t_0) = \braket{x|e^{\op{H}(t-t_0)/\I\hbar}|p_0}
+  = \braket{x|p_0}e^{p_0^2(t-t_0)/(2m\I\hbar)}\\
+  = e^{\tfrac{\I}{\hbar} x p_0}e^{p_0^2(t-t_0)/(2m\I\hbar)}\\
+  = \exp\left\{\frac{\I}{\hbar}\left(
+      x p_0 - \frac{p_0^2}{2m}(t-t_0)
+    \right)\right\}.
+\end{gather*}
+````
+
+(eg:FallingParticles)=
+## Examples
+
+````{admonition} Example: Falling Particle 1D
+:class: dropdown
+
+As a second example, consider a particle in free-fall with Hamiltonian $H = p^2/2m +
+mgz$.  The classical problem is most easily solved with conservation of energy $E$:
 
 \begin{align*}
-  p_{0,q} &= - p_{,q_0}, &
-  p_{0,t} &= - H_{,q_0}, &
-  p_{0,q_0} &= S_{,q_0,q_0}.
+  E &= \frac{p^2}{2m} + mgz = \frac{p_{0}^2}{2m} + mgz_0, \\
+  p &= \pm\sqrt{2mE - 2m^2gz},\\ 
+    &= \pm\sqrt{p_{0}^2 - 2m^2g(z-z_0)},\\
+  L(z) &= E - 2mgz.
 \end{align*}
 
-## Falling Particle
+<!-- For simplicity, we assume that $z<z_0$ and that the particle is falling throughout the -->
+<!-- region of interest so that $p \leq 0$. -->
+Since our Hamiltonian is time-independent, the results will depend only on $t-t_0$ and
+we can choose $t_0=0$ without loss of generality.  This has the following solution
+$z(t)$ and [Hamilton's principal function] $\S$:
 
-To check these relationships, we consider a particle falling in a gravitational field:
+\begin{gather*}
+  \newcommand{\t}{t}
+  z(t) = z_0 + \frac{p_0}{m}\t - \frac{g}{2}\t^2,\\
+  \S(z,\t;z_0,t_0=0) = \int_{0}^{\t}\left(E - 2mgz_0 - 2gp_0\t + mg^2\t^2\right)\d{\t},\\
+                     = E(z,\t;z_0)\t - 2mgz_0\t - gp_0(z,\t;z_0)\t^2 + \frac{mg^2\t^3}{3}.
+\end{gather*}
+
+The appropriate functional dependence can be deduced by solving for $p_0(z,\t;z_0)$ and
+$E(z,\t;z_0)$:
+
+\begin{align*}
+  p_0(z,\t;z_0) &= m\frac{z-z_0}{\t} + \frac{mg\t}{2}, &
+  \pdiff{p_0}{z_0} &= -\frac{m}{\t}, \\
+  E(z,\t;z_0) &= \frac{p_0^2(z,\t;z_0)}{2m} + mgz_0, &
+  \pdiff{E}{z_0} &= -\frac{p_0}{\t} + mg.
+\end{align*}
+
+From these, we can compute the action and various partials:
+
+\begin{gather*}
+\S(z,\t;z_0,t_0=0) = m\left(
+  \frac{(z-z_0)^2}{2\t} - \frac{g}{2}(z+z_0)\t - \frac{g^2\t^3}{24}\right),\\
+  \frac{\partial\S(z,\t;z_0,t_0=0)}{\partial z} = p = p_0(z, \t;z_0) - mg\t,\\
+  \frac{\partial\S(z,\t;z_0,t_0=0)}{\partial z_0} = -p_0\\
+  \frac{\partial^2\S(z,\t;z_0,t_0=0)}{\partial z\partial z_0} = -\frac{m}{\t}.
+\end{gather*}
+
+Hence, the WKB propagator is:
+
+\begin{gather*}
+  U_{WKB}(z,t;z_0,t_0) = \sqrt{\frac{m}{2\pi \I \hbar (t-t_0)}}\\
+  \exp\left\{
+    \frac{\I m}{\hbar}\left(
+  \frac{(z-z_0)^2}{2(t-t_0)} - \frac{g}{2}(z+z_0)(t-t_0) - \frac{g^2(t-t_0)^3}{24}
+  \right)
+  \right\}.
+\end{gather*}
+````
+
+````{admonition} Example: General Particle 1D
+:class: dropdown
+
+Slightly more general, we now consider a particle falling in an arbitrary
+time-independent potential $V(z) = mgz + \delta(z)$ where we will ultimately consider
+$\delta(z)$ to be small.  Here, since energy is conserved, we immediately have:
+\begin{gather*}
+  E = \frac{p^2}{2m} + V(z) = \frac{p_{0}^2}{2m} + V(z_0), \\
+  p = \pm\sqrt{2mE - 2mV(z)},\\
+  L(z) = E - 2V(z).
+\end{gather*}
+The trajectory $z(t)$ no longer has a closed form, but we can still express the action
+by changing variables $\d{z} = \dot{z}\d{t} = p\d{t}/m$:
+\begin{gather*}
+  \S(z;z_0;E) = m\int_{z_0}^{z}\frac{\Bigl(E - 2V(z)\Bigr)}{p(z)}\d{z}\\
+  = \sqrt{\frac{m}{2}}\int_{z_0}^{z}\frac{\Bigl(E - 2V(z)\Bigr)}
+                                         {\pm\sqrt{E - V(z)}}\d{z}.
+\end{gather*}
+This form has two complications.  First, the sign of the denominator must be chosen
+appropriately to match the direction of motion.  This is often clear from the physics,
+and so does not pose a fundamental problem.  Second, this form of the action as an
+explicit function of either $S(z, p; z_0)$ or $S(z;z_0, p_0)$ since $E = E(z_0, p_0) = E(z,
+p)$ is conserved and a function of the initial or final coordinates.
+
+A comment about the role of the conserved energy $E$ here.  Note that if $E=0$, then the
+numerator and denominator both contain factors of $\sqrt{-V(z)}$ and can be combined.
+The presence of $E$ seems to spoil this, but, as is generally well known, in classical
+mechanics, only the relative value of the energy is physically significant.  To make
+this explicit, we note that
+\begin{gather*}
+  V(z) = E - \frac{p^2}{2m}, \quad
+  L(z) = E - 2V(z) = \frac{p^2}{m} - E,\\
+  \begin{aligned}
+    S(z;z_0;E) &= -\int_{0}^{t}E\d{t} + \int_{z_0}^{z}\bigl(\pm p(z)\bigr)\d{z}\\
+    &= -Et \pm \int_{z_0}^{z}p(z)\d{z}.
+  \end{aligned}
+\end{gather*}
+The first term clearly does not affect the physics, and in quantum mechanics,
+corresponds to an overall global phase.  This is exactly the effect of shifting the
+zero-energy level.  The second term is a common form of the action, as an integral of a
+generalized momentum with respect to the corresponding coordinate.  This form appears in
+the action-angle variable formulation for example.
+
+To compute the normalization factor, we must perform the appropriate change of variables
+using the analogy of the Maxwell relations in thermodynamics using:
+
+\begin{gather*}
+  f(z, z_0, E) = t - t_0 = \int_{t_0}^{t}\d{t} = \int_{z_0}^{z}\frac{m}{p}\d{z}\\
+  = \sqrt{\frac{m}{2}}\int_{z_0}^{z}\frac{1}{\pm\sqrt{E - V(z)}}\d{z},\\
+  \pdiff{f(z, z_0, E)}{z} = \pm\frac{\sqrt{m/2}}{\sqrt{E-V(z)}}\\
+  \pdiff{f(z, z_0, E)}{z_0} = \mp\frac{\sqrt{m/2}}{\sqrt{E-V(z_0)}}\\
+  \pdiff{f(z, z_0, E)}{E} = \mp\int_{z_0}^{z}\frac{\sqrt{m/8}}{\sqrt{E - V(z)}^3}\d{z}.
+\end{gather*}
+
+We must compute the partials holding this constant, so we have:
+
+\begin{gather*}
+  \pdiff{f(z, z_0, E)}{z} \d{z} 
+  + \pdiff{f(z, z_0, E)}{z_0} \d{z_0} 
+  + \pdiff{f(z, z_0, E)}{E} \d{E} = 0,\\
+  \d{E} = \frac{\pdiff{f(z, z_0, E)}{z}\d{z} + \pdiff{f(z, z_0, E)}{z_0}\d{z_0}}
+               {\pdiff{f(z, z_0, E)}{E}}\\
+        = \frac{-2}{\int_{z_0}^{z}\frac{1}{\sqrt{E - V(z)}^3}\d{z}}
+          \left(\frac{\d{z}}{\sqrt{E-V(z)}} - \frac{\d{z_0}}{\sqrt{E-V(z_0)}}\right).
+\end{gather*}
+
+We can now compute the normalization factor.  We take the first derivative using the
+well-known properties of Hamilton's principle function
+
+\begin{gather*}
+  \frac{\partial^2 S(z,t;z_0,t_0)}{\partial z\partial z_0} =
+  \frac{\partial p(z,t;z_0,t_0)}{\partial z_0} =
+  -\frac{\partial p_0(z,t;z_0,t_0)}{\partial z}
+\end{gather*}
+
+and then use the expression above for $p(z, E) = \pm \sqrt{2m\bigl(E-V(z)\bigr)}$ to compute:
+
+\begin{gather*}
+  \d{p} = \frac{\pm \sqrt{2m}}{\sqrt{E-V(z)}}\Bigl(\d{E} - V'(z) \d{z}\Bigr)\\
+  \pdiff{p(z, t;z_0, t_0)}{z_0} = 
+  \frac{\pm \sqrt{8m}}{\sqrt{\bigl(E-V(z)\bigr)\bigl(E-V(z_0)\bigr)}}
+  \frac{1}{\int_{z_0}^{z}\frac{1}{\sqrt{E - V(z)}^3}\d{z}}.
+\end{gather*}
+````
+
+````{admonition} Example: Harmonic Oscillator
+:class: dropdown
+
+The harmonic oscillator has the following solution:
 
 \begin{gather*}
   \newcommand{\t}{\tau}
-  H(p, q) = \frac{p^2}{2m} + mgq, \qquad \t = (t-t_0),\\
-  \dot{p} = -\pdiff{H}{q} = -mg \quad \implies \quad
-  p = p_0 - mg\t,\\
-  \dot{q} = \pdiff{H}{p} = \frac{p}{m} = \frac{p_0}{m} - g\t \quad \implies \quad
-  q = q_0 + \frac{p_0}{m}\t - \frac{g}{2}\t^2.
-\end{gather*}
-
-From this solution, we can construct the action $S(q_0, p_0, \t=t-t_0)$:
-
-\begin{gather*}
-  L = p\dot{q} - H = \frac{p^2}{2m} - mgq 
-  = \frac{p_0^2}{2m} - mgq_0 - 2gp_0\t + mg^2\t^2,\\
-  S(q_0, p_0, \t) = \left(\frac{p_0^2}{2m} - mgq_0\right)\t - gp_0\t^2 + \frac{mg^2}{3}\t^3.
-\end{gather*}
-
-As a function of $S^{0}(t;p_0,q_0,t_0)$, this is not in any of the forms we considered
-above.  To obtain those, we must eliminate one of the variables:
-
-| Independent Variables | Replacement           | Name                 |
-|-----------------------|-----------------------|----------------------|
-| $(q, t;q_0, t_0)$     | $p_0(q, t;q_0, t_0)$ | position-to-position |
-| $(q, t;p_0, t_0)$     | $q_0(q, t; p_0, t_0)$ | momentum-to-position |
-| $(q, t;q_0, p_0)$     | $t_0(q, t; p_0, q_0)$ | geometric optics     |
-
-This requires inverting the equations to solve for $p_0$, $q_0$, or $t_0$ respectively.
-For the first two, we make use of the fact that the Hamiltonian (energy) is conserved
-$H(p_0, q_0) = H(p, q)$:
-
-\begin{gather*}
-  \frac{p^2}{2m} + mgq = \frac{p_0^2}{2m} mgq_0.
-\end{gather*}
-
-For the last one, we need to solve the solution $q(\tau)$ for $\tau$.  These give the
-following transformations:
-
-\begin{align*}
-  p_0(q, t, q_0, t_0) &= m\left(\frac{q-q_0}{\t} + \frac{g\t}{2}\right),\\
-  q_0(q, t, p_0, t_0) &= q + \frac{g\t^2}{2} - \frac{p_0\t}{m},\\
-  t_0(q, t, p_0, q_0) &= t - \frac{p_0}{mg} \mp \sqrt{\frac{p_0^2}{m^2g^2} -2 \frac{q - q_0}{g}}
-\end{align*}
-
-In the last case, the appropriate branch must be chosen to meet the physical boundary
-conditions.  Using these, we can express the action as:
-
-\begin{align*}
-  S(q,t;q_0,t_0) &= m\left(\frac{(q-q_0)^2}{2\t} - \frac{g(q+q_0)\t}{2} - \frac{g^2\t^3}{24} \right),\\
-  S^{P}(q,t;p_0,t_0) &= \left(\frac{p_0^2}{2m} - mgq\right)\t - \frac{mg^2\t^3}{6},\\
-  S^{G}(q,t;p_0,q_0) &= \frac{-p_0^3}{6m^2g} - p_0q_0 \mp \frac{\frac{p_0^2}{2m} +
-  mg(2q+q_0)}{3g\sqrt{m/2}}\sqrt{\frac{p_0^2}{2m} - mg(q - q_0)},\\
-                     &= \frac{2p_0(q-q_0) \mp \left(\frac{p_0^2}{2m} + mg(2q+q_0)\right)\t}{3}.
-\end{align*}
-
-The expression for $S^{G}(q;p_0,q_0)$ is a bit messy, but notably does not depend on
-$t_0$ due to the time-invariance of the problem.  However, to simplify expressions
-later, we present it in the second form where $\t$ should be replaced by
-\begin{gather*}
-  \t(q;p_0,q_0) = \frac{p_0}{mg} \pm \sqrt{\frac{p_0^2}{m^2g^2} -2 \frac{q - q_0}{g}}.
-\end{gather*}
-
-
-```{margin}
-The partials on the rhs are wrt $(q, t;q_0, t_0)$:
-
-\begin{align*}
-  p_{0,q} &= -p_{0,q_0} = \frac{m}{\t}\\
-  p_{0,t_0} &= -p_{0,t}\\
-  &=\frac{p_0}{\t}-mg\\
-  &=\frac{m(q-q_0)}{\t^2} - \frac{mg}{2}
-\end{align*}
-```
-
-````{admonition} Exercise
-
-Check the relationships between the various partial derivatives of the actions.  The
-following may be helpful:
-
-\begin{gather*}
-  p(q, t, q_0, t_0) = m\left(\frac{q-q_0}{\t} - \frac{g\t}{2}\right),\\
+  H(x, p) = \frac{p^2}{2m} + \frac{m\omega^2 x^2}{2}, \qquad 
+  \t= t-t_0\\
+  S(x, t; x_0, t_0) = \frac{\omega(xp - x_0p_0)}{2}\\
+  = \frac{m\omega}{2\sin\omega\t}\Bigl(
+  (x^2+x_0^2)\cos\omega\t - 2xx_0\Bigr),\\
+  \frac{\partial^2 S}{\partial x \partial x_0} = -\frac{m\omega}{\sin\omega\tau},\qquad
+  A = \sqrt{\frac{m\omega}{\sin\omega\tau}}\\
   \begin{aligned}
-    H = H_0 &= m\left(\frac{(q-q_0)^2}{2\t^2} + \frac{g^2\t^2}{8} + \frac{g(q+q_0)}{2}\right)\\
-      &= \frac{p_0^2}{2m} + mgq - gp_0\t + \frac{mg^2\t^2}{2}.
-  \end{aligned}
+    S' &\equiv \pdiff{S}{x} = p = \frac{m\omega}{\sin\omega\t}\Bigl(x\cos\omega\t - x_0\Bigr),\\
+    S'' &\equiv \pdiff[2]{S}{x} = m\omega\cot\omega\t,\\
+    \dot{A} &\equiv \pdiff{A}{t} 
+    %= \frac{-1}{2}\sqrt{\frac{m\omega^3\cos^2\omega \tau}{\sin^3\omega \tau}}
+    = \frac{-\omega A \cot \omega \tau}{2}
+  \end{aligned}\\
+  \frac{S''}{2m} + \frac{\dot{A}}{A} + \frac{A'S'}{mA} = 
+  \frac{\omega}{2}\cot\omega\t - \frac{\omega}{2}\cot\omega\t + 0 = 0.
 \end{gather*}
-
-First with respect to the variables $(q, t;q_0, t_0)$:
-
-\begin{align*}
-  \pdiff{S}{q} &= p = m\left(\frac{q-q_0}{\t} - \frac{g\t}{2}\right),\\
-  \pdiff{S}{q_0} &= -p_0 = -m\left(\frac{q-q_0}{2\t} + \frac{g\t}{2}\right),\\
-  \pdiff{S}{t} &= -H = -m\left(\frac{(q-q_0)^2}{2\t^2} + \frac{g(q+q_0)}{2} + \frac{g^2\t^2}{8}\right),\\
-  \pdiff{S}{t_0} &= H_0 = m\left(\frac{(q-q_0)^2}{2\t^2} + \frac{g(q+q_0)}{2} + \frac{g^2\t^3}{8} \right).
-\end{align*}
-
-Next, with respect to the variables $(q, t;p_0, t_0)$:
-
-\begin{align*}
-  \pdiff{S^{P}}{q} &= p - p_0 = -mg\t,\\
-  \pdiff{S^{P}}{t} &= -H + p_0\left(\frac{p_0}{m} -g\t\right)
-    = \frac{p_0^2}{2m} - mgq - \frac{mg^2\t^2}{2} ,\\
-  \pdiff{S^{P}}{t_0} &= H_0 - p_0\left(\frac{p_0}{m} -g\t\right)
-     =-\frac{p_0^2}{2m} + mgq + \frac{mg^2\t^2}{2},\\
-  \pdiff{S^{P}}{p_0} &= p_0\frac{\t}{m}
-                      =\frac{p_0}{m}\t.
-\end{align*}
-
-Finally, with respect to the variables $(q, t;p_0, q_0)$:
-
-\begin{align*}
-  \pdiff{S^{G}}{q} &= p - \frac{H_0}{\frac{p_0}{m} - g\t}
-                    = ???,\\
-  \pdiff{S^{G}}{t} &= -H + H_0 = 0,\\
-  \pdiff{S^{G}}{q_0} &= -p_0 + \frac{H_0}{\frac{p_0}{m} - g\t}
-                      =???,\\
-  \pdiff{S^{G}}{p_0} &= H_0\left(\frac{p_0}{\t} - mg\right) 
-                      = ???.
-\end{align*}
 ````
 
-# Atom Laser
 
-This section contains some notes about a continuous atom laser related to a research
-project I am working on.  It might not make much sense if you are not familiar with the
-project.  (Feel free to ask.)
 
-## Experimental Setup
 
-A continuous atom laser is formed by resonantly out-coupling atoms in a trapped BEC to a
-state that is not trapped, which falls under the influence of gravity and some
-additional potentials.  (For more details, see {ref}`sec:atom-laser`.)
-
-:::{margin}
-The out-coupled atoms are at a sufficiently low density that the non-linear interaction
-can be neglected.  If the out-coupling $\Omega$ is weak, then the depletion of the
-condensate $\ket{\psi_0}$ can be neglected, leading to this formulation.
-:::
-The system can be modeled quite well by the following Schrödinger equation:
-
-\begin{gather*}
-  \I\hbar \partial_t \ket{\psi_a(t)} 
-  = \left(\frac{\op{p}_z^2}{2m} + V_a(\op{z}) - E_0\right)\ket{\psi_a(t)}
-  + \Omega\ket{\psi_0}
-\end{gather*}
-
-where $\ket{\psi_0}$ is the condensate wavefunction, and $E_0 = \mu - \hbar\omega$ is the
-chemical-potential of the condensate minus an energy shift due the frequency of the
-out-coupling, which can be used to shift where the atoms out-couple.  (As discussed in
-{ref}`sec:atom-laser`, efficient out-coupling happens within a small region around where
-$V_a(z) = E_0$.)
-
-The out-coupled atoms fall under the influence of potential $V_a(z) \approx mgz$ where
-deviations occure due to small effects related to magnetic field gradients and optical
-"poky" potentials.  As part of the experimental procedure, the atoms are subjected to
-$\pi$ or $\pi/2$ pulses, which create mixtures with another state $b$ which experiences
-a slightly different potential $V_b(z) = V_a(z) + \delta V(z) \approx V_a(z)$.  These
-transitions occur about an unknown axis which we take to be $\hat{y}$ and have the
-following form:
-
-\begin{gather*}
-  \op{U}_{\theta} = e^{\I \theta \mat{\sigma}_y/2} 
-  = \cos\frac{\theta}{2}\mat{1} + \I\sin\frac{\theta}{2}\mat{\sigma}_y
-  =
-  \begin{pmatrix}
-    \cos\frac{\theta}{2} & \sin\frac{\theta}{2}\\
-    -\sin\frac{\theta}{2} & \cos\frac{\theta}{2}
-  \end{pmatrix}, \\
-  \op{U}_{\pi/2}
-  =
-  \frac{1}{\sqrt{2}}
-  \begin{pmatrix}
-    1 & 1\\
-    -1 & 1
-  \end{pmatrix}, \qquad
-  \op{U}_{\pi} = 
-  \begin{pmatrix}
-    0 & 1\\
-    -1 & 0
-  \end{pmatrix}.
-\end{gather*}
-
-Two procedures are used.  Both start with a well-established atom laser in the
-quasi-stationary state $\ket{\psi_a}$ which we can, by shifting coordinates, take to satisfy:
-
-\begin{gather*}
-  \left(\frac{\op{p}_z^2}{2m} + V_a(\op{z})\right)\ket{\psi_a} =
-  - \Omega e^{\I z_0 \op{p}_z/\hbar}\ket{\psi_0}
-\end{gather*}
-
-1. The first interferometer applies a $\op{U}_{\pi/2}$ pulse at time $t_1$, then a second
-   $\op{U}_{\pi/2}$ pulse at time $t_2 = t_1 + t_{\mathrm{wait}}$.
-2. The second "spin-echo" interferometer first applies a $\op{U}_{\pi/2}$ pulse at time
-   $t_1$, then a $\op{U}_{\pi}$ pulse at time $t_2$, and finally a $\op{U}_{\pi/2}$
-   pulse at time $t_3  = t_1 + t_{\mathrm{wait}}$.
-
-### Simplified WKB Analysis
-
-:::{margin}
-This assumes that we can use a single trajectory for both states, which is approximately
-correct, but in the code, we properly compute the full action, using only the
-approximation that the $\theta$-pulses are instantaneous at some point in the appropriate interval.
-:::
-Heuristically, the two procedures give rise to the following propagation:
-
-\begin{gather*}
-  \mat{U}_{t_f, t_2}
-  \underbrace{
-    \frac{1}{\sqrt{2}}
-    \begin{pmatrix}
-      1 & 1\\
-      -1 & 1\\
-    \end{pmatrix}
-  }_{\mat{U}_{\pi/2}}
-  \mat{U}_{t_2, t_1}
-  \underbrace{
-    \frac{1}{\sqrt{2}}
-    \begin{pmatrix}
-      1 & 1\\
-      -1 & 1\\
-    \end{pmatrix}
-  }_{\mat{U}_{\pi/2}}
-  \mat{U}_{t_1, t_0}
-  \begin{pmatrix}
-    1\\
-    0
-  \end{pmatrix}\\
-  \mat{U}_{t_f, t_3}
-  \underbrace{
-    \frac{1}{\sqrt{2}}
-    \begin{pmatrix}
-      1 & 1\\
-      -1 & 1\\
-    \end{pmatrix}
-  }_{\mat{U}_{\pi/2}}
-  \mat{U}_{t_3, t_2}
-  \underbrace{
-    \begin{pmatrix}
-     0 & 1\\
-     -1 & 0\\
-    \end{pmatrix}
-  }_{\mat{U}_{\pi}}
-  \mat{U}_{t_2, t_1}
-  \underbrace{
-    \frac{1}{\sqrt{2}}
-    \begin{pmatrix}
-      1 & 1\\
-      -1 & 1\\
-    \end{pmatrix}
-  }_{\mat{U}_{\pi/2}}
-  \mat{U}_{t_1, t_0}
-  \begin{pmatrix}
-    1\\
-    0
-  \end{pmatrix},\\
-  \mat{U}_{t_2, t_1}
-   = 
-   \begin{pmatrix}
-      e^{\I S^{a}_{12}/\hbar}\\
-      & e^{\I S^{b}_{12}/\hbar}
-    \end{pmatrix}.
-\end{gather*}
-
-Using the notation $A_{ij} = \exp(\I S^{a}_{ij}/\hbar)$ and $B_{ij} = \exp(\I
-S^{b}_{ij}/\hbar)$, we have:
-
-* Simple interferometer:
-
-  \begin{align*}
-    \Psi(t_f)
-    &\approx 
-    \frac{1}{2}
-    \begin{pmatrix}
-      A_{01}A_{12}A_{2f} - A_{01}B_{12}A_{2f}\\
-      -A_{01}A_{12}B_{2f} - A_{01}B_{12}B_{2f}
-    \end{pmatrix}, \\
-    \begin{pmatrix}
-      n_a(t_f)\\
-      n_b(t_f)
-    \end{pmatrix} 
-    &\propto
-    \begin{pmatrix}
-      \abs{A_{12} - B_{12}}^2\\
-      \abs{A_{12} + B_{12}}^2
-    \end{pmatrix}.
-  \end{align*}
-
-* Spin-echo interferometer:
-
-  \begin{align*}
-    \Psi(t_f) 
-    &\approx 
-    \frac{1}{2}
-    \begin{pmatrix}
-      -A_{01}B_{12}A_{23}A_{3f} - A_{01}A_{12}B_{23}A_{3f}\\
-      A_{01}B_{12}A_{23}B_{3f} - A_{01}A_{12}B_{23}B_{3f}
-    \end{pmatrix},\\
-    \begin{pmatrix}
-      n_a(t_f)\\
-      n_b(t_f)
-    \end{pmatrix} 
-    &\propto
-    \begin{pmatrix}
-      \abs{B_{12}A_{23} + A_{12}B_{23}}^2\\
-      \abs{B_{12}A_{23} - A_{12}B_{23}}^2
-    \end{pmatrix}.
-  \end{align*}
-
-To obtain an estimate for what we see, we now make some additional approximations:
-
-:::{margin}
-The essential complication is that the action $\mat{S}$ must now be regarded as a
-matrix, and since this generally will not commute at different times, expanding the
-wavefunction does not yield a simple Hamilton-Jacobi equation.
-:::
-1. We assume that the dominant contribution to the potentials $V_a(z) \approx
-   V_b(z) \approx mgz$ is gravity, and that, consequently, the motion can be simply
-   describe by free-fall.  Under this approximation, we may view the particle as a
-   two-component $SU(2)$-valued particle, whose components evolve on the Bloch sphere as
-   the particle falls.  To go beyond this, we must use some sort of multi-component WKB
-   formalism, which is quite complicated.
-2. We assume that the pulses $\op{U}_{\theta}$ are essentially instantaneous.
-3. To obtain simple expressions, we shall also consider the limit where
-   $t_{\mathrm{wait}} \rightarrow 0$, which we call the "impulse approximation".
-
-With these assumptions, we may consider a single particle falling from $z=0$ at some
-initial time $t_0$.  The position and momentum are approximately:
-
-\begin{gather*}
-  q(t) \approx -\frac{g(t-t_0)^2}{2}, \qquad
-  p(t) \approx -mg(t-t_0) = -m\sqrt{-2gq(t)}.
-\end{gather*}
-
-The phase accumulates through the integral of the action
-
-\begin{gather*}
-  \delta S(z_1, z_2) = 
-  \int_{t_1}^{t_2}\mathcal{L}\d{t} = \int_{z_1}^{z_2}\frac{\mathcal{mL}}{p}\d{z},\qquad
-  \mathcal{L} = E - 2 V(z),\\
-  V(z) = V_0(z)\mat{1} + \delta V(z) \mat{\sigma}_z = \begin{pmatrix}
-    V_a(z)\\
-    & V_b(z)
-  \end{pmatrix}.
-\end{gather*}
-
-Under our approximations, we can take $E\approx 0$, so that
-
-\begin{gather*}
-  A_{ij}, B_{ij} \approx \exp\left(
-    \frac{\I}{\hbar}
-    \int_{z_i}^{z_j} \frac{2V_{a,b}(z)}{\sqrt{-2gz}}
-  \right).
-\end{gather*}
-
-### Impulse approximation
-
-If the intervals $\delta t_{ij} = t_i - t_j$, then we can take the integrand to be
-constant over this interval, and use $z_j \approx z_i + \delta t_{ij} p_i/m$, which
-cancels the denominator:
-
-\begin{gather*}
-  A_{ij}, B_{ij} \approx \exp\left(
-    \frac{\I}{\hbar}
-    (z_i - z_j)\frac{2V_{a,b}(z_{ij})}{\sqrt{-2gz_{ij}}}
-  \right)
-  \approx
-  \exp\left(
-    -\frac{\I}{\hbar}\delta t_{ij}2V_{a,b}(z_{ij})
-  \right)
-\end{gather*}
-
-Looking at the densities $n_{a,b}$ above, the simple interferometer measures the phase
-difference between $A_{12}$ and $B_{12}$, while the spin-echo interferometer measures
-the phase difference between $B_{12}A_{23}$ and $A_{12}B_{23}$:
-
-* Simple interferometer -- measures contours of $\delta V(z)$:
-
-  \begin{gather*}
-    \hbar\delta\phi \approx  2\delta t_{12}\bigl(V_{a}(z_{12})-V_{b}(z_{12})\bigr)\\
-    = 2 t_{w}\bigl(V_{a}(z_{12})-V_{b}(z_{12})\bigr)
-  \end{gather*}
-
-* Spin-echo interferometer -- measures contours of $\delta V'(z)$:
-
-  \begin{gather*}
-    \hbar\delta\phi \approx  2\Bigl(
-      \delta t_{12}\bigl(V_{b}(z_{12}) - V_{a}(z_{12})\bigr)
-      -
-      \delta t_{23}\bigl(V_{b}(z_{23}) - V_{a}(z_{23})\bigr)
-      \Bigr),\\
-    \approx
-    \frac{2t_{w}^2 p_{13}}{m} \Bigl(V_{a}'(z_{13}) - V_{b}'(z_{13})\Bigr)
-  \end{gather*}
-  
-In the second expressions, we have taken $\delta t_{12} = \delta t_{23} = t_{w}$ and
-$z_{23} \approx z_{12} + t_w p_{13}/m$.  This
-
-
-
-
-## Falling Gaussian
-
-Consider an initial state $\psi_0(z)$.  The WKB approximation for the time evolution is:
-
-\begin{gather*}
-  \psi(z, t) = \int \d{z_0} I(z, z_0;t)\psi_0(z), \qquad
-  I(z, z_0; t) = \sqrt{S_{,z,z_0}}e^{\tfrac{i}{\hbar}S(z, z_0;t)},
-\end{gather*}
-
-where the action $S(q,t;q_0,t_0)$ is computed over classical trajectories $q(0) = z_0$
-and $q(t) = z$ -- the first case above.  We immediately have
-
-\begin{gather*}
-  S = m\left(\frac{(z-z_0)^2}{2 t} - \frac{g(z+z_0)t}{2} - \frac{g^2t^3}{24}\right),\\
-  S_{,z,z_0} = -\frac{m}{t}, \\
-  I(z, z_0; t) = \sqrt{-\frac{m}{t}}e^{\tfrac{i}{\hbar}S(z, z_0;t)},\\
-  \psi(z, t) = \int \d{z_0} I(z, z_0;t)\psi_0(z), \qquad
-\end{gather*}
-
-
-\begin{gather*}
-  S_{,z,z_0} = -\frac{m}{t}, \\
-  S^P_{,z,p_0} = 0, \\
-  S^{G}_{,z,z_0} = -\frac{m}{t}, \\  
-\end{gather*}
-
-$$
-  \mp \frac{1}{\sqrt{2m}} S^{G}_{,z} = 
-    \frac{\frac{p_0^2}{2m} - mg(2q - q_0)}{2\sqrt{\frac{p_0^2}{2m} - mg(q - q_0)}},\\
-  \mp \frac{1}{mg\sqrt{2m}} S^{G}_{,z,z_0} = 
-    \frac{\frac{p_0^2}{2m} + mgq_0}{4\sqrt{\frac{p_0^2}{2m} - mg(q - q_0)}^3}\\
-  S^{G}_{,z,z_0} = \mp \frac{m^2E V'(q)}{p^3}
-$$
-
-p^2 = 2m(E-V(q))
-
-```{code-cell}
-:tags: [hide-input]
-
-plt.rcParams['figure.dpi'] = 300
-from scipy.integrate import solve_ivp
-
-z = np.linspace(-10, 3, 300)[:, None]
-z0 = np.linspace(-3, 3, 200)[None, :]
-dz0 = np.diff(z0.ravel()).mean()
-m = 1.0
-hbar = 1.0
-sigma = 1.0
-g = 10.0
-t = 1.0
-
-psi0 = np.exp(-(z0.ravel()/sigma)**2/2)
-n0 = abs(psi0**2)
-N = np.trapz(n0, z0.ravel())
-psi0 /= np.sqrt(N)
-n0 = abs(psi0**2)
-
-fig, ax = plt.subplots()
-ax.plot(z0.ravel(), n0, label=r"$\psi_0$")
-
-zcs = np.array([-2, -4, -6, -8])
-for zc in zcs:
-    t = np.sqrt(-2*zc/g)
-    S = m * ((z-z0)**2/2/t - g*(z+z0)*t/2 - g**2*t**3/24)
-    I = np.sqrt(m/t)*np.exp(1j/hbar*S)
-    psi = I.dot(psi0) * dz0
-    n = abs(psi.ravel())**2
-    N = np.trapz(n, z.ravel())
-    print(N/2/np.pi)   ### Where does this 2\pi come from?
-    l, = ax.plot(z.ravel(), n/N, label=fr"$z_c(t)={zc}$")
-    ax.axvline([zc], ls=":", c=l.get_c(), alpha=0.5)
-
-ax.legend()
-ax.set(xlabel="$z$", ylabel="$n$");
-```
-
-### Interference 1
-
-Now consider two streams of particles continuously injected at $z = 0$.  The first steam
-falls without any external potential other than gravity, while the second experiences an additional
-potential $\lambda V(z)$.  We choose our reference frame so that $H_0 = H = 0$.  Then, for the
-first set of particles, we have:
-
-\begin{gather*}
-  z(t) = -g \frac{t^2}{2}, \qquad
-  \dot{z} = -gt = -g\sqrt{\frac{-2z}{g}}, \qquad
-  t = \sqrt{\frac{-2z}{g}},\\
-  S = -mgzt - \frac{mg^2t^3}{6} = \frac{mg^2t^3}{3}
-    = \frac{mg^2}{3}\left(\frac{-2z}{g}\right)^{3/2}.
-\end{gather*}
-
-If the potential $\lambda V(z)$ for the second species is small, we may use the Born
-approximation, under which the leading order correction to the action is:
-
-\begin{gather*}
-  S_a - S = - \lambda \int_{t_0}^{t}V\bigl(z(t)\bigr)\d{t} + \order(\lambda^2)
-          = - \lambda \int_{0}^{z}\frac{V(z)}{\dot{z}}\d{z} + \order(\lambda^2)\\
-          = - \frac{\lambda}{\sqrt{2g}}\int_{0}^{z}\frac{V(z)}{\sqrt{-z}}\d{z} + \order(\lambda^2)
-\end{gather*}
-
-```{code-cell}
-from scipy.integrate import cumtrapz
-micron = 1.0
-mm = 1000*micron
-meter = 1000*mm
-sec = 1.0
-amu = 1e-3
-V0 = 85340
-
-m = 87.0 * amu
-g1 = 9.81 * meter/sec**2
-g2 = 9.80 * meter/sec**2
-
-x = np.linspace(-200, 200, 500)[:, None]
-z = np.linspace(-400, 0, 502)[None, :]
-z0 = -100
-
-sigma = 20.0
-
-def V(x, z):
-    return V0 * np.exp(-((z-z0)**2+x**2)/2/sigma**2)
-    
-V1 = m * g1 * z + 0*x
-V2 = m * g2 * z + 10*V(x, z)
-
-dS1_dz = -np.sqrt(abs(-2*m*V1))
-dS2_dz = -np.sqrt(abs(-2*m*V2))
-
-S = cumtrapz((dS2_dz - dS1_dz)[:, ::-1], axis=1, initial=0)[:, ::-1]
-```
-
-### Interference 2
-
-```{margin}
-We assume here that the particles continually fall: $z<0$ and $p<0$.
-```
-Now we consider a slightly different interference phenomenon, again with two streams
-injected with $p=0$ at $z=0$.  The first falls in the potential $V(z)$ for all time,
-while the second experiences a different potential $V(z) + \Delta(z)$ for a short time
-interval between $t_1$ and $t_2 = t_1 + \delta_t$.
-
-For the first particle, we have the usual:
-
-$$
-  t_i - t_0^{a} = \int_0^{z_i} \frac{-m}{\sqrt{-2mV(Z)}}\d{Z}.
-$$
-
-For the second particle, we must consider the three different time intervals:
-
-\begin{gather*}
-  t_i - t_0^{b} = 
-  \overbrace{
-    \int_0^{z_1} \frac{-m}{\sqrt{-2mV(Z)}}\d{Z}
-  }^{t_1 - t_0^b}\\
-  +
-  \overbrace{
-    \int_{z_1}^{z_2} \frac{-m}{\sqrt{-2m\Bigl(V(Z) + \Delta(Z) - \Delta(z_1)\Bigr)}}\d{Z}
-  }^{t_2 - t_1}\\
-  +
-  \overbrace{
-    \int_{z_2}^{z_i} \frac{-m}{\sqrt{-2m\Bigl(V(Z) - \Delta(z_1) + \Delta(z_2)\Bigr)}}\d{Z}
-  }^{t_i - t_2}.
-\end{gather*}
-
-If we assume that the motion is monotonic $p<0$, then we can use the geometric optics
-picture to re-express this in terms of view both particles falling through a
-conservative potential:
-
-\begin{align*}
-  V^a(z) &= V(z),\\
-  V^b(z) &= \begin{cases}
-    V(z) & z_1 < z\\
-    V(z) + \Delta(z) - \Delta(z_1) & z_2 < z < z_1\\
-    V(z) + \Delta(z_2) - \Delta(z_1)  & z < z_2.
-  \end{cases}
-\end{align*}
-
-```{margin}
-The simplification here comes from
-
-\begin{gather*}
-  L = K-V \\
-    = H-2V
-\end{gather*}
-
-where $H = p^2/2m + V$ is
-conserved, hence 
-
-\begin{gather*}
-  L\d{t} = (-2V/v) \d{z} \\
-         = -2mV/p \d{z} = p\d{z}.
-\end{gather*}
-```
-Here we have exchanged $t_1$ and $t_2$ for $z_1$ and $z_2$.  Of course, this must be
-done for each trajectory, but for a given trajectory, we can solve for the final
-momentum and action geometrically:
-
-\begin{gather*}
-  p^{a,b}(z) = -\sqrt{-2mV^{a,b}(z)},\qquad
-  S^{a,b}(z) = \int_{0}^{z}p^{a,b}(z) \d{z}.
-\end{gather*}
-
-The impulse approximation considers the limit $z_2 \rightarrow z_1$ so that
-
-<!--
-\begin{align*}
-  V^b(z) &= V^a(z) + \delta_z \Delta'(z_1) \Theta(z_1 - z) + \order(\delta_z^2)\\
-  p^b(z) &= p^{a}(z) + \delta_z \Delta'(z_1) \Theta(z_1 - z) \frac{m}{\sqrt{-2mV(z)}} 
-  + \order(\delta_z^2)\\
-  S^b(z) &= S^{a}(z) 
-  +
-  \delta_z \Delta'(z_1)\Theta(z_1 - z)
-  \int_{z_1}^{z}\frac{m}{\sqrt{-2mV(Z)}}\d{Z} 
-  +\order(\delta_z^2).
-\end{align*}
--->
-
-**Something is wrong with $S$ here... should have an integral so $\Delta(z_1)$ not $\Delta'(z_1)$.**
-\begin{align*}
-  V^b(z) &= V^a(z) + \delta_z \Delta'(z_1) \Theta(z_1 - z) + \order(\delta_z^2)\\
-  p^b(z) &= p^{a}(z) - \delta_z \Delta'(z_1) \Theta(z_1 - z) \frac{m}{p^{a}(z)} 
-  + \order(\delta_z^2)\\
-  S^b(z) &= S^{a}(z) 
-  -
-  \delta_z \Delta'(z_1)\Theta(z_1 - z)
-  \int_{z_1}^{z}\frac{m}{p^{a}(z)}\d{Z} 
-  +\order(\delta_z^2).
-\end{align*}
-
-The only task now is to relate $z_1$ to 
-
-\begin{gather*}
-  \delta_t = \delta_z\frac{m}{p^{a}(z_1)} + \order(\delta_z^2)\\
-  t_i - t_1 = \int_{z_1}^{z_i} \frac{m}{p^b(z)}\d{Z}\\
-  =
-  \int_{z_1}^{z_i} \frac{m}{p^a(z)}\left(
-    1 + \delta_z \Delta'(z_1)\frac{m}{[p^{a}(Z)]^2} 
-  \right)\d{Z}+\order(\delta_z^2).
-\end{gather*}
-
-To leading order, we can just solve for the reference particle to determine $z_1$:
-
-\begin{gather*}
-  t_i - t_1 = \int_{z_1}^{z_i} \frac{m}{p^a(Z)}\d{Z}.
-\end{gather*}
-
-Then, the phase shift at $z_i$ will be:
-
-\begin{gather*}
-  S^b(z_i) - S^{a}(z_i) = -(t_i-t_1)\delta_z \Delta'(z_1)\Theta(z_1 - z)
-  +\order(\delta_z^2).
-\end{gather*}
-
-Hence, the phase shift directly maps the gradient of the potential at the position $z_1$.
-
-From a geometric perspective, the motion of the second particle can be through of as
-described by a spatially dependent potential.
-
+[Action-angle coordinates]: <https://en.wikipedia.org/wiki/Action-angle_coordinates>
 
 [Lagrangian mechanics]: <https://en.wikipedia.org/wiki/Legendre_transformation>
 [Hamiltonian mechanics]: <https://en.wikipedia.org/wiki/Hamiltonian_mechanics>
@@ -2132,3 +1819,11 @@ described by a spatially dependent potential.
 [Maxwell relations]: <https://en.wikipedia.org/wiki/Maxwell_relations>
 [Hamilton's principal function]: <https://en.wikipedia.org/wiki/Hamilton%E2%80%93Jacobi_equation#Hamilton's_principal_function>
 [phase space]: <https://en.wikipedia.org/wiki/Phase_space>
+[Hamilton's equations]: <https://en.wikipedia.org/wiki/Hamilton%27s_equations>
+[Canonical transformation]: <https://en.wikipedia.org/wiki/Canonical_transformation>
+[Poisson bracket]: <https://en.wikipedia.org/wiki/Poisson_bracket>
+[Canonical quantization]: <https://en.wikipedia.org/wiki/Canonical_quantization>
+[Moyal bracket]: <https://en.wikipedia.org/wiki/Moyal_bracket>
+[generating function]: <https://en.wikipedia.org/wiki/Canonical_transformation#Generating_function_approach>
+[Hamilton-Jacobi equation]: <https://en.wikipedia.org/wiki/Hamilton%E2%80%93Jacobi_equation>
+[Hamilton's characteristic function]: <https://en.wikipedia.org/wiki/Hamilton%E2%80%93Jacobi_equation#Separation_of_variables>

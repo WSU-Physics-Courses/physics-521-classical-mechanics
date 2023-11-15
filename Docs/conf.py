@@ -13,6 +13,8 @@
 from pathlib import Path
 import os.path
 import subprocess
+from urllib import request
+
 from sphinx.util.fileutil import copy_asset
 
 import mmf_setup
@@ -368,6 +370,12 @@ def my_init(app):
         print("Not On RTD!")
         ROOT = str(Path(__file__).parent.parent)
         subprocess.check_call(["make", "-C", ROOT, "init"])
+
+        # Check if we can access the MathJaX CDN.  If not, fallback to local files.
+        try:
+            request.urlopen("https://cdn.jsdelivr.net/", timeout=1)
+        except request.URLError as err:
+            mathjax_offline = True
 
     if mathjax_offline:
         # For this to work, you need to put mathjax js files in Docs/_static/mathjax
