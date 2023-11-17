@@ -379,7 +379,11 @@ def my_init(app):
 
     if mathjax_offline:
         # For this to work, you need to put mathjax js files in Docs/_static/mathjax
-        # Docs/_static/
+        # Docs/_static/.
+        # git clone https://github.com/mathjax/MathJax.git _ext/MathJax
+        # cd Docs/_static
+        # ln -s ../../_ext/MathJax/es5 mathjax
+        # directory to
         # |-- math_defs.tex
         # |-- mathjax
         #     |-- a11y
