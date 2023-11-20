@@ -94,7 +94,7 @@ Previous incarnations of these notes had $\alpha = 1$:
   \begin{gather*}
     \epsilon(n) \approx \epsilon_0 + \tfrac{K_0}{2}\left(\frac{n-n_0}{3n_0}\right)^2
   \end{gather*}
-  See e.g. {cite-p}`Bulgac:2018` for a description.
+  See e.g. {cite}`Bulgac:2018` for a description.
   In our EoS, we have set $\kappa = -K_0/18\epsilon_0 \approx 0.87$ if one is trying to
   reproduced nuclear matter.
 :::
@@ -457,9 +457,9 @@ Although there is an apparent singularity at $r=0$, from physical considerations
 nothing special happens at the origin, so we expect $\psi(n)$ to be smooth for small
 $n$.
 
-:::::{toggle} Bubbles
-
 ### Spherical Bubbles
+
+:::::{toggle} Bubbles
 
 Another possibility is a spherical bubble with $\psi(\infty) = \sqrt{n_0}$:
 \begin{gather*}

@@ -29,6 +29,15 @@ except: glue = None
 (sec:PendulumWorksheet)=
 # The Pendulum
 
+```{toctree}
+---
+maxdepth: 2
+titlesonly:
+hidden:
+---
+KapitzaPendulum
+```
+
 The ideal simple pendulum -- a massless rigid rod of length $l$ with a point mass $m$
 fixed to move about a pivot -- is a familiar and somewhat intuitive physical systems
 that contains within it a wealth of physics.
@@ -90,16 +99,18 @@ time $T$.*
 * $[\Gamma] = M/T^2$: Driving torque ($F = l\Gamma$ if the force is directed
   perpendicular to the pendulum rod).
 
-Anticipating the solution in the small amplitude limit, we shall cancel the common
-factor of mass and write this as: 
+Canceling the common factor of mass and write this as:
 \begin{gather*}
-  \ddot{\theta} + 2\lambda\dot{\theta} + \omega^2_0\sin\theta = f, 
+  \ddot{\theta} + 2\lambda\dot{\theta} + \omega^2_0(t)\sin\theta = f(t),
   \qquad \omega^2_0 = \frac{g}{l}, \qquad f = \frac{\Gamma}{m}.
 \end{gather*}
 * $[\omega_0] = 1/T$: Only the combination $g/l$ has physical significance for this
   system if the driving force is appropriately defined.  This is sometimes called the
   natural resonant frequency of the system.  It is the angular frequency in the small
-  amplitude limit with no damping: i.e. the harmonic oscillator.
+  amplitude limit with no damping: i.e. the harmonic oscillator.  Allowing the frequency
+  to change with time $\omega_0(t)$ allows us to study **adiabatic invariants** (slow
+  variations), **parametric resonance** (small oscillations over a range of
+  frequencies), and **Kapitz's pendulum** (rapid small oscillations).
 * $[f] = 1/T^2$: Driving force/torque expressed as an acceleration, torque per unit
   mass, or force per unit mass and unit length.
 
@@ -411,7 +422,32 @@ plt.tight_layout()
 fig.savefig(FIG_DIR / "LinearResponse.svg")
 ```
 
-## Anharmonic Oscillator
+### Parametric Resonance
+Another way of driving a system is to vary a parameter, for example,
+\begin{gather*}
+  \ddot{q} + 2\lambda \dot{q} + \omega^2(t)q = 0, \qquad
+  \omega(t+T) = \omega(t), \qquad
+  \omega_0 = \frac{2\pi}{T}.
+\end{gather*}
+The key feature of a parametric resonance is that they required a perturbation to get
+started.  If we start from the equilibrium position $q = 0$, then -- even with the
+drive -- we stay there.  Some other features of parametric resonances:
+
+1. Unlike with driven systems where there is only one resonant frequency $\omega_0$,
+   parametric resonances occur at a set of frequencies:
+   \begin{gather*}
+     \omega_n = 2\frac{\omega_0}{n}.
+   \end{gather*}
+2. Parametric resonances tend to be very narrow, especially for large $n$.
+3. They also quite sensitive to damping, and require a finite-size amplitude $\epsilon >
+   \epsilon_n$ in the presence of damping.
+:::{doit}
+Consider $\omega^(t) = \omega_0^2(1 + \epsilon \sin \omega t)$.  Try to find a
+parametric resonance numerically. 
+:::
+
+
+### Anharmonic Oscillator
 
 :::{margin}
 For the pendulum, the first correction is $\epsilon = -1/3! = -1/6$.
@@ -424,12 +460,11 @@ En-route to a pendulum, consider adding an anharmonic perturbation:
 :::{doit}
 Treating $\epsilon \ll 1$ as a small parameter, use some sort of perturbation theory to
 estimate how this perturbation changes the natural frequency of the oscillations to
-lowest order in $\epsilon$.  If you were to compute higher order corrections
-(i.e. express $\omega$ as a power series in $\epsilon$), what would you expect the
-radius of convergence in $\epsilon$ to be?
+lowest order in $\epsilon$.  Does your calculation support your intuition?
+If you were to compute higher order corrections (i.e. express $\omega$ as a power series
+in $\epsilon$), what would you expect the radius of convergence in $\epsilon$ to be?
 :::
 :::{solution}
-:show:
 
 First some qualitative discussion. The corresponding potential is
 \begin{gather*}
@@ -455,32 +490,61 @@ solution with initial conditions $q(0) = q_0$ and $\dot{q}(0) = 0$ gives the sol
     \cos 3\omega_0 t - \cos\omega_0 t - 12 \omega t \sin \omega_0 t)
   + O(\epsilon^2).
 \end{gather*}
-Expanding for small $t$, we have 
-\begin{gather*}
-  q(t) = q_0 - \frac{\omega_0^2 t^2}{2} + \epsilon\omega_0^4 \frac{q_0^3}{2}t^2 
-  + O(\epsilon^2)
-\end{gather*}
-suggesting that
-\begin{gather*}
-  \omega^2 \approx \omega_0^2\left(1 - \epsilon \omega_0^2 q_0^3\right)Re
-\end{gather*}
+Note that this solution still two fundamental issues:
+1. It still has a frequency $\omega_0$ (although now it has some harmonics).  This means
+   that as time progresses, the errors will get larger and larger as the approximation gets
+   out of phase with the full solution.
+2. Worse, there is a term proportional with $t$ that grows linearly and in an unbounded
+   manner! Expanding for small $t$, we have 
+   \begin{gather*}
+     q(t) = q_0 - \frac{\omega_0^2 t^2}{2} + \epsilon\omega_0^4 \frac{q_0^3}{2}t^2 
+     + O(\epsilon^2)
+   \end{gather*}
+   suggesting that
+   \begin{gather*}
+     \omega^2 \approx \omega_0^2\left(1 - \epsilon \omega_0^2 q_0^3\right).
+   \end{gather*}
+   Thus, even if we interpret the small short time behavior as indicative of how the
+   period will change, we get the wrong impression that the frequency should decrease.
 
-Instead, we apply canonical perturbation theory using the classical action
-\begin{gather*}
-\end{gather*}
-
-
+These issues indicate serious deficiencies with classical perturbation theory.  We
+discuss them and their resolution in {ref}`sec:PerturbationTheory`.
 :::
 
+## Full Pendulum
+We finally consider the full pendulum:
+\begin{gather*}
+  \ddot{q} + 2\lambda\dot{q} + \omega^2(t)q = f(t).
+\end{gather*}
 
+## Kapitza's Pendulum
 
+What happens if we consider a parametric oscillator ($f(t)=0$) driven at a high frequency?
+\begin{gather*}
+  \omega^2(t) \omega_0^2(1 + \epsilon \sin \omega t), \qquad
+  \omega \gg \omega_0.
+\end{gather*}
+This problem was considered by [Pyotr Kaptitza][Kapitza's pendulum], who showed that
+one can use such a mechanism to stabilize the motion about unstable points.
+:::{doit}
+The essence of the solution is to describe the solution in terms of two time-scales:
+\begin{gather*}
+  q(t) \approx q_0(t) + \Re A(t)e^{\I\omega t}
+\end{gather*}
+where the $q_0(t)$ and $A(t)$ vary slowly.  Their behavior can be estimated by averaging over
+the high frequency oscillations.  See if you can work out the effective equations for
+this motion.  (A full solution to this problem is provided in {cite}`LL1:1976` if you
+need inspiration, and a sophisticated general analysis is provided in
+{cite}`Arnold:1989`.)
 
+For a full solution, see {ref}`sec:KapitzaPendulum`.
+:::
 
-
-
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jS-rzZJovm4?si=TGe0bVfKgJoRpkOf&amp;start=106" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 
 
 [Fine-structure constant]: <https://en.wikipedia.org/wiki/Fine-structure_constant>
 [Borel resummation]: <https://en.wikipedia.org/wiki/Borel_summation>
 [Big $O$ notation]: <https://en.wikipedia.org/wiki/Big_O_notation>
+[Kapitza's pendulum]: <https://en.wikipedia.org/wiki/Kapitza's_pendulum>

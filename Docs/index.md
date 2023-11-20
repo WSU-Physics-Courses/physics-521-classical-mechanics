@@ -43,8 +43,10 @@ hidden:
 Syllabus
 Assignments
 ClassNotes/HamiltonianDynamics
+ClassNotes/ThePendulum
 References
 ```
+
 ```{toctree}
 ---
 maxdepth: 2
@@ -55,7 +57,6 @@ glob:
 ---
 Prerequisites/*
 ```
-
 
 ```{toctree}
 ---

@@ -23,6 +23,8 @@ os.makedirs(FIG_DIR, exist_ok=True)
 import logging; logging.getLogger("matplotlib").setLevel(logging.CRITICAL)
 %matplotlib inline
 import numpy as np, matplotlib.pyplot as plt
+try: from myst_nb import glue
+except: glue = None
 import manim.utils.ipython_magic
 !manim --version
 ```
@@ -1548,11 +1550,6 @@ To get $n(x, t)$ from the previous relationship, we hold $\d{x} = \d{t} = \d{t_0
 
 ## WKB: Path Integral Formulation
 
-:::{warning}
-
-This section is still in progress...
-:::
-
 In quantum mechanics, one can use the Feynman path-integral approach to construct the
 propagator (here expressed in terms of position-to-position
 transitions):
@@ -1713,7 +1710,6 @@ $q_0 p_0$ in $\S$:
 ## Examples
 
 ````{admonition} Example: Falling Particle 1D
-
 :class: dropdown
 
 As a second example, consider a particle in free-fall with Hamiltonian $H = p^2/2m +
@@ -1770,10 +1766,44 @@ Hence, the WKB propagator is:
   \right\}.
 \end{gather*}
 
-Notice that 
+To obtain the approximate Airy function, note that $U_{WKB}\bigr(z,z_0,-(t-t_0)\bigl) =
+U_{WKB}^*\bigl(z,z_0,(t-t_0)\bigr)$: i.e. for a particle traveling up, then falling back down,
+there will be an interference between the up-going and down-going wavefunctions that
+results in twice the real part of $U_{WKB}$.  Suitably normalized, this provides an
+extremely good approximation of the [Airy function][] which exactly solves the
+corresponding quantum mechanics problem:
+\begin{gather*}
+  \DeclareMathOperator{\Ai}{Ai}
+  \Ai''(x) = x\Ai(x).
+\end{gather*}
+The quantum wavefunction for a particle in a gravitational field is solved by this if we
+shift $z-z_0$ by the maximum height $z_0 = E/mg$, and scale by the natural scale $\xi$
+so that $x = (z-z_0)/\xi$ is dimensionless:
+\begin{gather*}
+  \frac{-\hbar^2}{2m}\psi''(z) + mgz\psi(z) = E\psi(z),\\
+  \psi(z) = \Ai(x) = \Ai\left(\frac{z-z_0}{\xi}\right), \qquad
+  \psi''(z) = \xi^{-2}\Ai''(x),\\
+  \Ai''(x) = \underbrace{\xi^2\frac{2m^2g(z - z_0)}{\hbar^2}}_{x}\Ai(x),\\
+  x = \frac{z-z_0}{\xi} = \xi^2\frac{2m^2g(z - z_0)}{\hbar^2}, \qquad
+  \xi = \sqrt[3]{\frac{\hbar^2}{2m^2g}}.
+\end{gather*}
+
+Thus, the WKB approximation gives 
+\begin{gather*}
+  \Ai(x) \propto \Re U_{WKB}\Bigl(z-z_0=\xi x, t-t_0=\sqrt{2\xi z/g}\Bigr)\\
+  \approx \frac{1}{\sqrt{\pi}\abs{x}^{1/4}}\cos\left(\tfrac{2}{3}(-x)^{3/2} + \tfrac{\pi}{4}\right)
+\end{gather*}
+where the normalization needs to be fixed for negative $x$, but is given here
+$1/\sqrt{\pi}$ for the standard [Airy function][] normalization.
+
+```{glue:figure} fig:airy
+
+WKB approximation to the standard [Airy function][] $\Ai(x)$.
+```
 ````
 
 ```{code-cell}
+:tags: [hide-cell]
 from scipy.special import airy
 
 m = hbar = g = 1
@@ -1782,19 +1812,23 @@ z0 = 0
 t = t0 + np.linspace(0, 6, 1000)[1:]
 z = z0 - g*t**2/2
 xi = (hbar**2/m**2/2/g)**(1/3)
+x = (z-z0) / xi
 
 phi = m/hbar*(
     (z-z0)**2/2/(t-t0) - g/2*(z+z0)*(t-t0) - g**2*(t-t0)**3/24
 )
 psi = np.sqrt(m/2/np.pi/hbar/1j/(t-t0))*np.exp(1j*phi)
 Ai, Aip, Bi, Bip = airy(z/xi)
-normalization = Ai[-1]/np.real(psi)[-1]
-fig, ax = plt.subplots(figsize=(5, 2))
-ax.plot(z/xi, normalization * psi.real, label=r"$\Re \psi_{WKB}$")
-ax.plot(z/xi, Ai, label=r"$\mathrm{Ai}(z/\xi)$")
+fig, ax = plt.subplots(figsize=(5, 2.5))
+ax.plot(x, Ai, label=r"$\mathrm{Ai}(z/\xi)$")
+ax.plot(x, psi.real * Ai[-1] /np.real(psi)[-1], label=r"$\Re \psi_{WKB}$")
+y = np.cos((-x)**(3/2)*2/3 - np.pi/4)/abs(x)**(1/4)/np.sqrt(np.pi)
+ax.plot(x, y, ":", 
+        label=r"$\cos(\frac{2}{3}(-x)^{3/2} + \frac{\pi}{4})/\sqrt{\pi}|x|^{1/4}$")
 ax.set(ylim=(-0.5, 1), xlabel=r"$z/\xi$", ylabel=r"$\psi$",
        title=r"$\xi=\sqrt[3]{\hbar^2/(2m^2g)}$")
 ax.legend();
+if glue: glue("fig:airy", fig, display=False);
 ```
 
 
@@ -1931,3 +1965,4 @@ The harmonic oscillator has the following solution:
 [generating function]: <https://en.wikipedia.org/wiki/Canonical_transformation#Generating_function_approach>
 [Hamilton-Jacobi equation]: <https://en.wikipedia.org/wiki/Hamilton%E2%80%93Jacobi_equation>
 [Hamilton's characteristic function]: <https://en.wikipedia.org/wiki/Hamilton%E2%80%93Jacobi_equation#Separation_of_variables>
+[Airy function]: <https://en.wikipedia.org/wiki/Airy_function>
