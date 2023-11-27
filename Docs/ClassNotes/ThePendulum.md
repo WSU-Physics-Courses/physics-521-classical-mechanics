@@ -17,7 +17,7 @@ kernelspec:
 
 import mmf_setup;mmf_setup.nbinit()
 from pathlib import Path
-FIG_DIR = Path(mmf_setup.ROOT) / 'Docs/_build/figures/'
+FIG_DIR = Path(mmf_setup.ROOT) / '../Docs/_build/figures/'
 os.makedirs(FIG_DIR, exist_ok=True)
 import logging;logging.getLogger('matplotlib').setLevel(logging.CRITICAL)
 %matplotlib inline
@@ -36,6 +36,7 @@ titlesonly:
 hidden:
 ---
 KapitzaPendulum
+PerturbationTheory
 ```
 
 The ideal simple pendulum -- a massless rigid rod of length $l$ with a point mass $m$

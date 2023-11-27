@@ -5,20 +5,20 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.14.0
+    jupytext_version: 1.15.2
 kernelspec:
   display_name: Python 3 (phys-521)
   language: python
   name: phys-521
 ---
 
-```{code-cell}
+```{code-cell} ipython3
 :tags: [hide-cell]
 
 import mmf_setup;mmf_setup.nbinit()
 from pathlib import Path
 import os
-FIG_DIR = Path(mmf_setup.ROOT) / 'Docs/_build/figures/'
+FIG_DIR = Path(mmf_setup.ROOT) / '../Docs/_build/figures/'
 os.makedirs(FIG_DIR, exist_ok=True)
 import logging;logging.getLogger('matplotlib').setLevel(logging.CRITICAL)
 %matplotlib inline
@@ -288,7 +288,7 @@ The factor of $2$ in $2\lambda$ will simplify expressions later.
     oscillating, we can use techniques related to Floquet analysis to separate out the
     slow and fast degrees of freedom.  By appropriately averaging one obtains an
     effective theory for the pendulum that stabilize the unstable equilibrium point
-    $\theta \approx \pi$.  This is known as **Kaptiza's** pendulum.
+    $\theta \approx \pi$.  This is known as `{ref}`{{sec:KapitzaPendulum}.
 
 The motion of a pendulum is familiar, and admits straight-forward numerical and analytic
 solutions, making it a great problem for careful study.
@@ -327,9 +327,7 @@ so we use the method of order reduction to solve for the two-component vector $\
   \end{pmatrix}
 \end{gather*}
 
-
-
-```{code-cell}
+```{code-cell} ipython3
 from scipy.integrate import solve_ivp
 
 class Pendulum:
@@ -403,7 +401,7 @@ class Pendulum:
               title=", ".join([
                   fr"$f/\omega_0^2={self.f/w0**2:.2g}\cos({self.w_d/w0:.2g}\omega_0 t)$",
                   fr"$\omega^2/\omega_0^2=1+{self.h:.2g}\cos({self.w_p/w0:.2g}\omega_0t)$",
-                  fr"$\lambda/\omega_0={self.damping:.2g}$",
+                  fr"$\lambda/\omega_0={self.damping/self.w0:.2g}$",
               ]))
         return ax
         
@@ -421,7 +419,7 @@ good way to make sure you understand the physics.*
 
 ### Resonance
 
-```{code-cell}
+```{code-cell} ipython3
 ax = None
 w0 = 1.0
 for w_d_w0 in [0.5, 1.0, 1.5]:
@@ -439,7 +437,7 @@ amplitude.
 
 ### Parametric Resonance
 
-```{code-cell}
+```{code-cell} ipython3
 ax = None
 w0 = 1.0
 h = 0.5
@@ -518,7 +516,7 @@ resonance.  The other case of real $\mu_{i}$ means $\mu_2 = 1/\mu_1$, hence $\ab
 \abs{\mu_1 + 1/\mu_1} \geq 2$ implies a parametric resonances everywhere except
 $\mu_1=1$:
 
-```{code-cell}
+```{code-cell} ipython3
 mu = np.linspace(0.1, 2)
 fig, ax = plt.subplots()
 ax.plot(mu, mu + 1/mu)
@@ -641,7 +639,7 @@ A\cos(n t)$, so the equation is periodic iff
   2\omega_0 = n - \epsilon
 \end{gather*}
 
-```{code-cell}
+```{code-cell} ipython3
 def get_A(dx=1e-8, tol=1e-12, **kw):
     p1 = Pendulum(f=0, theta0=dx, dtheta0=0, **kw)
     p2 = Pendulum(f=0, theta0=0, dtheta0=dx, **kw)
@@ -672,7 +670,7 @@ for n in [1, 2, 3]:
     print(np.trace(A), np.linalg.det(A))
 ```
 
-```{code-cell}
+```{code-cell} ipython3
 lam = 0.003
 w_p = 1
 w0s = np.linspace(0.25, 2.25, 100)
@@ -725,15 +723,9 @@ is the classical action $S(q, P, t)$
 
 
 
-
-
-
-
-
-
 # Naïve Perturbation Theory
 
-Consider the parametric resonance problem:
+We start by considering the parametric resonance problem:
 
 \begin{gather*}
   \ddot{\theta} = - \omega^2(1 + h \cos \omega_p t)\theta, \qquad
@@ -796,7 +788,7 @@ packing and indexing them as
   \end{pmatrix}
 \end{gather*}
 
-```{code-cell}
+```{code-cell} ipython3
 N = 30   # Include 30 terms
 theta0 = 0.0
 dtheta0 = 0.1
@@ -835,7 +827,7 @@ ax.plot(t, theta)
 ax.set(xlabel="$t$", ylabel="$\theta(t)$");
 ```
 
-```{code-cell}
+```{code-cell} ipython3
 n = np.arange(N+1)
 approx = np.cumsum((h**n)[:, None]*q, axis=0)
 errs = abs(approx-theta)
@@ -907,23 +899,12 @@ t$.  Then to 1st order we have:
   \ddot{x}_1 + \omega_0^2x_1 = -\omega_0^2a^3\cos^3\omega_0 t 
   = -\omega_0^2 a^3\frac{\cos 3\omega_0 t + 3\cos\omega_0 t}{4}.
 \end{gather*}
-This is a linear inhomogeneous equation with two inhomogeneous terms which can be
-treated independently.  Each is a driven harmonic oscillator.  The term driving at
-$3\omega_0$ is not a problem, but the term driving on resonance is as it will lead to
-linear growth.  Here are two solutions:
-\begin{gather*}
-  q_3(t) = c_3\cos 3\omega_0 t, \qquad
-  \ddot{q}_3 +\omega_0^2 q_3 = -8\omega_0^2 c_3\cos 3\omega_0 t 
-  = \frac{-\omega_0^2 a^3}{4}\cos 3\omega_0 t,\qquad
-  c_3 = \frac{\omega_0^2 a^3}{32},\\
-  q_1(t) = c_1 t \sin \omega_0 t, \qquad
-  \dot{q}_1 = c_1 \sin \omega_0 t + \omega_0 c_1 t \cos \omega_0 t, \qquad
-  \ddot{q}_1 = 2 c_1 \cos \omega_0 t - \omega_0^2 c_1 t \sin \omega_0 t, \\
-  \ddot{q}_1 + \omega_0^2q_1 = 2 c_1 \cos \omega_0 t = \frac{-3\omega_0^2a^3}{4}\cos\omega_0 t, \qquad
-  c_1 = \frac{-3\omega_0^2a^3}{8},\\
-  x_1 = A\cos\omega_0 t + B \sin\omega_0 t 
-      + \frac{\omega_0^2a^3(\cos 3\omega_0 t - 12 \omega_0 t \sin \omega_0 t)}{32}.
-\end{gather*}
+This is the same linear inhomogeneous equation with two inhomogeneous terms we had above
+which can be treated independently.  Each is a "driven" harmonic oscillator where the
+driving term contains oscillations from the unperturbed solution.  The term driving at
+$3\omega_0$ is not a problem, but the term driving on resonance is an issue as it will lead to
+linear growth.
+
 Solving for the initial conditions $x_1(0) = \dot{x}_1(0) = 0$ we have
 $A = - \omega_0^2a^3/32$ and $B=0$ (cf. {cite:p}`Fetter:2006` (7.29)):
 \begin{gather*}
@@ -933,8 +914,8 @@ $A = - \omega_0^2a^3/32$ and $B=0$ (cf. {cite:p}`Fetter:2006` (7.29)):
 \end{gather*}
 :::
 
-```{code-cell}
-#:tags: [hide-cell]
+```{code-cell} ipython3
+:tags: [hide-cell]
 
 try: from myst_nb import glue
 except: glue = None
@@ -981,20 +962,188 @@ get rid of the linearly increasing term. Cf. {cite:p}`Fetter:2006`.*
 :::
 
 
+## Driven Anisotropic Oscillator
+
+As another example, we consider driving the damped anharmonic harmonic oscillator.
+\begin{gather*}
+  \ddot{q} + 2\lambda \dot{q} + \omega_0^2 q + \epsilon q^3 = f\cos \omega t.
+\end{gather*}
+Without the perturbation, we know the exact solution from linear response theory.
+Specifically, after transients have died down, we have
+\begin{gather*}
+  q_0(t) = \Re(f\chi_\omega e^{\I\omega t}) = f\abs{\chi_\omega}\cos(\omega t + \delta_\omega),\\
+  \chi_\omega = \frac{1}{\omega_0^2 - \omega^2 + 2\I \lambda \omega}, \qquad
+  \tan\delta_\omega = \frac{2\lambda \omega}{\omega^2 - \omega_0^2}.
+  %= f\frac{(\omega_0^2 - \omega^2)\cos\omega t + 2\lambda \omega \sin\omega t}
+  %        {(\omega_0^2 - \omega^2)^2 + 4\lambda^2 \omega^2}
+\end{gather*}
+Naïve perturbation theory looks for a solution of the form
+\begin{gather*}
+  q(t) = q_0(t) + \epsilon q_1(t) + \epsilon^2 q_2(t) + \cdots.
+\end{gather*}
+Inserting this into the original equation and keeping terms of order $\epsilon$ gives:
+:::{margin}
+This follows intuitively from the fact that $(e^{\I\omega t})^3 = (e^{3\I\omega t}$ but
+is a bit more complicated.  Specifically, letting $c=\cos\theta$ and $s = \sin \theta$:
+\begin{gather*}
+  \cos n \theta = \Re e^{n\I\theta},\\
+  \sin n \theta = \Im e^{n\I\theta},\\
+  \cos 2\theta = c^2 + s^2 = 1-2s^2 = 2c^2 - 1\\
+  \sin 2\theta = 2cs\\
+  \cos 3\theta = c^3 - 3cs^2 = 4c^3 - 3c\\
+  \sin 3\theta = -s^3 + 3sc^2 = -4s^3 + 3s
+\end{gather*}
+From these, we can express all powers as single driving terms:
+\begin{align*}
+  \cos^2 \theta &= \frac{1 + \cos 2\theta}{2}\\
+  \sin^2 \theta &= \frac{1 - \cos 2\theta}{2}\\
+  \cos^3 \theta &= \frac{\cos 3\theta + 3\cos \theta}{4}\\
+  \sin^3 \theta &= \frac{3\sin \theta - \sin 3\theta}{4}\\
+  \sin \theta \cos^2 \theta &= \frac{\sin\theta + \sin 3\theta}{4}\\
+  \cos \theta \sin^2 \theta &= \frac{\cos\theta - \cos 3\theta}{4}
+\end{align*}
+:::
+\begin{gather*}
+  \ddot{q}_1 + 2\lambda \dot{q}_1 + \omega_0^2 q_1 = -q_0^3
+  = f^3\abs{\chi_\omega}^3\cos^3(\omega t + \delta_\omega)\\
+  = f^3\abs{\chi_\omega}^3\frac{
+    \cos(3\omega t + 3\delta_\omega) + 3\cos(\omega t + \delta_\omega)}{4}.
+\end{gather*}
+I.e. $q_1(t)$ is the response of the system to a driving term $-q_0^3(t)$.  This will
+have components of various frequencies $\omega$, $2\omega$, and $3\omega$.  Again, after
+a long time, we will have
+\begin{gather*}
+  q_1(t) = -f^3\abs{\chi_\omega}^3\frac{
+  \abs{\chi_{3\omega}}\cos(3\omega t + 3\delta_\omega + \delta_{3\omega})
+  +
+  3\abs{\chi_{\omega}}\cos(\omega t + 2\delta_\omega)}{4}
+\end{gather*}
+
+```{code-cell} ipython3
+:tags: [hide-input]
+from scipy.integrate import solve_ivp
+
+class AnisotropicResonance:
+    w0 = 1.0       # Natural resonant angular frequency [w0] = 1/T
+    damping = 0.1  # Damping rate [damping] = 1/T 
+    w_d = 1.2      # Driving frequency [w_d] = 1/T
+    f = 0.1        # Driving amplitude [f] = 1/T^2
+    epsilon = 0.1  # Anisotropy
+    
+    theta0 = 0     # Initial position
+    dtheta0 = 1.0  # Initial velocity
+    
+    def __init__(self, **kw):
+        for key in kw:
+            if not hasattr(self, key):
+                raise ValueError(f"Unknown {key=}")
+            setattr(self, key, kw[key])
+        
+        self.T0 = 2*np.pi / self.w_d
+    
+    def get_chi(self, w):
+        return 1/(-w**2 + self.w0 + 2j*self.damping*w)
+    
+    def w_t(self, t):
+        """Return the natural frequency at time `t`."""
+        return self.w0
+
+    def f_t(self, t):
+        """Return the driving force at time `t`."""
+        return self.f * np.cos(self.w_d*t)
+        
+    def V_w2(self, theta, d=0):
+        """Return the specific potential `V(theta)/m/l/w0**2` and its derivatives."""
+        if d == 0:
+            return theta**2 / 2 + self.epsilon * theta**4 / 4 / self.w0**2
+        elif d == 1:
+            return theta + self.epsilon * theta**3 / self.w0**2
+        else:
+            raise NotImplementedError(f"{d=}")
+
+    def compute_dy_dt(self, t, y):
+        """Return dy_dt."""
+        theta, dtheta = y
+        w_t = self.w_t(t)
+        f_t = self.f_t(t)
+        V_w2 = self.V_w2(theta, d=1)
+        ddtheta = (-w_t**2*V_w2 - 2*self.damping * dtheta + f_t)
+        return (dtheta, ddtheta)
+    
+    def solve(self, T, method="BDF", **kw):
+        """Return the solution `(t, theta, dtheta)`."""
+        y0 = (self.theta0, self.dtheta0)
+        sol = solve_ivp(
+            self.compute_dy_dt, y0=y0, t_span=(0, T), method=method, **kw)
+        t = sol.t
+        theta, dtheta = sol.y
+        return (t, theta, dtheta)
+        
+    def solve_and_plot(self, T_T0=10, ax=None, label=""):
+        """Solve and plot.  Return `ax`.
+        
+        Arguments
+        ---------
+        T_T0 : float
+            Number of natural periods to plot.
+        """
+        T0 = self.T0
+        t, theta, dtheta = self.solve(T=T_T0*T0)
+        if ax is None:
+            fig, ax = plt.subplots()
+        w0 = self.w0
+        ax.plot(t/T0, theta, label=label)
+        ax.set(xlabel=r"$t/(2\pi/\omega_0)$", 
+              ylabel=r"$\theta(t)$",
+              title=", ".join([
+                  fr"$\omega/\omega_0 = {self.w_d/self.w0:.2g}$",
+                  fr"$\lambda/\omega_0={self.damping/self.w0:.2g}$",
+              ]))
+        return ax
+        
+fig, ax = plt.subplots(figsize=(6, 2))
+for epsilon in [0, 0.02, 0.04]:
+    p = AnisotropicResonance(epsilon=epsilon, f=1)
+    t, q, dq = p.solve(10*p.T0)
+    w, f = p.w_d, p.f
+    chi1, chi3 = p.get_chi(w), p.get_chi(3*w)
+    c1, d1 = abs(chi1), np.angle(chi1), 
+    c3, d3 = abs(chi3), np.angle(chi3)
+    q0 = f*c1*np.cos(w*t + d1)
+    q1 = -(f*c1)**3 * (c3 * np.cos(3*w*t + 3*d1 + d3) 
+                       + 3*c1 * np.cos(w*t + 2*d1))/4
+    l, = ax.plot(t/p.T0, q/f, '-', label=fr"$\epsilon={epsilon}$")
+    ax.plot(t/p.T0, q0/f, ':', c=l.get_c(), 
+            label="$q_0$" if epsilon == 0 else "")
+    ax.plot(t/p.T0, q0/f + epsilon * q1, '--', c=l.get_c(), 
+            label="$q_0+\epsilon q_1$" if epsilon == 0 else "")
+ax.set(xlim=(6, 10), ylim=[0, 4],
+       xlabel="$t$ [$2\pi/\omega$]", ylabel="$q/f$")
+ax.legend(loc='lower left');
+```
+
+This fares a little better than the previous case since we are not driving on resonance,
+and are restricting our analysis to functions with the appropriate period.  We see from
+the plot, we see that this form of perturbation does improve the results for very small
+$\epsilon$, but that once the amplitude of the oscillations gets large enough, the
+approximation becomes quite poor.
+
+(sec:CanonicalPerturbationTheory)=
 # Canonical Perturbation Theory
 
-A much better approach is provided by **canonical perturbation theory**.  This can be
-expressed in several equivalent ways.
+To organize the perturbative calculation, one can turn to **canonical perturbation
+theory** which maintains the canonical relationship between variables as we add
+perturbative corrections.
 
 We consider a Hamiltonian system with conjugate variables $(\vect{q}, \vect{p})$:
 \begin{gather*}
   H(\vect{q}, \vect{p}, t) = H_0(\vect{q}, \vect{p}, t) 
   + \epsilon H_1(\vect{q}, \vect{p}, t).
 \end{gather*}
-We now assume that a solution to the Hamiltonian problem $H_0(\vect{q}, \vect{p})$ is
+We now assume that a solution to the Hamiltonian problem $H_0(\vect{q}, \vect{p}, t)$ is
 known such that we can effect a canonical transform via the generating function
 $F_2(\vect{q}, \vect{P}, t)$ to a new set of conjugate variables $(\vect{Q}, \vect{P})$
-with Hamiltonian $K_0(\vect{Q}, \vect{P}, t) = 0$:
+with Hamiltonian $K_0(\vect{Q}, \vect{P}, t)$:
 \begin{gather*}
   p_i = \pdiff{F_2}{q_i}, \\
   Q_i = \pdiff{F_2}{P_i}, \\
@@ -1201,7 +1350,7 @@ settles, we have the generating function:
   \Bigr)
 \end{gather*}
 
-```{code-cell}
+```{code-cell} ipython3
 :tags: [hide-cell]
 
 from IPython.display import Latex
@@ -1291,22 +1440,20 @@ The derivatives required for canonical perturbation theory is thus
 
 ## Example: Anharmonic Oscillator 1
 
-We use the same approach for the anharmonic oscillator starting with $q(0) = q_0$ and
-$\dot{q}(0) = 0$:
+Let us revisit the anharmonic oscillator starting with $q(0) = q_0$ and $\dot{q}(0) = 0$:
 \begin{gather*}
   \ddot{q} + \omega_0^2(q + \epsilon q^3) = 0,\qquad
   H_1(q, p, t) = \omega_0^2\frac{q^4}{4}.
 \end{gather*}
 
-### Canonical Transformation
+### Canonical Transformation: Hamilton-Jacobi
 
-The canonical transformation is
+The canonical transformation solving the Hamilton-Jacobi Equation is
 \begin{gather*}
   q = \frac{(\alpha P - Q\sin\bar{\omega}t)}{\bar{\omega}},\qquad
   p = \frac{-(\alpha Q + P\omega_0^2\sin\bar{\omega}t)}{\bar{\omega}},\\
   \alpha = \bar{\omega}\cos\bar{\omega} t.
 \end{gather*}
-
 
 We use the same approach for the anharmonic oscillator starting with $q(0) = q_0$ and
 $\dot{q}(0) = 0$:
@@ -1314,11 +1461,7 @@ $\dot{q}(0) = 0$:
   \ddot{q} + 2\lambda \dot{q} + \omega_0^2(q + \epsilon q^3) = 0,\qquad
   H_1(q, p, t) = \omega_0^2\frac{q^4}{4}.
 \end{gather*}
-First we clean up the notation a bit.
-
-
-
-Thus, the perturbation and canonical series is:
+The perturbation and canonical series is:
 \begin{gather*}
   H_1(Q, P, t) = 
   \frac{\omega_0^2}{\bar{\omega}^4e^{4\lambda t}}
@@ -1363,18 +1506,40 @@ In the limit of no damping $\lambda \rightarrow 0$ we have
   \omega_0^2q_0^3
   \frac{1-\cos^4 \omega_0 t}{4\omega_0}.
 \end{align*}
-Converting back to our original coordinates, we have
+Converting back to our original coordinat, we have
 \begin{align*}
   q &= q_0 + \epsilon \frac{\omega_0 P_1\cos\omega_0 t - Q_1 \sin\omega_0t}{\omega_0}\\
     &= q_0 + \epsilon q_0^3
-       \frac{\cos 3\omega_0 t - \cos \omega_0 t - 12 \omega_0 t \sin \omega_0 t}{32}
-  ,\\
-  p &= p_0 + \epsilon (Q_1\cos\omega_0 t + \omega_0 P_1\sin\omega_0t).
+       \frac{\cos 3\omega_0 t - \cos \omega_0 t - 12 \omega_0 t \sin \omega_0 t}{32}.
+  %,\\
+  %p &= p_0 - \epsilon q_0^3
+  %     \frac{3\omega_0 \sin 3\omega_0 t + 11 \omega_0 \sin \omega_0 t
+  %     + 12 \omega_0^2 t \cos \omega_0 t}{32}.
 \end{align*}
+Notice that this still has the same problem of a linearly growing term as our naïve
+approach above.  The canonical approach using the Hamilton-Jacobi solution organizes the
+series, but does not help resolve the issue with secular terms.
+
+### Canonical Transformation: Action-Angle
+
+Next we consider the canonical transformation to action-angle coordinates $(\phi, I)$
+\begin{gather*}
+  q = \sqrt{\frac{2I}{m\omega}} \cos \phi, \qquad
+  p = -\sqrt{2m\omega I}\sin\phi,\\
+  \phi(q, I) = \cos^{-1}\left(\sqrt{\frac{m\omega}{2I}}q\right), \qquad
+  \phi_{,q} = \sqrt{\frac{m\omega}{2I}}\frac{-1}{\sin\phi},
+  \qquad \phi_{,I} = \frac{\cos\phi}{2I\sin\phi}\\
+  S_0(q, I) = I\int_{0}^{\phi}\sin^2\phi \;\d{\phi}
+            = I\Bigl(\phi(q,I) - \tfrac{1}{2}\sin 2\phi(q,I)\Bigr).
+\end{gather*}
+The perturbation and canonical series is
+\begin{gather*}
+  H_1(\phi, I) = \frac{\omega_0^2I^2}{m^2\omega^2}\cos^4\phi,\\
+\end{gather*}
 
 
 
-First we clean up the notation a bit.
+
 
 
 
@@ -1450,7 +1615,7 @@ Converting back to our original coordinates, we have
   p &= p_0 + \epsilon (Q_1\cos\omega_0 t + \omega_0 P_1\sin\omega_0t).
 \end{align*}
 
-```{code-cell}
+```{code-cell} ipython3
 :tags: [hide-cell]
 
 wp = sympy.var(r'\omega_p', positive=True)
@@ -1490,7 +1655,7 @@ plt.plot(x, V)
 plt.axvline([th_min])
 ```
 
-```{code-cell}
+```{code-cell} ipython3
 #:tags: [hide-cell]
 
 class AnharmonicOscillator(Pendulum):

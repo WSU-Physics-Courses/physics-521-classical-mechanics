@@ -78,7 +78,7 @@ ACTIVATE_ENV ?= $(CONDA) activate -p $(ENV_PATH)
 
 INIT_DEPS = ~/.local/bin/mmf_setup
 
-INIT_DEPS += _ext/Resources
+#INIT_DEPS += _ext/Resources
 
 ifeq ($(COCALC_OPTION), micromamba)
 INIT_DEPS += ~/.local/bin/micromamba

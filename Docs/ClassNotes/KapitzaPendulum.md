@@ -17,7 +17,8 @@ kernelspec:
 
 import mmf_setup;mmf_setup.nbinit()
 from pathlib import Path
-FIG_DIR = Path(mmf_setup.ROOT) / 'Docs/_build/figures/'
+import os
+FIG_DIR = Path(mmf_setup.ROOT) / '../Docs/_build/figures/'
 os.makedirs(FIG_DIR, exist_ok=True)
 import logging;logging.getLogger('matplotlib').setLevel(logging.CRITICAL)
 %matplotlib inline

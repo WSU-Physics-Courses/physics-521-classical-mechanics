@@ -43,6 +43,13 @@ author = "Michael McNeil Forbes"
 release = "0.1"
 
 
+# Check if we are online.
+try:
+    request.urlopen("https://cdn.jsdelivr.net/", timeout=1)
+    online = True
+except request.URLError as err:
+    online = False
+
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
@@ -55,7 +62,6 @@ extensions = [
     "sphinx.ext.coverage",
     "sphinx.ext.doctest",
     "sphinx.ext.ifconfig",
-    "sphinx.ext.intersphinx",
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
     "sphinx.ext.todo",
@@ -75,6 +81,10 @@ extensions = [
     "sphinx_togglebutton",
     # "recommonmark",
 ]
+
+if online:
+    extensions.append("sphinx.ext.intersphinx")
+
 
 # Make sure that .rst comes first or autosummary will fail.  See
 # https://github.com/sphinx-doc/sphinx/issues/9891
@@ -406,7 +416,7 @@ def my_init(app):
         # https://gitlab.com/thomaswucher/sphinx-mathjax-offline/-/blob/master/sphinx-mathjax-offline/__init__.py
 
         ext_dir = os.path.dirname(os.path.abspath(__file__))
-        mathjax_dir = ext_dir + "_static/mathjax"
+        mathjax_dir = os.path.join(ext_dir, "_static", "mathjax")
         copy_asset(mathjax_dir, os.path.join(app.outdir, "_static", "mathjax"))
         app.config.mathjax_path = "mathjax/tex-chtml.js"
         app.config.mathjax_path = "mathjax/tex-svg.js"
@@ -415,6 +425,7 @@ def my_init(app):
         # I don't know why this is needed, but if it is not turned off, then
         # "mathjax_ignore" is added to the top-level class, preventing local rendering.
         app.config.myst_update_mathjax = False
+        print(f"Using MathJaX Offline.  Make sure it is installed in {mathjax_dir}")
 
 
 def setup(app):

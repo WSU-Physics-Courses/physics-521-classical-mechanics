@@ -1,20 +1,28 @@
 ---
 jupytext:
   formats: ipynb,md:myst
+  notebook_metadata_filter: language_info.pygments_lexer,language_info.name
   text_representation:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.15.1
+    jupytext_version: 1.15.2
 kernelspec:
   display_name: Python 3 (phys-521)
   language: python
   name: phys-521
+language_info:
+  name: python
+  pygments_lexer: ipython3
 ---
 
 ```{code-cell} ipython3
 :tags: [hide-cell]
 
+from pathlib import Path
+import os
+FIG_DIR = Path(mmf_setup.ROOT) / '../Docs/_build/figures/'
+os.makedirs(FIG_DIR, exist_ok=True)
 import mmf_setup;mmf_setup.nbinit(console_logging=False)
 import logging;logging.getLogger('matplotlib').setLevel(logging.CRITICAL)
 %matplotlib inline
@@ -31,7 +39,7 @@ discussion here as a check, and reproduce their figures to ensure that the
 normalizations are correct.  Our formulation agrees with their main article presentation
 with the identification:
 \begin{gather*}
-  x \equiv \theta, \quad
+  q \equiv x, \quad
   a \equiv \alpha, \quad
   b \equiv \beta, \\
   2\lambda \equiv \delta, \quad
@@ -41,9 +49,37 @@ with the identification:
 :::
 Here we consider the following problem:
 \begin{gather*}
-  \ddot{\theta} + 2\lambda \dot{\theta} + V'(\theta) = f\cos \omega t, \qquad
-  V(\theta) = \frac{a}{2}\theta^2 + \frac{b}{4}\theta^4.
+  \ddot{q} + 2\lambda \dot{q} + V'(q) = f\cos \omega t, \qquad
+  V(q) = \frac{a}{2}q^2 + \frac{b}{4}q^4, \qquad b\geq 0.
 \end{gather*}
+For positive $a$, this is a driven harmonic oscillator with a quartic interaction.
+Without driving, the quartic interaction will make the oscillation frequency amplitude
+dependent, increasing with larger amplitude.
+
+The interesting behavior occurs for negative $a$.  In this case, the potential develops
+two minima, breaking the ground state:
+
+```{code-cell} ipython3
+:tags: [hide-input]
+
+q = np.linspace(-1, 1)
+b = 1
+fig, ax = plt.subplots()
+for a in [-0.2, 0, 0.2]:
+    V = a*q**2/2 + b*q**4/4
+    ax.plot(q, V, label=f"${a=:.2g}$")
+ax.set(xlabel="$q$", ylabel="$V(q)$", ylim=(-0.05, 0.1))
+ax.legend();
+```
+
+## Poincaré Map
+
+In the case of a driven oscillator with $a>0$, we expect the solution to dampen to have
+a periodic response with the same period $T = 2\pi/\omega$ as the driving term.  To
+characterize the behavior, it is thus useful to consider how $(q, p)$ behaves at regular
+time intervals $t_0 + nT$.  Such a portrait of the behavior is an example of a [Poincaré
+map][], which represents the intersection of the full orbit $\{(t, q(t), p(t))\}$ with a
+Poincaré section.
 
 ```{code-cell} ipython3
 import numpy as np
@@ -157,6 +193,8 @@ class Duffing:
                 plt.axis([q.min(), q.max(), dq.min(), dq.max()])
         else:
             plt.plot(q[:, frame], dq[:, frame], '.', ms=ms)
+        ax = plt.gca()
+        ax.set(xlabel="$q$", ylabel=r"$\dot{q}$")
         return data
         '''
         sol = self.get_cycle(y0=y0, cycles=cycles, **kw)
@@ -176,6 +214,79 @@ class Duffing:
 #    chis = [Duffing(w=w, a=a).get_chi() for w in ws]
 #    plt.plot(ws, chis, label=f"{a=}")
 #plt.legend()
+```
+
+```{code-cell} ipython3
+alpha = 0.5
+beta = 0.0625
+gamma = 0.1
+F0 = 2.5
+w = 2.0
+d = Duffing(a=-2*alpha, b=4*beta, lam=gamma/2, f=F0, w=w)
+d.show()
+a = 0.21
+a = -0.326
+for n, y0 in enumerate([(-0.1, 0), (0,0), (1.0, 0), (-1.0, 0)]):
+    kw = dict(y0=y0, method="BDF", atol=1e-8)
+    data = Duffing(a=a, b=4*beta, lam=gamma/2, f=F0, w=w, max_steps=500).plot_poincare(frames=100, N=100, **kw)
+    plt.plot(data[0].ravel(), data[1].ravel(), f'C{n}', lw=0.1)
+ax, bx, ay, by = plt.axis()
+plt.axis([min(ax, -2), max(bx, 2), min(ay, -2), max(by, 2)])
+```
+
+```{code-cell} ipython3
+from tqdm.auto import tqdm
+data = []
+for x0 in tqdm(np.linspace(-1.5, 1.5, 10)):
+    kw = dict(y0=(x0, 0), method="BDF", atol=1e-8)
+    data.append(
+        (x0, Duffing(a=a, b=4*beta, lam=gamma/2, f=F0, w=w, max_steps=1000).plot_poincare(frames=100, N=100, **kw)))
+    plt.plot(data[-1][1][0].ravel(), data[-1][1][1].ravel(), lw=0.1)
+ax, bx, ay, by = plt.axis()
+plt.axis([min(ax, -2), max(bx, 2), min(ay, -2), max(by, 2)])
+```
+
+```{code-cell} ipython3
+fig, ax = plt.subplots(figsize=(40,1))
+for d in data:
+    plt.plot(d[1][0].ravel())
+```
+
+```{code-cell} ipython3
+#cdist(data[0][1].ravel(), data[-1][1].ravel()
+cdist(np.array(data[0][1]).reshape(2, 100**2).T, np.array(data[-1][1]).reshape(2, 100**2).T)
+```
+
+```{code-cell} ipython3
+from scipy.cluster.vq import kmeans2
+def dist(A, B):
+    ax, ay = A
+    bx, by = B
+    a = (ax + 1j * ay).ravel()
+    b = (bx + 1j * by).ravel()
+    return a, b
+
+D = np.array([abs(np.subtract(*dist(d1[1], d2[1]))).min() for d1 in data for d2 in data]).reshape(100, 100)
+```
+
+```{code-cell} ipython3
+N = D.shape[0]
+inds = set(range(N))
+orbits = []
+thresh = 0.12
+while inds:
+    orbit = np.where(D[min(inds), :] < thresh)[0]
+    if len(orbit) == 0:
+        break
+    orbits.append(orbit)
+    inds = inds.difference(orbit)
+len(orbits)
+```
+
+```{code-cell} ipython3
+for orbit in orbits:
+    x, y = data[orbit[0]][1]
+    plt.plot(x.ravel(), y.ravel(), '.')
 ```
 
 ## Poincaré Sections
@@ -199,6 +310,7 @@ data = Duffing(a=-2*alpha, b=4*beta, lam=gamma/2, f=F0, w=w).plot_poincare()
 
 ```{code-cell} ipython3
 # Wikipedia Fig 2.
+raise NotImplementedError
 # I don't know how to reproduce this
 alpha = 1
 beta = 5
@@ -209,7 +321,7 @@ w = 0.5
 
 d = Duffing(a=-alpha, b=beta, lam=delta/2, f=gamma, w=w, max_steps=100)
 d.show()
-data0 = d.plot_poincare(y0=(1.65, 0.0), interact=True, frames=100, N=4000, method='BDF')
+data0 = d.plot_poincare(y0=(1.65, 0.0), interact=False, frames=100, N=4000, method='BDF')
 
 #d = Duffing(a=-2*alpha, b=4*beta, lam=delta/2, f=gamma, w=w, max_steps=1000)
 #d.show()
@@ -278,10 +390,6 @@ data = d.plot_poincare(y0=(1,1), interact=True, N=400, frames=100)
 ```{code-cell} ipython3
 plt.figure(figsize=(10,10))
 data = d.plot_poincare(data=data, interact=True, normalize=False);
-```
-
-```{code-cell} ipython3
-
 ```
 
 ```{code-cell} ipython3
@@ -574,3 +682,5 @@ export_to_video(["./duffing"], fps=12)
 ```{code-cell} ipython3
 
 ```
+
+[Poincaré map]: <https://en.wikipedia.org/wiki/Poincar%C3%A9_map>
