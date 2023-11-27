@@ -21,7 +21,7 @@ dependencies:
 
   # Not needed, but useful for working with the code
   - jupyter_console
-  - notebook
+  - notebook<7.0.0
   - conda-forge::jupyter_nbextensions_configurator
 
   # Pip-only dependencies
