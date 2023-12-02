@@ -1196,7 +1196,7 @@ momentum integrals when doing Fourier transforms.  We use the notation $\vect{I}
 \vect{J}/2\pi$ for our "angular" action variables to avoid confusion with other literature.
 :::
 \begin{gather*}
-  I_k(E) = \oint p_k\,\frac{\d{q_k}}{2\pi},
+  I_k(E) = \oint q_k\,\frac{\d{p_k}}{2\pi},
 \end{gather*}
 where the integral is over the path defined by the condition of constant energy
 $E=E(q_k, p_k)$.

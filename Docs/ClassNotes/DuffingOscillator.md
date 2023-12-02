@@ -21,6 +21,7 @@ language_info:
 
 from pathlib import Path
 import os
+import mmf_setup; mmf_setup.set_path()
 FIG_DIR = Path(mmf_setup.ROOT) / '../Docs/_build/figures/'
 os.makedirs(FIG_DIR, exist_ok=True)
 import mmf_setup;mmf_setup.nbinit(console_logging=False)
@@ -214,6 +215,48 @@ class Duffing:
 #    chis = [Duffing(w=w, a=a).get_chi() for w in ws]
 #    plt.plot(ws, chis, label=f"{a=}")
 #plt.legend()
+```
+
+```{code-cell} ipython3
+%pylab notebook
+ax = plt.figure().add_subplot(projection='3d')
+q, dq = data
+Ns, Nt = q.shape
+th = 2*np.pi * np.arange(Nt)/Nt
+r = q + 5
+z = dq
+th = th[None, :] + 0*q
+x, y, z = map(np.ravel, (r*np.cos(th), r*np.sin(th), z))
+ax.plot(x, y, z, lw=0.5)
+```
+
+```{code-cell} ipython3
+%pylab notebook
+ax = plt.figure().add_subplot(projection='3d')
+
+alpha = 0.5
+beta = 0.0625
+gamma = 0.1
+F0 = 2.5
+w = 2.0
+d = Duffing(a=-2*alpha, b=4*beta, lam=gamma/2, f=F0, w=w)
+d.show()
+a = 0.21
+a = -0.326
+for n, y0 in enumerate([(-0.1, 0), (0,0), (1.0, 0), (-1.0, 0)]):
+    kw = dict(y0=y0, method="BDF", atol=1e-8)
+    data = Duffing(a=a, b=4*beta, lam=gamma/2, f=F0, w=w, max_steps=500).plot_poincare(frames=100, N=100, **kw)
+    q, dq = data
+    Ns, Nt = q.shape
+    th = 2*np.pi * np.arange(Nt)/Nt
+    r = q + 5
+    z = dq
+    th = th[None, :] + 0*q
+    x, y, z = map(np.ravel, (r*np.cos(th), r*np.sin(th), z))
+    ax.plot(x, y, z, lw=0.5, c=f"C{n}")
+    plt.plot(data[0].ravel(), data[1].ravel(), f'C{n}', lw=0.1)
+#ax, bx, ay, by = plt.axis()
+#plt.axis([min(ax, -2), max(bx, 2), min(ay, -2), max(by, 2)])
 ```
 
 ```{code-cell} ipython3
