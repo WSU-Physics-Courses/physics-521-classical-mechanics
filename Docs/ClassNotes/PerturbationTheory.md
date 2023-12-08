@@ -160,8 +160,8 @@ solution, simply multiply the desired result by the appropriate factor of $1$ to
 the required units:
 \begin{gather*}
   1 = \underbrace{m}_{\text{mass}} 
-    = \underbrace{l}_{\text{distance}}
-    = \underbrace{\sqrt{\frac{l}{g}}}_{\text{time}}
+C    = \underbrace{l}_{\text{distance}}
+ano    = \underbrace{\sqrt{\frac{l}{g}}}_{\text{time}}
     = \underbrace{\sqrt{lg}}_{\text{speed}}
     = \underbrace{mlg}_{\text{energy}}
     = \cdots.
@@ -1128,97 +1128,11 @@ the plot, we see that this form of perturbation does improve the results for ver
 $\epsilon$, but that once the amplitude of the oscillations gets large enough, the
 approximation becomes quite poor.
 
-(sec:CanonicalPerturbationTheory)=
 # Canonical Perturbation Theory
-
-To organize the perturbative calculation, one can turn to **canonical perturbation
-theory** which maintains the canonical relationship between variables as we add
-perturbative corrections.
-
-We consider a Hamiltonian system with conjugate variables $(\vect{q}, \vect{p})$:
-\begin{gather*}
-  H(\vect{q}, \vect{p}, t) = H_0(\vect{q}, \vect{p}, t) 
-  + \epsilon H_1(\vect{q}, \vect{p}, t).
-\end{gather*}
-We now assume that a solution to the Hamiltonian problem $H_0(\vect{q}, \vect{p}, t)$ is
-known such that we can effect a canonical transform via the generating function
-$F_2(\vect{q}, \vect{P}, t)$ to a new set of conjugate variables $(\vect{Q}, \vect{P})$
-with Hamiltonian $K_0(\vect{Q}, \vect{P}, t)$:
-\begin{gather*}
-  p_i = \pdiff{F_2}{q_i}, \\
-  Q_i = \pdiff{F_2}{P_i}, \\
-  K_0 = H_0 + \pdiff{F_2}{t} = 0.
-\end{gather*}
-:::{margin}
-Recall that a canonical transformation is independent of the actual equations of motion:
-it can be applied to any system.
-:::
-Effecting the same transform on the full Hamiltonian $\vect{H}$ gives:
-\begin{gather*}
-  K = \epsilon H_1, \\
-  \dot{\vect{Q}} = \pdiff{K}{\vect{P}} = \epsilon \pdiff{H_1}{\vect{P}}, \\
-  \dot{\vect{P}} = -\pdiff{K}{\vect{Q}} = -\epsilon \pdiff{H_1}{\vect{Q}}.
-\end{gather*}
-This is still exact, but note that the motion is now of order $\epsilon$.
-
-The first approach, explained in {cite:p}`Goldstein:2000`, is to use these equations to
-recursively build successive approximations.  Thus, substituting the order $\epsilon^0$
-solution on the right-hand-side of these equations gives a linear system that can be
-integrated to obtain the order $\epsilon^1$ approximation.  The order $\epsilon^1$ solution
-can then be inserted to compute the order $\epsilon^2$ approximation, etc.
-
-Explicitly, let $\vect{y} = (\vect{Q}, \vect{P})$. The full solution will have the
-form:
-\begin{gather*}
-  \vect{y} = \vect{y}_0 + \epsilon \vect{y}_1 + \epsilon^2 \vect{y}_2 + \cdots,\\
-  \dot{\vect{y}}_{n} = \epsilon
-  \begin{pmatrix}
-    \mat{0}& \mat{1}\\
-    -\mat{1} & \mat{0} 
-  \end{pmatrix}
-  \cdot
-  \left.\pdiff{H_1(\vect{y}, t)}{\vect{y}}\right|_{\vect{y} = \vect{y}_{n-1}}.
-\end{gather*}
-In the case of a single degree of freedom $\vect{y} = (Q, P)$ we have
-\begin{gather*}
-  \begin{pmatrix}
-    Q(t)\\
-    P(t)
-  \end{pmatrix}
-  =
-  \begin{pmatrix}
-    Q_0\\
-    P_0
-  \end{pmatrix}
-  +
-  \epsilon
-  \begin{pmatrix}
-    Q_1(t)\\
-    P_1(t)
-  \end{pmatrix}
-  +
-  \epsilon^2
-  \begin{pmatrix}
-    Q_2(t)\\
-    P_2(t)
-  \end{pmatrix}
-  +\cdots,\\
-  \begin{pmatrix}
-    \dot{Q}_{n+1}(t)\\
-    \dot{P}_{n+1}(t)
-  \end{pmatrix}
-  =
-  \left.
-  \begin{pmatrix}
-    \pdiff{H_1(Q, P, t)}{P}\\
-    -\pdiff{H_1(Q, P, t)}{Q}
-  \end{pmatrix}
-  \right|_{Q=Q_n(t), P=P_n(t)}.
-\end{gather*}
-Note that if $H_1(Q,P)$ is independent of time, then, since $Q_0$ and $P_0$ are
-constant, $(Q_1, P_1)$ is linear in time, $(Q_2, P_2)$ is quadratic, etc., and all
-integrals are trivial.
-
+We now try organizing the calculation as described in
+{ref}`sec:CanonicalPerturbationTheory`.  As we noted there, we will find that applying
+this to the stationary coordinates $(\vect{q}_0, \vect{p}_0)$ give rise to
+time-increasing secular terms.
 
 ## Example: Parametric Resonance
 

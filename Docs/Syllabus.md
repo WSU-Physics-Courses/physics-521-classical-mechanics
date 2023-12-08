@@ -491,7 +491,7 @@ use the form at the [Center for Community Standards][] website. You must submit 
 request within 21 calendar days of the decision.
 
 [Academic Integrity Policy]: 
-  <https://communitystandards.wsu.edu/policies-and-reporting/academic-integrity-policy/>
+  <https://communitystandards.wsu.edu/policies-and-reporting/academic-integrity/>
 [Washington State law]: <https://apps.leg.wa.gov/wac/default.aspx?cite=504-26-202>
 [Center for Community Standards]: <https://communitystandards.wsu.edu/>
 
