@@ -80,7 +80,7 @@ class Hoop:
         color = 'white'
         if theta is None:
             theta = self.theta0
-            color = 'cyan'
+            color = 'BLUE_C'
             
         z_o = -self.R * theta + 0j
         z_cm = z_o - 1j * self.r_cm * np.exp(theta * 1j)
@@ -121,8 +121,8 @@ class Hoop:
             ]
         )
         
-        OC = DashedLine(O, C, color='cyan')
-        OP = DashedLine(O, P, color='cyan')
+        OC = DashedLine(O, C, color='BLUE_C')
+        OP = DashedLine(O, P, color='BLUE_C')
         theta = Angle(OP, OC, radius=0.7, dot_radius=2.0)
         theta_l = Tex(r"$\theta$")
         _m = theta.get_midpoint()
