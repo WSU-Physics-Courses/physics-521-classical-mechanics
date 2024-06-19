@@ -270,7 +270,7 @@ endif
 
 521-Solutions.tgz: $(DOCS)/*
 	@make html
-	tar -s "|$(DOCS)/_build/html|521-Docs|g" -zcvf $@ $(DOCS)/_build/html
+	tar -s "|$(DOCS)/_build/html|521-Solutions|g" -zcvf $@ $(DOCS)/_build/html
 
 .PHONY: html doc-server
 

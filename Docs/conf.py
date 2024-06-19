@@ -67,7 +67,7 @@ extensions = [
     "sphinx.ext.todo",
     "sphinx.ext.viewcode",
     "sphinxcontrib.bibtex",
-    "sphinxcontrib.zopeext.autointerface",
+    # "sphinxcontrib.zopeext.autointerface",
     # "matplotlib.sphinxext.plot_directive",
     # From jupyterbook
     # "jupyter_book",
@@ -171,6 +171,12 @@ html_title = project
 
 # html_sidebars = {}
 
+######################################################################
+# Thebe: https://sphinx-thebe.readthedocs.io/en/latest/configure.html
+# thebe_config = {
+#    "selector": "div.highlight"
+# }
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
@@ -227,7 +233,7 @@ from sphinx_togglebutton import Toggle
 
 
 class SolutionAdmonition(BaseAdmonition):
-    """Use for a solution box that is hidden by default.
+    r"""Use for a solution box that is hidden by default.
 
     Example:
 
@@ -418,9 +424,9 @@ def my_init(app):
         ext_dir = os.path.dirname(os.path.abspath(__file__))
         mathjax_dir = os.path.join(ext_dir, "_static", "mathjax")
         copy_asset(mathjax_dir, os.path.join(app.outdir, "_static", "mathjax"))
-        app.config.mathjax_path = "mathjax/tex-chtml.js"
         app.config.mathjax_path = "mathjax/tex-svg.js"
         app.config.mathjax_path = "mathjax/tex-chtml.js?config=TeX-AMS-MML_HTMLorMML"
+        app.config.mathjax_path = "mathjax/tex-chtml.js"
 
         # I don't know why this is needed, but if it is not turned off, then
         # "mathjax_ignore" is added to the top-level class, preventing local rendering.

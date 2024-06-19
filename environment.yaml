@@ -2,13 +2,15 @@ name: phys-521
 channels:
   - defaults
 dependencies:
-  - python>=3.9
+  - python>=3.9,<3.12
 
   # Core dependencies
   - scipy
   - matplotlib
   - sympy
   - ipykernel
+  - numba
+  - numexpr
 
   #- conda-forge::jupyter_console
 
@@ -53,6 +55,7 @@ dependencies:
     - sphinxcontrib-bibtex>=2.4.0
     # https://github.com/executablebooks/sphinx-jupyterbook-latex/issues/97
     - sphinx-jupyterbook-latex
+    - sphinx-thebe
 
     - sphobjinv  # Helps looking up intersphinx references
     - mmf-setup
@@ -60,4 +63,7 @@ dependencies:
     - manim
     # - jupyter-manim   # Not needed
     # The current project, and dependencies in pyproject.toml.
+
+    - julia   # Assumes you have Julia installed with PyCall
+    - black  # Needed for jupyter-black extension
     - .

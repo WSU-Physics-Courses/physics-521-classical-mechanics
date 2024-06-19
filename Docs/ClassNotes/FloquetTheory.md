@@ -15,6 +15,7 @@ kernelspec:
 ```{code-cell}
 :tags: [hide-cell]
 
+import os
 import mmf_setup;mmf_setup.nbinit()
 from pathlib import Path
 FIG_DIR = Path(mmf_setup.ROOT) / '../Docs/_build/figures/'

@@ -63,9 +63,11 @@ Prerequisites/*
 maxdepth: 2
 caption: "Miscellaneous:"
 hidden:
+glob:
 ---
 ClassNotes
 OtherNotes
+FractalsChaosPowerLaws/*
 Demonstration
 CoCalc
 ClassLog

@@ -1617,8 +1617,8 @@ To simplify the notation here, we use:
 \begin{align*}
   \psi(x, t) &= \exp\left\{\frac{i}{\hbar}W(x,t)\right\},\\
   \psi'(x, t) &= \frac{i}{\hbar}W'(x, t)\psi(x, t),\\ 
-  \psi''(x, t) &= \left(\frac{i}{\hbar}W''(x, t) - \frac{W''(x,
-  t)}{\hbar^2}\right)\psi(x, t),\\
+  \psi''(x, t) &= \left(\frac{i}{\hbar}W''(x, t) - \frac{\Bigl(W'(x,
+  t)\Bigr)^2}{\hbar^2}\right)\psi(x, t),\\
   0 &= \left(\frac{(W')^2 - \I\hbar W''}{2m} + V + \dot{W}\right)\psi.
 \end{align*}
 
