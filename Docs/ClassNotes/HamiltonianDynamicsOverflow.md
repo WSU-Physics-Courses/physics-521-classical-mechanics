@@ -27,6 +27,14 @@ import manim.utils.ipython_magic
 !manim --version
 ```
 
+```{code-block}
+:class: thebe
+x = 1
+print(f"{x=}")
+```
+```{thebe-button}
+```
+
 Hamiltonian Mechanics Overflow
 ==============================
 
