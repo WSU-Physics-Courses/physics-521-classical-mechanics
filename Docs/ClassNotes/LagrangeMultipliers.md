@@ -58,7 +58,7 @@ you must maintain a fixed distance $R$ from the stake:
   g(\vect{r}) = \abs{\vect{r}}^2 - R^2.
 \end{gather*}
 
-Intuitively, you are only allowed to move perpendicular to $\vect{\nabla}(\vect{r})$.
+Intuitively, you are only allowed to move perpendicular to $\vect{\nabla} g(\vect{r})$.
 
 This case can be solved by the method of [Lagrange multipliers][].  The idea here is
 that, at the minimum, the gradients of $E$ and the gradients of $g$ must be parallel,
