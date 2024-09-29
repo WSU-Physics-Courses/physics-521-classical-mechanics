@@ -1,3 +1,4 @@
+(sec:assignments)=
 # Assignments
 
 ```{toctree}

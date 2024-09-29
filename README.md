@@ -24,53 +24,16 @@ Main project for the [WSU Physics][] course **Physics 521: Classical Mechanics I
 
 ## Installation
 
-This project is intended to be installed on [CoCalc][], but should work on other
-computers.
+This will generate an environment you can use to work with the project.  Once
+this is done you can make the documentation, tests, etc. with commands like:
 
 ### Preliminaries
 
-Before performing the main install, you should complete the following preliminaries,
-which will ensure that you can access the repository with SSH etc.  These may vary by
-platform, but after you are done
-
-1. Create a [CoCalc] project in which to work. (We will use the class [Shared CoCalc
-   Project] for this example.)
-2. (Optional) Create a [GitLab] account and inform your instructor of your username so
-   that they can add you to the class private repository.
-3. On your computer, create an SSH key, authenticate to this, and optionally, add this
-   to your keychain manager (e.g. `Keychain Access.app` on Mac OS X).
-4. Copy the associated public key to your [GitLab] account and to your [CoCalc] account.
-5. Add the appropriate entry to your `~/.ssh/config` file so you can `ssh` to the
-   [CoCalc] project, forwarding your keys.  For example, with the class [Shared CoCalc
-   Project], I do this with the following configuration:
-   
-   ```ini
-   # ~/.ssh/config
-   ...
-   Host cc521shared
-     User 31c120c9295644209d6f374a6ee32df3
-   Host cc*
-     HostName ssh.cocalc.com
-     ForwardAgent yes
-     SetEnv LC_HG_USERNAME=Michael McNeil Forbes <michael.forbes+python@gmail.com>
-     SetEnv LC_GIT_USERNAME=Michael McNeil Forbes
-     SetEnv LC_GIT_USEREMAIL=michael.forbes+github@gmail.com
-     SetEnv LC_EDITOR=vi
-   Host *
-     IgnoreUnknown UseKeychain
-     UseKeychain yes
-     AddKeysToAgent yes
-     AddressFamily inet
-     # Force IPv4
-     # https://www.electricmonk.nl/log/2014/09/24/
-     #         ssh-port-forwarding-bind-cannot-assign-requested-address/
-   ```
-
-Once these are done, you should be able to ssh directly to the [CoCalc] project **after
-first starting the project via the web***:
+The latter will host the documentation on https://localhost:8000 and auto-update when you
+make changes. If you want to manually interact with the environment, then you can run:
 
 ```bash
-ssh smc521shared
+make shell
 ```
 
 Note: the `LC_*` environment variables set above allow us to customize the environment
@@ -80,15 +43,38 @@ everyone has the same username, making it difficult for different users to commi
 changes to version control.  To remedy this, my [`mmf-setup`] packages modifies the
 `~/.bash_alises` file to use the variables sent above.
 
-The remainder of the instructions should be performed after connecting to your [CoCalc]
-project in this way.
-   
-### CoCalc Installation
+## CoCalc
+
+To build the documentation on CoCalc, open the following file:
+
+* [`SphinxAutoBuildServer.term`](SphinxAutoBuildServer.term)
+
+This will build the documentation, and serve it on `https://cocalc.com/<project
+id>/raw/<project folder>/Docs/_build/html/index.html`.  You must currently fill in the
+folder and CoCalc project id.
+
+
+
+## Developer Notes
 
 To install everything on [CoCalc], do the following after connecting to your project
 with SSH as described above:
 
 1. Make a `repositories` directory and clone the project:
+
+See `Docs/index.md` for more details.
+
+To use this repository:
+
+1. *(Optional)* 
+   * Create accounts on [CoCalc][] and [GitLab][], a project on [CoCalc][], and a
+   repo on [GitLab][].  Send your [GitLab][] account name to your instructor.
+   * Create [Create SSH
+   keys](https://doc.cocalc.com/project-settings.html#ssh-keys), and add them [to your
+   CoCalc account](https://doc.cocalc.com/account/ssh.html) and [to your GitLab
+   account](https://docs.gitlab.com/ee/ssh/).
+   * SSH into your [CoCalc][] project for the remaining steps.
+2. Clone this repo and initialize it:
 
    ```bash
    mkdir repositories

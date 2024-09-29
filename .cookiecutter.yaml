@@ -45,5 +45,5 @@ default_context:
   # The remaining configuration options deal with provisioning of the environment etc.
   use_conda: "micromamba"
   use_pyproject: "no"
-  use_manin: "yes"
+  use_manim: "yes"
   make_tools: "yes"

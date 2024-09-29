@@ -6,7 +6,7 @@
 
 # -- Path setup --------------------------------------------------------------
 
-# If extensions (or modules to document with autodoc) are in another directory,
+# If extensions (or modules to document with napoleon) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
@@ -57,8 +57,6 @@ except request.URLError as err:
 # ones.
 extensions = [
     "myst_nb",
-    "sphinx.ext.autodoc",
-    "sphinx.ext.autosummary",
     "sphinx.ext.coverage",
     "sphinx.ext.doctest",
     "sphinx.ext.ifconfig",
@@ -67,15 +65,16 @@ extensions = [
     "sphinx.ext.todo",
     "sphinx.ext.viewcode",
     "sphinxcontrib.bibtex",
-    # "sphinxcontrib.zopeext.autointerface",
-    # "matplotlib.sphinxext.plot_directive",
+    "matplotlib.sphinxext.plot_directive",
+    # For documenting source code.
+    "sphinx.ext.napoleon",
+    "sphinx.ext.autosummary",
+    "sphinxcontrib.zopeext.autointerface",
     # From jupyterbook
     # "jupyter_book",
     "sphinx_thebe",
     # "sphinx_external_toc",
-    #
     "sphinx_jupyterbook_latex",
-    #
     "sphinx_comments",  # Hypothes.is comments and annotations
     "sphinx_design",
     "sphinx_togglebutton",
@@ -84,7 +83,6 @@ extensions = [
 
 if online:
     extensions.append("sphinx.ext.intersphinx")
-
 
 # Make sure that .rst comes first or autosummary will fail.  See
 # https://github.com/sphinx-doc/sphinx/issues/9891
@@ -211,6 +209,10 @@ napoleon_use_rtype = True
 ######################################################################
 # Open Graph settings for the sphinxext.opengraph extension
 ogp_site_url = "https://physics-521-classical-mechanics-i.readthedocs.io/en/latest"
+if html_logo.endswith(".svg"):
+    # SVG not supported.  Make sure you also provide a .png version
+    # https://sphinxext-opengraph.readthedocs.io/en/latest/socialcards.html
+    ogp_social_cards = {"image": html_logo[:-4] + ".png"}
 ######################################################################
 # Variables with course information
 course_package = "phys_521"
@@ -370,8 +372,7 @@ def my_init(app):
     run init` as normal, this will create a **whole new conda environment** and install
     the kernel from there.
     """
-    # mathjax_offline = True
-    mathjax_offline = False
+    mathjax_offline = not online
     if on_rtd:
         subprocess.check_call(
             [

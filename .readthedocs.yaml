@@ -30,7 +30,11 @@ sphinx:
 build:
   os: ubuntu-22.04
   tools:
-    python: "mambaforge-22.9"
+    # python: "3.11"
+    python: "mambaforge-latest"
+  jobs:
+    post_create_environment:
+      - python3 -m pip install .[docs]
   apt_packages:
     # Needed for manim.
     - libcairo2-dev
@@ -42,4 +46,13 @@ build:
 # Use conda
 conda:
   environment: environment.yaml  
+
+
+# Optional but recommended, declare the Python requirements required
+# to build your documentation
+# See https://docs.readthedocs.io/en/stable/guides/reproducible-builds.html
+
+# python:
+#    install:
+#    - requirements: docs/requirements.txt
 
