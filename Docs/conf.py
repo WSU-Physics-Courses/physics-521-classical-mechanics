@@ -72,7 +72,7 @@ extensions = [
     "sphinxcontrib.zopeext.autointerface",
     # From jupyterbook
     # "jupyter_book",
-    "sphinx_thebe",
+    # "sphinx_thebe",
     # "sphinx_external_toc",
     "sphinx_jupyterbook_latex",
     "sphinx_comments",  # Hypothes.is comments and annotations
