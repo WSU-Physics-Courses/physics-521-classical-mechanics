@@ -16,9 +16,29 @@
     if you want to do this while using sphinx-autobuild.
 --> 
 
+# Phys 521 - Classical Mechanics
 
 Welcome to Phys 521 - Classical Mechanics!  This is the main documentation page for the
 course.  For more class information, please see the {ref}`sec:sylabus`.
+
+This website, hosted on [Read The Docs](https://physics-521-classical-mechanics-i.readthedocs.io/en/latest), will be used to
+collect and display additional information about the course, including:
+* {ref}`sec:sylabus`
+* {ref}`sec:assignments`
+* {ref}`sec:readings`
+
+and various class notes.  These should also be available through the navigation menu
+(which might hidden if your display is not sufficiently wide).
+
+These documents are built using [JupyterBook]() (see {ref}`sec:demonstration`) and
+include all of the source code needed to generate the figure, plots etc.  For example,
+to see how a figure was made, look in the preceding code cell.
+The complete source code for this documentation is available at
+<https://gitlab.com/wsu-courses/physics-521-classical-mechanics>. 
+
+ 
+
+
 
 Instructors: the information presented here at the start of the course documentation is
 contained in the `Docs/index.md` file, which you should edit to provide an overview of
