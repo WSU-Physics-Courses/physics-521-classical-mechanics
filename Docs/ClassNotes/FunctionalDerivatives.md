@@ -7,9 +7,9 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.13.8
 kernelspec:
-  display_name: Python 3 (phys-521)
+  display_name: Python 3
   language: python
-  name: phys-521
+  name: python3
 ---
 
 ```{code-cell}
@@ -22,8 +22,99 @@ import numpy as np, matplotlib.pyplot as plt
 #!manim --version
 ```
 
-Functional Derivatives
-======================
+# Calculus of Variations
+
+## The Discrete Picture
+Most presentations of the calculus of variations use the functional formulation, which
+often requires careful manipulations of the integration by parts formula to derive the
+corresponding Euler-Lagrange equations.  Here we present an alternative perspective
+afforded by considering the discrete version of the problem.
+
+Consider a function $f(x)$ represented by the vector $\vect{f}$: $f_{n} = f(x_n)$ at a set of
+equally spaced points $x_n$ with spacing $\d{x} = a = x_{n+1} - x_{n}$.  The goal is to
+minimize (or more generally, extremize) some functional
+\begin{gather*}
+  \min_{f(x)} E[f], \qquad
+  \frac{\delta E[f]}{\delta f(y)} = 0.
+\end{gather*}
+In the discrete case, $E(\vect{f})$ just becomes a scalar valued function of the vector
+$\vect{f}$, and the equations of motion simply amount to
+\begin{gather*}
+  \min_{\vect{f}} E(\vect{f}), \qquad
+  \pdiff{E(\vect{f})}{f_m} = \vect{\nabla}_{m}E(\vect{f}) = 0.
+\end{gather*}
+The advantage of this formulation is that, if you are careful, you have a **numerically
+exact** minimization problem and corresponding gradient that can be used to solve the
+system with a stable algorithm like [L-BFGS-M][] which is suitable for large-scale
+problems.
+
+Of course, to do this, you must carefully specify terms like the derivative
+$\dot{\vect{f}} = \mat{D}\vect{f}$ which might enter $E(\vect{f})$.  If using a finite-difference
+approximation, one might have
+\begin{gather*}
+  \mat{D}_{d} = \frac{1}{2a}\begin{pmatrix}
+    0 & 1\\
+    -1 & 0 & 1\\
+    & -1 & \ddots & \ddots\\
+    & & \ddots & 0 & 1\\
+    & & & -1 & 0\\
+  \end{pmatrix}, \qquad
+  \mat{D}_{p} = \frac{1}{2a}\begin{pmatrix}
+    0 & 1 & & & -1\\
+    -1 & 0 & 1\\
+    & -1 & \ddots & \ddots\\
+    & & \ddots & 0 & 1\\
+    1& & & -1 & 0\\
+  \end{pmatrix}.
+\end{gather*}
+The resulting equations of motion will have terms with $\mat{D}^{T} = -\mat{D}$,
+accounting for the minus sign obtained after integrating by parts.  This exact
+relationship $\mat{D}^{T} = -\mat{D}$ follows from the explicit choice of boundary
+conditions -- Dirichlet here for $\mat{D}_{d}$ and periodic for $\mat{D}_{p}$, and imply
+vanishing boundary terms in the equations of motion.  Other choices of boundary
+conditions might require corrections to this relation, corresponding to non-vanishing
+boundary terms in the usual functional derivative.
+
+:::{admonition} Example
+
+Consider a general functional of the form
+\begin{gather*}
+  E[f] = \int_{0}^{L}\mathcal{L}(f, \dot{f}, x)\d{x}.
+\end{gather*}
+A discretized version might look like
+\begin{gather*}
+  E(\vect{f}) = a\sum_{m}\mathcal{L}(f_{m}, \dot{f}_{m}, x_{m})
+              = a\sum_{m}\mathcal{L}(f_{m}, \sum_{n}D_{mn}f_{n}, x_{m}).
+\end{gather*}
+We can now explicitly compute the variation, noting that $\partial f_m/\partial f_n =
+\delta_{mn}$:
+\begin{gather*}
+  \pdiff{E(\vect{f})}{f_{l}} = a\sum_{m}\Biggl(
+    \pdiff{\mathcal{L}(f_{m}, \dot{f}_{m}, x_{m})}{f_{m}}
+    \underbrace{\pdiff{f_{m}}{f_{l}}}_{\delta_{ml}}
+    +
+    \pdiff{\mathcal{L}(f_{m}, \dot{f}_{m}, x_{m})}{\dot{f}_{m}}
+    \underbrace{\pdiff{\dot{f}_{m}}{f_{l}}}_{D_{ml}}
+  \Biggr)\\
+  = a\Biggl(\pdiff{\mathcal{L}(f_{l}, \dot{f}_{l}, x_{l})}{f_{l}}
+    +
+    \underbrace{\sum_{m}D_{ml}
+      \pdiff{\mathcal{L}(f_{m}, \dot{f}_{m}, x_{m})}{\dot{f}_{m}}
+    }_{\mat{D}^T\cdot(\partial\mathcal{L}/\partial \dot{\vect{f}})}
+  \Biggr).
+\end{gather*}
+This is exact: all subtleties about boundary conditions etc. will explicitly contained
+in the relationship between $\mat{D}^T \approx -\mat{D}$.  If the boundary conditions
+are such that $\mat{D}^T = -\mat{D}$ exactly, we obtain the usual Euler-Lagrange
+equations
+\begin{gather*}
+  \pdiff{\mathcal{L}(\vect{f}, \dot{\vect{f}}, \vect{x})}{\vect{f}} 
+  = \mat{D}\cdot \pdiff{\mathcal{L}(\vect{f}, \dot{\vect{f}}, \vect{x})}{\dot{\vect{f}}}.
+\end{gather*}
+
+
+
+:::
 
 
 ## Catenary
@@ -31,16 +122,16 @@ Functional Derivatives
 What is the shape of a thin rope of linear mass density $\lambda$ and fixed length $L_0$
 hanging between two hooks?  This is a classic problem for calculus of variations.
 Expressed as an optimization problem, our goal is to minimize the potential energy of
-the rope while holding the length constant:
-\begin{gather*}
-  \min_{y(x)} E[y] \quad \Big|\quad [y(x_0), y(x_1)] = [y_0, y_1], \quad \text{and}\quad
-  L[y] = L_0.
+the rope while holding the length constant: 
+\begin{gather*} 
+  \min_{y(x)} E[y] \quad
+  \Big|\quad [y(x_0), y(x_1)] = [y_0, y_1], \quad \text{and}\quad L[y] = L_0.
 \end{gather*}
 
 The first task is to parameterize the rope.  A straightforward approach is to express it
-as a function $y(x)$ subject to the boundary conditions $y(x_0) = y_0$ and $y(x_1) = y_1$.
-The length and potential energy are then given by the [functional][]s $L[y]$ and $E[y]$
-respectively:
+as a function $y(x)$ subject to the boundary conditions $y(x_0) = y_0$ and $y(x_1) =
+y_1$.  The length and potential energy are then given by the [functional][]s $L[y]$ and
+$E[y]$ respectively:
 \begin{gather*}
   L[y] = \int_{0}^{L}\d{L}, \qquad
   E[y] = \int_{0}^{M}\d{m}\; gy.
@@ -254,3 +345,4 @@ which gives the same equation as the second approach:
 [conjugate gradient method]: <https://en.wikipedia.org/wiki/Conjugate_gradient_method>
 [Lagrange multipliers]: <https://en.wikipedia.org/wiki/Lagrange_multiplier>
 [hyperbolic functions]: <https://en.wikipedia.org/wiki/Hyperbolic_functions>
+[L-BFGS-M]: <https://docs.scipy.org/doc/scipy/reference/optimize.minimize-lbfgsb.html>
