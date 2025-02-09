@@ -96,18 +96,50 @@ the Fourier series
 \end{gather*}
 Only the $n=0$ term has a non-zero average, but this vanishes for all derivatives.
 :::
-We first consider the fast motion $f(\phi)$ where $\phi = \omega t$.  For this analysis,
-we treat $s(t)$ as constant, absorbing the constant shift $\omega_0^2 \sin s + 2\lambda \dot{s} +
-\ddot{s}$ into $s$ so that $\braket{f} = 0$ as discussed above.  Finally, we assume that
-$\abs{\omega} \gg \lambda$ so we can neglect the damping.  The resulting equation
-is
+We first consider the fast motion $f(\phi)$ where $\phi = \omega t$.  Since the division
+between $f$ and $s$ is arbitrary, we can choose to adjust $s$ so that $\omega_0^2 \sin
+s + 2\lambda \dot{s} + \ddot{s} = 0$.  As we shall see, this ensures that $\braket{f} =
+0$ as discussed above.  We also assume that $f\ll 1$, $\abs{\omega} \gg \lambda$ and
+$\abs{\omega} \gg \abs{\omega_0}$ so we can neglect the damping and resonant terms.  The
+resulting equation is
 \begin{gather*}
   \omega^2 f''(\phi) \approx  - a\omega_0^2 \sin s\sin \phi, \qquad
   f(\omega t) \approx \frac{a\omega_0^2 \sin s}{\omega^2}\sin \omega t.
 \end{gather*}
 Note that $f$ is periodic, so all averages $\braket{f} = \braket{f'} = \braket{f''} =
-0$.
+0$ as desired.
 
+:::{admonition} Details.
+:class: dropdown
+More explicitly, to linear order in $f \sim f' \sim f''$ we can write
+\begin{gather*}
+  \omega^2 f'' 
+  + {\color{red}
+    2\omega \lambda f'
+    + f\omega_0^2\cos s}
+  \approx
+  - a\omega_0^2 \sin \omega t (\sin s -  {\color{red}f\cos s})
+  - {\color{red}( \omega_0^2\sin s + 2\lambda \dot{s} + \ddot{s})}.
+\end{gather*}
+The second two (red) terms on the left-hand side are parametrically small compared to
+$\omega^2 f''$ under the assumption that the drive frequency $\abs{\omega}$ is much
+larger than the damping or resonant frequency.  Under the assumption that $\abs{f} \ll
+1$, we can neglect $f\cos s$ with respect to $\sin s$ in the first term on the right.
+Note that this approximation assumes $f$ is small: it is often not that small, and the
+resulting approximation shown numerically below can benefit from keeping these terms.
+
+Finally, the last term is set to zero by suitable choosing $s$.  To see this explicitly,
+imaging keeping this constant $\beta = \omega_0^2 \sin s + 2\lambda \dot{s} + \ddot{s}$.
+The solution would become:
+\begin{gather*}
+  \omega^2 f'' = -\alpha \sin \omega t  - \beta, \qquad
+  f(\omega t) = \frac{\alpha}{\omega^2}\sin\omega t + \frac{\beta}{\omega^2} t^2.
+\end{gather*}
+Thus, the presence of this constant gives an overall slow trend to $f(\omega t)$ with
+$\braket{f} = \beta T^2/3\omega^2 \neq 0$.  To remove this, we must adjust $s$ slowly
+exactly so that $\beta = 0$.
+
+:::
 ### Slow Motion
 
 We now averaging the dynamical equation:

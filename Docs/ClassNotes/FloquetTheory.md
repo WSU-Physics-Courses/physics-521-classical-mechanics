@@ -36,30 +36,56 @@ differential equation of the form
 \begin{gather*}
   \dot{\vect{x}} = \mat{A}(t)\vect{x}, \qquad \mat{A}(t+T) = \mat{A}(t),
 \end{gather*}
-where the time-dependence is periodic with period $T$.  If $\mat{\phi}(t)$ is a
+where the time-dependence is periodic with period $T$.  If $\mat{X}(t)$ is a
 **fundamental matrix solution**  -- i.e. all columns are linearly independent solutions
 -- then
 \begin{gather*}
-  \mat{\phi}(t + T) = \mat{\phi}(t)\underbrace{\mat{\phi}^{-1}(0)\mat{\phi}(T)}_{e^{T\mat{B}}}.
+  \mat{X}(t + T) = \mat{X}(t)\underbrace{\mat{X}^{-1}(0)\mat{X}(T)}_{e^{T\mat{B}}}.
 \end{gather*}
-The matrix $\mat{\phi}^{-1}(0)\mat{\phi}(T) = e^{T\mat{B}}$ is called the **monodromy
+:::::{solution} Do it!  Prove this.
+::::{hint}
+Prove the following lemmas about the fundamental matrix $\mat{X}(t)$ that solves
+$\dot{\mat{X}}(t) = \mat{A}(t)\mat{X}(t)$ for periodic $\mat{A}(t+T) = \mat{A}(t)$.
+:::{prf:lemma}
+If $\mat{X}(t)$ is a fundamental matrix, then so is $\mat{Y}(t) = \mat{X}(t)\mat{C}$ for
+any nonsingular constant matrix $\mat{C}$.
+:::
+:::{prf:lemma}
+If $\mat{X}(t)$ is a fundamental matrix, then there exists a non-singular constant
+matrix $\mat{C}$ such that $\mat{X}(t+T) = \mat{X}(t)\mat{C}$ for all $t$ with
+\begin{gather*}
+  \det(\mat{C}) = \exp\left(\int_{0}^{T}\Tr \mat{A}(t) \d{t}\right).
+\end{gather*}
+:::
+::::
+
+From these lemmas we have $\mat{X}(t+T) = \mat{X}(t)\mat{C}$, and thus, for $t=0$,
+$\mat{X}(T) = \mat{X}(0)\mat{C}$.  Since $\mat{X}(t)$ is invertable, we can solve for
+$\mat{C}$:
+\begin{gather*}
+  \mat{C} = \mat{X}^{-1}(0)\mat{X}(T).
+\end{gather*}
+
+:::::
+
+
+The matrix $\mat{X}^{-1}(0)\mat{X}(T) = e^{T\mat{B}}$ is called the **monodromy
 matrix**, and for any $\mat{B}$ that satisfies this (there may be several), the
 solutions can be expressed in terms of a periodic function matrix-valued function $\mat{P}(t)$:
 :::{margin}
 Here $\mat{B}$ is generally complex, but there is also a real matrix $\mat{R}$
 \begin{gather*}
-    \mat{\phi}(t) = \mat{Q}(t)e^{t\mat{R}},\\
+    \mat{X}(t) = \mat{Q}(t)e^{t\mat{R}},\\
     \mat{Q}(t+2T) = \mat{Q},
 \end{gather*}
 where $\mat{Q}$ now has period $2T$.
 :::
 \begin{gather*}
-  \mat{\phi}(t) = \mat{P}(t)e^{t\mat{B}}, \qquad \mat{P}(t+T) = \mat{P}(t).
+  \mat{X}(t) = \mat{P}(t)e^{t\mat{B}}, \qquad \mat{P}(t+T) = \mat{P}(t).
 \end{gather*}
 *Note: this is a generalization of [Bloch's theorem][] which states that eigenfunctions for a
 periodic potential expressed as periodic solutions times a phase factor $e^{\I
 \vect{k}\cdot\vect{x}}$.* 
-
 
 For the previous system, we note that, about the unstable equilibrium point, the system
 can be expressed as
@@ -84,8 +110,6 @@ can be expressed as
     \end{pmatrix}
   }_{\vect{x}}
 \end{gather*}
-
-{ref}`sec:FloquetTheory`.
 
 [Floquet theory]: <https://en.wikipedia.org/wiki/Floquet_theory>
 [Bloch's theorem]: <https://en.wikipedia.org/wiki/Bloch's_theorem>

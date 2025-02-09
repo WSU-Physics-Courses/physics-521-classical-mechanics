@@ -111,11 +111,7 @@ equations
   \pdiff{\mathcal{L}(\vect{f}, \dot{\vect{f}}, \vect{x})}{\vect{f}} 
   = \mat{D}\cdot \pdiff{\mathcal{L}(\vect{f}, \dot{\vect{f}}, \vect{x})}{\dot{\vect{f}}}.
 \end{gather*}
-
-
-
 :::
-
 
 ## Catenary
 
@@ -298,7 +294,6 @@ The algebra can be simplified considerably by choosing the origin at the minimum
   L_0 = 2a\sinh\tfrac{x_1}{a}
 \end{gather*}
 
-
 As a final check, one should make sure that no errors were made multiplying or dividing
 by zero, and that this is indeed a minimum, not a maximum or saddle point.  The latter
 check is fairly easy on physical grounds if we make sure $a, x_1 >0$.  The maximum energy has
@@ -331,6 +326,54 @@ which gives the same equation as the second approach:
 <!--   \diff{}{s}\pdiff{\mathcal{L}_s(y, y', s)}{y'} = \pdiff{\mathcal{L}_s(y, y', s)}{y},\\ -->
 <!--   0 = g\lambda. -->
 <!-- \end{gather*} -->
+
+
+## Geodesics
+
+A final application goes back to geometry -- the computation of geodesics on a manifold $M$.
+Consider a path $X(t)$ in our coordinate chart corresponding to the path
+$x(t)$.  We can obtain the length of the path by integrating the speed:
+\begin{gather*}
+  L(t) = \int_{0}^{t} \braket{V(t)|V(t)}\d{t} 
+       = \int_{0}^{t} g_{\alpha\beta}\bigl(X(t)\bigr)V^{\alpha}(t)V^{\beta}(t)\d{t}
+       = \int_{0}^{t} g_{\alpha\beta}\bigl(X(t)\bigr)\dot{X}^{\alpha}(t)\dot{X}^{\beta}(t)\d{t}.
+\end{gather*}
+Holding the endpoints and $t$ fixed, we can view the path-length as a functional of the
+path:
+\begin{gather*}
+  L[X] = \int_{0}^{t} \mathcal{L}(X, \dot{X}), \qquad
+  \mathcal{L}(X, \dot{X}) = g_{\alpha\beta}\bigl(X(t)\bigr)\dot{X}^{\alpha}(t)\dot{X}^{\beta}(t).
+\end{gather*}
+The geodesic equation is thus the corresponding Euler-Lagrange equation
+:::{margin}
+The following requires a little thought:
+\begin{gather*}
+  \pdiff{\dot{X}^{\alpha}}{\dot{X}^{\beta}} = \delta^{\alpha}_{\beta}.
+\end{gather*}
+:::
+\begin{gather*}
+  \pdiff{\mathcal{L}(X, \dot{X})}{X^{\gamma}} 
+  = \diff{}{t}\pdiff{\mathcal{L}(X, \dot{X})}{\dot{X}^{\gamma}},\\
+  \partial_{\gamma}g_{\alpha\beta}\dot{X}^{\alpha}\dot{X}^{\beta}
+  =\diff{}{t}
+    g_{\alpha\beta}(\dot{X}^{\alpha}\delta^{\beta}_{\gamma}
+                    + \delta^{\alpha}_{\gamma}\dot{X}^{\beta})
+  =\diff{(g_{\alpha\gamma}+g_{\gamma\alpha})\dot{X}^{\alpha}}{t},\\
+  \Bigl(
+    g_{\alpha\beta,\gamma} - g_{\alpha\gamma,\beta} - g_{\gamma\alpha,\beta}
+  \Bigr)\dot{X}^{\alpha}\dot{X}^{\beta}
+  = (g_{\alpha\gamma} + g_{\gamma\alpha})\ddot{X}^{\alpha}.
+\end{gather*}
+Using the symmetry of $g_{\alpha\beta} = g_{\beta\alpha}$ and the fact that each term of
+the lhs is symmetric under $\alpha \leftrightarrow \beta$, we can rewrite this in
+terms of the Christoffel symbols:
+\begin{gather*}
+  \underbrace{\frac{1}{2}\Bigl(
+    g_{\alpha\beta,\gamma} - g_{\alpha\gamma,\beta} - g_{\beta\gamma,\alpha}
+  \Bigr)}_{-[\alpha \beta, \gamma]}\dot{X}^{\alpha}\dot{X}^{\beta}
+  = g_{\alpha\gamma}\ddot{X}^{\alpha},\\
+  \Gamma^{\gamma}_{\alpha\beta}\dot{X}^{\alpha}\dot{X}^{\beta} + \ddot{X}^{\gamma} = 0.
+\end{gather*}
 
 
 

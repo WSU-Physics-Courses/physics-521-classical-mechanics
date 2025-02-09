@@ -78,6 +78,7 @@ extensions = [
     "sphinx_comments",  # Hypothes.is comments and annotations
     "sphinx_design",
     "sphinx_togglebutton",
+    "sphinx_proof",
     # "recommonmark",
 ]
 
