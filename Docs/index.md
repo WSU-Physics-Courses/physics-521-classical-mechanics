@@ -36,6 +36,16 @@ to see how a figure was made, look in the preceding code cell.
 The complete source code for this documentation is available at
 <https://gitlab.com/wsu-courses/physics-521-classical-mechanics>. 
 
+## Funding Statement
+<a href="https://www.nsf.gov"><img width="10%"
+src="https://nsf.widen.net/content/txvhzmsofh/png/" />
+</a>
+<br>
+
+Some of the material presented here is based upon work supported by the National Science
+Foundation under [Grant Number 2012190](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2012190). Any opinions, findings, and conclusions or
+recommendations expressed in this material are those of the author(s) and do not
+necessarily reflect the views of the National Science Foundation.
  
 
 
@@ -115,3 +125,5 @@ README.md <../README>
       InstructorNotes.md <../InstructorNotes>
 ```
 -->
+
+[JupyterBook]: <https://jupyterbook.org>

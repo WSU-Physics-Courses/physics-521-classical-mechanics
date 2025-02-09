@@ -1,0 +1,12 @@
+# Custom environment variables included in Makefile if this file exists.  The idea is
+# that users can customise their experience without committing this file for general
+# use.  I use this, for example, to include EXTRAS=all,local which allows me to use
+# local installs rather than downloading a copy with hg.
+#
+# Examples:
+#
+# Use the locals target in pyproject.toml.
+# EXTRAS ?= all,locals
+#
+# Use a local cookiecutter repo while developing.
+# COOKIECUTTER_URL = "~/current/cookiecutters/"

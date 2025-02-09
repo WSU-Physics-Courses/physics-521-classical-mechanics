@@ -70,6 +70,7 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.autosummary",
     "sphinxcontrib.zopeext.autointerface",
+    "autoapi.extension",
     # From jupyterbook
     # "jupyter_book",
     # "sphinx_thebe",
@@ -124,6 +125,11 @@ autosummary_generate_overwrite = False
 autosummary_imported_members = False
 add_module_names = False
 
+# autoapi settings
+autoapi_dirs = ["../src"]
+autoapi_root = "_generated/api"
+autoapi_keep_files = True
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
@@ -149,7 +155,6 @@ html_theme = "sphinx_book_theme"  # Theme for JupyterBook
 html_logo = "_static/wsu-logo.svg"
 
 html_theme_options = {
-#
 }
 
 # Override version number in title... not relevant for docs.
@@ -190,11 +195,10 @@ if html_logo.endswith(".svg"):
     # SVG not supported.  Make sure you also provide a .png version
     # https://sphinxext-opengraph.readthedocs.io/en/latest/socialcards.html
     ogp_social_cards = {"image": html_logo[:-4] + ".png"}
+
 ######################################################################
 # Variables with course information
 course_package = "phys_521"
-
-
 
 ######################################################################
 # Custom Admonitions
@@ -236,9 +240,10 @@ class SolutionAdmonition(BaseAdmonition):
         text = "\n".join(self.content)
         admonition_node = self.node_class(text, **self.options)
         self.add_name(admonition_node)
-        title_text = self.title_text
         if self.arguments:
-            title_text = self.arguments[0]
+            title_text = f"{self.title_text}: {self.arguments[0]}"
+        else:
+            title_text = self.title_text
         textnodes, messages = self.state.inline_text(title_text, self.lineno)
         title = nodes.title(title_text, "", *textnodes)
         title.source, title.line = self.state_machine.get_source_and_line(self.lineno)
@@ -409,8 +414,8 @@ def setup(app):
     app.add_config_value("on_rtd", on_rtd, "env")
     app.add_config_value("on_cocalc", on_cocalc, "env")
     my_init(app)
+
     # app.add_directive("solution", Toggle)
     app.add_directive("solution", SolutionAdmonition)
     app.add_directive("doit", DoItAdmonition)
     app.add_directive("aside", AsideAdmonition)
-    
