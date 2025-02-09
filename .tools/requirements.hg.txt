@@ -1,0 +1,5 @@
+# Requirements file for mercurial dependencies.  Note, the first dependency is given to
+# pipx install, then the file is passed to pipx inject for the rest.
+mercurial
+hg-evolve
+hg-git

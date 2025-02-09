@@ -2,6 +2,13 @@
 # https://github.com/simoninireland/introduction-to-epidemics/blob/master/Makefile
 SHELL = /bin/bash
 _SHELL = $(notdir $(SHELL))
+
+# The following includes this file if it exists, allowing one to customize the
+# environment.  The idea is that individuals can modify this, but not commit it so they
+# can do things like use local packages instead of always downloading them.
+MYENVFILE ?= ".myenv"
+-include $(PWD)/$(MYENVFILE)
+
 DOCS ?= Docs
 COOKIECUTTER_URL ?= git+https://gitlab.com/forbes-group/cookiecutters.git
 
@@ -25,7 +32,7 @@ ifdef ANACONDA_CURRENT
   COCALC_OPTION ?= anaconda
 endif
 ifdef ON_COCALC
-  ENVS ?= ~/.conda/envs
+  ENVS ?= $(HOME)/.conda/envs
 else
   ENVS ?= envs
 endif
@@ -93,7 +100,7 @@ endif
 
 ifeq ($(USER_INSTALL_OK), true)
   # Local install allowed
-  LOCAL ?= ~/.local
+  LOCAL ?= $(HOME)/.local
   PYTHON3 ?= python3
   PIP_ARGS = --user --no-warn-script-location
 else
@@ -192,8 +199,8 @@ shell: $(ENV_PATH)
 
 init: $(INIT_TOOLS) $(INIT_DEPS)
 ifdef ON_COCALC
-	if ! grep -Fq '$(ACTIVATE_ENV)' ~/.bash_aliases; then \
-	  echo '$(ACTIVATE_ENV)' >> ~/.bash_aliases; \
+	if ! grep -Fq '$(ACTIVATE_ENV)' $(HOME)/.bash_aliases; then \
+	  echo '$(ACTIVATE_ENV)' >> $(HOME)/.bash_aliases; \
 	fi
 	make sync
 endif
@@ -265,25 +272,29 @@ PIPX_HOME ?= envs/pipx
 PIPX_PRE = PIPX_HOME=$(PIPX_HOME) PIPX_BIN_DIR=$(dir $@)
 PIPX = $(PIPX_PRE) pipx
 
-$(BIN)/pdm:
-	$(PIPX) install pdm[all]
+# Get the name of the first target in a requirements file.
+# Strips comments, then blank lines, then gets the first blank line.
+# The second version also then extracts the first word before spaces, or
+# version specifiers like < or = since pipx inject does not wan these.
+GET_PIPX_TARGET = $$(cat $(1) | sed -e 's/\#.*//' -e '/^[[:space:]]*$$/d'\
+                     | head -n 1)
+GET_PIPX_NAME = $$(cat $(1) | sed -e 's/\#.*//' -e '/^[[:space:]]*$$/d'\
+                   | head -n 1\
+                   | sed 's/[=<> [].*//')
 
-# Special case for mercurial since the command name is hg but pipx needs mercurial
-$(BIN)/hg: .tools/requirements.hg.txt
-	make pipx
-	$(PIPX) install mercurial
-	$(PIPX) inject mercurial $$(cat $< | sed -e 's/#.*//' | tr "\n" " ")
+$(BIN)/pdm:
+	$(PIPX) install --force pdm[all]
 
 # The use of two targets here, the first with a requirement file, should allow make to
 # use the requirements file iff it exists, falling back to the simple install.
 $(BIN)/%: .tools/requirements.%.txt
 	make pipx
-	$(PIPX) install $*
-	$(PIPX) inject $* $$(cat $< | sed -e 's/#.*//' | tr "\n" " ")
+	$(PIPX) install --force $(call GET_PIPX_TARGET,$<)
+	$(PIPX) inject --force $(call GET_PIPX_NAME,$<) -r $<
 
 $(BIN)/%:
 	make pipx
-	$(PIPX) install $*
+	$(PIPX) install --force $*
 
 # In principle, we might be able to roll these into the catch-all rule,
 # but it is better to be explicit here.  Without care, that will lead
@@ -331,7 +342,7 @@ endif
 #    https://github.com/mariusvniekerk/condax/issues/16
 # Also, there are issues on Mac OS X:
 #    https://github.com/mariusvniekerk/condax/issues/63
-~/.local/bin/anaconda-project: condax
+$(HOME)/.local/bin/anaconda-project: condax
 	condax install anaconda-project
 	condax inject anaconda-project anaconda-client
 
@@ -348,7 +359,7 @@ endif
 
 tools: $(LOCAL)
 
-$(LOCAL) $(BIN)/python3: $(ENV_TOOLS_PATH)
+$(LOCAL) $(BIN)/python3: $(ENV_TOOLS_PATH)/bin/python3
 	mkdir	-p $(BIN)
 	ln -fs $(ENV_TOOLS_PATH)/bin/python3 $(BIN)/python3
 	@echo 'Installed tools in $(LOCAL).  Evaluate the following to use:'
@@ -358,21 +369,21 @@ $(LOCAL) $(BIN)/python3: $(ENV_TOOLS_PATH)
 
 ifneq ($(wildcard .tools/environment.tools.yaml),) 
 
-$(ENV_TOOLS_PATH): .tools/environment.tools.yaml
+$(ENV_TOOLS_PATH) $(ENV_TOOLS_PATH)/bin/python3: .tools/environment.tools.yaml
 	make micromamba
-	$(_MICROMAMBA) create -y -f $< -p $@
+	$(_MICROMAMBA) create -y -f $< -p $(ENV_TOOLS_PATH)
 
 else ifeq ($(LOCAL_INSTALLER), micromamba)
 
-$(ENV_TOOLS_PATH):
+$(ENV_TOOLS_PATH) $(ENV_TOOLS_PATH)/bin/python3:
 	make micromamba
-	$(_MICROMAMBA) create -c conda-forge -y -p $@ "python=3"
+	$(_MICROMAMBA) create -c conda-forge -y -p $(ENV_TOOLS_PATH) "python=3"
 
 else
 
-$(ENV_TOOLS_PATH):
+$(ENV_TOOLS_PATH) $(ENV_TOOLS_PATH)/bin/python3:
 	@if command -v python3; then \
-	  python3 -m venv $@ && \
+	  python3 -m venv $(ENV_TOOLS_PATH) && \
 	  $(BIN)/python3 -m ensurepip --upgrade && \
 	  $(BIN)/python3 -m pip install --upgrade $(PIP_ARGS) pip; \
 	else
@@ -405,9 +416,9 @@ ALWAYS_REBUILD ?= $(shell find $(DOCS) -type f -name "*.md" -exec grep -l '```{i
 doc-server: $(ENV_PATH) $(DOC_REQUIREMENTS) $(DOCS)/_build/html
 	make sphinx-autobuild
 ifdef ON_COCALC
-	$(_RUN) sphinx-autobuild --re-ignore '_build|_generated' $(DOCS) $(DOCS)/_build/html --host 0.0.0.0 --port 8000
+	$(_RUN) sphinx-autobuild --re-ignore '_build|_generated|autoapi' $(DOCS) $(DOCS)/_build/html --host 0.0.0.0 --port 8000
 else
-	$(_RUN) sphinx-autobuild --re-ignore '_build|_generated|media/Tex' $(DOCS) $(DOCS)/_build/html
+	$(_RUN) sphinx-autobuild --re-ignore '_build|_generated|autoapi|media/Tex' $(DOCS) $(DOCS)/_build/html
 endif
 
 # Needed until https://github.com/sphinx-doc/sphinx-autobuild/issues/177 is fixed
@@ -573,6 +584,10 @@ Variables:
                      have a version of fftw installed on your computer:
 
                      CONDA_PACKAGES=fftw make init
+   MYENVFILE: (- "$(MYENVFILE)")
+                     If this file exists, it is imported early so you can use it to locally
+                     override environmental variables.  I do this, for example, to include
+                     the local target in EXTRAS when I have local files.
 
 Tools: By default, when not on CoCalc, we do not install tools, but have provisions here
        for doing so if desired. These variables affect the installation of these tools.

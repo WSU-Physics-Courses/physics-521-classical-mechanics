@@ -37,6 +37,8 @@
 % These replace SIunitx.  They should not be defined in LaTeX.
 \newcommand{\SI}[2]{#1\;\mathrm{#2}}
 \newcommand{\si}[1]{\mathrm{#1}}
+\let\qty\SI
+\let\unit\si
 \newcommand{\squared}{{^{2}}}
 \newcommand{\cubed}{{^{3}}}
 \newcommand{\per}{/}

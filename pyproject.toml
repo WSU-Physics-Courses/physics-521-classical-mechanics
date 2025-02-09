@@ -1,10 +1,8 @@
 [project]
 
 name = "phys-521-classical-mechanics"
-
 version = "0.1"
 description = "WSU Course Physics 521: Classical Mechanics taught Fall 2023"
-
 license = {text = "BSD-3-Clause"}
 authors = [
   {name = "Michael McNeil Forbes", email = "m.forbes+521@wsu.edu"},
@@ -49,10 +47,21 @@ dependencies = [
     'setuptools-scm >= 8.0.4; python_version >= "3.8"',
     #
     'mmf-setup>=0.4.11',
+    #
+    # Optional dependencies from git or hg.  You might want to use a local version:
+    # see the local target below and .myenv file.
+    # "gpe @ git+https://gitlab.com/coldatoms/gpe@topic/default/tube",
+    # "pytimeode @ git+https://gitlab.com/coldatoms/pytimeode@topic/0.10.0/evolve_to",
 ]
 
 # Optional dependencies for testing, building the docs, etc.
 [project.optional-dependencies]
+local = [
+    # Optional local overrides for use while developing.  I make symlinks here so that
+    # I don't need to use git or hg to install them.
+    #"pytimeode @ file:///${PROJECT_ROOT}/_ext/pytimeode",
+    #"gpe @ file:///${PROJECT_ROOT}/_ext/gpe",
+]
 test = [
     'pytest>=7.0.1',
     'coverage[toml]; python_version < "3.7"', 
@@ -63,7 +72,7 @@ test = [
     'psutil',
     'phys-521-classical-mechanics[full]',
 ]
-docs = [
+doc = [
     'myst-nb >= 0.17.2; python_version < "3.9"',
     'myst-nb >= 1.0.0; python_version >= "3.9"',
     #
@@ -82,6 +91,7 @@ docs = [
     'nbsphinx >= 0.9.3',
     #
     'sphinx-autobuild >= 2021.3.14',
+    'sphinx-autoapi >= 3.4.0',
     #
     'sphinxcontrib-zopeext >= 0.4.3',
     'sphinxcontrib-bibtex >= 2.3.0',
@@ -104,7 +114,7 @@ full = [
 ]
 
 all = [
-    'phys-521-classical-mechanics[full,test,docs]',
+    'phys-521-classical-mechanics[full,test,doc]',
 ]
 
 [project.urls]

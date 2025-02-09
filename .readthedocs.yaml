@@ -34,7 +34,7 @@ build:
     python: "mambaforge-latest"
   jobs:
     post_create_environment:
-      - python3 -m pip install .[docs]
+      - python3 -m pip install .[doc]
   apt_packages:
     # Needed for manim.
     - libcairo2-dev

@@ -49,9 +49,8 @@ To build the documentation on CoCalc, open the following file:
 
 * [`SphinxAutoBuildServer.term`](SphinxAutoBuildServer.term)
 
-This will build the documentation, and serve it on `https://cocalc.com/<project
-id>/raw/<project folder>/Docs/_build/html/index.html`.  You must currently fill in the
-folder and CoCalc project id.
+This will build the documentation, and serve it on 
+`https://cocalc.com/c5a0bdae-e17c-46a1-ada4-78c6556d9429/raw/.repositories/phys-521-classical-mechanics/Docs/_build/html/index.html`.
 
 
 
@@ -247,6 +246,18 @@ hg add local.bib _static/ _templates/
 
   This will create a Conda environment as specified in `anaconda-project.yml` in `envs/phys-521`.
 
+
+# Funding
+
+<a href="https://www.nsf.gov"><img width="10%"
+src="https://nsf.widen.net/content/txvhzmsofh/png/" />
+</a>
+<br>
+
+Some of the material presented here is based upon work supported by the National Science
+Foundation under [Grant Number 2012190](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2012190). Any opinions, findings, and conclusions or
+recommendations expressed in this material are those of the author(s) and do not
+necessarily reflect the views of the National Science Foundation.
 
 
 <!-- Links -->

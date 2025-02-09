@@ -1,1 +1,3 @@
-pdm
+# Requirements file for pdm dependencies.  Note, the first dependency is given to
+# pipx install, then the file is passed to pipx inject for the rest.
+pdm[all]
